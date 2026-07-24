@@ -18,6 +18,7 @@ export default function ProfilesPage() {
   const [profiles, setProfiles] = useState<ProfileWithCompletion[] | null>(
     null
   );
+  const [activeId, setActiveId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
   const [newName, setNewName] = useState("");
@@ -30,7 +31,10 @@ export default function ProfilesPage() {
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
           return res.json();
         })
-        .then((data) => setProfiles(data.profiles))
+        .then((data) => {
+          setProfiles(data.profiles);
+          setActiveId(data.activeId ?? null);
+        })
         .catch(() => setError("Could not load profiles.")),
     []
   );
@@ -113,7 +117,11 @@ export default function ProfilesPage() {
               <button
                 onClick={() => selectProfile(p.id)}
                 disabled={busy}
-                className="flex w-36 flex-col items-center gap-3 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition-all hover:border-indigo-400 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-indigo-500"
+                className={`flex w-36 flex-col items-center gap-3 rounded-xl border bg-white p-5 shadow-sm transition-all hover:shadow-md disabled:cursor-not-allowed disabled:opacity-60 dark:bg-zinc-900 ${
+                  p.id === activeId
+                    ? "border-2 border-indigo-500 ring-2 ring-indigo-200 dark:ring-indigo-900"
+                    : "border-zinc-200 hover:border-indigo-400 dark:border-zinc-800 dark:hover:border-indigo-500"
+                }`}
               >
                 <span
                   className="flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold text-white"
@@ -127,6 +135,11 @@ export default function ProfilesPage() {
                 <span className="text-xs text-zinc-500">
                   {p.completion}% complete
                 </span>
+                {p.id === activeId && (
+                  <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+                    Active
+                  </span>
+                )}
               </button>
               <button
                 onClick={() => removeProfile(p)}

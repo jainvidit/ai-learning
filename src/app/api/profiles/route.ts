@@ -22,7 +22,13 @@ export async function GET() {
           );
     return { ...profile, completion };
   });
-  return NextResponse.json({ profiles });
+  const store = await cookies();
+  const cookieId = store.get(PROFILE_COOKIE)?.value;
+  const activeId =
+    cookieId && registry.profiles.some((p) => p.id === cookieId)
+      ? cookieId
+      : null;
+  return NextResponse.json({ profiles, activeId });
 }
 
 export async function POST(request: Request) {

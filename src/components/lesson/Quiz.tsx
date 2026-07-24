@@ -106,7 +106,7 @@ export default function Quiz({
   }
 
   return (
-    <Card className="my-6">
+    <div className="my-6">
       <div className="flex items-center justify-between gap-4">
         <h3 className="text-lg font-semibold">📝 {exercise.title}</h3>
         <span className="shrink-0 text-xs text-zinc-500">
@@ -114,12 +114,13 @@ export default function Quiz({
         </span>
       </div>
 
-      <div className="mt-4 space-y-6">
+      <div className="mt-4 space-y-4">
         {exercise.questions.map((q, qi) => {
           const qResult = resultFor(q.id);
           const selected = answers[q.id] ?? [];
           return (
-            <fieldset key={q.id}>
+            <Card key={q.id} className="p-4">
+              <fieldset>
               <legend className="text-sm font-medium">
                 {qi + 1}. {q.prompt}
                 {q.kind === "multi" && (
@@ -184,7 +185,8 @@ export default function Quiz({
                   — {qResult.explanation}
                 </div>
               )}
-            </fieldset>
+              </fieldset>
+            </Card>
           );
         })}
       </div>
@@ -235,6 +237,6 @@ export default function Quiz({
           </div>
         )}
       </div>
-    </Card>
+    </div>
   );
 }

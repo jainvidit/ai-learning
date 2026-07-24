@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { loadCurriculum } from "@/lib/content";
+import { getActiveProfile } from "@/lib/profiles";
+import ThemeToggle from "@/components/nav/ThemeToggle";
 import type { Track } from "@/lib/schema";
 
 const TRACK_LABEL: Record<Track, string> = {
@@ -14,18 +16,42 @@ const TRACK_DOT: Record<Track, string> = {
   "claude-code": "bg-violet-500",
 };
 
-export default function Sidebar() {
+export default async function Sidebar() {
   const curriculum = loadCurriculum();
+  const profile = await getActiveProfile();
   return (
-    <aside className="flex w-72 shrink-0 flex-col border-r border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950">
+    <aside className="flex h-full w-72 shrink-0 flex-col overflow-hidden border-r border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950">
       <div className="border-b border-zinc-200 p-4 dark:border-zinc-800">
-        <Link href="/" className="text-lg font-bold">
-          🧠 AI Mastery
-        </Link>
-        <div className="mt-1 text-xs text-zinc-500">
-          <Link href="/profiles" className="hover:underline">
-            Switch profile
+        <div className="flex items-center justify-between">
+          <Link href="/" className="text-lg font-bold">
+            🧠 AI Mastery
           </Link>
+          <ThemeToggle />
+        </div>
+        <div className="mt-2 flex items-center gap-2 text-xs text-zinc-500">
+          {profile ? (
+            <>
+              <span
+                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-bold text-white"
+                style={{ backgroundColor: profile.avatarColor }}
+              >
+                {profile.name.charAt(0).toUpperCase()}
+              </span>
+              <span className="truncate font-medium text-zinc-700 dark:text-zinc-300">
+                {profile.name}
+              </span>
+              <Link
+                href="/profiles"
+                className="ml-auto shrink-0 hover:underline"
+              >
+                Switch
+              </Link>
+            </>
+          ) : (
+            <Link href="/profiles" className="hover:underline">
+              Pick a profile →
+            </Link>
+          )}
         </div>
       </div>
       <nav className="flex-1 overflow-y-auto p-3">
