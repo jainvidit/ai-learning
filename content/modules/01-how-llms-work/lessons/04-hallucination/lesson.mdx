@@ -1,0 +1,84 @@
+---
+id: 04-hallucination
+title: Why AI Makes Things Up
+minutes: 10
+objectives:
+  - Explain why an LLM can state false things with total confidence
+  - Recognize the classic hallucination traps (fake citations, invented details, made-up biographies)
+  - Predict when hallucination risk is highest (obscure topics, very specific questions)
+  - Apply simple everyday defenses, including giving the model permission to say "I don't know"
+---
+
+# Why AI Makes Things Up
+
+Here's a strange fact about AI chatbots: they can be wrong in the most convincing way possible. No hesitation, no "um, let me think" — just a smooth, confident, completely made-up answer.
+
+People call this **hallucination**. It sounds dramatic, but the idea is simple: the model sometimes *invents* things and presents them as facts.
+
+To understand why, we need to remember what the model is actually doing under the hood.
+
+## The autocomplete that never says "no idea"
+
+In the earlier lessons, you saw that an LLM works like a supercharged autocomplete: given some text, it predicts what words would plausibly come next, based on patterns from everything it read during training.
+
+Notice the key word: **plausible**. Not *true* — plausible.
+
+Think of a student who has read thousands of history books but is forbidden from ever leaving an answer blank on a test. Ask them something they know well, and their answer will be great. Ask them something they've barely seen — and they'll still write *something*, in perfect textbook style, because leaving it blank isn't an option. The answer will *sound* right. It just might not *be* right.
+
+That's the model. It always produces a continuation that fits the pattern. Truth is not a built-in checkpoint. There is no little fact-checker inside going "wait, does that book actually exist?" The model isn't lying — lying requires knowing the truth and hiding it. It's more like confidently filling in the blank.
+
+<Callout kind="info">
+**Key idea:** an LLM predicts plausible text; it does not look things up in a database of verified facts. When the pattern is strong but the facts are thin, you get fluent fiction.
+</Callout>
+
+## The classic traps
+
+Hallucinations tend to show up in a few familiar costumes. Once you know them, you'll spot them everywhere:
+
+- **Fake citations.** Ask for sources, and the model may produce beautifully formatted references — real-sounding authors, plausible journal names, realistic page numbers — for papers that were never written. The *format* of a citation is a very strong pattern; the *existence* of the paper is not something the model checks.
+- **Invented biographies.** Ask about a moderately known person, and you may get a lovely life story with a wrong birthplace, a university they never attended, and an award they never won. Each detail is the *kind* of thing that appears in biographies.
+- **Plausible-but-wrong specifics.** Dates that are off by a few years, statistics that are in the right ballpark but not real, product features that "should" exist but don't, legal or medical details that sound official.
+
+Notice the theme: hallucinations are rarely absurd. You won't often hear "the moon is made of soup." You'll hear things that are *exactly plausible enough* to slip past you.
+
+## When the risk is highest
+
+Hallucination isn't equally likely everywhere. Risk goes up when the model's training data gets thin.
+
+- **Obscure topics.** The model read a *lot* about Paris and very little about a small village. Ask about the village, and it has only a faint pattern to work with — so it fills the gaps with generic, village-shaped details. The less it read about something, the more it improvises.
+- **Very specific questions.** "Who won the 1998 regional science fair in a particular county?" The shape of the answer is easy (a name!), but the actual fact may simply not be in its training data. It will often produce *a* name anyway.
+- **Things that don't exist.** Ask about a book, person, or event that was never real, and the model may happily describe it — because your question *implied* it exists, and agreeing with the premise is the most plausible continuation.
+- **Fresh news.** The model's knowledge stops at its training cutoff. Ask about last week and it may improvise from old patterns.
+
+Rule of thumb: **the more famous and well-documented something is, the safer the answer. The more niche, specific, or recent — the more you should double-check.**
+
+## Simple defenses you can use today
+
+You don't need any technical skill to protect yourself. Four habits go a long way:
+
+1. **Ask for sources — then actually check one.** If the model gives you a citation or link, spend thirty seconds verifying it exists. A fake source is a red flag for the whole answer.
+2. **Ask the model to critique itself.** Follow up with: *"Are you sure? What parts of that answer might be wrong?"* This often surfaces the shaky bits — the model is quite good at flagging uncertainty *when you explicitly ask for it*.
+3. **Cross-check anything important.** Medical, legal, financial, or "I'm about to put this in an email to my boss" facts deserve a quick search in a second source. Treat the model as a brilliant first draft, not a final authority.
+4. **Give it permission to say "I don't know."** This is the quiet superpower. Add a line like: *"If you are not sure, say so — do not guess."* By default, the most plausible continuation of a question is *an answer*. But if your prompt makes "I'm not certain" an acceptable response, that becomes a plausible continuation too — and the model will use it.
+
+<Callout kind="tip">
+The single highest-value habit: end risky questions with **"If you are not sure, say so — do not guess."** You're not changing what the model knows; you're changing what counts as a good answer.
+</Callout>
+
+## One important misconception
+
+Does the model *know* when it's hallucinating? Mostly, no. There's no internal alarm bell that rings when it invents something. The confident tone of a made-up answer and the confident tone of a correct answer are generated the same way — word by word, pattern by pattern. That's exactly why *your* habits — asking for sources, inviting doubt, cross-checking — matter so much.
+
+## See it for yourself
+
+The best way to make this lesson stick is to watch a hallucination happen — and then watch your prompt prevent it.
+
+<Exercise id="playground-observe-hallucination" />
+
+<Exercise id="quiz-hallucination" />
+
+## The takeaway
+
+The model is a plausibility machine, not a truth machine. That makes it wonderful for drafting, explaining, and brainstorming — and risky for niche facts you can't verify. Ask for sources, invite doubt, cross-check what matters, and always give it room to say "I don't know."
+
+Next up: why the same question can get a different answer tomorrow.

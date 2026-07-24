@@ -1,0 +1,62 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-tokens",
+    "title": "Quiz: Tokens",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-what-is-token",
+        "kind": "single",
+        "prompt": "What does an LLM actually \"see\" when it reads your message?",
+        "options": [
+          { "id": "a", "text": "Individual letters, one at a time" },
+          { "id": "b", "text": "Whole sentences as single units" },
+          { "id": "c", "text": "Tokens — chunks of text that are sometimes whole words and sometimes pieces of words" },
+          { "id": "d", "text": "A photograph of your screen" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Before your text reaches the model, a tokenizer chops it into chunks called tokens — like a meal kit's pre-portioned packets. Common words like \"the\" or \"coffee\" get one token each; rare words are assembled from several smaller chunks. The model never sees letters or whole sentences directly — only this stream of tokens."
+      },
+      {
+        "id": "q2-splitting",
+        "kind": "single",
+        "prompt": "Why does a common word like \"cat\" become one token, while a rare word like \"antidisestablishmentarianism\" gets split into several?",
+        "options": [
+          { "id": "a", "text": "Longer words are always split exactly every 4 letters, no exceptions" },
+          { "id": "b", "text": "The tokenizer keeps a fixed menu of frequent chunks — common words earn their own token, rare words are assembled from smaller pieces" },
+          { "id": "c", "text": "The model splits words it finds confusing or emotional" },
+          { "id": "d", "text": "Scientific words are stored in a separate dictionary" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The tokenizer has a fixed vocabulary of roughly a hundred thousand chunks, chosen by frequency. Anything that appears constantly in text (like \"cat\") gets its own short code, and anything rare gets spelled out from recognizable parts — like shorthand, where frequent phrases get their own symbol. Splits are based purely on frequency, not meaning, which is why your name may split in a spot that looks arbitrary."
+      },
+      {
+        "id": "q3-strawberry",
+        "kind": "single",
+        "prompt": "Why might an AI incorrectly count the number of r's in \"strawberry\"?",
+        "options": [
+          { "id": "a", "text": "It never learned the alphabet during training" },
+          { "id": "b", "text": "It sees \"strawberry\" as one or two sealed token chunks, not as ten individual letters" },
+          { "id": "c", "text": "Spelling questions are blocked for safety reasons" },
+          { "id": "d", "text": "It confuses strawberries with raspberries" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "To the model, \"strawberry\" is a packet with a label, not a string of letters — asking it to count the r's is like asking someone to count grains of rice inside a sealed packet by reading the label. This is why LLMs are shaky at letter-level tasks in general: counting letters, reversing words, precise rhymes. The model reads at a different resolution than you do."
+      },
+      {
+        "id": "q4-context-window",
+        "kind": "single",
+        "prompt": "What is the \"context window\"?",
+        "options": [
+          { "id": "a", "text": "The pop-up window where you type your message" },
+          { "id": "b", "text": "The limit on how many tokens the model can handle in one conversation — its token budget" },
+          { "id": "c", "text": "A tool that translates tokens back into words" },
+          { "id": "d", "text": "The amount of time the model spends thinking before answering" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The context window is the model's desk space, measured in tokens: everything it reads and writes in a conversation must fit within this budget. When a chat outgrows it, the oldest parts fall off the desk and the model genuinely can't see them anymore — which is why an AI can seem to \"forget\" the start of a long conversation. A later module explores this budget in depth."
+      }
+    ]
+  }
+]

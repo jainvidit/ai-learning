@@ -1,0 +1,75 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-training",
+    "title": "Quiz: How Training Works",
+    "passingScore": 80,
+    "questions": [
+      {
+        "id": "q1-pretraining",
+        "kind": "single",
+        "prompt": "What is pretraining, in essence?",
+        "options": [
+          { "id": "a", "text": "Programmers typing millions of facts into the model by hand" },
+          { "id": "b", "text": "Practicing next-word prediction on a giant library of text, billions of times, adjusting internal dials after each guess" },
+          { "id": "c", "text": "Copying the whole internet into the model's database so it can look things up later" },
+          { "id": "d", "text": "Humans chatting with the model until it learns to talk" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Pretraining is a flashcard game at colossal scale: hide the next word of real text, let the model guess, reveal the answer, and nudge the dials so the right word becomes slightly more likely next time. Repeated billions of times, this forces the dials to organize around grammar, facts, and reasoning patterns. Nothing is typed in by hand and nothing is stored as a searchable database — the knowledge lives in the dials as patterns."
+      },
+      {
+        "id": "q2-loop",
+        "kind": "single",
+        "prompt": "During pretraining, how does the model actually improve at its guessing game?",
+        "options": [
+          { "id": "a", "text": "Guess the hidden word, check against the real text, adjust the internal dials slightly — then repeat billions of times" },
+          { "id": "b", "text": "It memorizes each document word-for-word so it can recite it later" },
+          { "id": "c", "text": "A human teacher corrects each individual guess by hand" },
+          { "id": "d", "text": "It rewrites its own programming code whenever it makes a mistake" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "The loop is guess, check, adjust — like flashcards. Each single round teaches almost nothing, but the tiny nudges accumulate across billions of examples. No human could correct guesses one by one at that scale (the \"check\" is automatic, because the real next word is right there in the text), and the model isn't memorizing documents or rewriting its code — only its dials change."
+      },
+      {
+        "id": "q3-raw-model",
+        "kind": "single",
+        "prompt": "Why isn't a freshly pretrained (\"raw\") model already a good assistant?",
+        "options": [
+          { "id": "a", "text": "It's too slow to use until it gets optimized" },
+          { "id": "b", "text": "It hasn't read enough text yet to answer questions" },
+          { "id": "c", "text": "It only continues text in likely ways — it might answer your question with more questions, or imitate bad advice, because it learned from everything" },
+          { "id": "d", "text": "It refuses to talk until it's given a personality" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "The raw model is like a brilliant actor with no role: it can imitate anyone in the library — helpful experts, trolls, spam bots — because likely continuation is its only goal. On the internet, a question is often followed by more questions, so that's a perfectly \"correct\" prediction! It has read plenty; what it lacks is a reason to be consistently helpful, honest, and safe. That's what phase two provides."
+      },
+      {
+        "id": "q4-phase-two",
+        "kind": "multi",
+        "prompt": "Which of these are part of turning a raw predictor into a helpful assistant? (select all that apply)",
+        "options": [
+          { "id": "a", "text": "Finetuning on carefully chosen examples of helpful, honest conversations" },
+          { "id": "b", "text": "Human reviewers ranking the model's answers — like thumbs up/down at scale — and nudging the dials toward highly rated ones" },
+          { "id": "c", "text": "Retraining the model from scratch every morning on fresh data" },
+          { "id": "d", "text": "Giving the model access to a live fact-checking database" }
+        ],
+        "correctOptionIds": ["a", "b"],
+        "explanation": "Phase two has two main ingredients: finetuning (an apprenticeship on high-quality examples of the assistant job) and learning from human feedback, often called RLHF (reviewers rank answers, and the dials shift toward the kinds people rate as helpful and safe). Models are not retrained daily — training happens once and the dials freeze — and there's no built-in live database, which is exactly why knowledge cutoffs exist."
+      },
+      {
+        "id": "q5-cutoff",
+        "kind": "single",
+        "prompt": "Why does every LLM have a \"knowledge cutoff\" date?",
+        "options": [
+          { "id": "a", "text": "Companies deliberately hide recent information for legal reasons" },
+          { "id": "b", "text": "The model was trained on a snapshot of text collected up to a certain date, then its dials were frozen — nothing after that date exists for it" },
+          { "id": "c", "text": "Old models get slower and forget the newest things they learned" },
+          { "id": "d", "text": "Recent events are too controversial for the model to discuss" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The library the model learned from has a last page. Training happens once, on text gathered up to a certain date, and then the dials stop changing — so events after that date simply don't exist for the model. It isn't secrecy or forgetfulness. Practical takeaway: don't rely on a bare LLM for anything recent, and know that when products show current information, it's usually a bolted-on web search feeding the model, not the model's own knowledge."
+      }
+    ]
+  }
+]

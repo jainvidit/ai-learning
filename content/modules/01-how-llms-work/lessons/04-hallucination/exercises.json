@@ -1,0 +1,101 @@
+[
+  {
+    "type": "playground",
+    "id": "playground-observe-hallucination",
+    "title": "Watch a Hallucination Happen (Then Prevent It)",
+    "instructions": "This is a two-step observation experiment.\n\nStep 1 — Run the starter prompt as-is. It asks about a novel that does not exist ('The Glass Harbor' by Edwin Marsh, 1897 — we made it up). Read the response carefully. Does the model describe the plot, themes, or reception of a book that was never written? That's a hallucination, live in front of you.\n\nStep 2 — Now edit the prompt to defuse it. Keep the same obscure question, but add explicit permission to admit uncertainty — for example: 'If you are not sure this book exists or are unsure about any detail, say so clearly — do not guess.' You can also ask it to separate what it actually knows from what it is unsure about. Run it again and compare the two responses.\n\nYour score is based on your FINAL prompt: it should (1) ask about something specific and obscure enough to expose invention, (2) explicitly allow the model to say it doesn't know, and (3) ask it to distinguish what it knows from what it's unsure about.",
+    "starterPrompt": "Tell me about the 1897 novel 'The Glass Harbor' by Edwin Marsh. What is the plot, and how was it received by critics?",
+    "maxTokens": 1024,
+    "rubric": [
+      {
+        "id": "obscure-target",
+        "description": "The prompt asks about a specific, obscure, or fictional thing (e.g., a non-existent book, a very niche person or event) — something concrete and checkable that would expose invention if the model made up details.",
+        "weight": 40
+      },
+      {
+        "id": "uncertainty-permission",
+        "description": "The prompt explicitly gives the model permission to admit uncertainty or say it doesn't know, e.g., 'If you are not sure, say so — do not guess' or equivalent wording that makes 'I don't know' an acceptable answer.",
+        "weight": 40
+      },
+      {
+        "id": "knows-vs-unsure",
+        "description": "The prompt asks the model to distinguish or separate what it actually knows from what it is unsure about (e.g., 'tell me which parts you are confident about and which you are not').",
+        "weight": 20
+      }
+    ],
+    "passingScore": 60
+  },
+  {
+    "type": "quiz",
+    "id": "quiz-hallucination",
+    "title": "Check Your Understanding: Hallucination",
+    "passingScore": 80,
+    "questions": [
+      {
+        "id": "q1-why-it-happens",
+        "kind": "single",
+        "prompt": "Why does an LLM sometimes state false things with total confidence?",
+        "options": [
+          { "id": "a", "text": "It is deliberately lying to keep the conversation going" },
+          { "id": "b", "text": "It predicts plausible-sounding text from patterns — it doesn't look answers up in a database of verified facts" },
+          { "id": "c", "text": "Its fact-checking module occasionally crashes" },
+          { "id": "d", "text": "It only hallucinates when the user is rude to it" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "An LLM generates the most plausible continuation of your text, word by word. Plausible is not the same as true — there is no built-in fact-checker verifying each claim, and no intent to deceive."
+      },
+      {
+        "id": "q2-highest-risk",
+        "kind": "single",
+        "prompt": "In which situation is a hallucination MOST likely?",
+        "options": [
+          { "id": "a", "text": "Asking for a summary of a world-famous, heavily documented event" },
+          { "id": "b", "text": "Asking it to brainstorm names for a bakery" },
+          { "id": "c", "text": "Asking a very specific factual question about an obscure topic it saw little training data on" },
+          { "id": "d", "text": "Asking it to explain a common everyday concept" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Risk rises where training data is thin: obscure topics and very specific questions. The model fills the gaps with generic, plausible-shaped details. Famous, well-documented topics are much safer, and brainstorming has no 'wrong facts' to invent."
+      },
+      {
+        "id": "q3-classic-traps",
+        "kind": "multi",
+        "prompt": "Which of these are classic hallucination traps to watch for? (Select all that apply.)",
+        "options": [
+          { "id": "a", "text": "Beautifully formatted citations for papers that don't exist" },
+          { "id": "b", "text": "A biography with a wrong birthplace or an award the person never won" },
+          { "id": "c", "text": "Obviously absurd claims like 'the moon is made of soup'" },
+          { "id": "d", "text": "Dates and statistics that are in the right ballpark but not real" }
+        ],
+        "correctOptionIds": ["a", "b", "d"],
+        "explanation": "Hallucinations are dangerous precisely because they're plausible: realistic fake citations, subtly wrong biographical details, and ballpark-but-wrong numbers. Absurd claims are rare — obviously silly text isn't a plausible continuation, so the model rarely produces it."
+      },
+      {
+        "id": "q4-defenses",
+        "kind": "multi",
+        "prompt": "Which of these are effective everyday defenses against hallucination? (Select all that apply.)",
+        "options": [
+          { "id": "a", "text": "Tell the model it's allowed to say 'I don't know' instead of guessing" },
+          { "id": "b", "text": "Follow up with 'Are you sure? What might be wrong in that answer?'" },
+          { "id": "c", "text": "Cross-check important facts against a second source" },
+          { "id": "d", "text": "Trust the answer more when it sounds confident and detailed" }
+        ],
+        "correctOptionIds": ["a", "b", "c"],
+        "explanation": "Permission to admit uncertainty, self-critique follow-ups, and cross-checking all work. Confidence and detail are NOT signals of truth — hallucinated answers sound exactly as confident as correct ones."
+      },
+      {
+        "id": "q5-misconception",
+        "kind": "single",
+        "prompt": "Does the model know when its own answer is wrong?",
+        "options": [
+          { "id": "a", "text": "Yes — it always knows, it just chooses not to tell you" },
+          { "id": "b", "text": "Yes — an internal alarm fires whenever it invents something" },
+          { "id": "c", "text": "Mostly no — invented answers are generated the same way as correct ones, so there's no built-in alarm; but explicitly asking it to flag uncertainty often helps" },
+          { "id": "d", "text": "No — and there is nothing you can do about it" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "There's no internal 'I'm making this up' signal — correct and invented text are produced by the same pattern-prediction process. But prompting the model to express uncertainty ('say so if you're not sure') often surfaces the shaky parts, so your habits genuinely help."
+      }
+    ]
+  }
+]

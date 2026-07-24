@@ -1,0 +1,13 @@
+{
+  "id": "01-how-llms-work",
+  "title": "How LLMs Actually Work",
+  "track": "fundamentals",
+  "description": "Build a real mental model of what a large language model is: a next-word predictor trained on mountains of text. You'll play prediction games, see how AI reads text as tokens, learn why models sometimes make things up, and understand why the same question can get different answers.",
+  "lessons": [
+    { "id": "01-what-is-an-llm", "title": "What is an LLM?" },
+    { "id": "02-tokens", "title": "Tokens: How AI Reads" },
+    { "id": "03-training", "title": "Training: How It Learned" },
+    { "id": "04-hallucination", "title": "Why AI Makes Things Up" },
+    { "id": "05-randomness", "title": "Randomness & Why Answers Differ" }
+  ]
+}

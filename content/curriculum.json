@@ -1,0 +1,116 @@
+{
+  "modules": [
+    {
+      "id": "01-how-llms-work",
+      "title": "How LLMs Actually Work",
+      "track": "fundamentals",
+      "summary": "What a language model really is: next-word prediction, tokens, training, hallucination, and randomness — no code required.",
+      "status": "built",
+      "requires": []
+    },
+    {
+      "id": "02-prompting-basics",
+      "title": "Talking to AI: Prompting Basics",
+      "track": "prompting",
+      "summary": "Be specific, give context and a role, show the format you want, and iterate.",
+      "status": "spec",
+      "requires": ["01-how-llms-work"]
+    },
+    {
+      "id": "03-capabilities-limits",
+      "title": "What LLMs Can & Can't Do",
+      "track": "fundamentals",
+      "summary": "Context windows, knowledge cutoffs, reasoning vs recall, and why confidence is not correctness.",
+      "status": "spec",
+      "requires": ["01-how-llms-work"]
+    },
+    {
+      "id": "04-core-prompt-techniques",
+      "title": "Core Prompt Engineering",
+      "track": "prompting",
+      "summary": "Few-shot examples, XML tags, step-by-step thinking, constraining output, system vs user prompts.",
+      "status": "spec",
+      "requires": ["02-prompting-basics"]
+    },
+    {
+      "id": "05-meet-claude-code",
+      "title": "Meet Claude Code",
+      "track": "claude-code",
+      "summary": "The agent loop, your first real terminal session, your first edit, and the permission model.",
+      "status": "spec",
+      "requires": ["02-prompting-basics", "03-capabilities-limits"]
+    },
+    {
+      "id": "06-advanced-prompting",
+      "title": "Advanced Prompting",
+      "track": "prompting",
+      "summary": "Extended thinking, prompt chaining, personas, and evaluating outputs with rubrics.",
+      "status": "spec",
+      "requires": ["04-core-prompt-techniques"]
+    },
+    {
+      "id": "07-claude-code-workflows",
+      "title": "Everyday Claude Code",
+      "track": "claude-code",
+      "summary": "CLAUDE.md project memory, permissions and settings, slash commands, resuming sessions, phrasing tasks well.",
+      "status": "spec",
+      "requires": ["05-meet-claude-code"]
+    },
+    {
+      "id": "08-how-ai-systems-are-built",
+      "title": "How AI Products Are Built",
+      "track": "fundamentals",
+      "summary": "APIs and system prompts (including a peek at this app's own code), tool use, RAG intuition, and what tokens cost.",
+      "status": "spec",
+      "requires": ["04-core-prompt-techniques"]
+    },
+    {
+      "id": "09-claude-code-power-tools",
+      "title": "Claude Code Power Tools",
+      "track": "claude-code",
+      "summary": "Skills, hooks, headless mode, and permission modes — the features this very app is built on.",
+      "status": "spec",
+      "requires": ["07-claude-code-workflows"]
+    },
+    {
+      "id": "10-context-engineering",
+      "title": "Context Engineering: the Expert Discipline",
+      "track": "prompting",
+      "summary": "The attention budget, context rot, progressive disclosure, compaction and memory, and context isolation with subagents.",
+      "status": "spec",
+      "requires": ["06-advanced-prompting", "08-how-ai-systems-are-built"]
+    },
+    {
+      "id": "11-agentic-claude-code",
+      "title": "Agentic Claude Code",
+      "track": "claude-code",
+      "summary": "Subagents, MCP servers, plan mode, and parallel agents — context isolation put to work.",
+      "status": "spec",
+      "requires": ["09-claude-code-power-tools", "10-context-engineering"]
+    },
+    {
+      "id": "12-autonomous-remote-claude",
+      "title": "Autonomous & Remote Claude",
+      "track": "claude-code",
+      "summary": "/goal, /loop, scheduled tasks, ultracode dynamic workflows, remote control, Claude on the web, and the agent ecosystem.",
+      "status": "spec",
+      "requires": ["11-agentic-claude-code"]
+    },
+    {
+      "id": "13-prompt-mastery",
+      "title": "Prompt Engineering Mastery",
+      "track": "prompting",
+      "summary": "Production prompt design, writing rubrics, prompt injection awareness, systematic evals, and cost-aware prompting.",
+      "status": "spec",
+      "requires": ["10-context-engineering"]
+    },
+    {
+      "id": "14-capstone",
+      "title": "Capstone: Build with Everything",
+      "track": "claude-code",
+      "summary": "A multi-stage project using CLAUDE.md, a skill, a hook, a subagent, and a /goal-driven finale — graded on context hygiene.",
+      "status": "spec",
+      "requires": ["12-autonomous-remote-claude", "13-prompt-mastery"]
+    }
+  ]
+}

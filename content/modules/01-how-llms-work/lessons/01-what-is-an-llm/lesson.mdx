@@ -1,0 +1,80 @@
+---
+id: 01-what-is-an-llm
+title: What is an LLM?
+minutes: 8
+objectives:
+  - Explain what a large language model does in one plain sentence
+  - Understand that an LLM predicts the next word, over and over
+  - Recognize why LLMs feel smart without having beliefs or plans
+  - Know where tools like ChatGPT and Claude fit into the picture
+---
+
+## Start with your phone
+
+Pick up your phone and start typing a text message: "I'm running a bit..."
+
+Before you finish, your keyboard offers a suggestion: **late**. Maybe also **behind** and **low**. Your phone isn't reading your mind. It has simply seen the phrase "I'm running a bit late" so many times that it knows *late* is the most likely next word.
+
+That little grey suggestion above your keyboard is the seed of everything in this course. Hold onto it.
+
+## An LLM is that idea, taken to the extreme
+
+An **LLM** — short for **large language model** — is a computer program that does one thing: given some text, it predicts what word is most likely to come next.
+
+That's it. That's the whole trick.
+
+"But wait," you might say, "ChatGPT writes essays and answers questions. That's more than suggesting one word!"
+
+Here's the secret: it does the one-word trick *repeatedly*. It predicts a word, adds it to the text, then predicts the next word after that, and the next, and the next — like laying down one railroad tie at a time until there's a whole track. A full paragraph is just thousands of tiny "what comes next?" predictions strung together.
+
+<Callout kind="info">
+A quick word on words: the model actually predicts small chunks of text called *tokens*, which are sometimes whole words and sometimes pieces of words. We'll meet tokens properly in the next lesson. For now, "predicts the next word" is close enough to the truth.
+</Callout>
+
+## Why does it feel so smart, then?
+
+Your phone's autocomplete is trained on a modest amount of text and makes fairly simple guesses. An LLM is trained on a staggering amount of text — think of a library so large it would take you thousands of lifetimes to read — and it uses billions of internal dials (we'll see how those get set in lesson 3) to make its guesses.
+
+Here's the surprising part: when next-word prediction gets *that* good, it starts to look like understanding.
+
+Think about what it takes to correctly finish this sentence: "The capital of France is ___." To reliably predict *Paris*, the model has to have soaked up facts about geography. To finish "She was furious, so she slammed the ___," it helps to have absorbed patterns about human emotions and doors. Really good prediction quietly requires a kind of knowledge.
+
+So scale is the magic ingredient. A small predictor feels like autocomplete. An enormous one feels like a conversation partner. But under the hood, it's the same move: *what word probably comes next?*
+
+## Try it yourself
+
+Time to play. In the game below, you'll see the start of a sentence and four possible next words. Pick the one you think is most likely — you're doing exactly what an LLM does, just with your human intuition instead of billions of dials. After each guess, you'll see the (simulated) probabilities the model would assign.
+
+Play a few rounds. Pay special attention to the round where *no* single answer dominates — that's an important clue about how these models really work.
+
+<NextWordGame />
+
+Notice anything? For some sentences, one word was the overwhelming favorite. For others, several words were all reasonably likely. The model doesn't pick "the right answer" — it weighs *many* possible continuations, each with its own probability. That's a theme we'll return to again and again.
+
+## What an LLM is *not*
+
+This is the most important section of the lesson, because our brains love to imagine a little person inside the machine. There isn't one. Let's clear up three common misunderstandings.
+
+**It doesn't look things up in a database.** When you ask an LLM a question, it doesn't search a filing cabinet of stored facts and quotes. Everything it "knows" is baked into those billions of dials as *patterns* — more like how you remember the gist of a book you read years ago than like finding the exact page.
+
+**It doesn't have beliefs or opinions.** When an LLM writes "I think the beach is the best vacation spot," it isn't sharing a preference. It's producing text that is a *likely continuation* of the conversation so far. Ask it the same thing framed differently and it might happily argue for the mountains.
+
+**It doesn't have goals or plans of its own.** It isn't sitting there between your messages, thinking. It only does anything when given text to continue — like a player piano that's silent until someone feeds in a roll of music.
+
+<Callout kind="warning">
+Because an LLM produces *likely* text rather than *verified* text, it can produce sentences that sound confident and correct but are simply wrong. This is called hallucination, and it gets its own lesson later in this module.
+</Callout>
+
+## So where do ChatGPT and Claude fit in?
+
+Names like **ChatGPT** (made by OpenAI) and **Claude** (made by Anthropic) are products built *around* LLMs. Think of the LLM as a powerful engine, and the chat app as the car built around it: there's a friendly interface, safety training to make the model helpful and polite (more on that in lesson 3), and extra tools bolted on.
+
+So when someone says "I asked the AI," what actually happened is: their words went to a very large next-word predictor, which generated a likely, helpful continuation, one small piece at a time.
+
+<Callout kind="tip">
+Keep this one-sentence mental model in your pocket for the rest of the course: **an LLM is a machine that predicts the next word, repeated over and over, trained on a huge amount of text.** Every lesson that follows — tokens, training, hallucination, randomness — is just a closer look at a different part of that sentence.
+</Callout>
+
+## Check your understanding
+
+<Exercise id="quiz-what-is-llm" />
