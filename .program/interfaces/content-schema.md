@@ -17,11 +17,16 @@ All extensions are **optional** at every use site unless otherwise noted.
 - **`SkillIdSchema`**: `z.string().min(1)` — reference to a skill in the module's skill registry (REQ-MM-01). Shape only; registry membership is resolved by CI gate (REQ-CP-06 scenario 2), not by schema validation.
 - **`skillIds`**: `z.array(SkillIdSchema).min(1).optional()` — appears on:
   - `LessonFrontmatterSchema` (lesson-level)
-  - `ObjectiveSkillsSchema` (per-objective sidecar, additive over `objectives: string[]`)
   - `QuizQuestionSchema`
   - `ExerciseAuthoringExtensionsSchema` (spread into all four exercise types)
   - `RubricCriterionSchema`
   - `TestOutProbeSchema`
+- **`ObjectiveSkillsSchema`**: `z.object({ objective, skillIds })` — the per-objective sidecar, additive over `objectives: string[]` (which stays `string[]` verbatim). Its two members are **REQUIRED within the sidecar object**:
+  - `objective`: `z.string().min(1)` — repeats the objective text verbatim. Matching it against a declared objective is a CI gate (REQ-CP-06), keeping schema validation context-free.
+  - `skillIds`: `z.array(SkillIdSchema).min(1)` — note **no `.optional()`** here, unlike every other `skillIds` use site.
+- **`objectiveSkills`**: `z.array(ObjectiveSkillsSchema).min(1).max(6).optional()` — the authorable carrier field that reaches the sidecar. Appears on:
+  - `LessonFrontmatterSchema` — the field itself is optional; `.max(6)` mirrors `objectives: z.array(z.string()).min(1).max(6)`. Authors attach per-objective skills by adding `objectiveSkills` entries to lesson frontmatter; there is no other route to `ObjectiveSkillsSchema`.
+- **Optionality note**: the "all extensions are optional" rule applies to *use sites on existing schemas*. Once an author opts into an `objectiveSkills` entry, both `objective` and `skillIds` are **required within `ObjectiveSkillsSchema`** and validation fails if either is absent.
 
 ### Difficulty tiers
 - **`DifficultyTierSchema`**: `z.enum(["intro", "core", "stretch"])` — exactly three values (REQ-CP-03).

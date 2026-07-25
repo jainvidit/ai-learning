@@ -4,9 +4,9 @@ parent: ROOT.1.2
 type: Task
 title: content-schema.md interface doc — authoring contract seam over src/lib/schema.ts
 ledger_depth: 3
-status: in_review
+status: done
 generation: 1
-owner_agent: implementer-ROOT.1.2.3-gen1
+owner_agent: implementer-ROOT.1.2.3-gen1 # closed by coordinator-ROOT.1.2-gen1: gen1 fixes verified on main (dream-verifier 3/3, events ROOT.1.2.3.jsonl)
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-03
 acceptance_criteria:

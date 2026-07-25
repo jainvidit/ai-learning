@@ -5,8 +5,8 @@ type: Task
 title: regression-floor.md seed — REQ-MS-02 checklist, MS-03 audit row, ADR-0006 note
 ledger_depth: 3
 status: in_review
-generation: 1
-owner_agent: implementer-ROOT.1.2.6-gen1 # hardened escalation; rework against secondary request_changes (ADR-0006 note placement; RF-02/04/14 executability; RF-03/07/renumbering minors) AND primary REJECT still open in events (wrong Gate IDs; RF-01 nonexistent lesson path; RF-14 day-zero false failure; RF-03 sandboxes; RF-11 sidebar surface)
+generation: 2
+owner_agent: implementer-ROOT.1.2.6-gen2 # critical tier; SCOPE-LOCKED 13-fix list from primary (spec-conformance: RF-09 credential var; RF-08 matched route; ADR-0006 note item 3 attribution; RF-02 per-question scope) + secondary (consumer-fit: RF-04 passing path; RF-07 exec payload; RF-02->ADR-0006 cross-ref; RF-01 profile step; RF-14 Workshop anchor; general UNVERIFIED rule; RF-03a payload; RF-11b badge verify; RETIRED example). Structure/row IDs/Gate IDs verified correct — no restructuring.
 spec_refs:
   - .program/spec/migration-and-sequencing.md#req-ms-02
   - .program/spec/migration-and-sequencing.md#req-ms-03
@@ -47,14 +47,65 @@ verification:
     method: "npx tsc --noEmit in the worktree; git status --short in the worktree."
     evidence: .program/evidence/ROOT.1.2.6/gen1-verification.md
     notes: "tsc exit 0, no output. git status shows exactly one modified path (.program/interfaces/regression-floor.md) plus the new evidence doc. No contract-shape change: RF-01..RF-16 keep their meaning and numbering; RF-03 gained appended sub-IDs only; no Gate has cited any row yet (no .program/audits/gate-* exists), so the namespace was not frozen."
+  - criterion: "gen2 SCOPE-LOCKED fixes 1-4 (primary spec-conformance: RF-09 AWS_BEARER_TOKEN_BEDROCK + credential chain; RF-08 matched route with matcher exclusions; ADR-0006 note item 3 attribution to accepted Decision Reading A; RF-02 sanitizeQuiz list scoped to per-question fields)"
+    verdict: pass
+    method: "Each claim read from source before writing: bedrock.ts:7-9/17-20 (auth order, server-side client), proxy.ts:15 (matcher excludes _next/static|_next/image|favicon.ico), ADR-0006.md Decision vs 'If the other reading is correct' sections, LessonRenderer.tsx:16-29 (exercise-level type/id/title/passingScore + per-question fields). In-place wording edits only; no row moved."
+    evidence: .program/evidence/ROOT.1.2.6/gen2-verification.md
+    notes: "Kept the four old env-var names in RF-09 as belt-and-braces with the stated rationale (default AWS credential chain can source them)."
+  - criterion: "gen2 SCOPE-LOCKED fixes 5-13 (secondary consumer-fit: RF-04 concrete passing submission; RF-07 ExecBody payload + 404/sandboxTemplate caveat; RF-02 bold ADR-0006 cross-ref; RF-01 concrete profile-create step; RF-14 Workshop-dir day-zero anchor; general UNVERIFIED-on-unmet-precondition rule in header; RF-03a exact JSON payload; RF-11b badge DOM check; RETIRED marking example)"
+    verdict: pass
+    method: "Correct answers read from exercises.json:18,31,44,57 (c/b/b/b, 4 questions, passingScore 75 -> all-correct = 100/passed:true); ExecBody from exec/route.ts:18-24,44-49,51-62,81; profile-create behavior from profiles/route.ts:34-55 (route sets cookie itself, 400 name-required, 201 {profile}); Workshop location from CURRENT-STATE.md:95,103 ('future Workshop dir under sandbox/live/... once it exists') + workshop-and-artifacts REQ-WA-01 'Current state: new (src/lib/workshop.ts planned)'; badge from profiles/page.tsx:138-142,121-123. General rule added to the 'How to run it' block; RETIRED example added to the No-ID-reuse bullet."
+    evidence: .program/evidence/ROOT.1.2.6/gen2-verification.md
+    notes: "RF-07 now warns that the API-direct path still 404s without a terminal/challenge exercise fixture (route validates exercise type before spawning) -> UNVERIFIED with reason if none can be provided."
+  - criterion: "gen2 doc-only change did not disturb source or restructure the contract (critical-tier empirical requirement)"
+    verdict: pass
+    method: "Pre-edit: diff --strip-trailing-cr main-vs-worktree regression-floor.md -> identical. npx tsc --noEmit exit 0. git status --short: only regression-floor.md + ledger/evidence paths. grep -c '^| RF-' = 20 before and after; IDs, Gate table, section order unchanged."
+    evidence: .program/evidence/ROOT.1.2.6/gen2-verification.md
+    notes: "Rollback note written to this file before the first edit. Ledger writes landed in the worktree because the permission system rejects writes to the main checkout from a worktree-isolated agent; integrator picks them up from artifacts."
 artifacts:
   - ".program/interfaces/regression-floor.md"
   - ".program/evidence/ROOT.1.2.6/gen1-verification.md"
+  - ".program/evidence/ROOT.1.2.6/gen2-verification.md"
+  - ".program/ledger/items/ROOT.1.2.6.md"
+  - ".program/ledger/events/ROOT.1.2.6.jsonl"
 ---
 
 Seed only — this item creates the checklist; executing it is Gate work (ROOT.1.8 etc.).
 Row IDs are a contract: once a Gate cites RF-nn, rows are append-only (renumbering breaks
 audit evidence).
+
+## gen2 rollback note (written BEFORE any edit)
+
+All gen2 changes are confined to ONE file: `.program/interfaces/regression-floor.md`
+(worktree `.claude/worktrees/agent-a99d756501888eaac`). Every change is a textual
+addition or in-place wording fix inside existing rows/sections — no row added, removed,
+renumbered, or restructured. Undo = restore that single file to its gen1 content, which
+is byte-identical (modulo CRLF) to the copy at the MAIN checkout
+`C:\Users\jainv\workplace\ai-learning-app\.program\interfaces\regression-floor.md` as of
+2026-07-25 (verified by diff before editing). No source code, no `data/**`, no sandbox
+content is touched. Ledger writes (this item file, events jsonl, gen2 evidence doc) are
+append/additive and self-describing.
+
+## gen2 contract plan (3 lines)
+
+1. **Contract touched:** the RF-nn row text in `.program/interfaces/regression-floor.md`
+   — wording only; the row-ID namespace, Gate table, and section structure are verified
+   correct and stay untouched.
+2. **Other side:** the five Gates (ROOT.1.8/2.5/3.6/4.9/5.6) and ROOT.7.1 steward consume
+   rows by ID; IDs and meanings are unchanged, so no consumer breaks.
+3. **Will NOT change:** no restructure, no renumber, no new rows, no file other than
+   regression-floor.md (plus ledger/evidence writes).
+
+## gen2 outcome
+
+All 13 scope-locked fixes applied and verified; per-fix fact table (claim -> source
+file:line) at `.program/evidence/ROOT.1.2.6/gen2-verification.md`. No restructuring:
+20 RF rows before and after, IDs/Gate table/section order unchanged.
+
+**Code and ledger changes live in worktree `.claude/worktrees/agent-a99d756501888eaac`**
+and need integration (the permission system rejects main-checkout ledger writes from a
+worktree-isolated agent). Changed paths are under `artifacts`. This agent ran no git
+commands.
 
 ## gen1 plan (hardened, 3 lines)
 
