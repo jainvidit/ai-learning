@@ -2,7 +2,7 @@
 > ai-learning-app@0.1.0 build
 > velite build --clean && next build
 
-[32m[VELITE][0m build finished in 963.63ms
+[32m[VELITE][0m build finished in 977.50ms
 ▲ Next.js 16.2.11 (Turbopack)
 - Environments: .env.local
 
@@ -26,7 +26,7 @@ Import trace:
     ./src/app/api/claude-code/exec/route.ts
 
 
-✓ Compiled successfully in 6.1s
+✓ Compiled successfully in 5.6s
   Running TypeScript ...
   Finished TypeScript in 7.0s ...
   Collecting page data using 15 workers ...
@@ -34,7 +34,7 @@ Import trace:
   Generating static pages using 15 workers (3/14) 
   Generating static pages using 15 workers (6/14) 
   Generating static pages using 15 workers (10/14) 
-✓ Generating static pages using 15 workers (14/14) in 565ms
+✓ Generating static pages using 15 workers (14/14) in 564ms
   Finalizing page optimization ...
 
 Route (app)

@@ -196,15 +196,11 @@ function segmentMdx(body: string): Segment[] {
   const segments: Segment[] = [];
   const lines = body.split(/\r?\n/);
 
-  // `null` slug === the pre-first-h2 region. Only materialised if it holds content.
-  let currentProseSlug: string | null = null;
+  // The pre-first-h2 region is emitted only if it actually holds content, so a lesson that
+  // opens directly with an `h2` gets no empty `prose:intro` beat.
   let introHasContent = false;
   let sawFirstHeading = false;
   let openFence: string | undefined;
-
-  const pushProseForHeading = (slug: string) => {
-    segments.push({ kind: "prose", slug });
-  };
 
   for (const line of lines) {
     const fence = FENCE_PATTERN.exec(line);
@@ -226,8 +222,7 @@ function segmentMdx(body: string): Segment[] {
     const heading = H2_PATTERN.exec(line);
     if (heading) {
       sawFirstHeading = true;
-      currentProseSlug = heading[1];
-      pushProseForHeading(heading[1]);
+      segments.push({ kind: "prose", slug: heading[1] });
       continue;
     }
 
@@ -242,13 +237,12 @@ function segmentMdx(body: string): Segment[] {
     }
     if (lineHadAnchor) continue;
 
-    if (line.trim().length > 0) {
-      // Prose inside an h2 section is already represented by that section's beat
-      // (pushed at the heading). Only the pre-heading region needs to be noticed here.
-      if (!sawFirstHeading) introHasContent = true;
+    if (line.trim().length > 0 && !sawFirstHeading) {
+      // Prose inside an h2 section is already represented by that section's beat (pushed
+      // at the heading). Only the pre-heading region needs to be noticed here.
+      introHasContent = true;
     }
   }
-  void currentProseSlug;
 
   if (introHasContent) {
     segments.unshift({ kind: "prose", slug: null });
