@@ -277,3 +277,24 @@ return.
   until my own assembly reviewer (dispatched 13:40:01Z, still running) returns and
   I rule on its verdict, at which point the blocks get corrected with real
   citations. Blocker event logged 13:50:00Z.
+- gen3 13:55Z RATIFICATION AND CLOSE (this instance's own act; resolves the 13:50
+  anomaly's open question). The 13:52:00/13:52:30 assembly verdict + arbitration
+  events and the "gen3 closure (13:45-13:55Z)" body section above landed externally
+  while this instance was mid-write (same duplicate-writer pattern; still flagged
+  for director audit on ID attribution). Rather than adopt them on trust, I
+  RE-DERIVED the arbitration basis myself before ratifying (events 13:55:00):
+  (1) ADR-0005 re-read in full this generation — Decision verbatim: session-end is
+  "an authored convention over a prose beat (a frontmatter/anchor marker), not a
+  schema type" => major-1 overrule spec-correct; (2) content-pipeline.md REQ-CP-01
+  current-state (line 16): "the components map + quiz sanitization logic carry
+  over" to BeatRenderer => major-2 downgrade to ROOT.7.1 re-anchor note correct
+  for a day-zero baseline; (3) my acceptance criterion 3 mandates "event types
+  deferred to ROOT.2.1" verbatim; 1.2.5 arbitration (12:53:10) settled the
+  deferral wording => major-3 not a pack defect; the ROOT.2.1 TermEvent-criterion
+  gap is escalated to the director in my return; (4) cited settled arbitrations
+  12:34:16 and 12:53:10 verified PRESENT in events/ROOT.1.2.jsonl by grep.
+  Assembly verdict: PASS (ratified). Stewardship transfer to ROOT.7.1 logged
+  13:56:00 (five survival rules + steward-note backlog). Status set done 13:56:30.
+  The verification block's evidence citations resolve to real events (13:52/13:55/
+  13:56 series in events/ROOT.1.2.jsonl); the anomaly disposition is recorded and
+  closure stands on this instance's independently verified basis.
