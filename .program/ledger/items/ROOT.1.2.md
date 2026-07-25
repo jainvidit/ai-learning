@@ -19,9 +19,39 @@ depends_on: []
 blocks: [ROOT.1.1, ROOT.1.3]
 children: [ROOT.1.2.1, ROOT.1.2.2, ROOT.1.2.3, ROOT.1.2.4, ROOT.1.2.5, ROOT.1.2.6]
 file_ownership: ["src/lib/schema.ts", ".program/interfaces/beat-model.md", ".program/interfaces/content-schema.md", ".program/interfaces/model-router.md", ".program/interfaces/agent-runner.md", ".program/interfaces/regression-floor.md"]
-review: {tier: 2, required_lenses: [spec-conformance, consumer-fit], verdicts: []}
-verification: []
-artifacts: []
+review:
+  tier: 2
+  required_lenses: [spec-conformance, consumer-fit]
+  verdicts:
+    - {lens: "assembly (spec-conformance + consumer-fit)", reviewer: "dream-reviewer-primary ababda566f181c9f2 (fresh, blind, artifact+shard+ADRs only)", verdict: "request_changes", arbitration: "coordinator-gen3 ruled all 3 majors spec-interpretation and overruled/downgraded on cited spec grounds (see events 13:52); 3 minors quality -> ROOT.7.1 steward notes; net PASS. REQ-CP-02/03 + ADR-0010 conformance confirmed by the reviewer itself (findings A/B/D)."}
+verification:
+  - criterion: "schema.ts extended additively; Module 1 validates unchanged (CP-03 s1-3)"
+    verdict: pass
+    method: "Child ROOT.1.2.1 empirical (npm run validate exit 0, npx tsc --noEmit exit 0, eslint 0, 39-assertion probe), gen2 must-fixes re-proven on MAIN by dream-verifier a396ea7db8152fe19 (5/5 incl. validate 0 / tsc 0). Assembly reviewer finding B independently confirmed all six REQ-CP-03 extension families landed additively with 12 exact name spot-checks vs content-schema.md (incl. preconditions rename, sourceExerciseId optional+boss-equivalent refine)."
+    evidence: "events/ROOT.1.2.jsonl 12:56:47 verdict; assembly verdict event 13:52"
+  - criterion: "Beat model published in beat-model.md (beatId, ADR-0005 closed set, persistent, completion; LX-03/TX-01 portal-slot)"
+    verdict: pass
+    method: "Child ROOT.1.2.2 majority approve 2-1 after arbitration; assembly reviewer finding A: literal REQ-CP-02 shape + closed 6-type set (beat-model.md:31-49), stability S1-S4 (:106-121), persistent:true for terminal/streaming (:157) — CONFORMS."
+    evidence: "events 12:35:22; assembly verdict event 13:52"
+  - criterion: "Seam docs for beat-model, content-schema, model-router, agent-runner (event types deferred to ROOT.2.1)"
+    verdict: pass
+    method: "Children 1.2.3/4/5 done via their review chains. Assembly finding D: model-router.md conforms to ADR-0010 (requestStructured = tool-forcing + validate + one repair, SchemaValidationFailed on 2nd failure, seam-internal/invisible, fake identical — :131-171). Finding E arbitrated: agent-runner.md defers TermEvent to ROOT.2.1 exactly as this item's criterion mandates, defining no variants; the observation that ROOT.2.1's item criteria do not yet name TermEvent is a ledger-routing question escalated upward, not a pack defect."
+    evidence: "events 12:28:19, 12:53:10, 13:10:27; assembly verdict + arbitration events 13:52"
+  - criterion: "regression-floor.md seeded (MS-02 rows, MS-03 audit row, ADR-0006 note)"
+    verdict: pass
+    method: "Child ROOT.1.2.6 closed after fresh dream-verifier ad915f66fe23a1569 fact-checked MAIN: 14/14 — all 13 scope-locked fixes present and source-verified; Gate table cites exactly ROOT.1.8/2.5/3.6/4.9/5.6, each confirmed type: Gate."
+    evidence: "events/ROOT.1.2.6.jsonl 13:45; .program/evidence/ROOT.1.2.6/gen2-verification.md"
+  - criterion: "Assembly review — the ASSEMBLED pack satisfies REQ-CP-02/03 and coheres as one contract surface (tier 2)"
+    verdict: pass
+    method: "Shard re-read by gen3 before ruling (REQ-CP-02 line 23, REQ-CP-03 line 35; ADR-0005 re-read in full). One fresh blind assembly reviewer over all six files vs REQ-CP-02/03 + ADR-0005/0006/0010; coordinator arbitrated its 3 majors (all spec-interpretation) with cited basis; empirical framework-API evidence carried by 1.2.1's on-MAIN verifier run (validate/tsc), not reviewer approval."
+    evidence: "assembly arbitration event 13:52; events 12:56:47"
+artifacts:
+  - "src/lib/schema.ts"
+  - ".program/interfaces/beat-model.md"
+  - ".program/interfaces/content-schema.md"
+  - ".program/interfaces/model-router.md"
+  - ".program/interfaces/agent-runner.md"
+  - ".program/interfaces/regression-floor.md"
 resume_hint: "COORDINATOR-owned (sizing #9): leaves = schema extension (validate-provable), beat-model doc, one leaf per named seam doc, regression-floor seed. First dispatch of Phase 0 alongside ROOT.1.7/1.9."
 ---
 The schema steward item. Consumers request fields through this item while it is open;

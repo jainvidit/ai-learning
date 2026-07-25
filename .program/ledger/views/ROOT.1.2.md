@@ -7,4 +7,4 @@
 | ROOT.1.2.3 | content-schema.md seam doc | done | — (gen1 fixes verified on main, verifier 3/3) |
 | ROOT.1.2.4 | model-router.md seam doc | done | — (approved 2-1 tie-break; ADR-0010 requestStructured verified) |
 | ROOT.1.2.5 | agent-runner.md seam doc | done | — (primary approve; secondary findings overruled on deferral-boundary spec grounds) |
-| ROOT.1.2.6 | regression-floor.md seed | in_review | gen2 critical-tier 13-fix artifact landed on main; gen3 fact-check verifier running (gen2's died unverdicted) |
+| ROOT.1.2.6 | regression-floor.md seed | done | — (gen3 verifier 14/14 PASS on MAIN: 13 scope-locked fixes + Gate ID table; retry-cap deviation stands as logged 13:02:24Z) |
