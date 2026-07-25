@@ -1,0 +1,39 @@
+schema: spec-driven
+
+context: |
+  AI Mastery — a local, personal-desktop learning web app teaching (a) LLM/AI
+  fundamentals, (b) prompt engineering, (c) Claude Code mastery to a
+  non-technical beginner working toward expert level.
+
+  Tech stack: Next.js 16 (App Router) + React 19 + TypeScript + Tailwind v4.
+  Content: MDX lessons + JSON exercise definitions validated by zod
+  (src/lib/schema.ts is THE authoring contract; `npm run validate` gates).
+  AI: Amazon Bedrock via @anthropic-ai/bedrock-sdk (playground + LLM-as-judge,
+  score computed in code from rubric weights); embedded terminal spawns the
+  learner's real local claude.exe headless (stream-json over SSE) in
+  path-confined per-profile sandboxes. Progress: JSON per Netflix-style local
+  profile (no auth). 14-module curriculum: module 1 built, specs/module-02..14
+  are self-contained blueprints for parallel authoring agents.
+
+  Key documents (all project docs live under this repo):
+  - docs/DREAM-BLUEPRINT.md — the five-lane target architecture & product vision
+  - docs/INITIAL-BUILD-PLAN.md — the plan the current app was built from
+  - docs/design/ — UX and learning-design review reports
+  - specs/AUTHORING-GUIDE.md — content authoring contract
+
+  Non-negotiable design values: non-competitive, intrinsic-motivation-first
+  (no XP/points/leaderboards); honest mastery (judge-noise firewall, evidence
+  over completion); real tools not simulations; personal desktop tool, not a
+  production service (single process, files/SQLite over infrastructure; cost
+  and public-internet security are not design constraints, but
+  learning-integrity features — evidence verification, answer-key isolation
+  from the tutor, sandbox tool restrictions — stay).
+
+rules:
+  proposal:
+    - Always include a "Non-goals" section
+    - Cite which DREAM-BLUEPRINT.md section (or migration phase) the change advances, if any
+  design:
+    - Respect frozen blueprint decisions (docs/DREAM-BLUEPRINT.md §8) unless the proposal explicitly challenges one with evidence
+  tasks:
+    - End with a verification task that exercises the change end-to-end (npm run validate, npx tsc --noEmit, and a live check where applicable)
