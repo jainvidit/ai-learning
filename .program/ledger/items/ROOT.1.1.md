@@ -4,8 +4,8 @@ parent: ROOT.1
 type: Capability
 title: Content pipeline — Velite migration, beat compiler, versioned bundle
 ledger_depth: 2
-status: in_progress
-owner_agent: coordinator-ROOT.1.1-gen1
+status: interrupted
+owner_agent: coordinator-ROOT.1.1-gen1 (DEAD — died with parent session ~16:22Z; marked interrupted by director-gen39)
 generation: 1
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-01
@@ -25,7 +25,7 @@ file_ownership: ["velite.config.*", "src/lib/content.ts", "src/components/lesson
 review: {tier: 2, required_lenses: [spec-conformance, framework-empirical], verdicts: []}
 verification: []
 artifacts: []
-resume_hint: "Gen0 handed off at context budget (planned, not a failure): handoffs/ROOT.1.1-0.md. 1.1.1 + 1.1.2 DONE (tier-2 approved, main-checkout evidence). NEXT ACT: dispatch ROOT.1.1.3 (dream-implementer-standard, tier 1, exports signature fixed in its item body), then ROOT.1.1.4 (tier-2 pair; MUST also wire beat validation into npm run build — see handoff), then assembly review per handoff closing procedure."
+resume_hint: "Gen1 coordinator died with its session ~16:22Z (infra death, not failure). 1.1.1 + 1.1.2 + 1.1.3 DONE (all tier-approved, main-checkout evidence in verification log below). ONLY 1.1.4 remains (interrupted at plan stage, no code — see its item file). Gen2 scope: fresh dispatch of 1.1.4 (dream-implementer-hardened; carry the npm-run-build beat-validation wiring requirement), tier-2 review pair, then assembly review vs content-pipeline.md and closure per gen0 handoff closing procedure (handoffs/ROOT.1.1-0.md). Decomposition + ADR-0011 + all arbitrations RATIFIED — do not revisit."
 ---
 Coordinator-owned; will split into leaves (Velite swap, compiler, bundle emitter,
 itemRevision hashing). Framework-touching: verification must include build/typecheck

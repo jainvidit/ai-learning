@@ -4,8 +4,9 @@ parent: ROOT.1.1
 type: Task
 title: Versioned immutable content bundle emitter + static route
 ledger_depth: 3
-status: proposed
+status: interrupted
 generation: 0
+owner_agent: implementer-ROOT.1.1.4-gen0 (DEAD — died with parent session ~16:22Z; marked interrupted by director-gen39)
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-04
   - .program/spec/content-pipeline.md#req-cp-05
@@ -21,7 +22,7 @@ file_ownership: ["scripts/build-content-bundle.ts", "src/lib/bundle.ts", "tests/
 review: {tier: 2, required_lenses: [spec-conformance, framework-empirical], verdicts: []}
 verification: []
 artifacts: []
-resume_hint: "Not yet dispatched. Requires ROOT.1.1.3 done."
+resume_hint: "INTERRUPTED at plan stage — gen0 implementer died with its parent session ~16:22Z. Plan below is authoritative-attempted; NO code written (worktree agent-a1fcc6791af56f266 abandoned). One framework fact verified and logged (events 19:20:02 in-band ts, skewed): Next 16.2.11 serves public/ at request time — CP-04 s3 holds. Fresh gen1 dispatch: dream-implementer-hardened, same item inventory; MUST also wire beat compile+assertValidBeats into npm run build (carried finding from 1.1.2)."
 ---
 Emitter script scripts/build-content-bundle.ts (run via a new package.json script, e.g.
 `build:content` — package.json edits ADDITIVE ONLY; never disturb existing
@@ -37,3 +38,19 @@ signatures) — do not reimplement either. Layout hints per LANE-DEPENDENCIES me
 row: derive (col, lane) from the DAG topology (requires edges) + track grouping.
 src/lib/schema.ts steward-owned — never edit. NEVER touch port 3000 / npm run dev
 (CONSTRAINTS #17).
+
+## Tier-2 pre-implementation plan (gen0)
+
+1. CONTRACT TOUCHED: the NEW content-bundle payload shape (public/content-bundle/<version>/*.json
+   + manifest.json) and the package.json build chain. I CONSUME two frozen contracts without
+   changing either: the compiled Beat shape (.program/interfaces/beat-model.md, steward-owned —
+   beats are embedded verbatim, itemRevision stays a sidecar per ADR-0011 #6) and the
+   ROOT.1.1.3 revisions export signatures (computeItemRevision / buildRevisionsMap /
+   loadMigrationMaps, all synchronous).
+2. OTHER SIDE OWNED BY: beat-model.md -> Atlas (schema steward, ROOT.1.2 while open);
+   metro-map RENDERING of the layout hints -> Nova (LANE-DEPENDENCIES "Metro-map layout data"
+   row: bundle side = Atlas/this item, rendering side = Nova); package.json chain -> ROOT.1.1
+   coordinator (serialized, no concurrent writer).
+3. I WILL NOT CHANGE: src/lib/schema.ts, beats.ts, content.ts, revisions.ts, velite.config.*,
+   LessonRenderer.tsx, any existing package.json script beyond prefixing the build chain, any
+   dependency (no add/remove), and no field of the Beat shape.

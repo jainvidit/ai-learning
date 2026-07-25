@@ -20,8 +20,16 @@ blocks: []
 children: []
 file_ownership: ["eslint.config.mjs", "src/lib/schema.ts", ".program/interfaces/**", "package.json", "package-lock.json"]
 review: {tier: 2, required_lenses: [consumer-fit, additivity], verdicts: []}
-verification: []
-artifacts: []
+verification:
+  - {batch: 2, criterion: "AC2 — interface-doc change is additive, consumers notified via parents' views", check: "beat-model.md persistent ruling ratified NARROW; heading list identical pre/post edit (22 headings, same content and order, only line numbers shifted; see correction event 19:12:00Z), all 6 predicate x type rows intact, no field/default/value-meaning change, LF endings preserved", evidence: ".program/ledger/events/ROOT.7.1.jsonl 2026-07-25T18:52:00Z"}
+  - {batch: 2, criterion: "AC2 — additive, grounded in a cited shard/ADR section (backlog 3)", check: "model-router.md ASSUMPTIONS #12 per-clause disclosure re-grounded at source: ASSUMPTIONS.md line 25 bundles 4 clauses; ADR-0010 line 39 retires at whole-assumption granularity; evidence file scoped to structured outputs only. 21 headings intact, 317 CRLF preserved", evidence: ".program/ledger/events/ROOT.7.1.jsonl 2026-07-25T18:58:00Z"}
+  - {batch: 2, criterion: "AC2 — additive, grounded in a cited shard section (backlog 4)", check: "beat-model.md Out-of-Scope TermEvent scoping note re-grounded: REQ-EL-01..04 verified at lines 11/24/36/48, TermEvent grep count 0 in event-log-and-projections.md, execution-layer.md REQ-EX-02/03 + Ramesh ownership at lines 5/7, agent-runner deferral table heading line 157 / table 163-167", evidence: ".program/ledger/events/ROOT.7.1.jsonl 2026-07-25T19:04:00Z"}
+  - {batch: 2, criterion: "no build/typecheck evidence required", check: "no source file touched this batch — src/lib/beats.ts, src/lib/schema.ts, package.json, package-lock.json mtimes unchanged; all edits are ledger-territory doc prose", evidence: ".program/ledger/events/ROOT.7.1.jsonl 2026-07-25T19:08:00Z"}
+artifacts:
+  - .program/interfaces/regression-floor.md   # batch 1 (main checkout)
+  - eslint.config.mjs                          # batch 1 (edited in worktree agent-aba62312f179e2f56; director records it as integrated to main)
+  - .program/interfaces/beat-model.md          # batch 2 (main checkout)
+  - .program/interfaces/model-router.md        # batch 2 (main checkout)
 resume_hint: "Activates when ROOT.1.2 closes (its globs transfer here — no concurrent overlap by construction). Long-lived: served by a fresh dream-implementer-hardened per request batch, item stays open across generations. Closes only when ROOT.5 closes."
 ---
 
@@ -75,3 +83,72 @@ Inherited from ROOT.1.2 closure (full citations in events/ROOT.1.2.jsonl 13:52:0
    field, no `BeatType` member, no predicate x type row, no `PERSISTENT_BEAT_TYPES` runtime
    entry in `src/lib/beats.ts`; no `src/lib/schema.ts`; no `package.json` /
    `package-lock.json`; no existing eslint rule, plugin, or ignore entry; no git operation.
+
+**Batch 1 outcome:** PARTIAL. Served the lint-scope fix (18:12:00) and the RF anchor audit
+(18:25:00), then stopped. See director note 16:13:19.
+
+## Batch log — steward-batch-2 (2026-07-25, dream-implementer-hardened, worktree agent-a672822b36728fa68)
+
+Scope: **only** batch 1's unserved remainder. Did not redo batch 1; did not close the item.
+
+**Batch plan (3 lines, tier-2 pre-implementation requirement):**
+
+1. **Contracts touched.** `.program/interfaces/beat-model.md` (the `### Steward ruling`
+   subsection under `## Persistent Beats`, plus the scoping note at the end of
+   `## Out of Scope`) and `.program/interfaces/model-router.md` (the ASSUMPTIONS #12
+   disclosure section). Prose only. Requests served: field_request 17:40:03 (beat-model
+   persistent interpretation), steward-note backlog 3, steward-note backlog 4.
+2. **Who owns the other side.** beat-model's producer is ROOT.1.1 (`src/lib/beats.ts`),
+   consumers ROOT.1.3 / ROOT.4.2 / ROOT.4.6 / ROOT.4.3; model-router is consumed by ROOT.1.4
+   (implementation) and ROOT.1.5 (seam code + the two open empirical obligations named in the
+   doc). No Gate has run, so no row or section is frozen yet.
+3. **What I will NOT change.** No `Beat` field, no `BeatType` member, no predicate x type row,
+   no `PERSISTENT_BEAT_TYPES` runtime entry, no task-type enum / model-table row /
+   error-union member; no `src/lib/schema.ts`; no `package.json` / `package-lock.json`; no
+   section heading renamed, renumbered, or removed; no git operation.
+
+**Finding at batch open (important for anyone auditing the gap).** Batch 1 had already
+**written** all three prose blocks into the main checkout before it stopped, but logged
+**none** of them — the doc text existed with no `request_served` event. Batch 2 therefore
+**re-derived** each ruling from the shards independently instead of inheriting batch 1's
+conclusion, then ratified, and appended attestations recording which lines were re-read.
+
+**Requests served (3 of 3):**
+
+1. **field_request 17:40:03 — beat-model persistent interpretation → NARROW RATIFIED.**
+   A playground beat does **not** fall under the streaming-beat `persistent: true` clause.
+   `PERSISTENT_BEAT_TYPES = { terminal }` stands; ROOT.1.1 needs no change and no rebuild.
+   Deciding test: **session identity, not transport** — REQ-LX-03's obligations are
+   session-survival obligations and it vests instance ownership in the
+   PersistentTerminalHost, which REQ-TX-01 scopes to **xterm** instances. Confirmed
+   empirically that `src/app/api/playground/run/route.ts` returns a per-request
+   `ReadableStream` with **no session identifier**. Residual ambiguity documented honestly
+   ("streaming beat" is defined in no shard; the second limb is vacuous in the corpus for
+   lack of members, not by denial), and the **widening path** recorded as pre-authorized in
+   shape but not in effect (one `PERSISTENT_BEAT_TYPES` entry + one doc line; no `beatId`
+   churn). Also corrected one imprecision in batch 1's draft: the persistent-beat glossary
+   entry exists only in `docs/origin/GLOSSARY.md` line 23 — `.program/GLOSSARY.md` has zero
+   occurrences — so the citation now names file and line.
+2. **Steward-note backlog 3 — model-router ASSUMPTIONS #12 per-clause disclosure → APPLIED.**
+   Grounded at source: ASSUMPTIONS.md line 25 is one numbered assumption bundling four
+   clauses; ADR-0010 retires it at whole-assumption granularity (line 39) on evidence scoped
+   to structured outputs alone. Structured-outputs clause discharged negative; sampling-param
+   and cache-minimum clauses stay open with owner ROOT.1.5. Labelled as this contract's
+   interpretation, with a removal condition.
+3. **Steward-note backlog 4 — beat-model ROOT.2.1 gloss scoping → APPLIED.**
+   The Out-of-Scope deferral is about `learning_events` beat telemetry (REQ-EL-01…04) and
+   completion projections, not `TermEvent`. Grounded: zero `TermEvent` occurrences in
+   `event-log-and-projections.md`; requirements live in `execution-layer.md` REQ-EX-02/03
+   (Ramesh owns the protocol); authoritative deferral table is `agent-runner.md`'s
+   "Event payload — DEFERRED" section. Citation re-anchored to the **section heading** (line
+   numbers parenthetical, flagged as drifting) after verifying the backlog's
+   "agent-runner.md:163-169" against the real span (heading 157, table 163–167).
+
+**Backlog status after batch 2:** 1 OPEN (RF-02 re-anchor, waits on ROOT.4.2 / REQ-CP-01),
+2 OPEN by design (session-end marker has no schema carrier; acts only if a field is
+requested), **3 SERVED**, **4 SERVED**, 5 OPEN (reviewer minors: playground
+attempted-vs-scored reconciliation note; BeatType/exercise-type homonym mapping note) —
+a future batch should serve 5.
+
+**Integrator note:** batch 2 changed **only main-checkout ledger files**; there is nothing
+to carry from this worktree. This steward ran no git.

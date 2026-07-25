@@ -193,8 +193,9 @@ min-height so xterm `fit()` is safe. Read them against the shard text:
   scenarios are same-instance-with-scrollback across route changes, scrollback restoration
   via `@xterm/addon-serialize` plus event-log replay for the gap, and WebGL context-loss
   fallback.
-- **GLOSSARY.md** likewise defines a persistent beat as one that "stays mounted across
-  navigation within the lesson … (xterm safety by construction)".
+- **`docs/origin/GLOSSARY.md`** (line 23 — the *only* glossary carrying this entry;
+  `.program/GLOSSARY.md` has none) likewise defines a persistent beat as one that "stays
+  mounted across navigation within the lesson … (xterm safety by construction)".
 
 So the question a compiler must answer is **"is there a session identity to restore?"** —
 not "does bytes-over-time reach the client?". A playground run is **request-scoped**: it
@@ -235,6 +236,22 @@ too: because the flag is compiler-set and build-enforced, a widening requires a 
 **read the `persistent` flag; never re-derive persistence from `type`.** A consumer that
 special-cases `type === "terminal"` will break on the first widening, which this ruling
 explicitly leaves open.
+
+**Ratification attestation (steward batch 2, 2026-07-25).** The ruling text above was
+drafted in steward batch 1, which stopped before logging it; batch 2 re-derived it rather
+than inherit it. Every citation was re-read at the source before ratifying: REQ-LX-03
+(`lesson-experience.md` lines 36–46 — obligation set, then "Instance ownership lives with
+the PersistentTerminalHost"), REQ-TX-01 (`terminal-experience.md` lines 11–21 — "owns all
+**xterm** instances", three scenarios all xterm/session-shaped), REQ-CP-02 scenario 3
+(`content-pipeline.md` line 33, verbatim as quoted above), and `docs/origin/GLOSSARY.md`
+line 23. Two facts were re-verified empirically rather than assumed: `PERSISTENT_BEAT_TYPES`
+in `src/lib/beats.ts` has exactly one member, `"terminal"` (line 91–93), enforced at build
+time by `assertValidBeats()` (line 413); and `src/app/api/playground/run/route.ts` returns a
+per-request `ReadableStream` with `Content-Type: text/event-stream` and carries **no session
+identifier** (line 62–112) — confirming the request-scoped premise the ruling turns on.
+Independent conclusion: **the narrow reading is correct and is hereby ratified**; nothing in
+either shard ties `persistent` to transport, and both tie it to a restorable session
+instance.
 
 ---
 
@@ -326,8 +343,19 @@ live in `execution-layer.md` **REQ-EX-02 / REQ-EX-03** (co-owned with
 `api-and-streaming.md`; protocol owner Ramesh), it concerns a **different log** — the
 durable, sequence-numbered *session* log with `attach(sessionId, fromSeq)` replay, not the
 append-only `learning_events` store — and the **authoritative deferral table** for it is
-the "Event payload — DEFERRED" table in `.program/interfaces/agent-runner.md`. ROOT.2.1
+the "Event payload — DEFERRED" table in `.program/interfaces/agent-runner.md` (section
+heading at line 157; the three-row table at lines 163–167, followed by its
+"boundary stated plainly" paragraph — cite the heading, not the line numbers, which drift). ROOT.2.1
 is the steward item that will define the *types* for both families; that shared type-owner
 is the only thing the two have in common, and it is not a shared schema. Anything in this
 program trying to answer a `TermEvent` question from `event-log-and-projections.md` (or
 from this file) is reading the wrong shard.
+
+**Grounding re-verified (steward batch 2, 2026-07-25).** Drafted in batch 1, which stopped
+before logging it; batch 2 re-checked each claim. Confirmed at source: the four REQ-EL ids
+in `event-log-and-projections.md` are REQ-EL-01…04 as cited and that shard contains **zero**
+occurrences of `TermEvent` (grep count 0); `execution-layer.md` **REQ-EX-02** is the
+durable sequence-numbered session log and **REQ-EX-03** the reattachable session, with its
+header stating the co-ownership and naming Ramesh as the protocol's contract owner (lines
+5 and 7); and the `agent-runner.md` deferral table exists as cited. This note is scoping
+prose only — it adds no field, changes no deferral, and moves no ownership.

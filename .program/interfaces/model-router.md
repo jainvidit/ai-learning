@@ -161,6 +161,17 @@ option and matches what the two sections above already do.
   removes it — until then it is the honest record of why a "retired" assumption is still
   cited here.
 
+**Grounding re-verified (steward batch 2, 2026-07-25).** Batch 1 drafted this disclosure but
+stopped before logging it; batch 2 re-checked every claim at the source before ratifying.
+`docs/origin/ASSUMPTIONS.md` **#12 is one numbered line bundling exactly the four clauses
+named above** (line 25, verbatim: no seed param; sampling params rejected on newest tiers;
+`output_config.format` structured outputs on Bedrock; Haiku 4096-token cache minimum), and
+`.program/decisions/ADR-0010.md` retires it at whole-assumption granularity in a single
+line — "ASSUMPTIONS #12 must not be cited as live" (line 39) — with a title and evidence
+(`.program/audits/probes-bedrock-structured-outputs.md`, confirmed present) scoped to
+structured outputs alone. The per-clause reading therefore stands as ratified, and it stays
+labelled as this contract's interpretation rather than an ADR finding.
+
 ---
 
 ## `requestStructured(schema)` — ADR-0010
