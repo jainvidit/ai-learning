@@ -99,6 +99,17 @@ field_request-style note appended to ROOT.7.1's events; never edit regression-fl
 - RF-02/RF-11: DOM/selector output proven identical across all 5 lessons (same evidence
   doc); prop shape changed additively (code? added; mdx optional+deprecated).
   field_request logged to ROOT.7.1 events 15:30:00 — no self-edit of regression-floor.
+- AC-2 (CP-02 s1–3, ordered beat arrays / stable beatIds / persistent+predicate
+  enforcement): SATISFIED via ROOT.1.1.2 (done). Evidence in MAIN checkout:
+  .program/audits/ROOT.1.1.2-verification/ (npm-test.txt 65/65, tsc-noemit.txt,
+  npm-run-build.txt 14/14 pages, authored-corpus-beats.json = real 5-lesson bundle,
+  43 beats, all conforming). Tests implement beat-model.md "How to test it" steps 1–4
+  literally. Tier-2 review: primary approve-with-notes (playground streaming-beat
+  interpretation arbitrated narrow, routed to steward — events 17:40:01/17:40:03),
+  secondary approve (independent vitest 62/62 + tsc re-run, determinism verified).
+  Noted for AC-3: duplicate-key/beat-validation currently fails npm test, not
+  npm run build — bundle-emitter wiring (ROOT.1.1.4) must call the compile+assert
+  path inside the build so violations fail the build (carried as input to 1.1.4).
 - OQ #10 tiebreak: NOT FIRED — Velite DX workable (one-shot velite build prefixed to
   dev/build scripts; opt-in content:watch; no stale-output window). Ruling in events
   15:30:01. pnpm-overrides isolation consciously deferred (events 16:30:01: npm repo

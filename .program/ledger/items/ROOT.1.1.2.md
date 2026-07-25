@@ -4,7 +4,7 @@ parent: ROOT.1.1
 type: Task
 title: Beat compiler — ordered beat arrays with stable beatIds
 ledger_depth: 3
-status: in_progress
+status: done
 owner_agent: implementer-ROOT.1.1.2-gen0
 generation: 0
 spec_refs:
@@ -18,7 +18,7 @@ depends_on: [ROOT.1.1.1]
 blocks: [ROOT.1.1.3, ROOT.1.1.4]
 children: []
 file_ownership: ["src/lib/content.ts", "src/lib/beats.ts", "tests/beats.test.ts"]
-review: {tier: 2, required_lenses: [spec-conformance, framework-empirical], verdicts: []}
+review: {tier: 2, required_lenses: [spec-conformance, framework-empirical], verdicts: [{lens: spec-conformance, reviewer: dream-reviewer-primary, verdict: approve-with-notes, must_fix: 0, should_fix: 1 — playground streaming-beat question, arbitrated narrow + routed to steward (events/ROOT.1.1.jsonl 17:40:01, ROOT.7.1 field_request 17:40:03)}, {lens: framework-empirical, reviewer: dream-reviewer-secondary, verdict: approve, must_fix: 0}]}
 verification:
   - criterion: "AC1 — every built lesson yields an ordered Beat[] with beatId, closed-set type, completion predicate (CP-02 sc.1)"
     method: "Emitted the real bundle via compileAllLessonBeats() over the authored corpus (5 built lessons, 43 beats) and inspected it; plus vitest describe('REQ-CP-02 scenario 1 …') asserting shape, closed-set type, valid predicate, NO field outside {beatId,type,persistent?,completion} (guards ADR-0011 #6 no-itemRevision), 1:1 exercise->beat type mapping, zero widget beats (ADR-0011 #5), and source ordering; plus describe('the real authored corpus compiles and conforms') re-running the gate on-disk."
