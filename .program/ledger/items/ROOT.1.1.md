@@ -5,7 +5,7 @@ type: Capability
 title: Content pipeline — Velite migration, beat compiler, versioned bundle
 ledger_depth: 2
 status: in_progress
-owner_agent: coordinator-ROOT.1.1-gen0
+owner_agent: coordinator-ROOT.1.1-gen1
 generation: 1
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-01
