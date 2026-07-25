@@ -13,6 +13,7 @@
     "verify:e2e": "bash scripts/run-e2e-with-server.sh",
     "verify:e2e:manual": "playwright test",
     "verify:e2e:ui": "playwright test --ui",
+    "e2e:server": "next start -H 127.0.0.1 -p 3001",
     "validate": "tsx scripts/validate-content.ts",
     "seed-sandboxes": "tsx scripts/seed-sandboxes.ts"
   },

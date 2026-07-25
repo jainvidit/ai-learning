@@ -1,0 +1,66 @@
+
+[1] additivity — pre-extension exercise shapes still parse
+  OK   legacy quiz (no new fields) — accepted
+  OK   legacy challenge (no new fields) — accepted
+
+[2] tier enum — well-formed accepted, out-of-enum rejected
+  OK   tier "intro" — accepted
+  OK   tier "core" — accepted
+  OK   tier "stretch" — accepted
+  OK   tier "expert" (out of enum) — rejected: Invalid option: expected one of "intro"|"core"|"stretch"
+  OK   tier "Core" (wrong case) — rejected: Invalid option: expected one of "intro"|"core"|"stretch"
+  OK   tier 2 (wrong type) — rejected: Invalid option: expected one of "intro"|"core"|"stretch"
+  OK   exercise-level tier "hard" via full ExercisesFileSchema — rejected: Invalid input
+  OK   exercise-level tier "stretch" via full ExercisesFileSchema — accepted
+
+[3] role — only "boss" allowed, on existing exercise types
+  OK   role "boss" on a quiz — accepted
+  OK   role "miniboss" — rejected: Invalid input
+  OK   type "boss" is NOT a new exercise type — rejected: Invalid input
+
+[4] skillIds
+  OK   skillIds ['s1','s2'] — accepted
+  OK   skillIds [] (empty) — rejected: Too small: expected array to have >=1 items
+  OK   skillIds 's1' (not an array) — rejected: Invalid input
+  OK   skillIds [3] — rejected: Invalid input
+
+[5] misconception tag on a distractor (scenario 2)
+  OK   distractor carries misconception — accepted
+  OK   misconception '' (empty) — rejected: Too small: expected string to have >=1 characters
+  OK   misconception 7 (wrong type) — rejected: Invalid input: expected string, received number
+
+[6] hint ladder rungs
+  OK   rungs 1..4 — accepted
+  OK   rung 5 (above ladder) — rejected: Too big: expected number to be <=4
+  OK   rung 0 — rejected: Too small: expected number to be >=1
+  OK   duplicate rung numbers — rejected: hint ladder rungs must be unique
+  OK   rung text '' (empty) — rejected: Too small: expected string to have >=1 characters
+
+[7] requires-preconditions (WA-05 form)
+  OK   "artifact:claude-md:healthy" — accepted
+  OK   "artifact:claude-md" (missing state) — rejected: precondition must be "<namespace>:<id>:<state>", e.g. "artifact:claude-md:healthy"
+  OK   "healthy" (bare word) — rejected: precondition must be "<namespace>:<id>:<state>", e.g. "artifact:claude-md:healthy"
+  OK   "Artifact:claude-md:healthy" (wrong case) — rejected: precondition must be "<namespace>:<id>:<state>", e.g. "artifact:claude-md:healthy"
+  OK   requires[] on an exercise — accepted
+  OK   malformed requires[] on an exercise — rejected: precondition must be "<namespace>:<id>:<state>", e.g. "artifact:claude-md:healthy"
+
+[8] artifact/verifier declaration
+  OK   produces[] well-formed — accepted
+  OK   produces[] with kind 'markdown' (out of enum) — rejected: Invalid input
+  OK   produces[] with paths [] (empty) — rejected: Too small: expected array to have >=1 items
+  OK   produces[] missing verifierId — rejected: Invalid input
+
+[9] test-out probe declarations (BT-02 scenario 4)
+  OK   boss-equivalent probe with different fixture — accepted
+  OK   boss-equivalent probe WITHOUT a fixture — rejected: test-out probe of kind "boss-equivalent" must declare a fixture (same verifier/rubric, different fixture)
+  OK   probe kind 'essay' (out of enum) — rejected: Invalid option: expected one of "boss-equivalent"|"concept-quiz"|"hands-on"
+  OK   module.json testOut block — accepted
+  OK   module.json testOut with zero probes — rejected: Too small: expected array to have >=1 items
+
+[10] per-objective skillIds on lesson frontmatter
+  OK   objectiveSkills well-formed — accepted
+  OK   objectiveSkills entry with empty skillIds — rejected: Too small: expected array to have >=1 items
+  OK   legacy frontmatter (no new fields) — accepted
+
+43 passed, 0 failed
+PROBE_EXIT=0

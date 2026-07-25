@@ -4,9 +4,9 @@ parent: ROOT.1.2
 type: Task
 title: beat-model.md interface doc — beat type, stability rules, persistent-beat portal-slot contract
 ledger_depth: 3
-status: changes_requested
-generation: 0
-owner_agent: null # gen0 dead; takeover logged by coordinator-ROOT.1.2-gen1 — done was invalid with unresolved secondary request_changes (see events ROOT.1.2.jsonl 12:16)
+status: in_progress
+generation: 1
+owner_agent: implementer-ROOT.1.2.2-gen1 # hardened escalation, 2nd attempt after secondary consumer-fit request_changes
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-02
 acceptance_criteria:
@@ -44,3 +44,18 @@ This doc is the Contract artifact for LANE-DEPENDENCIES "Beat model type". It de
 COMPILED OUTPUT shape (what src/lib/content.ts emits), not authored input — the authored
 schema is content-schema.md / src/lib/schema.ts. Event types are explicitly out of scope
 (deferred to ROOT.2.1); say so in the doc.
+
+## gen1 plan (tier-2 pre-implementation, required by hardened role)
+
+1. Contract touched: `.program/interfaces/beat-model.md` — the compiled Beat shape
+   (beatId / type / persistent / completion) consumed across four lanes. Only this file
+   is edited; no code, no schema, no other interface doc.
+2. Other side owners: beat compiler = ROOT.1.1 (content pipeline, emits beats) and
+   ROOT.1.3 (API/streaming, transports them); lesson-experience = ROOT.4.2; terminal
+   experience = ROOT.4.6; dashboard resume-to-beat = ROOT.4.3. Steward is ROOT.1.2 while
+   open, ROOT.7.1 after (ADR-0007 succession).
+3. What I will NOT change: the ADR-0005 closed type set (no `recap` type added), the
+   field names/optionality already in REQ-CP-02's literal shape, the ROOT.2.1 event-type
+   deferral boundary, and the four acceptance criteria's required content. Rework is
+   ADDITIVE clarification only — predicate-vs-state disambiguation, testable beatId
+   stability rules, `persistent` default + enforcer, predicate×type mapping closure.

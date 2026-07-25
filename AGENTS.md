@@ -21,5 +21,6 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - **Typecheck**: `npx tsc --noEmit`
 - **Lint**: `npm run lint`
 - **Unit test**: `npm test`
-- **E2E test**: `npm run verify:e2e`
+- **Integration test**: _(no test suite configured)_
+- **E2E test**: `npm run verify:e2e` (Playwright; builds if needed, serves a production build on port 3001 — never touches port 3000)
 - **Dev server**: `npm run dev`

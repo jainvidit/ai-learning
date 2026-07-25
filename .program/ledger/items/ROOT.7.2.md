@@ -4,7 +4,7 @@ parent: ROOT.7
 type: Task
 title: Verification surface — test runner, npm test, Playwright e2e, AGENTS.md commands
 ledger_depth: 2
-status: in_progress
+status: in_review
 generation: 1
 owner_agent: implementer-ROOT.7.2-gen1
 spec_refs:
@@ -17,7 +17,12 @@ depends_on: []
 blocks: [ROOT.1.4]
 children: []
 file_ownership: ["package.json", "package-lock.json", "tests/**", "playwright.config.*", "AGENTS.md", "vitest.config.*", "jest.config.*"]
-review: {tier: 1, required_lenses: [spec-conformance, command-reality], verdicts: []}
+review: {tier: 1, required_lenses: [spec-conformance, command-reality], verdicts: [{gen: 0, by: reviewer-primary-ROOT.7.2, verdict: request_changes}, {gen: 0, by: reviewer-secondary-ROOT.7.2, verdict: request_changes}]}
+files_touched_outside_file_ownership:
+  - path: "scripts/run-e2e-with-server.sh"
+    authority: "Created by gen0 as the verify:e2e entry point; both reviewers' findings #1/#2/#6 are defects IN this file, so fixing it is the work order. Not claimed by any other item (grep of .program/ledger/items for 'scripts/run-e2e' returns only ROOT.7.2)."
+  - path: ".gitignore"
+    authority: "Fix #5 in the consolidated work order (reviewer-primary: 'playwright-report/ test-results/ unignored'). Additive insert only; no existing rule touched."
 verification:
   - criterion: "A test runner is installed and `npm test` runs it green on a seed test"
     status: passed
@@ -76,21 +81,31 @@ verification:
       verify:e2e` (added) + `- **Dev server**: npm run dev` (unchanged). Line count 7 -> 8; zero lines removed.
 artifacts:
   - path: "package.json"
-    changes: "Added vitest, @vitest/ui, @playwright/test to devDependencies; added scripts: test, test:watch, dev:e2e, verify:e2e, verify:e2e:manual, verify:e2e:ui"
+    changes: "gen0 added vitest/@vitest/ui/@playwright/test devDeps and scripts test, test:watch, dev:e2e, verify:e2e, verify:e2e:manual, verify:e2e:ui. gen1 added ONE script: `e2e:server` = `next start -H 127.0.0.1 -p 3001` — the single declaration of the e2e host+port, referenced by playwright.config.ts webServer. No existing script changed or removed. NOT removed but flagged: gen0's `dev:e2e` (`next dev -H 127.0.0.1 -p 3001`) is unreferenced and cannot work as an e2e target (Next.js 16 dev lockfile blocks a second `next dev` in this directory). Left in place because deleting a published script is a contract change, not an implementer judgment call; a follow-up may remove it."
   - path: "package-lock.json"
-    changes: "Lockfile updated for new dependencies"
+    changes: "gen0 lockfile update for the new devDependencies; unchanged by gen1."
   - path: "vitest.config.ts"
-    changes: "Created Vitest configuration with node environment, path aliases, test glob patterns"
+    changes: "gen1 FIX: `include` narrowed to *.test.* (was *.{test,spec}.*, which swallowed the Playwright *.spec.ts files and made `npm test` exit 1) and `exclude` now names 'tests/e2e/**' explicitly as a redundant second guard. Doc comment explains why e2e must never be collected here."
   - path: "playwright.config.ts"
-    changes: "Created Playwright configuration targeting port 3001, chromium project, webServer config for production build"
-  - path: "tests/seed.test.ts"
-    changes: "Created seed unit test with 3 basic assertions (arithmetic, string, array)"
-  - path: "tests/e2e/seed.spec.ts"
-    changes: "Created seed e2e test with 3 tests (page load, navigation, console error check)"
+    changes: "gen1 FIX: webServer is now the SOLE server owner; command changed to `npm run e2e:server` (removes the duplicated -H and centralizes the port); `reuseExistingServer: false` unconditionally (was `!process.env.CI`, which allowed adopting a foreign listener locally); reporter now [list, html{open:never}] so CI output is readable and no browser is spawned; stdout/stderr piped so server failures are visible in the run log. Header comment records the single-owner invariant so it is not re-broken."
   - path: "scripts/run-e2e-with-server.sh"
-    changes: "Created bash script to start production server on port 3001, wait for ready, run Playwright tests, cleanup server"
+    changes: "gen1 REWRITE: no longer starts a server, no longer curl-health-checks, no longer kills anything (removing the second owner, the any-listener health check, and the orphan-producing `kill $SERVER_PID` that left the npm wrapper's `next` child holding 3001). It now does exactly two things: build if `.next/BUILD_ID` is absent (the production-build precondition of `next start`), then `npx playwright test \"$@\"`. `set -euo pipefail`; all messages say 'production server' (the prior 'dev server' wording was wrong)."
+  - path: "tests/seed.test.ts"
+    changes: "gen0 seed unit test (3 assertions); unchanged by gen1 — approved."
+  - path: "tests/e2e/seed.spec.ts"
+    changes: "gen0 seed e2e (3 tests: page load, 200 status, no console errors); unchanged by gen1 — passes against the production server on 3001."
   - path: "AGENTS.md"
-    changes: "Updated verification commands block: replaced unit/integration test placeholders with actual commands"
+    changes: "gen1 FIX (additivity): restored the `- **Integration test**: _(no test suite configured)_` line that gen0 deleted; filled in `- **Unit test**: npm test`; appended `- **E2E test**: npm run verify:e2e`. Net: 7 -> 8 lines in the Verification commands block, zero lines removed. Nothing outside that block touched."
+  - path: ".gitignore"
+    changes: "gen1 ADDED: /playwright-report/, /test-results/, /blob-report/, /playwright/.cache/ under a '# playwright (generated by npm run verify:e2e)' heading, inserted after the existing '# testing' section. No existing rule modified."
+integrator_actions_required:
+  - action: "git rm --cached playwright-report/index.html test-results/.last-run.json"
+    why: >-
+      gen0 COMMITTED these generated files before they were ignored (they are present in the index:
+      `git ls-files` lists playwright-report/index.html and test-results/.last-run.json, and they show
+      as modified after every e2e run). .gitignore does not untrack already-tracked paths, so the new
+      ignore rules cannot take effect for them. This implementer does not run git (role constraint), so
+      the untracking is left to the integrator. Fix #5 is otherwise complete.
 resume_hint: "Dispatch with ROOT.1.7/1.9 at program start — sizing finding #1: without named test commands, no behavioral leaf anywhere passes leaf-test point 5. Runner choice (vitest vs jest) is this item's first decision; note the historic unexplained jest-worker crash (ASSUMPTIONS/REJECTED) when choosing."
 ---
 
@@ -173,3 +188,45 @@ neither is implemented here. This item delivers only the *verification surface*:
 Playwright e2e runner, and the AGENTS.md command registry. The golden matrix / calibration gate
 belong to **ROOT.1.4** (CI pipeline, which this item `blocks`) and the judge/verifier lane items
 (ROOT.4.x). Reviewers must not read this item's `done` as REQ-TC-03 satisfied in full.
+
+### Gen1 fix-list disposition (for the two requesting reviewers)
+
+| # | Reviewer finding | Status | Where proved |
+|---|---|---|---|
+| 1 | Two server owners on 3001; backgrounded npm defeats set -e; curl accepted any listener; kill orphaned the `next` child | FIXED | Playwright `webServer` is sole owner; script starts/kills nothing. `ROOT.7.2-gen1-verify-e2e-cleantree.txt` (CI=1, exit 0, zero EADDRINUSE), `ROOT.7.2-gen1-netstat-3001.txt` (no listener after exit), `ROOT.7.2-gen1-foreign-listener.txt` (foreign listener now fails fast, not adopted) |
+| 2 | Build precondition undocumented; `npm start` needs a prior build | FIXED | Script builds when `.next/BUILD_ID` is missing; clean-tree run shows "No production build found - building first...", rerun shows "Reusing the existing production build". Documented in the script header and in the AGENTS.md E2E row |
+| 3 | Duplicated `-H` (package.json + shell script) | FIXED | Host+port declared once, in the new `e2e:server` script; neither the shell script nor webServer appends -H/-p |
+| 4 | AGENTS.md additivity violation (Integration-test line deleted) | FIXED | `ROOT.7.2-gen1-agents-md-block.txt` - diff shows one `-` line (the Unit-test placeholder being filled in) and two `+` lines; the Integration-test placeholder is restored |
+| 5 | playwright-report/ and test-results/ unignored | FIXED (ignore rules) + integrator action | .gitignore updated; the two already-committed files need `git rm --cached` - see `integrator_actions_required` |
+| 6 | "dev server" wording for a production server | FIXED | All script/config messages and comments say "production server"; the dev-vs-prod rationale (Next.js 16 dev lockfile) is documented in both files |
+| 7 | REQ-TC-03 verifier golden matrix not covered here | RECORDED | "Scope note" section above - golden matrix + calibration gate belong to ROOT.1.4 / ROOT.4.x, not this item |
+| - | (found by gen1, not by either reviewer) `npm test` was actually RED from a clean install | FIXED | vitest collected the Playwright spec; see criterion 1 verification entry and `ROOT.7.2-gen1-npm-test.txt` |
+
+### Baseline conditions kept, as instructed
+
+- Vitest retained as the unit runner (gen0 decision, both lenses approved it).
+- `tests/seed.test.ts` and `tests/e2e/seed.spec.ts` unchanged.
+- Port 3000 never used or killed: it stayed LISTENING on its original owner (pid 20972) across
+  every run in this attempt, recorded in `ROOT.7.2-gen1-netstat-3001.txt` and
+  `ROOT.7.2-gen1-foreign-listener.txt`. The only process this attempt killed was its own
+  negative-control listener on 3001 (pid 1188).
+
+### Pre-existing failure reported, not fixed (out of scope)
+
+`npm run lint` exits 1 on the current tree: 4 errors + 2 warnings, all in files outside this
+item's `file_ownership` - `src/components/nav/ThemeToggle.tsx` (react-hooks/set-state-in-effect),
+`sandbox/templates/demo-fix-greet/{greet,test}.js` (seeded-bug fixtures, likely intentional), and
+the two ROOT.1.7 probe scripts under `.program/audits/`. No ROOT.7.2 file produces a lint problem.
+`npx tsc --noEmit` exits 0. Evidence: `.program/audits/ROOT.7.2-gen1-typecheck-lint.txt`. Whoever
+owns the lint gate (ROOT.1.8) needs this: the lint baseline is red before their gate runs, and the
+probe scripts in `.program/audits/` may simply need an eslintignore entry.
+
+### Worktree note for the integrator
+
+CODE changes were made in the worktree
+`.claude/worktrees/agent-a66e241ac72f6bf50` (branch `program/dream-build`); ledger and evidence
+writes went to the main checkout. The changed code paths are the entries under `artifacts`:
+.gitignore, AGENTS.md, package.json, playwright.config.ts, scripts/run-e2e-with-server.sh,
+vitest.config.ts (plus tests/seed.test.ts and tests/e2e/seed.spec.ts unchanged from gen0, and
+package-lock.json unchanged from gen0). `.next/`, `playwright-report/`, and `test-results/` in the
+worktree are build output, not deliverables.

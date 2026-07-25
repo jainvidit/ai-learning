@@ -1,0 +1,10 @@
+curriculum.json: 14 modules
+module 01-how-llms-work:
+  ✓ 01-what-is-an-llm (1 exercises)
+  ✓ 02-tokens (1 exercises)
+  ✓ 03-training (1 exercises)
+  ✓ 04-hallucination (2 exercises)
+  ✓ 05-randomness (2 exercises)
+
+All content valid.
+VALIDATE_EXIT=0
