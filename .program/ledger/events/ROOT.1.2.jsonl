@@ -1,2 +1,3 @@
 {"ts":"2026-07-25T03:47:35Z","event":"created","by":"director-gen0","detail":"genesis decomposition"}
 {"ts":"2026-07-25T04:51:59Z","event":"revised","by":"director-gen0","detail":"genesis adversarial review revision, ADR-0007"}
+{"ts":"2026-07-25T11:48:24Z","event":"spawn","by":"director-gen0","detail":"dispatch dream-coordinator on ROOT.1.2 (contracts pack)"}

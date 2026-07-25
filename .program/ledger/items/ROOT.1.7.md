@@ -4,7 +4,8 @@ parent: ROOT.1
 type: Probe
 title: Probe — next-mdx-remote archival status (ASSUMPTIONS #11)
 ledger_depth: 2
-status: proposed
+status: in_progress
+owner_agent: prober-ROOT.1.7-gen0
 generation: 0
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-01

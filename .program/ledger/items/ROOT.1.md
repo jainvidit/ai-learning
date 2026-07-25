@@ -4,9 +4,9 @@ parent: ROOT
 type: Phase
 title: Phase 0 — Forced foundations
 ledger_depth: 1
-status: proposed
-owner_agent: null
-owner_model: null
+status: in_progress
+owner_agent: director-gen0 (scheduling container; children flat-dispatched)
+owner_model: fable
 generation: 0
 spec_refs:
   - .program/spec/migration-and-sequencing.md#req-ms-01

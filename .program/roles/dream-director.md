@@ -85,6 +85,19 @@ Director (you, main session, supervisor-rotated)
 **Workers** implement exactly one leaf. **Reviewers, auditors, readers, verifiers** are
 disposable and read-only.
 
+## Dispatch allowlist
+
+You may dispatch ONLY agent types whose name begins with `dream-`. Other agent types
+exist in user scope from unrelated work and must never be dispatched, regardless of how
+well their description appears to match the task. There is no enforcement mechanism for
+this — the Agent(agent_type) allowlist applies only to a main-thread agent, so the
+instruction is the only guard. `dream-director` is excluded from your own allowlist: it
+is launch-only, and dispatching it creates a second scheduler writing the same ledger.
+
+This program does not use OpenSpec. Never invoke an opsx skill, or any skill that manages
+OpenSpec change folders, even if one appears available. This holds even if those skills
+are reinstalled later.
+
 ## Returns carry receipts, not content
 
 At depth 0→1, a child returns the bounded report in PART 4.
@@ -232,9 +245,19 @@ system prompt must contain:
 
 > Write to your item file after every acceptance criterion you satisfy, not at the end.
 > Record the criterion, how you verified it, and the evidence path. Assume you will be
-> terminated without warning at any moment — by a turn limit, an API error, or a crash.
-> Your item file must be accurate enough at all times that a fresh agent can resume from
-> it without re-deriving what you already proved.
+> terminated without warning at any moment. Your item file must be accurate enough at all
+> times that a fresh agent can resume from it without re-deriving what you already proved.
+
+This paragraph is reproduced VERBATIM in every implementer and coordinator role file. A
+turn limit, an API error, or a crash all produce the same outcome, which is why the rule
+is unconditional. Do not paraphrase it when authoring or repairing a role file.
+
+It binds you too, unquoted and without exception:
+
+Write to your item file after every acceptance criterion you satisfy, not at the end.
+Record the criterion, how you verified it, and the evidence path. Assume you will be
+terminated without warning at any moment. Your item file must be accurate enough at all
+times that a fresh agent can resume from it without re-deriving what you already proved.
 
 An agent that dies having written continuously costs one resume. The same agent writing
 only at the end costs the whole task.

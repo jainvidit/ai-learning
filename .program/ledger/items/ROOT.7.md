@@ -4,7 +4,8 @@ parent: ROOT
 type: Phase
 title: Standing services — stewardship & verification surface (cross-phase)
 ledger_depth: 1
-status: proposed
+status: in_progress
+owner_agent: director-gen0 (scheduling container; children flat-dispatched)
 generation: 0
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-03

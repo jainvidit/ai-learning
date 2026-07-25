@@ -3,3 +3,5 @@
 {"ts":"2026-07-25T03:47:35Z","event":"decision","by":"director-gen0","detail":"ADR-0001..0006 recorded at genesis"}
 {"ts":"2026-07-25T04:51:59Z","event":"revised","by":"director-gen0","detail":"genesis adversarial review revision, ADR-0007"}
 {"ts":"2026-07-25T04:51:59Z","event":"decision","by":"director-gen0","detail":"ADR-0007 (review disposition), ADR-0008 (npm workspaces)"}
+{"ts":"2026-07-25T11:48:24Z","event":"status_change","by":"director-gen0","detail":"execution run started; frontier dispatched: ROOT.7.2, ROOT.1.7, ROOT.1.9, ROOT.1.2"}
+{"ts":"2026-07-25T11:50:14Z","event":"decision","by":"director-gen0","detail":"ROOT.1.2 dispatched concurrently with ROOT.7.2: glob check shows no overlap (7.2 owns package.json/tests; 1.2 owns schema.ts+interface docs); 'runs first alone' note in 7.2 body interpreted as package.json-writer serialization, which globs already enforce"}

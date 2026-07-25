@@ -1,1 +1,4 @@
 {"ts":"2026-07-25T04:51:59Z","event":"created","by":"director-gen0","detail":"genesis revision per ADR-0007"}
+{"ts":"2026-07-25T11:48:24Z","event":"spawn","by":"director-gen0","detail":"dispatch dream-implementer-standard on ROOT.7.2 (verification surface)"}
+{"ts":"2026-07-25T11:49:00Z","event":"status_change","item":"ROOT.7.2","from":"proposed","to":"in_progress","agent":"implementer-ROOT.7.2-gen0"}
+{"ts":"2026-07-25T11:49:30Z","event":"decision","item":"ROOT.7.2","decision":"test_runner_selection","choice":"vitest","rationale":"Avoids historic jest-worker crash (ASSUMPTIONS.md#14, REJECTED.md#110); aligns with Next.js 16 Turbopack; simpler ESM setup","agent":"implementer-ROOT.7.2-gen0"}

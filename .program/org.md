@@ -28,27 +28,60 @@ Program prefix: `dream`. Roles live in `C:\Users\jainv\.claude\agents\dream-*.md
 
 ## Role roster (authored at genesis; justify-or-delete)
 
-| Role | Base table row | One-line justification |
-|---|---|---|
-| `dream-coordinator` | Coordinator (fable/high/80) | Owns a subtree: decompose, dispatch, verify, assembly-review; never implements |
-| `dream-implementer-standard` | Implementer tier 0–1 (sonnet/medium/60) | Single-leaf implementation against binary criteria |
-| `dream-implementer-hardened` | Implementer tier 2 (opus/high/80) | Escalation variant; interface-crossing or second-attempt work |
-| `dream-implementer-critical` | Implementer tier 3 (fable/high/80) | Escalation above hardened; the two-key firewall and data-adjacent code |
-| `dream-reviewer-primary` | Reviewer primary (opus/high/40) | Blind spec-conformance review, artifact + shard only |
-| `dream-reviewer-secondary` | Reviewer secondary (sonnet/medium/40) | Independent second lens |
-| `dream-reviewer-adversarial` | Red-teamer (fable/max/50) | Escalated review tier; hunts what both reviewers missed |
-| `dream-verifier` | Verifier (sonnet/low/20) | Runs the named check to close factual review disputes |
-| `dream-gate-verifier` | Ledger auditor row basis (sonnet/medium/40) | Executes REQ-MS-02 baseline checklist + verification commands, writes evidence |
-| `dream-reader-corpus` | Reader large (sonnet/low/30) | Large-corpus reads returning bounded findings |
-| `dream-reader-lookup` | Reader narrow (haiku/low/15) | Narrow lookups only; never large reads |
-| `dream-ledger-auditor` | Ledger auditor (sonnet/medium/40) | PART 7 checks incl. compaction + mirror drift; writes only to audits/ |
-| `dream-collector` | Fan-in collector (sonnet/low/30) | Gathers completions into one digest; director reads digest only |
-| `dream-reporter` | Reporter (haiku/low/15) | Regenerates HEADLINE.md and INDEX.md |
+Every role file carries an explicit `model:` and `effort:` field — the default is
+`inherit`, and an unlabelled role silently follows whatever model the director happens to
+be on. `effort` is frontmatter-only and cannot be raised at dispatch, so every base role
+has an authored escalation variant; without one, a failing item's only remaining move is
+to block.
 
-Escalation ladders: implementer standard→hardened→critical; reviewer
-primary/secondary→adversarial. Genesis-only reviewers (the three opus lenses) are
-dispatched as `dream-reviewer-primary` instances with lens-specific prompts, not
-separate roles.
+| Role | model / effort / maxTurns | tools | One-line justification |
+|---|---|---|---|
+| `dream-coordinator` | fable / high / 80 | +Agent, Write, Edit | Owns a subtree: decompose, dispatch, verify, assembly-review; never implements |
+| `dream-coordinator-recovery` | fable / max / 80 | +Agent, Write, Edit | ESCALATION above coordinator: subtree that deadlocked, failed twice, or hit generation ≥3; diagnoses the decomposition instead of retrying it |
+| `dream-implementer-standard` | sonnet / medium / 60 | +Agent (readers only), Write, Edit | Single-leaf implementation against binary criteria |
+| `dream-implementer-suite` | sonnet / medium / 40 | +Agent (readers only), Write, Edit | Tier 0–1 variant for leaves proven by FULL build+typecheck+lint suites — the table's "40 if it runs full suites" row; maxTurns is frontmatter-only so it needs its own file |
+| `dream-implementer-isolated` | sonnet / medium / 60 | +Agent (readers only), Write, Edit, **isolation: worktree** | Tier 0–1 variant for leaves whose ownership could collide with a live sibling (verifier registry append, package.json chain on a Gate reopen) |
+| `dream-implementer-hardened` | opus / high / 80 | +Agent (readers only), Write, Edit, **isolation: worktree** | ESCALATION above standard; interface-crossing, shared-schema, or second-attempt work |
+| `dream-implementer-critical` | fable / high / 80 | +Agent (readers only), Write, Edit, **isolation: worktree** | ESCALATION above hardened; the two-key firewall and data-adjacent code |
+| `dream-reviewer-primary` | opus / high / 40 | read-only (no Agent/Write/Edit), memory: project | Blind spec-conformance review, artifact + shard only |
+| `dream-reviewer-secondary` | sonnet / medium / 40 | read-only, memory: project | Independent second lens |
+| `dream-reviewer-adversarial` | fable / max / 50 | read-only, memory: project | ESCALATION above primary/secondary; hunts what both reviewers missed |
+| `dream-verifier` | sonnet / low / 20 | read-only | Runs the named check to close factual review disputes |
+| `dream-verifier-deep` | sonnet / medium / 30 | read-only | ESCALATION above verifier: designs a falsifiable check when the named one returned inconclusive |
+| `dream-gate-verifier` | sonnet / medium / 40 | Write, Edit (own item + audits glob), no Agent | Owns a Gate ledger item: executes the regression-floor checklist + verification commands, writes evidence |
+| `dream-gate-verifier-forensic` | opus / high / 40 | Write, Edit (own item + audits glob), no Agent | ESCALATION above gate-verifier: re-runs a failed/UNVERIFIED gate and separates regression from never-worked |
+| `dream-reader-corpus` | sonnet / low / 30 | read-only | Large-corpus reads returning bounded findings; sonnet for the 1M window |
+| `dream-reader-lookup` | haiku / low / 15 | read-only (no Bash) | Narrow lookups only; escalates to corpus rather than attempt a large read |
+| `dream-ledger-auditor` | sonnet / medium / 40 | read-only, memory: project | PART 7 checks incl. compaction + mirror drift; returns findings, director persists them |
+| `dream-ledger-auditor-deep` | sonnet / high / 40 | read-only, memory: project | ESCALATION above auditor: full-history forensics, bookkeeping-vs-work call, sampled re-verification |
+| `dream-collector` | sonnet / low / 30 | Write (digest only), no Agent/Edit | Gathers completions into one digest; director reads digest only |
+| `dream-reporter` | haiku / low / 15 | Write (2 files only), no Agent/Edit | Regenerates HEADLINE.md and INDEX.md from front matter only |
+
+`dream-director` (fable/high, launch-only) is not a dispatchable role and is excluded from
+every allowlist: it runs as a main session, and dispatching it creates a second scheduler
+writing the same ledger.
+
+Escalation ladders: implementer standard→hardened→critical (with suite/isolated as
+same-tier budget/isolation variants); coordinator→recovery; reviewer
+primary/secondary→adversarial; verifier→deep; auditor→deep; gate-verifier→forensic.
+Genesis-only reviewers (the three opus lenses) are dispatched as `dream-reviewer-primary`
+instances with lens-specific prompts, not separate roles.
+
+**Amendment (role authoring, supersedes the earlier "writes only to audits/" wording for
+the auditor):** reviewers, auditors, readers and verifiers omit `Agent`, `Write` and
+`Edit` entirely. `dream-ledger-auditor` and `dream-ledger-auditor-deep` therefore RETURN
+their findings and the director persists them to `.program/audits/`; an auditor that can
+write cannot be prevented from repairing the evidence of how the ledger broke.
+`dream-gate-verifier` keeps `Write`/`Edit` because it owns a Gate ledger item and must
+write its own item file and evidence doc — it is an item-owning executor, not a review
+role. `dream-collector` and `dream-reporter` keep `Write` (no `Edit`) because producing a
+digest/report file is their entire output; neither may touch an item or events file.
+
+Roles are byte-identical in `C:\Users\jainv\.claude\agents\` (user scope, loads in every
+project on this machine — hence the mandatory `dream-` prefix, since identity comes only
+from the `name` field and subfolders do not namespace it) and `.program/roles/` (the only
+versioned copy). On divergence the mirror wins and the user-scope file is regenerated
+from it.
 
 ## File-ownership boundaries (corrected per ADR-0007; coupling #17/#23/#25, sizing #25)
 

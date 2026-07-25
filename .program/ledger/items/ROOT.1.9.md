@@ -4,8 +4,9 @@ parent: ROOT.1
 type: Probe
 title: Probe — Bedrock structured outputs (ASSUMPTIONS #12)
 ledger_depth: 2
-status: proposed
+status: in_progress
 generation: 0
+owner_agent: prober-ROOT.1.9-gen0
 spec_refs:
   - .program/spec/judge-pipeline.md#req-jp-01
   - .program/spec/model-gateway.md#req-mg-01
