@@ -1,0 +1,3 @@
+{"ts":"2026-07-25T03:47:35Z","event":"created","by":"director-gen0","detail":"genesis decomposition"}
+{"ts":"2026-07-25T03:47:35Z","event":"status_change","by":"director-gen0","from":"proposed","to":"blocked","detail":"awaiting_human_authorization"}
+{"ts":"2026-07-25T03:47:35Z","event":"human_decision_deferred","by":"director-gen0","detail":"see DECISIONS-PENDING.md"}
