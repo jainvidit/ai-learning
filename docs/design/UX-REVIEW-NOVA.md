@@ -4,9 +4,15 @@
 Grounded in the actual repo; redesign is blue-sky (ranked by learning-experience impact, not effort).
 Decisions marked **[TEAM]** were negotiated and frozen with the learning-science lane (Sage), architecture (Atlas), engineering (Ramesh), and AI-reliability (Priya) — consistent with docs/DREAM-BLUEPRINT.md.
 
+**Provenance legend** (per section, added post-hoc for the recovery record):
+**[AUDITED]** = checked against this repo's actual code/content at review time (file-referenced facts an implementer can re-verify).
+**[OBSERVED-LIVE]** = additionally exercised against the running app (see docs/origin/CURRENT-STATE.md baseline).
+**[REASONED]** = design proposal derived from the review + blueprint — a hypothesis about what should exist, NOT checked against current code; may already be wrong about it.
+
 ---
 
 ## 1. Heuristic audit — what's actually there
+*Provenance: **[AUDITED]** — every numbered problem cites the file it was found in; re-verify against current code before acting, as the app has received commits since.*
 
 **Genuine strengths to preserve:** real interactive exercises are exceptional for a local app — a real Claude Code terminal (`src/components/lesson/Terminal.tsx`), LLM-judged playground with per-criterion ✅/❌ rubric feedback (`Playground.tsx`), teaching explanations on every quiz answer (`Quiz.tsx`), progressive hints on challenges (`Challenge.tsx`), and honest, well-written lesson prose (`01-what-is-an-llm/lesson.mdx` is genuinely good pedagogy). The gating model (`src/lib/content.ts`) is sound. Keep all of it.
 
@@ -27,6 +33,7 @@ Decisions marked **[TEAM]** were negotiated and frozen with the learning-science
 ---
 
 ## 2. Motivation & engagement system
+*Provenance: **[REASONED]** — design proposal; nothing in this section exists in the current app.*
 
 Design stance for a solo, non-competitive, intrinsically-motivated adult: **progress-visibility + retrieval practice + earned celebration**, not points economies. **[TEAM]** rejected: XP/levels, leaderboards/social, bronze/silver/gold badges.
 
@@ -47,6 +54,7 @@ Design stance for a solo, non-competitive, intrinsically-motivated adult: **prog
 ---
 
 ## 3. Lesson experience redesign
+*Provenance: **[REASONED]** — proposal. The claims it makes about current behavior (single-MDX rendering, abort-on-unmount, local-useState exercise state) were **[AUDITED]** in §1; the beat/rail/frontier design itself is unbuilt hypothesis.*
 
 **Content model:** lessons compile from MDX into an ordered array of addressable **beats** (`prose | interactive | exercise | recap`, stable ids, per-beat `persistent: boolean` for terminal/streaming beats) **[TEAM: frozen]**.
 
@@ -71,6 +79,7 @@ Design stance for a solo, non-competitive, intrinsically-motivated adult: **prog
 ---
 
 ## 4. Wayfinding — the return-after-5-days test
+*Provenance: **[REASONED]** — proposal; the "today" failure description is **[AUDITED]** §1 material.*
 
 Target: **position, next step, and why-it-matters within 5 seconds.**
 
@@ -84,6 +93,7 @@ Target: **position, next step, and why-it-matters within 5 seconds.**
 ---
 
 ## 5. Redesign spec — prioritized by learning impact
+*Provenance: **[REASONED]** — implementation plan; file paths named for NEW components are intended locations, not existing files. Verify the named existing files still match §1's description before modifying.*
 
 ### P0 — the core loop (orientation → session → consolidation)
 1. **Learner-state projection + resume position** — event-sourced progress (append-only events, projections for mastery/review/streak/resume); one query feeds hero, sidebar, map. New `src/lib/events.ts`, `src/lib/projections.ts`.

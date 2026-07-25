@@ -3,9 +3,19 @@
 **Team:** Atlas (architecture, lead/synthesizer) · Nova (UX) · Sage (game-based learning) · Ramesh (implementation, testing, DX) · Priya (AI/LLM engineering)
 **Grounded in:** the existing repo at `C:\Users\jainv\workplace\ai-learning-app` (Next.js 16 App Router, MDX + Zod content contract, Bedrock playground + LLM judge, local `claude.exe` spawn with path-confined sandboxes, JSON-file progress, Netflix-style profiles, 14-module curriculum).
 
+**Provenance legend** (added post-hoc for the recovery record): this document is a
+**design hypothesis**, not an audit. Default provenance for every section is
+**[REASONED]** — derived from the two design reviews and team debate, NOT checked against
+current code behavior; statements it makes about "the current app" were inherited from
+the reviews' audits and may drift as the app receives commits. Exceptions are marked
+**[AUDITED]** (file-referenced facts from review time) or **[VERIFIED-EXTERNALLY]**
+(library/API claims web-checked by an agent at blueprint time — recheck before Phase 0;
+see docs/origin/ASSUMPTIONS.md #11–13).
+
 ---
 
 ## 1. Product Vision (synthesis of all lanes)
+*Provenance: **[REASONED]** — aspiration, by definition unbuilt.*
 
 The dream version is **a personal apprenticeship in AI, run by real tools, that never lies to you about what you know.**
 
@@ -22,6 +32,7 @@ There are no points, no leaderboards, no XP. The reward *is* the shelf of workin
 ---
 
 ## 2. Frontend Architecture (Atlas, with Nova's contracts and Ramesh's corrections)
+*Provenance: **[REASONED]**, with two **[VERIFIED-EXTERNALLY]** load-bearing claims: next-mdx-remote archived (forces the Velite migration) and Zero's no-offline-writes limit.*
 
 ### Framework & rendering
 **Next.js (current generation) + React 19, retained deliberately.** The app's shape — long-form compiled content punctuated by heavy client islands — is exactly what RSC + partial prerendering serve well, and the team's content pipeline, agent-authoring workflow, and existing code are Next-native. Alternatives (Astro islands, SvelteKit, TanStack Start) were evaluated; none justified abandoning the RSC content path plus the React ecosystem the interactive components need (full comparison in the tech radar).
@@ -59,6 +70,7 @@ Every lesson compiles to an **ordered array of beats** with stable IDs: `{ beatI
 ---
 
 ## 3. Backend Architecture (Atlas, with Ramesh's transport verdict and Priya's AI layer)
+*Provenance: **[REASONED]**. Cloud-topology specifics (Vercel Sandbox 24h reattach, DO hibernation) and Anthropic API claims (no seed param, sampling-param removal, structured outputs on Bedrock) are **[VERIFIED-EXTERNALLY]** — recheck before relying. The "kept from current app" items (score-in-code, sanitizeQuiz, spawn hardening) are **[AUDITED]**.*
 
 ### Two editions, one codebase
 The defining call of this blueprint: the product ships as **two deployments of one codebase** behind shared interfaces.
@@ -108,6 +120,7 @@ The Home Edition is a personal desktop tool, not a production service: single pr
 ---
 
 ## 4. The Learning Engine (Sage's lane, synthesized)
+*Provenance: **[REASONED]** — all thresholds (evidence counts, 0.4–0.7 dead zone, 21-day stability, FSRS mapping) are literature-principled targets, never measured on this product (docs/origin/ASSUMPTIONS.md #10).*
 
 ### Mastery model — discrete states, evidence-counted
 Per skill (4–6 per module, declared in content, mapped from rubric criteria via `skillIds`):
@@ -137,6 +150,7 @@ No points, XP, leaderboards, or competitive comparison — these fields do not e
 ---
 
 ## 5. The Experience Layer (Nova's lane, synthesized)
+*Provenance: **[REASONED]** — unbuilt design; the failure modes it fixes were **[AUDITED]** in docs/design/UX-REVIEW-NOVA.md §1.*
 
 **Key screens:** Hero dashboard (resume chip, warm-up card with capped due count, streak with grace-day, artifact-shelf teaser) · **Metro map** (curriculum DAG rendered from the compiled content graph + LearnerState overlay, one reactive query — track lines interweave, nodes show state, boss stations marked) · Lesson view (beat flow per §2, coach margin-notes vs judge rubric cards) · **Bottom terminal dock** (per-sandbox tabs, session status, pulsing Workshop indicator; Verify stays with the challenge card and deep-links to its beat) · Workshop/artifact shelf · Review warm-up.
 
@@ -151,6 +165,7 @@ No points, XP, leaderboards, or competitive comparison — these fields do not e
 ---
 
 ## 6. What We Keep, and the Migration Sketch
+*Provenance: the keep-list is **[AUDITED]** (each item is a verifiable property of the repo, several **[OBSERVED-LIVE]** on build day — see docs/origin/CURRENT-STATE.md); the phase sequencing is **[REASONED]**.*
 
 ### The current app gets these things right (kept, sometimes generalized)
 1. **Real tools, not simulations** — real Claude Code, real Bedrock models, real files. The entire dream version doubles down on this.
@@ -172,6 +187,7 @@ No points, XP, leaderboards, or competitive comparison — these fields do not e
 ---
 
 ## 7. Tech Radar
+*Provenance: **[VERIFIED-EXTERNALLY]** — versions and capability claims web-checked by the engineering lane at blueprint time; none exercised in this codebase; recheck currency before Phase 0.*
 
 | Area | Chosen | Alternatives considered | Why |
 |---|---|---|---|
@@ -199,6 +215,7 @@ No points, XP, leaderboards, or competitive comparison — these fields do not e
 ---
 
 ## 8. Joint Decisions Log
+*Provenance: **[REASONED]** (a record of the team's debate, accurate as a record; the decisions themselves are design commitments, not observations). Owner directives quoted here are transcribed; full wording in docs/origin/CONSTRAINTS.md.*
 
 **Aligned (unanimous after debate):**
 1. Beat-compiled lessons with soft-frontier pacing; per-type completion predicates; boss exclusion from `attempted` credit (Nova proposed, Sage amended, Atlas wired).

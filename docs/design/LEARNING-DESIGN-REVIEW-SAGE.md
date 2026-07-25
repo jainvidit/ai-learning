@@ -6,9 +6,14 @@ Constraints honored: non-competitive, intrinsic-motivation-first, effort-unconst
 
 **Verdict up front:** the content craft is unusually good — the quiz explanations, the observe-then-explain experiments, and the challenge/hint design are better than most commercial products. The structural layer around that content is where the design is weak: completion is not mastery, nothing is ever reviewed again, the learner has zero meaningful choice, and the only reward in the entire system is an unlocked next lesson.
 
+**Provenance legend** (added post-hoc for the recovery record):
+**[AUDITED]** = checked against this repo's actual code/content/specs at review time — file-referenced, re-verifiable.
+**[REASONED]** = design proposal or learning-science argument derived from the audit + blueprint — unbuilt hypothesis; thresholds and mechanics in these sections are principled but empirically unvalidated (see docs/origin/ASSUMPTIONS.md #10).
+
 ---
 
 ## 1. Learning-science audit
+*Provenance: **[AUDITED]** — grounded in the named files (schema.ts, progress.ts, the API routes, Module 1 content, sampled specs). The brute-force and auto-pass mechanics were read from code; the pedagogical judgments layered on them are expert reasoning.*
 
 ### What the design gets right
 - **Feedback quality is the best thing in this app.** Quiz explanations teach rather than confirm — every explanation states why the right answer is right *and* why the tempting distractor is wrong; distractors are authored as plausible misconceptions. The playground judge returns per-criterion feedback quoting the learner's own words plus an improved example prompt. Elaborative feedback at a level most commercial products don't reach.
@@ -27,6 +32,7 @@ Constraints honored: non-competitive, intrinsic-motivation-first, effort-unconst
 ---
 
 ## 2. Game-design audit
+*Provenance: **[AUDITED]** for what the app/specs contain (gating code, module 5/10/12/14 spec contents, hint mechanics); **[REASONED]** for the motivational consequences claimed (wall-vs-ladder, session heartbeat) — no learner behavior was ever observed.*
 
 - **Difficulty curve:** module 5's terminal on-ramp is exemplary (concept → read-only → guarded edit → permissions → verified boss, with safety reassurance). Real spikes: module 10 (earned), module 12→14 (12's lessons 2–5 are concept+quiz only — a trough at the climax — then 14 removes all scaffolding at once). Late modules are quiz-heavy: recognition-testing experts, the inverse of the transfer ladder's promise.
 - **Gating:** hard prerequisite locks everywhere; 13 locked modules on day one is a wall, not a ladder. Hard gates are defensible exactly twice (module 5, module 14). The DAG's genuine forks (02 vs 03; 06/07/08) are never surfaced as choices.
@@ -38,6 +44,7 @@ Constraints honored: non-competitive, intrinsic-motivation-first, effort-unconst
 ---
 
 ## 3. Five most impactful structural changes (ranked; team-frozen versions)
+*Provenance: **[REASONED]** — unbuilt design. All thresholds (evidence counts, 0.4–0.7 dead zone, 21-day stability, FSRS grade mapping) are literature-principled targets, not measurements from this product.*
 
 ### #1 — Spaced retrieval engine over a per-skill mastery model
 4–6 named skills per module; exercises map to skills with weights. **FSRS-6 with frozen default weights** (ts-fsrs), one card per skill, ±10% fuzz, never per-learner fitted. Grade mapping: deterministic fail→Again, pass→Good, first-attempt-no-hints→Easy; **judge scores <0.4→Again, 0.4–0.7→scheduling only with ZERO mastery evidence (the judge-noise firewall), >0.7→Good; judge never emits Easy; no source emits Hard.** Review items are isomorphic variants, never verbatim. Delivery: skippable 2–3-item warm-up at lesson start + on-demand queue; due-count capped (~6, "9+"); post-lapse "5-minute warm-up"; no "overdue" labels; 21+-day-gap first-miss amnesty.
@@ -61,6 +68,7 @@ Every lesson ends with recap ("you can now…" mapped to objectives) + one retri
 ---
 
 ## 4. Curriculum-specific notes
+*Provenance: **[AUDITED]** — read directly from curriculum.json, Module 1 lesson files, and the named specs (h1 nits, module 12 lesson inventory, capstone verifier logic are all re-verifiable in-file).*
 - The 14-module map is fundamentally sound; the cross-track convergences must never be "simplified" away.
 - Module 1 is the strongest single artifact reviewed. Nits: lessons 04/05 open with an `# h1` duplicating the title (violates the guide); first playground could arrive a lesson earlier.
 - **Module 12 is the weak link**: lessons 2–5 are unpracticeable feature tours right before the scaffold-free capstone. Mitigate: make 12-L1's goal-lab the module boss; demote survey content to optional reading; or merge into 11.
@@ -68,6 +76,7 @@ Every lesson ends with recap ("you can now…" mapped to objectives) + one retri
 - **Capstone genuinely integrates** (stage 5 re-grading stage 1's CLAUDE.md is the best assessment idea in the course) — but stages 3–4 verify existence, not use: make Claude *use* the skill and make the hook observably fire. Resolve the persistent-sandbox assumption before building (the Workshop resolves it exactly).
 
 ## 5. What NOT to change
+*Provenance: **[AUDITED]** — each protected item is an existing, verifiable property of the repo.*
 1. Explanation-first quiz authoring and misconception-based distractors.
 2. Judge-the-prompt rubric design + weights-sum-to-100 + assessment transparency (module 06 shows learners the rubric).
 3. The spec-driven authoring pipeline (verbatim fixtures, pristine-fails/solution-passes verifier contracts, `npm run validate`).
