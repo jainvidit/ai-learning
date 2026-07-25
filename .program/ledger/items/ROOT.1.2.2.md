@@ -4,9 +4,9 @@ parent: ROOT.1.2
 type: Task
 title: beat-model.md interface doc — beat type, stability rules, persistent-beat portal-slot contract
 ledger_depth: 3
-status: in_review
+status: done
 generation: 1
-owner_agent: implementer-ROOT.1.2.2-gen1 # hardened escalation, 2nd attempt after secondary consumer-fit request_changes
+owner_agent: implementer-ROOT.1.2.2-gen1 # hardened escalation, 2nd attempt; closed by coordinator-ROOT.1.2-gen1 after majority-approve review (primary approve / secondary request_changes / tie-break approve; arbitration in events/ROOT.1.2.jsonl; minors parked as ROOT.7.1 steward notes)
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-02
 acceptance_criteria:
