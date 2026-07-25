@@ -1,2 +1,7 @@
 {"ts":"2026-07-25T04:51:59Z","event":"created","by":"director-gen0","detail":"genesis revision per ADR-0007"}
 {"ts":"2026-07-25T11:48:24Z","event":"spawn","by":"director-gen0","detail":"dispatch dream-implementer-standard on ROOT.1.9 (Bedrock structured outputs probe)"}
+{"ts":"2026-07-25T00:00:00Z","item":"ROOT.1.9","event":"status_change","from":"proposed","to":"in_progress","agent":"prober-ROOT.1.9-gen0"}
+{"ts":"2026-07-25T00:00:00Z","item":"ROOT.1.9","event":"status_change","from":"in_progress","to":"done","agent":"prober-ROOT.1.9-gen0","note":"Probe complete: structured outputs NOT supported by Bedrock Mantle SDK v0.32.0; evidence recorded; ROOT.2.3 needs ADR"}
+{"ts":"2026-07-25T11:52:14Z","event":"status_change","by":"prober-ROOT.1.9-gen0","detail":"receipt received: done; tier-0 fresh-eyes check dispatched"}
+{"ts":"2026-07-25T11:53:31Z","event":"review_verdict","by":"verifier-tier0","detail":"ROOT.1.9 fresh-eyes PASS; probe verdict NEGATIVE: output_config.json_schema rejected with 400; src/ untouched"}
+{"ts":"2026-07-25T11:53:31Z","event":"decision","by":"director-gen0","detail":"ADR-0010: judge schema via tool-forcing + validate/one-repair inside ModelGateway seam; binds ROOT.1.5, ROOT.2.3, ROOT.1.2 model-router doc; DECISIONS-PENDING row 15"}

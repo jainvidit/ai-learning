@@ -1,3 +1,7 @@
 {"ts":"2026-07-25T03:47:35Z","event":"created","by":"director-gen0","detail":"genesis decomposition"}
 {"ts":"2026-07-25T04:51:59Z","event":"revised","by":"director-gen0","detail":"genesis adversarial review revision, ADR-0007"}
 {"ts":"2026-07-25T11:48:24Z","event":"spawn","by":"director-gen0","detail":"dispatch dream-implementer-standard on ROOT.1.7 (mdx archival probe)"}
+{"timestamp":"2026-07-25T11:50:28Z","item":"ROOT.1.7","agent":"prober-ROOT.1.7-gen0","event":"status_change","from":"in_progress","to":"done","reason":"Probe completed — ASSUMPTIONS #11 contradicted by current registry evidence"}
+{"ts":"2026-07-25T11:50:46Z","event":"status_change","by":"prober-ROOT.1.7-gen0","detail":"receipt received: done; tier-0 fresh-eyes check dispatched"}
+{"ts":"2026-07-25T11:52:14Z","event":"review_verdict","by":"verifier-tier0","detail":"ROOT.1.7 fresh-eyes PASS; finding: next-mdx-remote NO LONGER archived — divergence handled by ADR-0009"}
+{"ts":"2026-07-25T11:52:14Z","event":"decision","by":"director-gen0","detail":"ADR-0009: proceed with Velite per REQ-CP-01/REJECTED.md despite un-archival; DECISIONS-PENDING row 14"}

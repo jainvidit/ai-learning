@@ -44,7 +44,6 @@ async function probe() {
       ],
       // @ts-expect-error - Testing if output_config is supported
       output_config: {
-        format: "json_schema",
         json_schema: {
           name: "color_choice",
           schema: schema,

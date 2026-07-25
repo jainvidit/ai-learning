@@ -18,7 +18,12 @@ blocks: [ROOT.1.4]
 children: []
 file_ownership: ["package.json", "package-lock.json", "tests/**", "playwright.config.*", "AGENTS.md", "vitest.config.*", "jest.config.*"]
 review: {tier: 1, required_lenses: [spec-conformance, command-reality], verdicts: []}
-verification: []
+verification:
+  - criterion: "A test runner is installed and `npm test` runs it green on a seed test"
+    status: passed
+    method: "Installed Vitest 4.1.10; created vitest.config.ts with node environment; created tests/seed.test.ts with 3 basic assertions; ran `npm test`"
+    evidence: ".program/audits/ROOT.7.2-npm-test.txt"
+    result: "3 tests passed in 380ms"
 artifacts: []
 resume_hint: "Dispatch with ROOT.1.7/1.9 at program start — sizing finding #1: without named test commands, no behavioral leaf anywhere passes leaf-test point 5. Runner choice (vitest vs jest) is this item's first decision; note the historic unexplained jest-worker crash (ASSUMPTIONS/REJECTED) when choosing."
 ---

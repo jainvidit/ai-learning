@@ -40,6 +40,8 @@ irreversible items (PART 9 Rule 2 — work routed around). Nothing here stalls t
 | 12 | ROOT.5.5 | OQ #15 Module-1 playground nit | Reading A — leave placement as-is | Adopt nit during CC-03 fixes |
 
 | 13 | ROOT.1.10 | Package manager for workspace split | npm workspaces (ADR-0008) | pnpm import is mechanical later |
+| 14 | ROOT.1.7 | ASSUMPTIONS #11 divergent: next-mdx-remote is NO LONGER archived (v6.0.0, active). Reopen pipeline choice? | Proceed as specced — Velite migration stands; REJECTED.md binding (ADR-0009) | Keep next-mdx-remote; removal is a reversible package change, git preserves the path |
+| 15 | ROOT.1.9 | ASSUMPTIONS #12 negative: Bedrock rejects output_config.json_schema (live 400). How does the judge get schema-conformant output? | Tool-forcing + local validate/one-repair inside the ModelGateway seam (ADR-0010); swap-in of native support stays seam-internal | Wait for native structured outputs; only the seam internals change |
 
 OQ #10 (Velite tiebreak — trigger held by ROOT.1.1's coordinator, informed by ROOT.1.7's
 probe), #11 (Langfuse fallback — JP-06 now owned by ROOT.4.8), #12 (first-run cosmetic)

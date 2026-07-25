@@ -4,7 +4,8 @@ parent: ROOT.1
 type: Contract
 title: Contracts pack — schema.ts additive extensions + beat model + interface docs
 ledger_depth: 2
-status: proposed
+status: in_progress
+owner_agent: coordinator-ROOT.1.2-gen0
 generation: 0
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-03

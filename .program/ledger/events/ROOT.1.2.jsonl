@@ -1,3 +1,5 @@
 {"ts":"2026-07-25T03:47:35Z","event":"created","by":"director-gen0","detail":"genesis decomposition"}
 {"ts":"2026-07-25T04:51:59Z","event":"revised","by":"director-gen0","detail":"genesis adversarial review revision, ADR-0007"}
 {"ts":"2026-07-25T11:48:24Z","event":"spawn","by":"director-gen0","detail":"dispatch dream-coordinator on ROOT.1.2 (contracts pack)"}
+{"ts":"2026-07-25T12:00:00Z","event":"status_change","by":"coordinator-ROOT.1.2-gen0","detail":"proposed -> in_progress; owner set coordinator-ROOT.1.2-gen0"}
+{"ts":"2026-07-25T11:53:50Z","event":"decision","by":"director-gen0","detail":"NOTE for ROOT.1.2 owner/reviewers: ADR-0010 landed mid-flight — model-router interface doc must expose requestStructured(schema) as tool-forcing + validate/one-repair, not output_config passthrough. Assembly review will check this."}

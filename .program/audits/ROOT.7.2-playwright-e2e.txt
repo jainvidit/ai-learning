@@ -1,0 +1,20 @@
+
+> ai-learning-app@0.1.0 verify:e2e
+> bash scripts/run-e2e-with-server.sh
+
+Starting Next.js dev server on port 3001...
+Waiting for server to be ready...
+▲ Next.js 16.2.11 (Turbopack)
+- Local:         http://127.0.0.1:3001
+- Network:       http://127.0.0.1:3001
+- Environments: .env.local
+✓ Ready in 848ms
+⨯ Another next dev server is already running.
+
+- Local:        http://localhost:3000
+- PID:          20972
+- Dir:          C:\Users\jainv\workplace\ai-learning-app
+- Log:          .next\dev\logs\next-development.log
+
+Run taskkill /PID 20972 /F to stop it.
+[?25h
