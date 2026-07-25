@@ -4,9 +4,9 @@ parent: ROOT.1
 type: Capability
 title: Content pipeline — Velite migration, beat compiler, versioned bundle
 ledger_depth: 2
-status: interrupted
-owner_agent: coordinator-ROOT.1.1-gen1 (DEAD — died with parent session ~16:22Z; marked interrupted by director-gen39)
-generation: 1
+status: in_progress
+owner_agent: coordinator-ROOT.1.1-gen2
+generation: 2
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-01
   - .program/spec/content-pipeline.md#req-cp-02
@@ -25,7 +25,7 @@ file_ownership: ["velite.config.*", "src/lib/content.ts", "src/components/lesson
 review: {tier: 2, required_lenses: [spec-conformance, framework-empirical], verdicts: []}
 verification: []
 artifacts: []
-resume_hint: "Gen1 coordinator died with its session ~16:22Z (infra death, not failure). 1.1.1 + 1.1.2 + 1.1.3 DONE (all tier-approved, main-checkout evidence in verification log below). ONLY 1.1.4 remains (interrupted at plan stage, no code — see its item file). Gen2 scope: fresh dispatch of 1.1.4 (dream-implementer-hardened; carry the npm-run-build beat-validation wiring requirement), tier-2 review pair, then assembly review vs content-pipeline.md and closure per gen0 handoff closing procedure (handoffs/ROOT.1.1-0.md). Decomposition + ADR-0011 + all arbitrations RATIFIED — do not revisit."
+resume_hint: "Gen2 active (takeover logged events 16:38:30 wall-clock; NOTE ~2.4h in-band ts skew in gen1 events — trust mtimes). 1.1.1 + 1.1.2 + 1.1.3 DONE (main-checkout evidence in verification log below). 1.1.4 being re-dispatched fresh gen1 to dream-implementer-hardened, attempt 1 (gen0 infra death, no code). Then tier-2 review pair, assembly review vs content-pipeline.md CP-01/02/04/05, closure per handoffs/ROOT.1.1-0.md incl. package.json baton to ROOT.1.6. Decomposition + ADR-0011 + all arbitrations RATIFIED — do not revisit."
 ---
 Coordinator-owned; will split into leaves (Velite swap, compiler, bundle emitter,
 itemRevision hashing). Framework-touching: verification must include build/typecheck

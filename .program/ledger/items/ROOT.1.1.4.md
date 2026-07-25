@@ -4,9 +4,9 @@ parent: ROOT.1.1
 type: Task
 title: Versioned immutable content bundle emitter + static route
 ledger_depth: 3
-status: interrupted
-generation: 0
-owner_agent: implementer-ROOT.1.1.4-gen0 (DEAD — died with parent session ~16:22Z; marked interrupted by director-gen39)
+status: in_progress
+generation: 1
+owner_agent: implementer-ROOT.1.1.4-gen1 (dream-implementer-hardened, attempt 1, dispatched by coordinator-ROOT.1.1-gen2 at 2026-07-25T16:40Z wall clock)
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-04
   - .program/spec/content-pipeline.md#req-cp-05
