@@ -95,17 +95,14 @@ export async function loadMigrationMaps(dir?: string): Promise<MigrationEntry[]>
     const arrayOfEntries = Array.isArray(parsed) ? parsed : [parsed];
 
     for (const entry of arrayOfEntries) {
-      try {
-        const validated = MigrationEntrySchema.parse(entry);
-        entries.push(validated);
-      } catch (error) {
-        if (error instanceof z.ZodError) {
-          throw new Error(
-            `Invalid migration entry in ${file}: ${error.errors.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
-          );
-        }
-        throw error;
+      const result = MigrationEntrySchema.safeParse(entry);
+      if (!result.success) {
+        const errorDetails = result.error.issues
+          .map((e) => `${e.path.join('.')}: ${e.message}`)
+          .join(', ');
+        throw new Error(`Invalid migration entry in ${file}: ${errorDetails}`);
       }
+      entries.push(result.data);
     }
   }
 

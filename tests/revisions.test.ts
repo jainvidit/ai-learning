@@ -134,6 +134,7 @@ describe('loadMigrationMaps', () => {
   const testDir = join(process.cwd(), 'tests', 'fixtures', 'test-migrations');
 
   beforeAll(async () => {
+    await rm(testDir, { recursive: true, force: true });
     await mkdir(testDir, { recursive: true });
   });
 
@@ -142,6 +143,9 @@ describe('loadMigrationMaps', () => {
   });
 
   it('CP-05 scenario 2: loads valid migration entries', async () => {
+    const subDir = join(testDir, 'test-valid');
+    await mkdir(subDir, { recursive: true });
+
     const validEntry: MigrationEntry = {
       itemId: 'exercise-loops-001',
       fromRevision: 'a1b2c3d4e5f6g7h8',
@@ -150,16 +154,19 @@ describe('loadMigrationMaps', () => {
     };
 
     await writeFile(
-      join(testDir, 'migration-001.json'),
+      join(subDir, 'migration-001.json'),
       JSON.stringify(validEntry, null, 2)
     );
 
-    const entries = await loadMigrationMaps(testDir);
+    const entries = await loadMigrationMaps(subDir);
     expect(entries).toHaveLength(1);
     expect(entries[0]).toEqual(validEntry);
   });
 
   it('loads multiple entries from a single file (array format)', async () => {
+    const subDir = join(testDir, 'test-batch');
+    await mkdir(subDir, { recursive: true });
+
     const entries: MigrationEntry[] = [
       {
         itemId: 'ex-001',
@@ -176,26 +183,32 @@ describe('loadMigrationMaps', () => {
     ];
 
     await writeFile(
-      join(testDir, 'batch-migrations.json'),
+      join(subDir, 'batch-migrations.json'),
       JSON.stringify(entries, null, 2)
     );
 
-    const loaded = await loadMigrationMaps(testDir);
+    const loaded = await loadMigrationMaps(subDir);
     expect(loaded.length).toBeGreaterThanOrEqual(2);
     expect(loaded.some(e => e.itemId === 'ex-001')).toBe(true);
     expect(loaded.some(e => e.itemId === 'ex-002')).toBe(true);
   });
 
   it('throws on malformed JSON', async () => {
+    const subDir = join(testDir, 'test-malformed');
+    await mkdir(subDir, { recursive: true });
+
     await writeFile(
-      join(testDir, 'malformed.json'),
+      join(subDir, 'malformed.json'),
       '{ invalid json }'
     );
 
-    await expect(loadMigrationMaps(testDir)).rejects.toThrow('Failed to parse JSON');
+    await expect(loadMigrationMaps(subDir)).rejects.toThrow('Failed to parse JSON');
   });
 
   it('throws on missing required fields', async () => {
+    const subDir = join(testDir, 'test-missing-fields');
+    await mkdir(subDir, { recursive: true });
+
     const invalidEntry = {
       itemId: 'ex-003',
       fromRevision: 'eeee555566667777',
@@ -203,14 +216,17 @@ describe('loadMigrationMaps', () => {
     };
 
     await writeFile(
-      join(testDir, 'invalid-entry.json'),
+      join(subDir, 'invalid-entry.json'),
       JSON.stringify(invalidEntry, null, 2)
     );
 
-    await expect(loadMigrationMaps(testDir)).rejects.toThrow('Invalid migration entry');
+    await expect(loadMigrationMaps(subDir)).rejects.toThrow('Invalid migration entry');
   });
 
   it('throws on wrong field types', async () => {
+    const subDir = join(testDir, 'test-wrong-types');
+    await mkdir(subDir, { recursive: true });
+
     const invalidEntry = {
       itemId: 123, // should be string
       fromRevision: 'ffff666677778888',
@@ -219,11 +235,11 @@ describe('loadMigrationMaps', () => {
     };
 
     await writeFile(
-      join(testDir, 'wrong-type.json'),
+      join(subDir, 'wrong-type.json'),
       JSON.stringify(invalidEntry, null, 2)
     );
 
-    await expect(loadMigrationMaps(testDir)).rejects.toThrow('Invalid migration entry');
+    await expect(loadMigrationMaps(subDir)).rejects.toThrow('Invalid migration entry');
   });
 
   it('returns empty array if directory does not exist', async () => {
@@ -233,8 +249,11 @@ describe('loadMigrationMaps', () => {
   });
 
   it('ignores non-JSON files in the directory', async () => {
+    const subDir = join(testDir, 'test-ignore-readme');
+    await mkdir(subDir, { recursive: true });
+
     await writeFile(
-      join(testDir, 'README.md'),
+      join(subDir, 'README.md'),
       '# Migration Maps\n\nThis directory contains migration entries.'
     );
 
@@ -246,12 +265,13 @@ describe('loadMigrationMaps', () => {
     };
 
     await writeFile(
-      join(testDir, 'with-readme.json'),
+      join(subDir, 'with-readme.json'),
       JSON.stringify(validEntry, null, 2)
     );
 
-    const entries = await loadMigrationMaps(testDir);
+    const entries = await loadMigrationMaps(subDir);
     // Should load the JSON file but ignore README.md
-    expect(entries.some(e => e.itemId === 'ex-readme-test')).toBe(true);
+    expect(entries).toHaveLength(1);
+    expect(entries[0].itemId).toBe('ex-readme-test');
   });
 });

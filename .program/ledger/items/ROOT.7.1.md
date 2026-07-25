@@ -52,3 +52,26 @@ Inherited from ROOT.1.2 closure (full citations in events/ROOT.1.2.jsonl 13:52:0
 5. Reviewer minors parked from 1.2.2/1.2.4 review rounds (see events verdict lines):
    playground attempted-vs-scored reconciliation note; BeatType/exercise-type homonym
    mapping note.
+
+## Batch log — steward-batch-1 (2026-07-25, dream-implementer-hardened, worktree agent-aba62312f179e2f56)
+
+**Batch plan (3 lines, tier-2 pre-implementation requirement):**
+
+1. **Contracts touched.** `.program/interfaces/regression-floor.md` (locator text only, no
+   row IDs), `.program/interfaces/beat-model.md` (additive clarification note),
+   `.program/interfaces/model-router.md` (additive disclosure line), `eslint.config.mjs`
+   (additive ignore entry). Requests served: field_request 15:30:00 (prop-shape),
+   field_request 15:30:00 (lint), field_request 17:40:03 (beat-model interpretation),
+   steward-note backlog 3 + 4.
+2. **Who owns the other side.** regression-floor rows are consumed by Gates ROOT.1.8 /
+   ROOT.2.5 / ROOT.3.6 / ROOT.4.9 / ROOT.5.6 (no Gate has run, so no row is frozen yet);
+   beat-model's producer is ROOT.1.1 (`src/lib/beats.ts`), consumers ROOT.1.3 / ROOT.4.2 /
+   ROOT.4.6 / ROOT.4.3; model-router is consumed by ROOT.1.4 (implementation) and ROOT.1.5
+   (seam + the open empirical obligations named in the doc); `eslint.config.mjs` is claimed
+   by **no** item's `file_ownership` (grep of `.program/ledger/items` for "eslint" returns
+   ROOT.1.1.1, ROOT.1.1.2, ROOT.1.2.1, ROOT.1.2, ROOT.7.2 — all prose flagging the gap;
+   ROOT.1.1.1 explicitly refers it to "whoever owns eslint.config.mjs — NOT this item").
+3. **What I will NOT change.** No RF row ID, no row deleted/renumbered/retired; no `Beat`
+   field, no `BeatType` member, no predicate x type row, no `PERSISTENT_BEAT_TYPES` runtime
+   entry in `src/lib/beats.ts`; no `src/lib/schema.ts`; no `package.json` /
+   `package-lock.json`; no existing eslint rule, plugin, or ignore entry; no git operation.

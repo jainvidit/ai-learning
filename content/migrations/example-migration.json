@@ -1,0 +1,6 @@
+{
+  "itemId": "example-exercise-001",
+  "fromRevision": "0000111122223333",
+  "toRevision": "1111222233334444",
+  "note": "Example migration entry - this demonstrates the valid JSON format"
+}
