@@ -4,8 +4,9 @@ parent: ROOT.1.1
 type: Task
 title: itemRevision content hashing + migration maps
 ledger_depth: 3
-status: proposed
+status: in_progress
 generation: 0
+owner_agent: implementer-ROOT.1.1.3-gen0
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-05
 acceptance_criteria:
@@ -20,7 +21,7 @@ file_ownership: ["src/lib/revisions.ts", "tests/revisions.test.ts", "content/mig
 review: {tier: 1, required_lenses: [spec-conformance], verdicts: []}
 verification: []
 artifacts: []
-resume_hint: "Not yet dispatched. Requires ROOT.1.1.2 done."
+resume_hint: "In progress, implementing src/lib/revisions.ts and tests."
 ---
 New pure library module src/lib/revisions.ts (no framework surface). Required exports —
 this signature is fixed by the coordinator so ROOT.1.1.4 can consume it:
