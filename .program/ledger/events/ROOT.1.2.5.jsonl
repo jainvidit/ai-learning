@@ -4,3 +4,4 @@
 {"timestamp":"2026-07-25T12:08:01Z","event":"takeover","item":"ROOT.1.2.5","agent":"coordinator-ROOT.1.2-gen1","note":"owner dead; status completed is invalid vocabulary; no review verdicts recorded anywhere — normalize to in_review, fresh blind pair"}
 {"timestamp":"2026-07-25T12:08:01Z","event":"status_change","item":"ROOT.1.2.5","from":"completed","to":"in_review","agent":"coordinator-ROOT.1.2-gen1"}
 {"timestamp":"2026-07-25T12:14:52Z","event":"status_change","item":"ROOT.1.2.5","from":"in_review","to":"changes_requested","agent":"coordinator-ROOT.1.2-gen1","note":"fresh blind pair both request_changes; scope arbitration logged in ROOT.1.2.jsonl"}
+{"timestamp":"2026-07-25T12:16:10Z","event":"status_change","item":"ROOT.1.2.5","from":"changes_requested","to":"in_progress","agent":"implementer-ROOT.1.2.5-gen1","note":"hardened rework attempt 2; 7 in-scope fixes binding, 5 out-of-scope exclusions binding; worktree agent-a7df83e7c572d4178"}

@@ -4,9 +4,9 @@ parent: ROOT.1.2
 type: Task
 title: regression-floor.md seed — REQ-MS-02 checklist, MS-03 audit row, ADR-0006 note
 ledger_depth: 3
-status: changes_requested
-generation: 0
-owner_agent: null # gen0 dead; takeover logged by coordinator-ROOT.1.2-gen1 — "complete" invalid vocab; secondary request_changes on record (see events ROOT.1.2.jsonl 12:15)
+status: in_progress
+generation: 1
+owner_agent: implementer-ROOT.1.2.6-gen1 # hardened escalation; rework against secondary request_changes (ADR-0006 note placement; RF-02/04/14 executability; RF-03/07/renumbering minors) AND primary REJECT still open in events (wrong Gate IDs; RF-01 nonexistent lesson path; RF-14 day-zero false failure; RF-03 sandboxes; RF-11 sidebar surface)
 spec_refs:
   - .program/spec/migration-and-sequencing.md#req-ms-02
   - .program/spec/migration-and-sequencing.md#req-ms-03
@@ -44,3 +44,16 @@ artifacts: [".program/interfaces/regression-floor.md"]
 Seed only — this item creates the checklist; executing it is Gate work (ROOT.1.8 etc.).
 Row IDs are a contract: once a Gate cites RF-nn, rows are append-only (renumbering breaks
 audit evidence).
+
+## gen1 plan (hardened, 3 lines)
+
+1. **Contract touched:** `.program/interfaces/regression-floor.md` — the RF-nn row-ID
+   namespace that every phase Gate cites by ID instead of re-deriving the baseline.
+2. **Who owns the other side:** the five phase Gates (ROOT.1.8, ROOT.2.5, ROOT.3.6,
+   ROOT.4.9, ROOT.5.6 — verified by reading `type: Gate` in each item file) consume the
+   row IDs; `ROOT.7.1` (Contract, standing steward) inherits maintenance after ROOT.1.2
+   closes. Sibling interface docs (agent-runner, beat-model, model-router) are untouched.
+3. **What I will NOT change:** existing row IDs RF-01..RF-16 keep their meaning and
+   numbering (no renumber, no reuse); no new behaviors are invented beyond REQ-MS-02/03 +
+   CURRENT-STATE.md "Verified-working baseline"; no file other than
+   `.program/interfaces/regression-floor.md` is edited. Splits append only (RF-17+).

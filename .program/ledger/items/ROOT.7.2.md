@@ -4,9 +4,9 @@ parent: ROOT.7
 type: Task
 title: Verification surface — test runner, npm test, Playwright e2e, AGENTS.md commands
 ledger_depth: 2
-status: in_review
+status: done
 generation: 1
-owner_agent: implementer-ROOT.7.2-gen1
+owner_agent: director-gen0 # takeover to close: gen1 implementer exited at in_review by design; fix verification complete
 spec_refs:
   - .program/spec/testing-and-ci.md#req-tc-03
 acceptance_criteria:
@@ -17,7 +17,7 @@ depends_on: []
 blocks: [ROOT.1.4]
 children: []
 file_ownership: ["package.json", "package-lock.json", "tests/**", "playwright.config.*", "AGENTS.md", "vitest.config.*", "jest.config.*"]
-review: {tier: 1, required_lenses: [spec-conformance, command-reality], verdicts: [{gen: 0, by: reviewer-primary-ROOT.7.2, verdict: request_changes}, {gen: 0, by: reviewer-secondary-ROOT.7.2, verdict: request_changes}]}
+review: {tier: 1, required_lenses: [spec-conformance, command-reality], verdicts: [{gen: 0, by: reviewer-primary-ROOT.7.2, verdict: request_changes}, {gen: 0, by: reviewer-secondary-ROOT.7.2, verdict: request_changes}, {gen: 1, by: verifier-fixcheck-2, verdict: approve, note: "4/4 file checks PASS (AGENTS.md additivity, gitignore/untracked, single server owner, npm test)"}, {gen: 1, by: verifier-e2e-cleantree, verdict: approve, note: "clean-tree CI=1 verify:e2e exit 0, no EADDRINUSE, 3001 clear after; original reviewers dead, every round-1 finding re-verified empirically per finding list in events"}]}
 files_touched_outside_file_ownership:
   - path: "scripts/run-e2e-with-server.sh"
     authority: "Created by gen0 as the verify:e2e entry point; both reviewers' findings #1/#2/#6 are defects IN this file, so fixing it is the work order. Not claimed by any other item (grep of .program/ledger/items for 'scripts/run-e2e' returns only ROOT.7.2)."
