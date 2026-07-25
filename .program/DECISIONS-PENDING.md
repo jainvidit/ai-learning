@@ -11,11 +11,16 @@ irreversible items (PART 9 Rule 2 — work routed around). Nothing here stalls t
 - **Blast radius if done:** public deployment surface, credentials, recurring cost.
 - **Routed around:** all edition-invariant interfaces are built regardless; zero downstream items depend on ROOT.6.
 
-### ROOT.2.4 — Legacy JSON progress cutover + archival
-- **Action proposed:** switch reads from `data/progress/*.json` to projections after parity, then move JSON files to an archive location.
-- **Why parked:** touches real learner data this program did not create; `data/**` is a standing never-delete flag (REQ-MS-03). The "additive so safe" reframe is the PART 9 signal to park.
+### ROOT.2.4 — Legacy JSON progress archival
+- **Action proposed:** move `data/progress/*.json` to an archive location after verified import (the reversible read-cutover was split out to ROOT.2.1 per ADR-0007 and is NOT parked).
+- **Why parked:** moving real learner data files this program did not create; `data/**` is a standing never-delete flag (REQ-MS-03). The "additive so safe" reframe is the PART 9 signal to park.
 - **Blast radius if done wrong:** learner progress loss — the single worst outcome available to this program.
-- **Routed around:** dual-write continues indefinitely; nothing blocks on cutover.
+- **Routed around:** files stay in place indefinitely; nothing blocks on archival.
+
+### ROOT.5.1 — Nightly Workshop git-bundle backup (WA-01 s5, pre-flagged)
+- **Action proposed (future):** a scheduled local job producing git-bundle backups of each profile's Workshop.
+- **Why flagged:** a scheduled job that writes copies of learner data is PART 9-adjacent (recurring side effect on data the program didn't create). ROOT.5.1 designs it and submits it here for authorization before implementation.
+- **Routed around:** Workshop functions fully without backups; checkpoints already exist in-repo.
 
 ## Decided and logged — reversible, owner may override
 
@@ -34,5 +39,14 @@ irreversible items (PART 9 Rule 2 — work routed around). Nothing here stalls t
 | 11 | — | OQ #13/#14 integrity carve-out + rung-4 boundary | Reading A (shards assume it; flagged, unobjected) | Itemized owner review; features are removable |
 | 12 | ROOT.5.5 | OQ #15 Module-1 playground nit | Reading A — leave placement as-is | Adopt nit during CC-03 fixes |
 
-OQ #10 (Velite tiebreak), #11 (Langfuse fallback), #12 (first-run cosmetic) are recorded
-open-by-design in the shards with named trigger-holders; no decision needed at genesis.
+| 13 | ROOT.1.10 | Package manager for workspace split | npm workspaces (ADR-0008) | pnpm import is mechanical later |
+
+OQ #10 (Velite tiebreak — trigger held by ROOT.1.1's coordinator, informed by ROOT.1.7's
+probe), #11 (Langfuse fallback — JP-06 now owned by ROOT.4.8), #12 (first-run cosmetic)
+are recorded open-by-design with named trigger-holders; no decision needed at genesis.
+
+Genesis adversarial review (2026-07-25): three blind opus lenses filed 71 findings
+(completeness 13, coupling 27, sizing 31); disposition in ADR-0007, full texts in
+`.program/audits/genesis-review-*.md`. Owner-relevant: the review confirmed the two
+parks above and surfaced no new irreversible-action candidates beyond the nightly-backup
+flag.

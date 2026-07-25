@@ -23,7 +23,7 @@ acceptance_criteria:
 depends_on: [ROOT.4]
 blocks: []
 children: [ROOT.5.1, ROOT.5.2, ROOT.5.3, ROOT.5.4, ROOT.5.5, ROOT.5.6]
-file_ownership: ["src/lib/workshop.ts", "content/modules/**", "specs/**", "sandbox/templates/**", "src/lib/verifiers/**"]
+file_ownership: ["src/lib/workshop.ts", "content/modules/**", "content/curriculum.json", "specs/**", "sandbox/templates/**", "src/lib/verifiers/index.ts", "src/lib/verifiers/m*-*.ts", "src/components/workshop/**", "src/app/workshop/**", "src/components/lesson/Boss*", "packages/learning-engine/src/boss/**"]
 review: {tier: 2, required_lenses: [assembly-vs-shard, content-protected-properties], verdicts: []}
 verification: []
 artifacts: []
@@ -34,6 +34,12 @@ resume_hint: "ROOT.5.4 (spec amendments) before ROOT.5.5 (module authoring) — 
 
 Module 12's weakness mitigation (OPEN-QUESTIONS #8) must be ADR'd at ROOT.5.5
 decomposition time — module 12 is not built until then (REQ-CC-05). Module authoring
-follows the LANE-DEPENDENCIES per-module ownership pattern: only shared file is the
-append-only verifier registry. Workshop dir is never-delete once created. Fixtures and
-verifiers are 100% authored, never generated (REQ-CG-02).
+follows the LANE-DEPENDENCIES per-module ownership pattern with TWO shared files
+(coupling #5): the append-only verifier registry index AND curriculum.json — the
+latter is written ONLY by ROOT.5.5's coordinator, never by module children.
+common.ts and the golden-matrix harness belong to ROOT.4.8, not this phase (coupling
+#15). Schema field requests go to ROOT.7.1 (standing steward). Workshop dir is
+never-delete once created. Fixtures and verifiers are 100% authored, never generated
+(REQ-CG-02). Intra-phase order: 5.3 → 5.4 → 5.5 (coupling #12: the template's
+boss/test-out sections must match the engine's declaration shape, so mechanics land
+before spec amendments, which land before authoring).

@@ -17,14 +17,14 @@ spec_refs:
 acceptance_criteria:
   - next-mdx-remote is absent from package.json and Velite (or recorded runner-up) compiles content at build time (REQ-CP-01)
   - Lessons compile to ordered beat arrays with stable beatIds (REQ-CP-02)
-  - Workspace packages extracted per ADR-0002 (no apps/api); one Next.js process
+  - Workspace packages extracted per ADR-0002/ADR-0008 (npm workspaces, no apps/api); one Next.js process (ROOT.1.10)
   - oRPC layer emits OpenAPI/JSON-Schema (REQ-API-02)
   - AgentRunner and ModelGateway seams exist with working fakes (REQ-EX-04, REQ-MG-03)
   - CI runs validate + typecheck + build on PRs (REQ-TC-03)
   - Phase 0 Gate (ROOT.1.8) passed the REQ-MS-02 regression floor
 depends_on: []
 blocks: [ROOT.2]
-children: [ROOT.1.1, ROOT.1.2, ROOT.1.3, ROOT.1.4, ROOT.1.5, ROOT.1.6, ROOT.1.7, ROOT.1.8]
+children: [ROOT.1.1, ROOT.1.2, ROOT.1.3, ROOT.1.4, ROOT.1.5, ROOT.1.6, ROOT.1.7, ROOT.1.8, ROOT.1.9, ROOT.1.10]
 file_ownership: ["package.json", "packages/**", "velite.config.*", ".github/**", "src/lib/schema.ts", "src/lib/content.ts", "src/lib/bedrock.ts", "src/lib/claudeSpawn.ts", "scripts/validate-content.ts"]
 review: {tier: 2, required_lenses: [assembly-vs-shard, interface-consistency], verdicts: []}
 verification: []
@@ -34,8 +34,10 @@ resume_hint: "Dispatch ROOT.1.7 (probes) and ROOT.1.2 (contracts pack) first —
 
 # Phase 0 — Forced foundations
 
-The forced Velite migration, beat compiler, package split (ADR-0002: packages only),
-oRPC layer, the two production seams + fakes, and CI. Probes ROOT.1.7 discharge
-ASSUMPTIONS #11/#12 before dependent work dispatches. Intra-phase order: 1.7 and 1.2
-first; 1.1 needs 1.2's beat-model contract and 1.7's #11 probe; 1.5 needs 1.7's #12
-probe; 1.8 (Gate) last.
+The forced Velite migration, beat compiler, package split (ADR-0002: packages only;
+ADR-0008: npm workspaces), oRPC layer, the two production seams + fakes, and CI.
+Probes ROOT.1.7 (#11) and ROOT.1.9 (#12) discharge assumptions before dependent work.
+Intra-phase order: 1.7/1.9/1.2 first (ROOT.7.2 runs before this phase); package.json
+writers are SERIALIZED by depends_on edges (1.1 → 1.6 → 1.3 → 1.5, per ADR-0007 —
+coupling finding 3); 1.10 (workspace split) runs alone after all implementation items;
+1.8 (Gate) last.

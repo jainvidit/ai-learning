@@ -28,18 +28,22 @@ acceptance_criteria:
   - Phase 3 Gate (ROOT.4.9) passed
 depends_on: [ROOT.3]
 blocks: [ROOT.5]
-children: [ROOT.4.1, ROOT.4.2, ROOT.4.3, ROOT.4.4, ROOT.4.5, ROOT.4.6, ROOT.4.7, ROOT.4.8, ROOT.4.9]
-file_ownership: ["src/app/**", "src/components/**", "src/lib/claudeSpawn.ts", "src/lib/sandbox.ts", "src/lib/projections-read/**"]
+children: [ROOT.4.1, ROOT.4.2, ROOT.4.3, ROOT.4.4, ROOT.4.5, ROOT.4.6, ROOT.4.7, ROOT.4.8, ROOT.4.9, ROOT.4.10]
+file_ownership: ["src/app/**", "src/components/**", "src/lib/claudeSpawn.ts", "src/lib/sandbox.ts", "src/lib/execution/**", "src/lib/data/**", "src/lib/motion/**", "src/lib/tutor/**"]
 review: {tier: 2, required_lenses: [assembly-vs-shard, ux-frozen-contracts], verdicts: []}
 verification: []
 artifacts: []
-resume_hint: "ROOT.4.1 (platform substrate) and ROOT.4.5 (execution layer) first; lesson page 4.2 needs 4.1; dock 4.6 needs 4.5; dashboard 4.3 needs 4.1."
+resume_hint: "ROOT.4.7 (data layer) and ROOT.4.5 (execution layer) first; 4.1 needs 2.2/2.3 event contracts; 4.2 needs 4.1; 4.4 needs 4.2's ExerciseFrame; 4.6 needs 4.1+4.2+4.5; 4.3 needs 4.1+4.7; 4.10 (profiles) parallel; a11y audit is 4.1's LATE leaf after surfaces exist."
 ---
 
 # Phase 3 — Experience layer
 
 REPLACED components (dashboard, sidebar, lesson page, LessonRenderer) retire their
-predecessors only after passing the regression floor (REQ-MS-02 scenario 2). Frozen UX
-contracts: no scroll-jail, style-never-hide, celebrations only on server-confirmed
-gate verdicts, dock UX never branches on driver. Port 3000 is the owner's (CONSTRAINTS
-#17) — all testing on other ports.
+predecessors only after passing the regression floor (REQ-MS-02 scenario 2) — the
+retirement leaf lives INSIDE each replacing item; ROOT.4.9 verifies citations (sizing
+#6). Frozen UX contracts: no scroll-jail, style-never-hide, celebrations only on
+server-confirmed gate verdicts, dock UX never branches on driver. Port 3000 is the
+owner's (CONSTRAINTS #17) — all testing on other ports. Lesson-component ownership is
+carved per file (ADR-0007 item 5): 4.2 owns beats/** + named files; Playground.tsx is
+4.4's; Terminal.tsx is 4.6's; Boss* is 5.3's. The projections-read glob was deleted —
+REQ-EL-03 forbids a second projection implementation (coupling #21).

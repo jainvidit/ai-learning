@@ -20,7 +20,7 @@ acceptance_criteria:
   - The REQ-MS-02 regression floor passed at every phase gate
 depends_on: []
 blocks: []
-children: [ROOT.1, ROOT.2, ROOT.3, ROOT.4, ROOT.5, ROOT.6]
+children: [ROOT.1, ROOT.2, ROOT.3, ROOT.4, ROOT.5, ROOT.6, ROOT.7]
 file_ownership: [".program/**"]
 review: {tier: 3, required_lenses: [completeness, coupling, sizing], verdicts: []}
 verification: []
@@ -33,12 +33,17 @@ artifacts:
   - .program/decisions/ADR-0004.md
   - .program/decisions/ADR-0005.md
   - .program/decisions/ADR-0006.md
+  - .program/decisions/ADR-0007.md
+  - .program/decisions/ADR-0008.md
 resume_hint: "Run PART 10: read HEADLINE.md, org.md, glossary.md, latest handoff and audit; recompute the ready frontier (Phase ordering is strict)."
 ---
 
 # Program root
 
-Phases follow migration-and-sequencing REQ-MS-01 strictly; ordering also honors the
-LANE-DEPENDENCIES blocking graph. Binding: docs/origin/CONSTRAINTS.md, REJECTED.md.
-Phase 5 (ROOT.6) is parked per ADR-0001 — never decomposed or dispatched without owner
-authorization.
+Phases ROOT.1–ROOT.5 follow migration-and-sequencing REQ-MS-01 strictly; ordering also
+honors the LANE-DEPENDENCIES blocking graph. ROOT.7 (standing services) is exempt from
+phase ordering — its children carry their own edges (ADR-0007). Binding:
+docs/origin/CONSTRAINTS.md, REJECTED.md. Phase 5 (ROOT.6) is parked per ADR-0001 —
+never decomposed or dispatched without owner authorization. Genesis decomposition was
+adversarially reviewed (3 blind opus lenses, .program/audits/genesis-review-*.md) and
+revised per ADR-0007.

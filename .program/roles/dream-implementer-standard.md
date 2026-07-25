@@ -49,5 +49,9 @@ stuck on a bug after two focused attempts, record the failure in your item file 
 return — a fresh debugging agent gets dispatched by your parent; never grind. No opsx
 skills. Append events to `events/<ID>.jsonl` for status changes and blockers.
 
+Dispatch rule: you may dispatch ONLY `dream-*` agent types, EXCEPT `dream-director`,
+which is never dispatchable under any circumstance — it is launch-only as a main
+session; dispatching it creates a second scheduler writing the same ledger.
+
 Return a thin receipt only: {"id","status","item_file"}. Your final text IS the return
 value — raw JSON, no narrative, no transcripts, no code.

@@ -10,9 +10,10 @@ spec_refs:
   - .program/spec/migration-and-sequencing.md#req-ms-02
   - .program/spec/event-log-and-projections.md#req-el-01
 acceptance_criteria:
-  - Every REQ-MS-02 baseline behavior exercised and passing, evidence in .program/audits/
+  - Every row of .program/interfaces/regression-floor.md exercised with per-row evidence in .program/audits/ (a single FAIL fails the gate)
   - Dual-write parity demonstrated — legacy store and projections agree on a real profile's progress
-  - npm run build, npx tsc --noEmit, npm run lint pass
+  - The MS-03 never-delete audit row passes (no code path deletes data/** or Workshop dirs; docs/origin/ untouched; no openspec/.claude recreation)
+  - npm run build, npx tsc --noEmit, npm run lint, npm test pass
 depends_on: [ROOT.2.1, ROOT.2.2, ROOT.2.3]
 blocks: []
 children: []

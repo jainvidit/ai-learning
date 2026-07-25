@@ -12,9 +12,9 @@ spec_refs:
   - .program/spec/content-pipeline.md#req-cp-04
   - .program/spec/content-pipeline.md#req-cp-05
 acceptance_criteria:
-  - next-mdx-remote absent; Velite (or recorded runner-up if the tiebreak fired) compiles MDX at build time (CP-01 scenarios 1–2)
+  - next-mdx-remote absent from package.json; MDX compiles at build time via the framework named in the tiebreak record (Velite default; OQ #10); npm run build passes (CP-01 scenarios 1–2)
   - Every lesson compiles to an ordered beat array with stable beatIds across rebuilds (CP-02 scenarios 1–3)
-  - Build emits a versioned immutable bundle — DAG + layout hints, beat arrays, exercise bank, goldens (CP-04)
+  - Build emits a versioned bundle — DAG + layout hints, beat arrays, exercise bank, goldens — immutable per version, served from a versioned static route (CP-04 restated for local desktop per ADR-0007)
   - Stable item IDs + content-hash itemRevision + migration maps (CP-05)
 depends_on: [ROOT.1.2, ROOT.1.7]
 blocks: []
@@ -28,3 +28,10 @@ resume_hint: "Needs ROOT.1.2's beat-model contract and ROOT.1.7's ASSUMPTIONS-#1
 Coordinator-owned; will split into leaves (Velite swap, compiler, bundle emitter,
 itemRevision hashing). Framework-touching: verification must include build/typecheck
 evidence, never review alone (PART 6).
+
+HANDOFF NOTE (coupling #27): this item ships an INTERIM renderer that keeps lesson
+rendering + quiz sanitization working at the Phase 0 Gate after next-mdx-remote is
+removed; the components map + sanitization logic carry over and ROOT.4.2's BeatRenderer
+replaces it in Phase 3 — record what carries over in this item's verification.
+package.json writes are serialized: this item writes FIRST in the Phase 0 chain
+(1.1 → 1.6 → 1.3 → 1.5), then ROOT.1.10, then ownership transfers to ROOT.7.1.

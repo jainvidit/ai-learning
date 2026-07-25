@@ -9,9 +9,10 @@ generation: 0
 spec_refs:
   - .program/spec/migration-and-sequencing.md#req-ms-02
 acceptance_criteria:
-  - Every REQ-MS-02 baseline behavior exercised and passing on a non-3000 port, with evidence doc in .program/audits/
-  - npm run build, npx tsc --noEmit, npm run lint all pass
-depends_on: [ROOT.1.1, ROOT.1.2, ROOT.1.3, ROOT.1.4, ROOT.1.5, ROOT.1.6, ROOT.1.7]
+  - Every row of .program/interfaces/regression-floor.md exercised on a non-3000 port with per-row pass/fail/UNVERIFIED evidence in .program/audits/ (a single FAIL fails the gate)
+  - The MS-03 never-delete audit row passes — no code path introduced this phase deletes data/** or Workshop dirs; docs/origin/ untouched; no openspec/ or project .claude/ recreated
+  - npm run build, npx tsc --noEmit, npm run lint, npm test all pass
+depends_on: [ROOT.1.1, ROOT.1.2, ROOT.1.3, ROOT.1.4, ROOT.1.5, ROOT.1.6, ROOT.1.7, ROOT.1.9, ROOT.1.10]
 blocks: []
 children: []
 file_ownership: [".program/audits/gate-phase0-*"]

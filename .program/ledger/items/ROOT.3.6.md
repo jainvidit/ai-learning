@@ -9,9 +9,10 @@ generation: 0
 spec_refs:
   - .program/spec/migration-and-sequencing.md#req-ms-02
 acceptance_criteria:
-  - Every REQ-MS-02 baseline behavior exercised and passing, evidence in .program/audits/
-  - Engine invariant spot-checks — never-demote, no learner-facing percent, no timing in grades, firewall band emits zero evidence
-  - npm run build, npx tsc --noEmit, npm run lint pass
+  - Every row of .program/interfaces/regression-floor.md exercised with per-row evidence in .program/audits/ (a single FAIL fails the gate)
+  - Engine invariant spot-checks — never-demote, no learner-facing percent, no timing in grades, firewall band emits zero evidence, no points/XP/leaderboard fields in any schema (MM-06)
+  - The MS-03 never-delete audit row passes
+  - npm run build, npx tsc --noEmit, npm run lint, npm test pass
 depends_on: [ROOT.3.1, ROOT.3.2, ROOT.3.3, ROOT.3.4, ROOT.3.5]
 blocks: []
 children: []

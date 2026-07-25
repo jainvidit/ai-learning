@@ -17,7 +17,7 @@ acceptance_criteria:
   - On-demand affordance; struggle-watcher surfaces, never auto-opens (CH-02)
   - Server-held four-rung ladder; rung 4 always reachable, method-not-artifact (CH-03)
   - Rung-4 passes emit reduced/zero evidence; redemption probe restores credit (CH-04)
-  - No-numerics output schema + post-response leak check with authored fallback (CH-05)
+  - No-numerics output schema + post-response leak check with authored fallback (CH-05 service half; the margin-note component labeled "not your grade" is ROOT.4.4's leaf)
 depends_on: [ROOT.3.2]
 blocks: []
 children: []
@@ -25,5 +25,5 @@ file_ownership: ["src/lib/tutor/**", "src/app/api/tutor/**"]
 review: {tier: 2, required_lenses: [spec-conformance, leak-hunting], verdicts: []}
 verification: []
 artifacts: []
-resume_hint: "Consumes ModelGateway (ROOT.1.5) and judge missed-criterion IDs (ROOT.2.3). Coach UI margin-note lands in Phase 3; this item is the service + ladder enforcement."
+resume_hint: "Consumes ModelGateway (ROOT.1.5) and judge missed-criterion IDs (ROOT.2.3). This item is the service + ladder enforcement only; UI split per sizing #16. OQ #13/#14 (integrity carve-out, rung-4 boundary) are Reading-A inferences — flagged in DECISIONS-PENDING, build as specced."
 ---

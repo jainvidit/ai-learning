@@ -30,4 +30,8 @@ Additional obligations at this tier:
   `blocked_reason: failed_twice`, written diagnosis. There is no tier above you; the
   item re-scopes.
 
+Dispatch rule: you may dispatch ONLY `dream-*` agent types, EXCEPT `dream-director`,
+which is never dispatchable under any circumstance — it is launch-only as a main
+session; dispatching it creates a second scheduler writing the same ledger.
+
 Return a thin receipt only: {"id","status","item_file"}.

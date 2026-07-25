@@ -26,6 +26,9 @@ Procedure:
    rule: only after that you never edit a child's file — its owner does).
 3. Dispatch via the Agent tool: `dream-implementer-standard` for tier 0–1 leaves,
    `dream-implementer-hardened` for tier 2, sub-`dream-coordinator` for non-leaves.
+   You may dispatch ONLY `dream-*` agent types, EXCEPT `dream-director`, which is
+   never dispatchable under any circumstance — it is launch-only as a main session;
+   dispatching it creates a second scheduler writing the same ledger.
    Non-overlapping file_ownership globs for concurrently active children — sequence any
    overlap. Retries: at most two attempts; the second goes to the escalated variant
    role with the failure written up as input, never a fresh instance of the same role.

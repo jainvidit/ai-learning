@@ -10,9 +10,10 @@ spec_refs:
   - .program/spec/migration-and-sequencing.md#req-ms-02
   - .program/spec/content-pipeline.md#req-cp-06
 acceptance_criteria:
-  - Every REQ-MS-02 baseline behavior passing, evidence in .program/audits/
-  - All content CI gates green across 14 modules (one boss each, skill refs, anchors, variants)
-  - npm run build, npx tsc --noEmit, npm run lint pass
+  - Every row of .program/interfaces/regression-floor.md passing, per-row evidence in .program/audits/ (a single FAIL fails the gate)
+  - All content CI gates green IN HARD STATE across 14 modules (one boss each, skill refs, anchors; variant gate per its recorded staging ADR) — soft/warn gates do not count as green
+  - The MS-03 never-delete audit row passes (incl. Workshop dirs, which exist by now)
+  - npm run build, npx tsc --noEmit, npm run lint, npm test, npm run verify:e2e pass
 depends_on: [ROOT.5.1, ROOT.5.2, ROOT.5.3, ROOT.5.4, ROOT.5.5]
 blocks: []
 children: []
