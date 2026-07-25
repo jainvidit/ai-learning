@@ -4,7 +4,8 @@ parent: ROOT.1
 type: Capability
 title: Content pipeline — Velite migration, beat compiler, versioned bundle
 ledger_depth: 2
-status: in_progress
+status: blocked
+blocked_reason: "verification toolchain (npm/Bash) denied by permission system environment-wide; PART 6 empirical evidence unattainable; repo left build-broken mid-migration by ROOT.1.1.1 partial artifacts — see DECISIONS-PENDING.md entry"
 owner_agent: coordinator-ROOT.1.1-gen0
 generation: 0
 spec_refs:
@@ -25,7 +26,7 @@ file_ownership: ["velite.config.*", "src/lib/content.ts", "src/components/lesson
 review: {tier: 2, required_lenses: [spec-conformance, framework-empirical], verdicts: []}
 verification: []
 artifacts: []
-resume_hint: "Gen0 coordinator active. Deps done. Children ROOT.1.1.1-4 created; dispatch order 1 -> 2 -> {3,4}. See Decomposition record in body."
+resume_hint: "BLOCKED on toolchain permission (see DECISIONS-PENDING.md). Decomposition DONE (children 1.1.1-4, serial chain, ADR-0011 fixes algorithms). ROOT.1.1.1 blocked mid-flight with partial artifacts (package.json swapped, velite.config.ts landed, LessonRenderer NOT migrated, npm install never ran — repo build-broken). On resume: verify toolchain works, then re-dispatch ROOT.1.1.1 gen1 (dream-implementer-hardened, second attempt) with its 'Partial state at block' section as input; then 1.1.2 -> 1.1.3 -> 1.1.4."
 ---
 Coordinator-owned; will split into leaves (Velite swap, compiler, bundle emitter,
 itemRevision hashing). Framework-touching: verification must include build/typecheck
@@ -78,3 +79,23 @@ field_request-style note appended to ROOT.7.1's events; never edit regression-fl
 - CP-01 scenario 3 (ASSUMPTIONS #11 re-verify): DISCHARGED upstream by ROOT.1.7 /
   ADR-0009 (evidence .program/audits/probes-mdx-archival.md). Divergent finding
   (not archived) ruled Reading 2: migration proceeds. Nothing for this item to re-run.
+
+## Blocker record (gen0, 2026-07-25T14:20Z)
+
+ROOT.1.1.1 attempt 1 (dream-implementer-suite) hit environment-wide Bash/npm permission
+denial: npm install / build / tsc / lint / validate / test all denied individually and
+bare, after coordinator-directed retry (per-command, no compounds, redirection-free).
+Coordinator independently confirmed: even `npm --version` denied to this coordinator.
+Diagnosis: environmental, not agent-capability — a second attempt on the escalated
+implementer variant CANNOT succeed (attempt-2 rule not spent; do not burn it on this).
+
+Consequence inventory (read-only survey, dream-reader-lookup a070e98c, 14:15Z):
+package.json swapped (next-mdx-remote out, velite ^0.2.0 in, build = `velite && next
+build`), velite.config.ts landed, .gitignore gained /.velite/; LessonRenderer.tsx STILL
+imports next-mdx-remote/rsc; content.ts untouched; node_modules has neither package;
+npm install never ran => `npm run build` fails right now. Repo is build-broken until
+resumed or reverted (agents may not run git; revert is the owner's call).
+
+Parked per PART 9 (blocked, awaiting_human_authorization via DECISIONS-PENDING.md).
+Nothing dispatchable remains: 1.1.2/3/4 all chain behind 1.1.1 and all require the
+same toolchain for PART 6 evidence. Decomposition + ADR-0011 remain valid for resume.

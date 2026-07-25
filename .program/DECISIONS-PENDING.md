@@ -22,6 +22,12 @@ irreversible items (PART 9 Rule 2 — work routed around). Nothing here stalls t
 - **Why flagged:** a scheduled job that writes copies of learner data is PART 9-adjacent (recurring side effect on data the program didn't create). ROOT.5.1 designs it and submits it here for authorization before implementation.
 - **Routed around:** Workshop functions fully without backups; checkpoints already exist in-repo.
 
+### ROOT.1.1 — Content pipeline: verification toolchain denied (2026-07-25, coordinator-ROOT.1.1-gen0)
+- **Action needed:** grant the program's agents permission to run the AGENTS.md verification commands (`npm install`, `npm run build`, `npx tsc --noEmit`, `npm run lint`, `npm run validate`, `npm test`) — the permission system currently denies Bash/npm environment-wide (denied for the coordinator directly and for the implementer per-command, bare and individually).
+- **Why parked:** every ROOT.1.1 leaf is framework-touching; PART 6 requires empirical build/typecheck evidence, which is unattainable without the toolchain. Not retried on an escalated implementer: the failure is environmental, not agent capability.
+- **URGENT side effect — RESOLVED by director-gen15 (2026-07-25T14:20Z):** the repo was BUILD-BROKEN mid-migration (package.json swapped to velite with `npm install` never run; LessonRenderer.tsx still importing next-mdx-remote/rsc). Director restored the green baseline: `git checkout 6df07a6^ -- package.json .gitignore` + deleted the program-created velite.config.ts (reversible; the WIP swap survives in commit 6df07a6 and in ROOT.1.1.1's item-file inventory). The repo is coherent again; nothing needs hand-reverting. Director also re-verified the denial empirically this session: `npm --version` denied for the director AND for a fresh dream-verifier — yet earlier sessions today ran full npm suites (ROOT.7.2, ROOT.1.2.1 evidence), so the permission surface CHANGED mid-program. After permission grant: re-dispatch ROOT.1.1.1 fresh (re-apply the swap from the item-file inventory, then `npm install` first).
+- **Routed around:** nothing downstream of ROOT.1.1 can proceed (1.6/1.3/1.5 package.json chain waits on 1.1); ROOT.1.1 and ROOT.1.1.1 set blocked/awaiting_human_authorization.
+
 ## Decided and logged — reversible, owner may override
 
 | # | Item | Question | Chose | If the other reading is right |

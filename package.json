@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "velite --watch & next dev -H 127.0.0.1",
+    "dev": "next dev -H 127.0.0.1",
     "dev:e2e": "next dev -H 127.0.0.1 -p 3001",
-    "build": "velite && next build",
+    "build": "next build",
     "start": "next start -H 127.0.0.1",
     "lint": "eslint",
     "test": "vitest run",
@@ -23,10 +23,10 @@
     "@xterm/xterm": "^6.0.0",
     "gray-matter": "^4.0.3",
     "next": "16.2.11",
+    "next-mdx-remote": "^6.0.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "shiki": "^4.3.1",
-    "velite": "^0.2.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {

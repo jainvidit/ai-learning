@@ -74,6 +74,3 @@ coverage/
 # app data (per-profile progress, sandboxes)
 /data/
 /sandbox/live/
-
-# velite build output
-/.velite/

@@ -4,9 +4,10 @@ parent: ROOT.1.1
 type: Task
 title: Velite swap — build-time MDX compilation + interim LessonRenderer
 ledger_depth: 3
-status: in_progress
+status: blocked
 generation: 0
 owner_agent: implementer-ROOT.1.1.1-gen0
+blocked_reason: "verification commands denied by permission system: npm install, npm run build, npx tsc --noEmit, npm run lint, npm run validate, npm test"
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-01
 acceptance_criteria:
@@ -19,9 +20,17 @@ blocks: [ROOT.1.1.2]
 children: []
 file_ownership: ["package.json", "velite.config.*", "src/lib/content.ts", "src/components/lesson/LessonRenderer.tsx"]
 review: {tier: 2, required_lenses: [spec-conformance, framework-empirical], verdicts: []}
-verification: []
-artifacts: []
-resume_hint: "Not yet dispatched."
+verification: 
+  - criterion: "All verification commands (npm install, npm run build, npx tsc --noEmit, npm run lint, npm run validate, npm test)"
+    status: UNVERIFIED
+    method: "Attempted as individual bare Bash commands per coordinator instruction"
+    evidence_path: null
+    notes: "Permission system denied all verification commands individually: npm install, npm run build, npx tsc --noEmit, npm run lint, npm run validate, npm test. No alternative verification path available."
+artifacts:
+  - velite.config.ts
+  - package.json
+  - .gitignore
+resume_hint: "BUILD-BROKEN mid-migration: package.json swapped to velite but LessonRenderer.tsx still imports next-mdx-remote and npm install never ran. Blocked on environment-wide npm/Bash permission denial. See 'Partial state at block' section."
 ---
 Replace runtime MDX (next-mdx-remote/rsc in LessonRenderer.tsx line ~2/162) with
 build-time Velite compilation. READ docs/nextjs-conventions.md FIRST — this Next.js 16
@@ -53,3 +62,46 @@ Constraints:
 - Velite dependency risk is accepted eyes-open per REQ-CP-01 (solo-maintainer,
   internal Zod 3); ADR-0009 rules the migration proceeds despite next-mdx-remote being
   unarchived. Do not relitigate.
+
+## Partial state at block (gen0)
+
+Read-only survey (evidence: velite.config.ts, package.json, LessonRenderer.tsx, .gitignore inspected 2026-07-25T14:15Z) shows this exact partial state:
+
+- velite.config.ts EXISTS (collections for modules/**/lessons/**/lesson.mdx).
+- package.json: next-mdx-remote REMOVED, velite ^0.2.0 ADDED; scripts now "build": "velite && next build", "dev": "velite --watch & next dev -H 127.0.0.1". Existing test/vitest/playwright/validate entries intact.
+- .gitignore: /.velite/ added (line ~79) — out-of-ownership additive touch, record as deviation.
+- src/components/lesson/LessonRenderer.tsx: STILL imports next-mdx-remote/rsc (line 2) — NOT migrated.
+- src/lib/content.ts: UNTOUCHED, no velite references.
+- node_modules: contains NEITHER velite NOR next-mdx-remote; npm install never ran. Consequence: npm run build would FAIL right now — the repo is mid-migration and build-broken.
+
+Remaining work:
+1. npm install (to install velite and remove next-mdx-remote from node_modules)
+2. Migrate LessonRenderer.tsx off next-mdx-remote preserving mdxComponents map + sanitizeQuiz
+3. Wire content.ts loadLesson to .velite output
+4. Run six verification commands with evidence under .program/evidence/ROOT.1.1.1/:
+   - npm install
+   - npm run build
+   - npx tsc --noEmit
+   - npm run lint
+   - npm run validate
+   - npm test
+
+## Plan (gen0, written before implementation)
+
+1. CONTRACT TOUCHED: the lesson render path — `loadLesson()` in `src/lib/content.ts`
+   (consumed by `src/app/learn/[moduleId]/[lessonId]/page.tsx`) and the props of
+   `LessonRenderer.tsx`, plus the `package.json` Phase-0 script chain. New build-time
+   artifact `.velite/lessons.json` becomes the compiled-MDX carrier.
+2. OTHER SIDE OWNED BY: `src/app/learn/**` + LessonRenderer's eventual replacement belong
+   to ROOT.4.2 (BeatRenderer); `src/lib/schema.ts` to the schema steward (ROOT.1.2, then
+   ROOT.7.1) per `.program/interfaces/content-schema.md`; regression-floor RF-02/RF-11
+   anchors to LessonRenderer.tsx and are maintained by ROOT.7.1. `.program/interfaces/`
+   holds no interface file for the renderer prop shape, so no ratified contract is broken —
+   but page.tsx is NOT mine, so LessonRenderer's existing call signature must keep
+   compiling unchanged (`mdx`, `moduleId`, `lessonId`, `exercises`).
+3. WILL NOT CHANGE: `src/lib/schema.ts`; `src/app/learn/**` (incl. page.tsx call site);
+   `scripts/validate-content.ts`; `.program/interfaces/regression-floor.md`; any existing
+   package.json script (test/vitest/playwright/validate/dev/build/start/lint bodies);
+   `gray-matter` stays (validate-content.ts + frontmatter parsing still need it).
+   No contract SHAPE change: LessonRenderer's existing props stay accepted; new inputs are
+   additive/optional only.
