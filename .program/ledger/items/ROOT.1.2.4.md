@@ -4,8 +4,8 @@ parent: ROOT.1.2
 type: Task
 title: model-router.md interface doc — ModelRouter/ModelGateway seam contract
 ledger_depth: 3
-status: in_review
-owner_agent: implementer-ROOT.1.2.4-gen1 # hardened, escalated 2nd attempt
+status: done
+owner_agent: implementer-ROOT.1.2.4-gen1 # hardened, escalated 2nd attempt; closed by coordinator-ROOT.1.2-gen1 after majority-approve review
 generation: 1
 spec_refs:
   - .program/spec/model-gateway.md#req-mg-01
@@ -21,7 +21,7 @@ depends_on: []
 blocks: []
 children: []
 file_ownership: [".program/interfaces/model-router.md"]
-review: {tier: 1, required_lenses: [spec-conformance], verdicts: []}
+review: {tier: 1, required_lenses: [spec-conformance], verdicts: [{lens: spec-conformance, reviewer: primary-gen1, verdict: approve, minors: 3}, {lens: consumer-fit, reviewer: secondary-gen1, verdict: request_changes}, {lens: quality-tiebreak, reviewer: tiebreak-gen1, verdict: approve}], outcome: approve-by-majority, arbitration: "events/ROOT.1.2.jsonl — repair-budget blocker downgraded per ADR-0010 seam-invisibility clause; 3 delegation points ruled sufficient-as-contract"}
 resume_hint: "Doc-only leaf. Source: model-gateway.md whole shard + ADR-0010 (BINDING). Contract doc, no code. ASSUMPTIONS #12 is now SPLIT: structured-outputs clause discharged NEGATIVE by ADR-0010 (never cite as live); sampling-param + cache-minimum clauses remain OPEN and the doc assigns build-time re-verification to ROOT.1.5 (NOT ROOT.1.9 — that probe is closed and was structured-outputs-only; the gen0 hint's ROOT.1.9 attribution was the primary reviewer's MAJOR finding). gen1 rework addressed 1 primary major + 2 primary minors + 2 secondary blockers + 2 secondary majors + 2 secondary minors."
 verification:
   - criterion: ".program/interfaces/model-router.md exists and defines the seam — injectable per-task ModelRouter over the Bedrock client (task types judge-draft, judge-gate-vote, arbiter, tutor-rung, generation, playground); provider switch is config not code (REQ-MG-01 scenario 2); sampling params stripped per model tier (no seed; temperature removed on newest tiers); explicit cache_control breakpoints on cacheable prefixes"
