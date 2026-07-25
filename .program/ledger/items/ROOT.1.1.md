@@ -110,6 +110,17 @@ field_request-style note appended to ROOT.7.1's events; never edit regression-fl
   Noted for AC-3: duplicate-key/beat-validation currently fails npm test, not
   npm run build — bundle-emitter wiring (ROOT.1.1.4) must call the compile+assert
   path inside the build so violations fail the build (carried as input to 1.1.4).
+- AC-4 (CP-05, stable IDs + content-hash itemRevision + migration maps): SATISFIED via
+  ROOT.1.1.3 (done, gen1 coordinator). Pure library src/lib/revisions.ts with the
+  gen0-fixed export signatures (computeItemRevision 16-hex SHA-256 canonical-JSON;
+  buildRevisionsMap throws on dup ids; loadMigrationMaps SYNC — reviewer caught an async
+  drift from the fixed contract, arbitrated back to sync, events 18:45:01). Evidence:
+  .program/audits/ROOT.1.1.3-verification/{npm-test.txt(86/86), tsc-noemit.txt,
+  eslint-owned.txt} + dream-verifier conclusive 4/4 confirmation. Canonicalization:
+  undefined-valued keys omitted (JSON.stringify parity); Date/Map/function inputs ruled
+  out-of-domain (content is JSON/MDX plain data) — recorded, not fixed. CP-05 scenario 2
+  loader done; the bundle-side wiring (revisions sidecar + migration maps IN the bundle)
+  lands in ROOT.1.1.4.
 - OQ #10 tiebreak: NOT FIRED — Velite DX workable (one-shot velite build prefixed to
   dev/build scripts; opt-in content:watch; no stale-output window). Ruling in events
   15:30:01. pnpm-overrides isolation consciously deferred (events 16:30:01: npm repo

@@ -43,7 +43,7 @@ cases and applies to every row in this document.
 | ID | Behavior | How to Verify | Notes |
 |---|---|---|---|
 | RF-01 | Dashboard, module page, lesson pages render | Load three pages on 127.0.0.1:3001, expect HTTP 200 and visible content: `/` (dashboard, `src/app/page.tsx`); `/learn/01-how-llms-work` (module page); `/learn/01-how-llms-work/02-tokens` (lesson page). Real lesson slugs in module 1 are exactly: `01-what-is-an-llm`, `02-tokens`, `03-training`, `04-hallucination`, `05-randomness` (`content/modules/01-how-llms-work/module.json`) — no `01-introduction` exists | Requires an active profile cookie for gated routes. Concrete setup: POST `/api/profiles` with `{"name":"gate-runner"}` — the route sets the `profileId` cookie itself on create (`src/app/api/profiles/route.ts:48-53`) — or use the `/profiles` UI. Same step as RF-03a |
-| RF-02 | Quiz answer keys absent from the pre-submission client payload | Scope: the payload delivered *before* the learner submits. Load `/learn/01-how-llms-work/02-tokens`, view source / DevTools → Network on the document and RSC flight response, and search for `correctOptionIds` and `explanation`. Both MUST be absent. Server-side guarantee is `sanitizeQuiz()` in `src/components/lesson/LessonRenderer.tsx:16-29` — **per question** it returns only `id`, `kind`, `prompt`, `options[].id`, `options[].text` (it also legitimately returns the exercise-level `type`, `id`, `title`, `passingScore` — those are not secrets). If that function stops stripping `correctOptionIds` or `explanation` from any question, this row FAILS. Note: the POST `/api/quiz/submit` *response* legitimately contains `correctOptionIds`; that is RF-04 territory and governed by the ADR-0006 note, not a RF-02 failure | Fixture: quiz `quiz-tokens` (`passingScore: 75`). **The ADR-0006 intended-change note below also governs this row:** the withheld-answer-key policy determines which payloads may legally carry the key — read it before judging RF-02, not just RF-04 |
+| RF-02 | Quiz answer keys absent from the pre-submission client payload | Scope: the payload delivered *before* the learner submits. Load `/learn/01-how-llms-work/02-tokens`, view source / DevTools → Network on the document and RSC flight response, and search for `correctOptionIds` and `explanation`. Both MUST be absent. Server-side guarantee is `sanitizeQuiz()` in `src/components/lesson/LessonRenderer.tsx` (**lines 74-87 as of 2026-07-25**; cited as `:16-29` before ROOT.1.1.1's Velite migration inserted the compiled-MDX evaluator above it — **the behavior is the guarantee, not the file:line**, so a Gate that finds the function moved re-locates it by name and does NOT fail this row; see the ROOT.7.1 anchor-audit note below) — **per question** it returns only `id`, `kind`, `prompt`, `options[].id`, `options[].text` (it also legitimately returns the exercise-level `type`, `id`, `title`, `passingScore` — those are not secrets). If that function stops stripping `correctOptionIds` or `explanation` from any question, this row FAILS. Note: the POST `/api/quiz/submit` *response* legitimately contains `correctOptionIds`; that is RF-04 territory and governed by the ADR-0006 note, not a RF-02 failure | Fixture: quiz `quiz-tokens` (`passingScore: 75`). **The ADR-0006 intended-change note below also governs this row:** the withheld-answer-key policy determines which payloads may legally carry the key — read it before judging RF-02, not just RF-04 |
 | RF-03a | Profile create | POST `/api/profiles` with body `{"name":"<non-empty string>"}` (only field; missing/empty name → 400 `{"error":"name-required"}`). Expect HTTP 201 with `{"profile":{...}}`, the new profile in `data/profiles.json`, and the `profileId` cookie set by the response (`src/app/api/profiles/route.ts:34-55`) | Registry is `data/profiles.json` (`src/lib/profiles.ts`) |
 | RF-03b | Profile switch | POST `/api/profiles/switch` with a second profile id; expect the `profileId` cookie to change | |
 | RF-03c | Profile isolation covers **progress AND sandboxes** | With profile A, complete quiz `quiz-tokens` and run a sandbox exercise; switch to profile B; confirm B shows zero progress for that lesson AND that A's sandbox working copy is not visible to B. Storage is per-profile by construction: progress at `data/progress/<profileId>.json`, sandboxes at `sandbox/live/<profileId>/<lessonId>` (`src/lib/sandbox.ts` `sandboxDir()`). Baseline wording is "full isolation (progress + sandboxes)" — progress alone is NOT sufficient to pass | CURRENT-STATE.md line: "Profile create/switch/delete with full isolation (progress + sandboxes)" |
@@ -85,6 +85,58 @@ Consequences for any Gate executing RF-04:
    "if the other reading is correct" fallback lever — a server-side flag in the submit
    route — gates the *explanation* payload, not the key; if THAT ever activates,
    consequence 2 above is superseded by a new ADR, not silently.)
+
+### ROOT.7.1 anchor-audit note (applies to RF-02 and RF-11) — appended 2026-07-25
+
+**This is a locator/anchoring note, not a verification step.** Added by the standing
+contract steward (ROOT.7.1, batch 1) in reply to `coordinator-ROOT.1.1-gen0`'s
+`field_request` of 2026-07-25T15:30:00Z. It changes no row's behavior, ID, or pass/fail
+condition.
+
+**1. What was asked.** ROOT.1.1.1 migrated `LessonRenderer.tsx` off `next-mdx-remote`
+(MDX now compiles at build time via Velite). Its DOM and selector output was proven
+**byte-identical on all five existing lessons** — evidence
+`.program/audits/ROOT.1.1.1-verification/dom-equivalence-and-carryover.md` — so no
+DOM-level re-anchoring is needed. But the component's **prop signature** changed
+additively: a new optional `code?: string`, and `mdx` widened to optional and marked
+`@deprecated` (accepted and ignored). The coordinator asked the steward to re-anchor any RF
+row that anchors to the **prop signature** rather than to DOM.
+
+**2. Ruling: no prop-shape re-anchor is needed. No RF row anchors to a prop signature.**
+All 16 rows were checked (RF-01, RF-02, RF-03a–RF-03e, RF-04 … RF-16). Every anchor is one
+of: a **route + payload field** (RF-01, RF-03a–RF-03e, RF-04, RF-05, RF-06, RF-07, RF-08), a
+**rendered-DOM/selector or CSS-structure** assertion (RF-01, RF-10, RF-11, RF-12, RF-13), a
+**built-artifact search** (RF-09), or a **server-side function or storage path** (RF-02,
+RF-03c, RF-03e, RF-06, RF-14). None names a React component's props, and none would change
+verdict because an optional prop was added or an ignored one deprecated. RF-11 in
+particular anchors on rendered nav output and the `/profiles` "Active" pill — not on props
+— and is unaffected by this migration (its real at-risk event is the Phase 3 nav
+replacement, which the row already handles).
+
+**3. What DID need correcting, and was corrected additively.** RF-02's locator carried a
+stale file:line: `sanitizeQuiz()` moved from `LessonRenderer.tsx:16-29` to **74-87** when
+the migration inserted the compiled-MDX evaluator above it. The row's *How to Verify* cell
+now cites the current range. The **function is unchanged** — it still projects a
+`QuizExercise` to a `ClientQuizExercise`, dropping `correctOptionIds` and `explanation`
+per question and every option field except `id`/`text` — so the guarantee RF-02 tests is
+exactly what it was.
+
+**4. Standing rule this establishes for every row (inherited duty, now written down).**
+ROOT.1.2 handed this steward an "RF-02 re-anchor duty" whose principle generalizes: **the
+behavior, not the file:line, is the guarantee.** Therefore, for any row in this document —
+
+- A file:line that no longer resolves is a **stale locator, not a failure**. Re-locate the
+  named function/route/selector by name and verify the behavior. Record the drift for the
+  steward; do not FAIL, and do not record UNVERIFIED merely because a line moved.
+- Only if the named behavior is **absent or no longer holds** does the row FAIL.
+- Locator refreshes are the steward's routine, additive maintenance: edit the *How to
+  Verify* text, never the ID, never the behavior.
+
+**5. Still outstanding on RF-02 (not discharged here).** The Phase 3 re-anchor remains
+open: REQ-CP-01 replaces this interim renderer with `BeatRenderer` (ROOT.4.2), which will
+move the sanitize step again. When ROOT.4.2 lands, the steward re-anchors RF-02 to
+whatever server-side projection then withholds the answer key — same behavior, same row ID,
+new locator. `LessonRenderer.tsx` is interim by charter and its own header says so.
 
 ## Data-Safety Audit (REQ-MS-03)
 
