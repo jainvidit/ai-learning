@@ -19,9 +19,37 @@ blocks: [ROOT.1.1.3, ROOT.1.1.4]
 children: []
 file_ownership: ["src/lib/content.ts", "src/lib/beats.ts", "tests/beats.test.ts"]
 review: {tier: 2, required_lenses: [spec-conformance, framework-empirical], verdicts: []}
-verification: []
-artifacts: []
-resume_hint: "gen0 in progress. Tier-2 plan at the bottom of this file. Code lands in the MAIN checkout (worktree has no node_modules)."
+verification:
+  - criterion: "AC1 — every built lesson yields an ordered Beat[] with beatId, closed-set type, completion predicate (CP-02 sc.1)"
+    method: "Emitted the real bundle via compileAllLessonBeats() over the authored corpus (5 built lessons, 43 beats) and inspected it; plus vitest describe('REQ-CP-02 scenario 1 …') asserting shape, closed-set type, valid predicate, NO field outside {beatId,type,persistent?,completion} (guards ADR-0011 #6 no-itemRevision), 1:1 exercise->beat type mapping, zero widget beats (ADR-0011 #5), and source ordering; plus describe('the real authored corpus compiles and conforms') re-running the gate on-disk."
+    evidence: ".program/audits/ROOT.1.1.2-verification/authored-corpus-beats.json; .program/audits/ROOT.1.1.2-verification/npm-test.txt; tests/beats.test.ts"
+    verdict: pass
+  - criterion: "AC2 — beatId stability (S1–S4, I1–I4) proven by beat-model.md 'How to test it' steps 1–4"
+    method: "Four vitest describe blocks named 'beat-model.md step 1'..'step 4', implementing the procedure literally against tests/fixtures/beats-fixture-lesson.ts (baseline + prose-only-edit + insert-between-beats-2-and-3 + delete variants). Step 1 records the exact ordered id list and asserts byte-identical recompile (S2). Step 2 asserts the FULL id list unchanged and the whole array deep-equal (S1). Step 3 asserts every pre-existing id unchanged AND deep-equal, the new id is not any pre-existing id (I1), and post-insertion beats shifted index while keeping ids (S3). Step 4 asserts no surviving beat took the deleted id and that a later rebuild adding different content still never claims it (I2). Structural backing: duplicate keys throw instead of being ordinal-suffixed, and beats.ts is I/O-free/clock-free/counter-free so S2 is a code property."
+    evidence: ".program/audits/ROOT.1.1.2-verification/npm-test.txt (65/65 passed); tests/beats.test.ts; tests/fixtures/beats-fixture-lesson.ts; .program/audits/ROOT.1.1.2-verification/README.md"
+    verdict: pass
+  - criterion: "AC3 — terminal beats carry persistent: true (CP-02 sc.3); compiler enforces the predicate x type mapping and fails the build on violation"
+    method: "vitest: terminal beat has persistent:true, non-persistent beats OMIT the flag (absent===false per contract), and assertValidBeats throws BeatCompileError on a terminal beat missing it. COMPLETION_BY_BEAT_TYPE deep-equals the beat-model.md table and is total over the closed set; 12 parameterised cases assert EVERY invalid type x completion pair in that table throws. Two enforcement layers: Record<BeatType,CompletionPredicate> makes tsc fail if a type is added without a predicate; assertValidBeats re-checks every emitted array so a later edit cannot ship a violating bundle."
+    evidence: ".program/audits/ROOT.1.1.2-verification/npm-test.txt; .program/audits/ROOT.1.1.2-verification/tsc-noemit.txt; src/lib/beats.ts (COMPLETION_BY_BEAT_TYPE, PERSISTENT_BEAT_TYPES, assertValidBeats)"
+    verdict: pass
+  - criterion: "AC4 — npm test / npx tsc --noEmit / npm run build pass; evidence paths recorded (+ npx eslint on owned files)"
+    method: "Ran all four in the MAIN checkout (worktree has no node_modules). npm test: exit 0, 2 files / 65 tests passed. npx tsc --noEmit: exit 0, no output. npm run build ('velite build --clean && next build', Turbopack default per docs/nextjs-conventions.md): exit 0, 14/14 static pages, all 15 routes. npx eslint on the 4 owned/created files: exit 0, no output. Port 3000 never touched; no dev server started."
+    evidence: ".program/audits/ROOT.1.1.2-verification/npm-test.txt; .program/audits/ROOT.1.1.2-verification/tsc-noemit.txt; .program/audits/ROOT.1.1.2-verification/npm-run-build.txt; .program/audits/ROOT.1.1.2-verification/eslint-owned-files.txt"
+    verdict: pass
+artifacts:
+  - src/lib/beats.ts (NEW — pure beat compiler)
+  - src/lib/content.ts (MODIFIED — beat-compile step + re-exports; all pre-existing exports verbatim)
+  - tests/beats.test.ts (NEW — 62 beat tests incl. beat-model.md steps 1–4)
+  - tests/fixtures/beats-fixture-lesson.ts (NEW — extra fixture file, recorded per task instruction)
+  - .program/ledger/items/ROOT.1.1.2.md (ledger)
+  - .program/ledger/events/ROOT.1.1.2.jsonl (ledger)
+  - .program/audits/ROOT.1.1.2-verification/README.md (NEW — evidence doc)
+  - .program/audits/ROOT.1.1.2-verification/npm-test.txt (NEW)
+  - .program/audits/ROOT.1.1.2-verification/tsc-noemit.txt (NEW)
+  - .program/audits/ROOT.1.1.2-verification/npm-run-build.txt (NEW)
+  - .program/audits/ROOT.1.1.2-verification/eslint-owned-files.txt (NEW)
+  - .program/audits/ROOT.1.1.2-verification/authored-corpus-beats.json (NEW — emitted bundle evidence)
+resume_hint: "gen0 COMPLETE — all 4 ACs pass with evidence in .program/audits/ROOT.1.1.2-verification/. Code is in the MAIN checkout (byte-identical copies also in this worktree). Nothing left to implement; awaiting tier-2 review (spec-conformance + framework-empirical)."
 ---
 Implement the beat compiler producing the shape in `.program/interfaces/beat-model.md`
 (BUILD TO IT — never edit it; change requests route through the steward). Read
@@ -81,3 +109,36 @@ NEVER touch port 3000 / npm run dev (CONSTRAINTS #17).
   `tests/e2e/**` excluded (vitest.config.ts). `tests/seed.test.ts` is the only unit test,
   so `tests/beats.test.ts` (the item's preferred path) IS the existing convention — no
   colocation deviation needed.
+
+## gen0 implementation decisions (for the reviewer — each is inside the fixed algorithm)
+
+These are readings of ADR-0011 / beat-model.md, not redesigns. Each is documented at its
+site in `src/lib/beats.ts`.
+
+1. **Beats compile from the RAW MDX body, not Velite's `code`.** Velite emits
+   `outputFormat: 'function-body'`, so in `code` an `h2` is already a `_jsx("h2", …)` call;
+   segmenting it would mean parsing generated JavaScript. `loadLesson()` already returns the
+   authored body, which is the only sound identity source.
+2. **One prose beat per h2 SECTION, positioned at its heading.** ADR-0011 #1 says "one
+   prose beat per h2 section". So `text → anchor → more text` under one heading yields ONE
+   prose beat, not two — the two-beat reading would emit two beats keyed `prose:<same-slug>`
+   and so trip ADR-0011 #3's duplicate-key build failure on ordinary content. Every h2 gets
+   its prose beat even when heading-only, so adding/removing sentences never creates or
+   destroys a beat (S1). Test: "emits ONE prose beat for a section whose text is split by an
+   anchor".
+3. **Fenced code blocks and h3+ headings are not boundaries.** A `## …` or `<Exercise …/>`
+   inside a fence is sample text; honouring it would let a code sample invent a beat.
+4. **`PERSISTENT_BEAT_TYPES` = {terminal} only.** beat-model.md also requires `true` for
+   "streaming" beats. `Playground.tsx` does stream (`res.body.getReader()` on
+   `/api/playground/run`), but the obligations the flag imposes are SESSION-survival ones
+   (stay mounted across route changes, never `display:none`, reserve min-height for xterm
+   `fit()`). A playground run is request-scoped with no session identity to restore, and
+   flagging it would impose portal-slot duties on ROOT.4.2/4.6 that their specs never ask
+   for. Adding a type later is additive and churns no beatId. **Flagged for the reviewer as
+   the one judgment call in this leaf.**
+5. **`getLessonBeats()` / `compileAllLessonBeats()` are new entry points; `loadLesson()`'s
+   return shape is unchanged.** Compiling beats inside `loadLesson()` would put a
+   build-failure throw in the path of the six exercise-only API routes, contradicting the
+   degrade-gracefully property content.ts documents for the compiled bundle.
+6. **`persistent` is emitted only when `true`** — absent === false is normative, and an
+   explicit `false` adds noise consumers must treat identically.
