@@ -4,8 +4,9 @@ parent: ROOT.1.1
 type: Task
 title: Velite swap — build-time MDX compilation + interim LessonRenderer
 ledger_depth: 3
-status: proposed
+status: in_progress
 generation: 0
+owner_agent: implementer-ROOT.1.1.1-gen0
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-01
 acceptance_criteria:
