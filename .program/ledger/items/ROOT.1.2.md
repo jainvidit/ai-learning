@@ -109,3 +109,37 @@ input; conflating them was ruled out by ADR-0005's beatId-stability reasoning.
   variant. If any attempt-2 rework fails its fresh review pair, that child goes
   blocked and escalates to me for decomposition or DECISIONS-PENDING, not a third
   same-shape dispatch. 1.2.1 gen1 = still attempt 1 on the merits (infra death).
+- gen1 review closures:
+  - ROOT.1.2.4 DONE: primary approve (incl. mandatory ADR-0010 requestStructured
+    check), secondary request_changes, tie-break approve => 2-1 approve. Repair-
+    budget blocker downgraded per ADR-0010 seam-invisibility clause (spec ruling);
+    3 delegation points ruled sufficient-as-contract. Primary minors parked as
+    ROOT.7.1 steward notes (recorded in events 12:xx verdict lines).
+  - ROOT.1.2.2 DONE: rework landed from worktree (245-line doc, compile-checked
+    shape assertions incl. negative control at .program/audits/
+    ROOT.1.2.2-gen1-shape-typecheck.txt). Primary approve (5 minors), secondary
+    request_changes, tie-break approve => 2-1 approve. Spec rulings: session-end
+    marker is authored metadata not identity (ADR-0005 fallback text); predicate
+    semantics are REQ-CP-02 content, not a ROOT.2.1 leak; portal join key belongs
+    beyond this contract. Minors parked as ROOT.7.1 steward notes. Deviation
+    accepted: criterion text said beat compiler = ROOT.1.3, ledger says ROOT.1.1
+    owns the compiler and ROOT.1.3 is the wire consumer — doc records correct IDs.
+  - ROOT.1.2.1: gen1 implementer passed all 4 criteria empirically (validate 0 /
+    tsc 0 / eslint 0 / 39-assertion probe) but tier-2 review = 2-1 request_changes
+    on two narrow must-fixes (exercise-level `requires` renamed `preconditions`;
+    sourceExerciseId optional + boss-equivalent refine). Attempt 2 dispatched to
+    dream-implementer-critical (escalated variant), scope-locked to those fixes.
+    ANOMALY (director-level audit flag): duplicate dispatch detected — an agent in
+    gen0's worktree (agent-a14c2ab9a5be2a8d4) integrated schema.ts to main
+    concurrently with gen1's implementer; gen1 adopted main bytes and re-proved
+    criteria on the integrated code. Single sound artifact; scheduler fault logged.
+  - ROOT.1.2.5: rework landed (enumerated member surface compile-proven positive+
+    negative, evidence .program/audits/ROOT.1.2.5-gen1-contract-typecheck.md;
+    deferral destination corrected; AgentRunner/ExecutionDriver distinguished;
+    cassette + error-model + turn semantics at contract level). Fresh pair running.
+  - ROOT.1.2.6: rework landed (Gate IDs corrected to ROOT.1.8/2.5/3.6/4.9/5.6;
+    ADR-0006 note lifted to its own headed section; RF-02/04/14 made executable
+    with file:line carve-outs; RF-03 split a..e; ID-reuse ban explicit; evidence
+    .program/evidence/ROOT.1.2.6/gen1-verification.md). NOTE: gen0 "complete" was
+    written with an artifact that had never left the implementer's worktree —
+    confirms the invalid-vocab statuses were also unlanded. Fresh pair running.

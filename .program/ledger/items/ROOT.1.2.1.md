@@ -4,9 +4,9 @@ parent: ROOT.1.2
 type: Task
 title: schema.ts additive extension — new authoring fields, Module 1 validates unchanged
 ledger_depth: 3
-status: in_review
-owner_agent: implementer-ROOT.1.2.1-gen1 # gen0 died pre-edit with coordinator gen0 (infra); same-tier retry
-generation: 1
+status: in_progress
+owner_agent: implementer-ROOT.1.2.1-gen2 # critical-variant rework: 2 must-fix review findings (changes_requested, coordinator-ROOT.1.2-gen1)
+generation: 2
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-03
 acceptance_criteria:
@@ -65,6 +65,25 @@ Pinned contract decisions (do not re-decide at leaf level):
   different fixture (BT-02 scenario 4); shape only, no runtime behavior.
 - Beat model types do NOT go in this file — they are compiler output (REQ-CP-02),
   documented in .program/interfaces/beat-model.md.
+
+## Rollback note (gen2, written BEFORE first code edit — tier-3 obligation)
+
+gen2 will make exactly TWO changes, both confined to src/lib/schema.ts (worktree
+agent-a88c42047b991b9c3; main already holds the gen1 artifact at md5
+22e58c595a7a8551a85dcbaf010c9526, byte-identical to the worktree copy at gen2 start):
+1. Rename ExerciseAuthoringExtensionsSchema field `requires` -> `preconditions`
+   (exercise-level authoring extension only; CurriculumEntrySchema.requires untouched),
+   updating comments that reference the exercise-level name.
+2. Make TestOutProbeSchema.sourceExerciseId optional and add a .refine requiring it
+   when kind === "boss-equivalent" (mirrors the existing fixture refine).
+UNDO: restore src/lib/schema.ts to the pre-gen2 artifact — `git -C <main> checkout
+c0ecb27^..HEAD -- src/lib/schema.ts` is NOT needed; simplest exact undo is
+`git checkout HEAD -- src/lib/schema.ts` in whichever checkout was patched, since the
+gen1 artifact is the committed/integrated state and gen2 touches no other file. Both
+changes are pure-schema (no content files, no consumers currently read the renamed
+field — verified by grep: only src/lib/schema.ts references `preconditions`/exercise
+`requires`/`sourceExerciseId`), so reverting the one file is a complete rollback.
+No data/** paths, no sandbox paths, no two-key contract files are touched.
 
 ## Plan (tier-2, written before implementing)
 - Contract touched: the authoring contract in src/lib/schema.ts — Zod schemas for curriculum/module/lesson-frontmatter/exercises. Additive optional fields only.
