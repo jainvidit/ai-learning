@@ -40,6 +40,31 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# python (if used)
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+env/
+ENV/
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# test coverage
+.nyc_output
+coverage/
+
 # app data (per-profile progress, sandboxes)
 /data/
 /sandbox/live/
