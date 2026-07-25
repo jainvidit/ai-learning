@@ -18,7 +18,7 @@ acceptance_criteria:
 depends_on: [ROOT.1.2]
 blocks: []
 children: []
-file_ownership: ["src/lib/schema.ts", ".program/interfaces/**", "package.json", "package-lock.json"]
+file_ownership: ["eslint.config.mjs", "src/lib/schema.ts", ".program/interfaces/**", "package.json", "package-lock.json"]
 review: {tier: 2, required_lenses: [consumer-fit, additivity], verdicts: []}
 verification: []
 artifacts: []
