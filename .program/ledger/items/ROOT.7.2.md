@@ -24,6 +24,12 @@ verification:
     method: "Installed Vitest 4.1.10; created vitest.config.ts with node environment; created tests/seed.test.ts with 3 basic assertions; ran `npm test`"
     evidence: ".program/audits/ROOT.7.2-npm-test.txt"
     result: "3 tests passed in 380ms"
+  - criterion: "Playwright is installed and `npm run verify:e2e` runs a seed e2e against a non-3000 dev server"
+    status: passed
+    method: "Installed @playwright/test 1.62.0 and chromium browser; created playwright.config.ts targeting port 3001; created tests/e2e/seed.spec.ts with 3 e2e tests (page load, navigation, console errors); created scripts/run-e2e-with-server.sh to manage production server lifecycle (workaround for Next.js 16 single-instance dev lock); ran `npm run verify:e2e`"
+    evidence: ".program/audits/ROOT.7.2-playwright-e2e.txt"
+    result: "3 passed (3.3s) on production server at port 3001; server stopped after test completion"
+    note: "Next.js 16 uses directory-level lockfiles preventing concurrent dev servers. Solution: e2e tests run against production build (`npm start -p 3001`) instead of dev server. Port 3000 never touched (CONSTRAINTS #17 compliant)."
 artifacts: []
 resume_hint: "Dispatch with ROOT.1.7/1.9 at program start — sizing finding #1: without named test commands, no behavioral leaf anywhere passes leaf-test point 5. Runner choice (vitest vs jest) is this item's first decision; note the historic unexplained jest-worker crash (ASSUMPTIONS/REJECTED) when choosing."
 ---

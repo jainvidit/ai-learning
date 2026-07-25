@@ -8,7 +8,7 @@ test.describe('Verification surface seed e2e', () => {
     await page.waitForLoadState('networkidle')
 
     // Verify the page title or some basic content exists
-    await expect(page).toHaveTitle(/AI Learning/)
+    await expect(page).toHaveTitle(/AI Mastery/)
   })
 
   test('should have working navigation', async ({ page }) => {

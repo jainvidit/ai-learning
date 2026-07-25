@@ -1,6 +1,6 @@
 #!/bin/bash
-# Script to run Playwright e2e tests with a temporary dev server on port 3001
-# This works around Next.js 16's single-instance lock per directory
+# Script to run Playwright e2e tests with a temporary production server on port 3001
+# This works around Next.js 16's single-instance dev server lock per directory
 
 set -e
 
@@ -9,8 +9,8 @@ PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
 cd "$PROJECT_ROOT"
 
-echo "Starting Next.js dev server on port 3001..."
-npx next dev -H 127.0.0.1 -p 3001 &
+echo "Starting Next.js production server on port 3001..."
+npm run start -- -H 127.0.0.1 -p 3001 &
 SERVER_PID=$!
 
 # Function to cleanup on exit

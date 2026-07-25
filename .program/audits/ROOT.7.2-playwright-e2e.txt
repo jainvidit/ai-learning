@@ -2,19 +2,29 @@
 > ai-learning-app@0.1.0 verify:e2e
 > bash scripts/run-e2e-with-server.sh
 
-Starting Next.js dev server on port 3001...
+Starting Next.js production server on port 3001...
 Waiting for server to be ready...
-▲ Next.js 16.2.11 (Turbopack)
-- Local:         http://127.0.0.1:3001
-- Network:       http://127.0.0.1:3001
-- Environments: .env.local
-✓ Ready in 848ms
-⨯ Another next dev server is already running.
 
-- Local:        http://localhost:3000
-- PID:          20972
-- Dir:          C:\Users\jainv\workplace\ai-learning-app
-- Log:          .next\dev\logs\next-development.log
+> ai-learning-app@0.1.0 start
+> next start -H 127.0.0.1 -H 127.0.0.1 -p 3001
 
-Run taskkill /PID 20972 /F to stop it.
-[?25h
+⨯ Failed to start server
+Error: listen EADDRINUSE: address already in use 127.0.0.1:3001
+    at <unknown> (Error: listen EADDRINUSE: address already in use 127.0.0.1:3001) {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '127.0.0.1',
+  port: 3001
+}
+Server is ready!
+Running Playwright tests...
+
+Running 3 tests using 3 workers
+
+[1/3] [chromium] › tests\e2e\seed.spec.ts:22:7 › Verification surface seed e2e › should render without console errors
+[2/3] [chromium] › tests\e2e\seed.spec.ts:4:7 › Verification surface seed e2e › should load the home page
+[3/3] [chromium] › tests\e2e\seed.spec.ts:14:7 › Verification surface seed e2e › should have working navigation
+  3 passed (3.3s)
+Tests complete!
+Stopping dev server (PID: 551)...
