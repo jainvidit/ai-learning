@@ -1,0 +1,17 @@
+=== NEGATIVE CONTROL: foreign listener on 3001 ===
+Started an unrelated node http server on 127.0.0.1:3001 (pid 1188), then ran: CI=1 npm run verify:e2e
+Expected: fail fast and do NOT adopt/test the foreign listener.
+(gen0 behaviour: its curl health loop accepted ANY listener and reuseExistingServer was !CI, so a foreign server could be tested as if it were the app.)
+
+
+> ai-learning-app@0.1.0 verify:e2e
+> bash scripts/run-e2e-with-server.sh
+
+[verify:e2e] Reusing the existing production build in .next/ (delete .next/ to force a rebuild).
+[verify:e2e] Running Playwright e2e suite — Playwright owns the production server on port 3001.
+Error: http://127.0.0.1:3001 is already used, make sure that nothing is running on the port/url or set reuseExistingServer:true in config.webServer.
+
+EXIT_CODE=1
+
+=== cleanup ===
+foreign listener pid 1188 killed; netstat shows no LISTENING socket on 3001; port 3000 LISTENING on its original owner pid 20972 (untouched).

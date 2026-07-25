@@ -21,20 +21,59 @@ review: {tier: 1, required_lenses: [spec-conformance, command-reality], verdicts
 verification:
   - criterion: "A test runner is installed and `npm test` runs it green on a seed test"
     status: passed
-    method: "Installed Vitest 4.1.10; created vitest.config.ts with node environment; created tests/seed.test.ts with 3 basic assertions; ran `npm test`"
-    evidence: ".program/audits/ROOT.7.2-npm-test.txt"
-    result: "3 tests passed in 380ms"
+    generation: 1
+    method: "Vitest 4.1.10 (gen0 choice kept). gen1 re-ran `npm test` from a fresh `npm install` and found it RED, not green: vitest collected tests/e2e/seed.spec.ts because gen0's exclude glob `**/playwright/**` never matches `tests/e2e/`, and @playwright/test's test.describe throws outside the Playwright runner ('1 failed | 1 passed', exit 1). Fixed vitest.config.ts: include narrowed to *.test.* (e2e specs are *.spec.ts) AND exclude names 'tests/e2e/**' explicitly (redundant guard so a rename cannot leak e2e into the unit run). Re-ran `npm test`."
+    evidence: ".program/audits/ROOT.7.2-gen1-npm-test.txt"
+    result: "EXIT_CODE=0; Test Files 1 passed (1); Tests 3 passed (3) in 413ms"
+    note: "gen0's recorded green was an artifact of running before the e2e spec existed / with a stale cache; the pre-fix red run is reproducible from a clean install."
   - criterion: "Playwright is installed and `npm run verify:e2e` runs a seed e2e against a non-3000 dev server"
     status: passed
-    method: "Installed @playwright/test 1.62.0 and chromium browser; created playwright.config.ts targeting port 3001; created tests/e2e/seed.spec.ts with 3 e2e tests (page load, navigation, console errors); created scripts/run-e2e-with-server.sh to manage production server lifecycle (workaround for Next.js 16 single-instance dev lock); ran `npm run verify:e2e`"
-    evidence: ".program/audits/ROOT.7.2-playwright-e2e.txt"
-    result: "3 passed (3.3s) on production server at port 3001; server stopped after test completion"
-    note: "Next.js 16 uses directory-level lockfiles preventing concurrent dev servers. Solution: e2e tests run against production build (`npm start -p 3001`) instead of dev server. Port 3000 never touched (CONSTRAINTS #17 compliant)."
+    generation: 1
+    method: >-
+      @playwright/test 1.62.0 + chromium. gen1 rebuilt the server lifecycle to have exactly ONE
+      owner: playwright.config.ts `webServer` starts and stops the server; scripts/run-e2e-with-server.sh
+      no longer starts, health-checks, or kills anything (it only satisfies the build precondition and
+      calls `npx playwright test`). Also set `reuseExistingServer: false` unconditionally so a FOREIGN
+      listener on 3001 can never be adopted and tested as ours (gen0 used `!process.env.CI`, and its
+      curl health loop accepted any listener). Host/port are now declared in exactly one place, the new
+      `e2e:server` script (`next start -H 127.0.0.1 -p 3001`) — the duplicated `-H` is gone. Verified
+      from a genuinely clean tree: `rm -rf .next playwright-report test-results`, then `CI=1 npm run verify:e2e`.
+      CI=1 is the condition under which the gen0 two-owner collision was deterministic.
+    evidence: ".program/audits/ROOT.7.2-gen1-verify-e2e-cleantree.txt"
+    result: >-
+      EXIT_CODE=0. Script detected the missing build ("No production build found (.next/BUILD_ID missing)
+      — building first..."), ran `next build`, then Playwright started the server ("Ready in 379ms" on
+      http://127.0.0.1:3001) and ran 3 passed (6.4s). grep -i EADDRINUSE over the full output: NO match
+      (grep exit 1).
+    additional_evidence:
+      - path: ".program/audits/ROOT.7.2-gen1-verify-e2e-rerun.txt"
+        shows: "Second consecutive CI=1 run, build-reuse path: 'Reusing the existing production build', 3 passed (7.5s), EXIT_CODE=0, zero EADDRINUSE. Proves the port is genuinely released between runs and the build precondition is idempotent."
+      - path: ".program/audits/ROOT.7.2-gen1-netstat-3001.txt"
+        shows: "After exit: `netstat -ano | grep :3001 | grep LISTENING` returns no rows (grep exit 1) and no :3001 rows at all remain once TIME_WAIT drains — no orphaned npm-wrapper/next child holding the port. Port 3000 still LISTENING on its original owner PID 20972, untouched (CONSTRAINTS #17)."
+      - path: ".program/audits/ROOT.7.2-gen1-foreign-listener.txt"
+        shows: "Negative control: with a foreign listener occupying 3001, verify:e2e FAILS FAST with a non-zero exit instead of silently testing the foreign server."
+    note: >-
+      Requirement reading: a `next dev` server on a non-3000 port is not achievable in Next.js 16 —
+      it takes a directory-level lock for `next dev` (docs/nextjs-conventions.md "Development and Build
+      Changes": "Lockfiles prevent multiple instances of same command"), so a second dev server cannot
+      coexist with the owner's regardless of port. The criterion's intent (a real non-3000 HTTP server
+      serving this app, port 3000 untouched) is met by `next start` on 3001. Recorded as an explicit
+      deviation for the reviewers.
   - criterion: "AGENTS.md \"Verification commands\" block lists both commands (additive edit, recorded here)"
     status: passed
-    method: "Updated AGENTS.md lines 21-22 to replace placeholder text with actual commands: `npm test` for unit tests and `npm run verify:e2e` for e2e tests"
-    evidence: "AGENTS.md lines 19-26"
-    result: "Both commands now listed in verification commands block; Integration test line removed as not applicable"
+    generation: 1
+    method: >-
+      gen0 violated the additive constraint: it overwrote the `- **Unit test**` placeholder and DELETED
+      the `- **Integration test**: _(no test suite configured)_` line. gen1 restored the Integration-test
+      placeholder verbatim and kept every other pre-existing line byte-identical; the only net change to
+      the block is filling in Unit test and appending a new E2E test row. No line outside the
+      "Verification commands" block was touched, and the `<!-- BEGIN/END:nextjs-agent-rules -->` region
+      is untouched.
+    evidence: ".program/audits/ROOT.7.2-gen1-agents-md-block.txt"
+    result: >-
+      Block now reads: Install / Build / Typecheck / Lint (all unchanged) + `- **Unit test**: npm test`
+      + `- **Integration test**: _(no test suite configured)_` (restored) + `- **E2E test**: npm run
+      verify:e2e` (added) + `- **Dev server**: npm run dev` (unchanged). Line count 7 -> 8; zero lines removed.
 artifacts:
   - path: "package.json"
     changes: "Added vitest, @vitest/ui, @playwright/test to devDependencies; added scripts: test, test:watch, dev:e2e, verify:e2e, verify:e2e:manual, verify:e2e:ui"

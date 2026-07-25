@@ -4,9 +4,9 @@ parent: ROOT.1.2
 type: Task
 title: schema.ts additive extension — new authoring fields, Module 1 validates unchanged
 ledger_depth: 3
-status: interrupted
-owner_agent: null # gen0 implementer died with coordinator gen0 (infra); takeover logged by coordinator-ROOT.1.2-gen1
-generation: 0
+status: in_progress
+owner_agent: implementer-ROOT.1.2.1-gen1 # gen0 died pre-edit with coordinator gen0 (infra); same-tier retry
+generation: 1
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-03
 acceptance_criteria:
