@@ -116,6 +116,53 @@ That is the whole of the contract for this section: cacheable prefixes *are* mar
 
 ---
 
+## Disclosure — ASSUMPTIONS #12 is read per-clause, not per-assumption (ROOT.7.1, 2026-07-25)
+
+**Additive disclosure, no contract change.** Left as steward-note backlog 3 at ROOT.1.2's
+close and applied by the standing steward (ROOT.7.1, batch 1); logged on
+`events/ROOT.7.1.jsonl`.
+
+`docs/origin/ASSUMPTIONS.md` **#12 is a single numbered assumption bundling four distinct
+claims** — no `seed` param; sampling params rejected on newest tiers;
+`output_config.format` structured outputs on Bedrock; a Haiku 4096-token cache minimum.
+**ADR-0010 retires #12 at whole-assumption granularity** — "ASSUMPTIONS #12 must not be
+cited as live" — but its evidence
+(`.program/audits/probes-bedrock-structured-outputs.md`) probed **only** the
+structured-outputs clause, and its Decision and Consequences speak only to structured
+outputs and the `requestStructured` enforcement mechanism.
+
+**This document therefore reads #12 per clause:** the structured-outputs clause is
+**discharged negative** (cite ADR-0010, never #12); the **sampling-param matrix** and the
+**cache-minimum** clauses remain **open documented assumptions** with re-verification owner
+**ROOT.1.5** (see "Sampling Parameter Stripping" and "Cache Control Breakpoints" above, and
+the References `Assumptions` line).
+
+**Disclosed plainly:** that per-clause reading is **this contract's interpretation**, not
+something ADR-0010 states. It is chosen because the alternative is worse in both directions
+— treating the un-probed sampling/cache clauses as *retired* would silently drop two live
+empirical obligations that no probe has discharged, while treating them as *verified* would
+assert facts this repo has never exercised. Keeping them open and owned is the conservative
+option and matches what the two sections above already do.
+
+**Consequences, so nothing is ambiguous:**
+
+- Nothing in this document depends on the structured-outputs clause. `requestStructured`
+  is specified as tool-forcing + validate/repair per ADR-0010, not as an
+  `output_config` passthrough.
+- The sampling-param matrix stays a documented assumption until ROOT.1.5 discharges it, and
+  until then an unexpected param-rejection 4xx is `RequestRejected` per the error taxonomy
+  — never a silent retry loop.
+- The cache-minimum figure appears only inside the **explicitly non-binding** "Illustrative
+  only — NOT contract" sketch. If it proves wrong, that section's actual contract
+  (cacheable prefixes *are* marked; hits *are* measured from response metadata) holds
+  unchanged.
+- **If a later probe discharges either remaining clause**, or if an ADR restates #12's
+  retirement at clause granularity, this disclosure becomes redundant and the steward
+  removes it — until then it is the honest record of why a "retired" assumption is still
+  cited here.
+
+---
+
 ## `requestStructured(schema)` — ADR-0010
 
 **Binding:** `.program/decisions/ADR-0010.md` (accepted 2026-07-25); evidence `.program/audits/probes-bedrock-structured-outputs.md`.

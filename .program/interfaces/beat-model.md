@@ -166,6 +166,78 @@ For any beat with `persistent: true`, the beat's DOM instance must:
 
 ---
 
+### Steward ruling — what "streaming beat" means (ROOT.7.1, 2026-07-25) — NARROW, ratified
+
+**Additive clarification. It changes no field, no default, and no existing value's meaning**
+— it only says which beats the existing `persistent: true` requirement already reached.
+Logged on `events/ROOT.7.1.jsonl`; requested by `coordinator-ROOT.1.1-gen0`
+(`field_request` 2026-07-25T17:40:03Z, arbitration record `events/ROOT.1.1.jsonl`
+17:40:01).
+
+**Question.** `Playground.tsx` consumes an SSE response stream from
+`/api/playground/run`. Does a **playground** beat therefore fall under the streaming-beat
+`persistent: true` requirement above?
+
+**Ruling: NO. The narrow reading is ratified.** `PERSISTENT_BEAT_TYPES = { terminal }`
+(`src/lib/beats.ts`) is correct and stands. A playground beat MUST NOT be marked
+`persistent` on the strength of its SSE transport alone.
+
+**The deciding test — session identity, not transport.** The requirement's obligations are
+*session-survival* obligations, not stream-handling ones: stay mounted across beat
+transitions **and route changes**, never `display:none`, never zero height, reserve
+min-height so xterm `fit()` is safe. Read them against the shard text:
+
+- **lesson-experience REQ-LX-03** states the obligation set and then vests instance
+  ownership in the PersistentTerminalHost (`terminal-experience REQ-TX-01`).
+- **terminal-experience REQ-TX-01** scopes that host to **xterm instances** — its three
+  scenarios are same-instance-with-scrollback across route changes, scrollback restoration
+  via `@xterm/addon-serialize` plus event-log replay for the gap, and WebGL context-loss
+  fallback.
+- **GLOSSARY.md** likewise defines a persistent beat as one that "stays mounted across
+  navigation within the lesson … (xterm safety by construction)".
+
+So the question a compiler must answer is **"is there a session identity to restore?"** —
+not "does bytes-over-time reach the client?". A playground run is **request-scoped**: it
+completes, its output becomes ordinary client state, there is no session to reattach to, no
+scrollback to serialize, and no xterm to `fit()`. Marking it `persistent: true` would
+impose portal-slot obligations on ROOT.4.2 and ROOT.4.6 that **nothing in their specs asks
+for**, and would put a non-xterm instance under a host defined to own xterm instances. The
+narrow reading is also the least-irreversible one: widening later is additive, whereas
+retracting a wrongly-set flag would strand consumers that had built slots for it.
+
+**Honest note on the residual ambiguity.** "Streaming beat" is **not** defined in any shard;
+REQ-CP-02 scenario 3 uses it disjunctively ("a terminal **or streaming** beat"), so the
+second limb must denote something a terminal beat is not. This document's own gloss above
+enumerates that limb as "terminal sessions, **agent runs**, **SSE-fed widgets**" — and
+conspicuously **not** playgrounds, though `playground` is a first-class member of the same
+closed `BeatType` set. That enumeration is the reading ratified here. The limb is
+currently **vacuous in the authored corpus** — no agent-run or session-backed SSE widget
+beat is authored yet — which is why `PERSISTENT_BEAT_TYPES` has exactly one member. It is
+vacuous because the corpus lacks members, **not** because the compiler denies the category.
+
+**Widening path, pre-authorized in shape but NOT in effect.** If a beat with genuine
+session identity is later authored (an agent-run beat; a session-backed SSE widget whose
+stream must survive navigation; a playground redesigned around a *resumable* session), the
+steward widens by:
+
+1. one entry added to `PERSISTENT_BEAT_TYPES` in `src/lib/beats.ts`, and
+2. one line appended here recording which type was added and why.
+
+That is an **additive** change under the Change Protocol: **no `beatId` churn** (the set
+feeds the `persistent` flag, never id derivation), no field added or removed, no consumer
+migration. `assertValidBeats()` then enforces the new member at build time as it does for
+`terminal`. Widening remains a **steward decision** — a producer or consumer item that
+widens it unilaterally has made a contract change the protocol forbids. Note the converse
+too: because the flag is compiler-set and build-enforced, a widening requires a content
+**rebuild** for existing bundles to carry the new flag.
+
+**Consumers: this changes nothing you must do.** The standing rule above still binds —
+**read the `persistent` flag; never re-derive persistence from `type`.** A consumer that
+special-cases `type === "terminal"` will break on the first widening, which this ruling
+explicitly leaves open.
+
+---
+
 ## Portal-Slot Contract (REQ-LX-03, REQ-TX-01)
 
 The rendering contract for persistent beats involves the **PersistentTerminalHost** and **portal slots**:
@@ -243,3 +315,19 @@ This design ensures xterm `fit()` can compute dimensions safely and that termina
 **Event types** are explicitly deferred to **ROOT.2.1** (Event Log and Projections). ROOT.2.1 owns the beat-related event namespace — names, payload shapes, emission points, and projections — and nothing in this file constrains it. Beat-view telemetry (REQ-LX-07 scenario 3) and server-confirmed lesson completion (REQ-LX-05 scenario 1) are required behaviors of those lanes; the event identifiers are ROOT.2.1's to define and are deliberately not enumerated here.
 
 Also out of scope: the authored input schema (`src/lib/schema.ts` / `content-schema.md`, ROOT.1.2.3), `itemRevision` hashing and migration maps (REQ-CP-05, ROOT.1.1), rail and frontier visual states (ROOT.4.2), and the per-learner completion projections that `completion` is evaluated against (ROOT.2.1).
+
+**Steward scoping note (ROOT.7.1, 2026-07-25 — steward-note backlog 4, inherited from
+ROOT.1.2's close).** The ROOT.2.1 deferral in the paragraph above is about **beat telemetry
+into the `learning_events` store** (`event-log-and-projections.md` REQ-EL-01…04) and the
+per-learner completion projections that `completion` is evaluated against. It must **not**
+be read as making this document, or `event-log-and-projections.md`, the place to resolve a
+**`TermEvent`** question. `TermEvent` is a **distinct event family**: its *requirements*
+live in `execution-layer.md` **REQ-EX-02 / REQ-EX-03** (co-owned with
+`api-and-streaming.md`; protocol owner Ramesh), it concerns a **different log** — the
+durable, sequence-numbered *session* log with `attach(sessionId, fromSeq)` replay, not the
+append-only `learning_events` store — and the **authoritative deferral table** for it is
+the "Event payload — DEFERRED" table in `.program/interfaces/agent-runner.md`. ROOT.2.1
+is the steward item that will define the *types* for both families; that shared type-owner
+is the only thing the two have in common, and it is not a shared schema. Anything in this
+program trying to answer a `TermEvent` question from `event-log-and-projections.md` (or
+from this file) is reading the wrong shard.
