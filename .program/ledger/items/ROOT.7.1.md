@@ -4,7 +4,8 @@ parent: ROOT.7
 type: Contract
 title: Standing contract steward — schema.ts, interfaces, package.json (post-Phase-0)
 ledger_depth: 2
-status: proposed
+status: in_progress
+owner_agent: director-gen15 (standing item; scheduling container — batches served by fresh dream-implementer-hardened per request)
 generation: 0
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-03
@@ -32,3 +33,22 @@ returns. Request protocol: a consumer item logs a `field_request` event on ITS O
 events file and its coordinator notifies the director, who dispatches a steward batch
 here. Requests changing an existing field's meaning (non-additive) are rejected —
 that is a freeze-challenge requiring an ADR.
+
+## Steward-note backlog (received at ROOT.1.2 stewardship transfer, 2026-07-25)
+
+Inherited from ROOT.1.2 closure (full citations in events/ROOT.1.2.jsonl 13:52:00–13:55:00Z):
+1. RF-02 re-anchor duty: regression-floor.md RF-02 cites sanitizeQuiz in
+   src/components/lesson/LessonRenderer.tsx, which REQ-CP-01 replaces (BeatRenderer,
+   Phase 3). Re-anchor the row RF-11-style when ROOT.4.2 lands; the behavior, not the
+   file:line, is the guarantee.
+2. Session-end marker: ADR-0005 authored-convention marker has no schema carrier by
+   design; if an additive schema field is ever requested, it goes through the
+   field-request protocol (assembly arbitration 13:52:30Z overruled it as a blocker).
+3. model-router.md: add one-line disclosure that keeping ASSUMPTIONS #12 sampling/cache
+   clauses live is a per-clause reading of ADR-0010's whole-assumption retirement.
+4. beat-model.md:243 gloss of ROOT.2.1 should be scoped to learning_events/beat
+   telemetry (TermEvent families are distinct; agent-runner.md:163-169 is the
+   authoritative deferral table).
+5. Reviewer minors parked from 1.2.2/1.2.4 review rounds (see events verdict lines):
+   playground attempted-vs-scored reconciliation note; BeatType/exercise-type homonym
+   mapping note.

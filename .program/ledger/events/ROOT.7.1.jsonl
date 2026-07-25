@@ -1,1 +1,2 @@
 {"ts":"2026-07-25T04:51:59Z","event":"created","by":"director-gen0","detail":"genesis revision per ADR-0007"}
+{"ts":"2026-07-25T13:59:30Z","event":"status_change","by":"director-gen15","detail":"ROOT.7.1 proposed -> in_progress: activated by ROOT.1.2 closure per resume_hint (globs transferred: src/lib/schema.ts, interfaces/**, package.json post-Phase-0). Steward-note backlog (5 entries) written into item body from ROOT.1.2 transfer. Standing item; batches served on request."}

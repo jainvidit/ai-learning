@@ -11,7 +11,7 @@ spec_refs:
   - .program/spec/event-log-and-projections.md#req-el-02
 acceptance_criteria:
   - Append-only local SQLite learning_events store; no update/delete paths (EL-01 scenarios 1–2)
-  - Event types + payload shapes published in .program/interfaces/learning-events.md; additive-only; judge events carry the drift triple (EL-02)
+  - Event types + payload shapes published in .program/interfaces/learning-events.md; additive-only; judge events carry the drift triple (EL-02); INCLUDES the session event-log/TermEvent types that .program/interfaces/agent-runner.md (ROOT.1.2.5) explicitly defers to this item — define them here or record a further deferral target in agent-runner.md via the ROOT.7.1 steward, never leave the deferral dangling
   - Dual-write live behind the existing progress API; reads still legacy-served (EL-01 scenario 4)
   - Migration importer represents existing learner progress in events; data/** untouched (EL-01 scenario 3, REQ-MS-03)
   - Progress GET/PUT re-backed by projections behind the existing API shape, after ROOT.2.2's projections exist (moved from ROOT.2.2 — this item owns the route)
