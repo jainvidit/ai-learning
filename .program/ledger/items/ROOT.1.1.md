@@ -78,6 +78,31 @@ field_request-style note appended to ROOT.7.1's events; never edit regression-fl
 - CP-01 scenario 3 (ASSUMPTIONS #11 re-verify): DISCHARGED upstream by ROOT.1.7 /
   ADR-0009 (evidence .program/audits/probes-mdx-archival.md). Divergent finding
   (not archived) ruled Reading 2: migration proceeds. Nothing for this item to re-run.
+- AC-1 (CP-01 s1–2, next-mdx-remote out / Velite build-time / npm run build passes):
+  SATISFIED via ROOT.1.1.1 (done). Empirical evidence in MAIN checkout:
+  .program/audits/ROOT.1.1.1-verification/main-build.txt, main-typecheck.txt,
+  main-validate.txt, main-test.txt, main-lint-owned.txt (all exit 0). Tier-2 review:
+  primary spec-conformance approve-with-notes, secondary framework-empirical approve
+  (secondary independently re-ran tsc + validate). Whole-repo lint exit 1 arbitrated
+  as pre-existing baseline in files owned elsewhere (events 15:30:02).
+- COUPLING #27 CARRY-OVER RECORD (interim renderer -> ROOT.4.2 BeatRenderer):
+  mdxComponents = 16 entries — 12 HTML overrides (h2 h3 p ul ol li code pre blockquote
+  a strong table; `table` emits wrapper <div class="my-4 overflow-x-auto">, keep it) +
+  Callout, TokenVisualizer, NextWordGame + render-time Exercise closure (closes over
+  exercises/moduleId/lessonId; switches on quiz|playground|terminal|challenge; only the
+  quiz branch sanitizes). sanitizeQuiz is a WHITELIST projection: keeps type/id/title/
+  passingScore, question id/kind/prompt, option id/text ONLY; strips correctOptionIds,
+  explanation, and (by whitelist default) misconception — BeatRenderer must preserve
+  the whitelist approach so future answer-revealing schema fields stay excluded.
+  Grading stays server-side via getExercise(). Full record:
+  .program/audits/ROOT.1.1.1-verification/dom-equivalence-and-carryover.md.
+- RF-02/RF-11: DOM/selector output proven identical across all 5 lessons (same evidence
+  doc); prop shape changed additively (code? added; mdx optional+deprecated).
+  field_request logged to ROOT.7.1 events 15:30:00 — no self-edit of regression-floor.
+- OQ #10 tiebreak: NOT FIRED — Velite DX workable (one-shot velite build prefixed to
+  dev/build scripts; opt-in content:watch; no stale-output window). Ruling in events
+  15:30:01. pnpm-overrides isolation consciously deferred (events 16:30:01: npm repo
+  per ADR-0008; single zod 4.4.3 in lockfile; velite 0.4.0 declares no zod dep).
 
 ## Blocker record (gen0, 2026-07-25T14:20Z)
 

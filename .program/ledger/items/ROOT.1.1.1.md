@@ -4,7 +4,7 @@ parent: ROOT.1.1
 type: Task
 title: Velite swap — build-time MDX compilation + interim LessonRenderer
 ledger_depth: 3
-status: in_review
+status: done
 generation: 1
 owner_agent: implementer-ROOT.1.1.1-gen1
 blocked_reason: null
@@ -19,7 +19,7 @@ depends_on: []
 blocks: [ROOT.1.1.2]
 children: []
 file_ownership: ["package.json", "velite.config.*", "src/lib/content.ts", "src/components/lesson/LessonRenderer.tsx"]
-review: {tier: 2, required_lenses: [spec-conformance, framework-empirical], verdicts: []}
+review: {tier: 2, required_lenses: [spec-conformance, framework-empirical], verdicts: [{lens: spec-conformance, reviewer: dream-reviewer-primary, verdict: approve-with-notes, must_fix: 0}, {lens: framework-empirical, reviewer: dream-reviewer-secondary, verdict: approve, must_fix: 0}]}
 verification:
   - criterion: "next-mdx-remote absent from package.json dependencies AND devDependencies; velite present (CP-01 scenario 1)"
     status: VERIFIED
