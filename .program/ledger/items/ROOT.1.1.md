@@ -4,8 +4,7 @@ parent: ROOT.1
 type: Capability
 title: Content pipeline — Velite migration, beat compiler, versioned bundle
 ledger_depth: 2
-status: blocked
-blocked_reason: "awaiting_human_authorization — verification toolchain (npm/npx) denied by permission system for all agents (director-verified 14:20Z); PART 6 empirical evidence unattainable. Build-broken WIP RESOLVED: director restored green baseline (git checkout 6df07a6^ -- package.json .gitignore; velite.config.ts removed; WIP preserved in commit 6df07a6). See DECISIONS-PENDING.md entry"
+status: in_progress
 owner_agent: coordinator-ROOT.1.1-gen0
 generation: 0
 spec_refs:
@@ -26,7 +25,7 @@ file_ownership: ["velite.config.*", "src/lib/content.ts", "src/components/lesson
 review: {tier: 2, required_lenses: [spec-conformance, framework-empirical], verdicts: []}
 verification: []
 artifacts: []
-resume_hint: "BLOCKED on toolchain permission (see DECISIONS-PENDING.md). Decomposition DONE (children 1.1.1-4, serial chain, ADR-0011 fixes algorithms). ROOT.1.1.1 blocked mid-flight with partial artifacts (package.json swapped, velite.config.ts landed, LessonRenderer NOT migrated, npm install never ran — repo build-broken). On resume: verify toolchain works, then re-dispatch ROOT.1.1.1 gen1 (dream-implementer-hardened, second attempt) with its 'Partial state at block' section as input; then 1.1.2 -> 1.1.3 -> 1.1.4."
+resume_hint: "UNBLOCKED 2026-07-25: toolchain grant confirmed empirically (npm --version = 11.6.2 in coordinator session). Director had restored green baseline (WIP preserved in commit 6df07a6). Re-dispatching ROOT.1.1.1 gen1 (dream-implementer-hardened; environmental-failure writeup + partial-state inventory as input; attempt-2 rule NOT spent — failure was environmental). Then 1.1.2 -> 1.1.3 -> 1.1.4 serial."
 ---
 Coordinator-owned; will split into leaves (Velite swap, compiler, bundle emitter,
 itemRevision hashing). Framework-touching: verification must include build/typecheck

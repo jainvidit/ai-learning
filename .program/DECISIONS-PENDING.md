@@ -58,3 +58,6 @@ Genesis adversarial review (2026-07-25): three blind opus lenses filed 71 findin
 `.program/audits/genesis-review-*.md`. Owner-relevant: the review confirmed the two
 parks above and surfaced no new irreversible-action candidates beyond the nightly-backup
 flag.
+
+### RESOLVED — ROOT.1.1 toolchain denial (2026-07-25, coordinator-ROOT.1.1-gen0)
+- The permission grant landed: `npm --version` succeeds in the ROOT.1.1 coordinator session (11.6.2). Baseline restore by director-gen15 verified intact (next-mdx-remote ^6.0.0 back in package.json, no velite.config.ts). ROOT.1.1/ROOT.1.1.1 unblocked; ROOT.1.1.1 gen1 re-dispatched. The 2026-07-25 "verification toolchain denied" entry above is closed.

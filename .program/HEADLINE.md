@@ -1,35 +1,31 @@
-# Program Headline — 2026-07-25
+# Dream Program — Status Report
 
-## Current Phase
-**Phase 0 executing** — ROOT.1.2 (contracts pack) DONE at gen 3; ROOT.1.1 (content pipeline) in_progress.
+**Phase**: Phase 0 executing | **Done**: 10 | **In progress**: 4 | **Proposed**: 49 | **Blocked**: 4
 
-## Item Counts
-| Status | Count |
-|--------|-------|
-| done | 8 |
-| in_progress | 3 |
-| proposed | 38 |
-| blocked | 2 |
-**Total:** 51
+## Item counts (total 67)
 
-## Ready Frontier
-Once ROOT.1.1 closes: ROOT.1.3, ROOT.1.6 (both need 1.1∧1.2; 1.2✓), ROOT.1.4 (needs 1.1∧7.2; 7.2✓), ROOT.1.10 ready.
-**Width:** ~1–3 items; no out-of-order dispatch until 1.1 done.
+- **Done**: ROOT.1.7, 1.9, 1.2 (+ 6 children), 7.2
+- **In progress**: ROOT, ROOT.1, ROOT.7, 7.1
+- **Blocked**: ROOT.1.1, 1.1.1, 2.4, 6 (all awaiting_human_authorization)
 
-## Top Blockers (parked indefinitely)
-1. **ROOT.6** — Hosted Edition: never owner-ratified; PART 9 hard stops (auth, API, paid resources); routed around
-2. **ROOT.2.4** — Legacy JSON archival: real learner data; data/** never-delete flag; routed around
+## Ready frontier: 4 items
 
-## Pending Decisions
-**3 open by design:** OQ #10 (trigger: ROOT.1.1), OQ #11 (trigger: ROOT.4.8), OQ #12 (cosmetic)
-**15 decided/logged reversible** (see DECISIONS-PENDING.md)
+ROOT.1.1 subtree holds front. Next unlocks: 1.1.2→1.1.3→1.1.4 (serial), then 1.6 then 1.3/1.4.
 
-## Generation ≥3 Flag
-**ROOT.1.2 gen 3** — director-ruled infra-death (API error→budget overrun→session death), NOT scoping failure.
+## Top blockers (parked)
 
-## Standing Services
-- **ROOT.7.1**: in_progress (5-note backlog post-Phase-0)
-- **ROOT.7.2**: done (test runner, npm test, Playwright e2e, AGENTS.md ✓)
+1. **ROOT.1.1** — npm/npx permission denied. Build-broken WIP (package.json swapped to velite, LessonRenderer still imports next-mdx-remote). Director resolved repo state via git checkout. **Action**: Grant permission.
+2. **ROOT.6** — Hosted Edition: never ratified (ADR-0001); PART 9 hard stops. Routed around.
+3. **ROOT.2.4** — Legacy JSON archival: real learner data + REQ-MS-03 never-delete. Routed around.
+4. **ROOT.5.1** — Nightly git-bundle backup: PART 9-adjacent, flagged. Routed around.
 
-## Audit
-**Routine #1 (2026-07-25T13:40Z): PASS** — 0 critical, 2 major/resolved, 3 minor; ledger integrity OK.
+## Pending decisions
+
+- **Decided**: 14 total (13 logged as ADRs 0001–0010, plus 0008/0009/0010)
+- **Undecided**: OQ #8 (Module 12 mitigation) — must ADR before ROOT.5.5
+- **Open-by-design**: OQ #10 (trigger: ROOT.1.1), #11 (ROOT.4.8), #12 (cosmetic)
+- **Genesis review**: 3 blind opus; 71 findings; confirmed parks above; no new irreversible
+
+## Generation ≥3: None current
+
+ROOT.1.2 gen3 = infra-death (budget exhaustion), not scoping failure. Closed.
