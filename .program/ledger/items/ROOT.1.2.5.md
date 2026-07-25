@@ -4,7 +4,7 @@ parent: ROOT.1.2
 type: Task
 title: agent-runner.md interface doc — AgentRunner seam contract (event types deferred)
 ledger_depth: 3
-status: in_review
+status: done
 generation: 1
 owner_agent: implementer-ROOT.1.2.5-gen1 # attempt 2, hardened. gen0 artifact failed on merits: fresh blind pair both request_changes; verdicts + scope arbitration in events/ROOT.1.2.jsonl (2026-07-25T12:12:04Z, 12:14:52Z).
 spec_refs:

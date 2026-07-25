@@ -4,7 +4,7 @@ parent: ROOT.1.2
 type: Task
 title: schema.ts additive extension — new authoring fields, Module 1 validates unchanged
 ledger_depth: 3
-status: in_progress
+status: in_review
 owner_agent: implementer-ROOT.1.2.1-gen2 # critical-variant rework: 2 must-fix review findings (changes_requested, coordinator-ROOT.1.2-gen1)
 generation: 2
 spec_refs:
@@ -40,8 +40,21 @@ verification:
     how_checked: "A duplicate concurrent agent using the SAME name (implementer-ROOT.1.2.1-gen1, worktree agent-a14c2ab9a5be2a8d4) implemented this item while I was implementing it independently in worktree agent-a187fcaa2f92bc282; director-gen0 then integrated ITS file into main. I did not trust its evidence files. Re-proved on the integrated code: (a) npm run validate on MAIN exit 0, 14 modules, all 5 Module 1 lessons valid, content/ untouched; (b) npx tsc --noEmit on MAIN exit 0, no diagnostics; (c) all 7 required surfaces present in main src/lib/schema.ts by direct read (DifficultyTierSchema intro|core|stretch, ExerciseRoleSchema boss on all 4 EXISTING types via ExerciseAuthoringExtensionsSchema.shape spread, HintRung/HintLadderSchema, QuizOptionSchema.misconception per-distractor, ArtifactDeclarationSchema + verifierId, PreconditionSchema for artifact:claude-md:healthy, TestOutProbeSchema with sourceExerciseId+fixture, LessonFrontmatter.objectiveSkills per-objective skillIds); (d) malformed-value rejection re-proved with MY OWN throwaway 39-assertion tsx probe (npx tsx, exit 0, 39 passed / 0 failed) written against main's exported symbols — tier 'expert'/'Core'/2 rejected with \"Invalid option: expected one of intro|core|stretch\", tier 'hard' rejected through the full ExercisesFileSchema, type:'boss' rejected as an exercise type (proves flag-not-type), bad preconditions/rungs/artifact-kinds/probe-without-fixture rejected, and all legacy no-new-field shapes still accepted. Probe was created outside src/ and DELETED — no test file committed."
     evidence_path: "inline in this entry (re-runnable); prior agent's files at .program/evidence/ROOT.1.2.1/* corroborate but were not relied on"
     by_agent: implementer-ROOT.1.2.1-gen1 (worktree agent-a187fcaa2f92bc282)
+  - criterion: "GEN2 REVIEW FIX 1 — exercise-level authoring field `requires` renamed to `preconditions`; curriculum-level CurriculumEntry.requires untouched; comments updated"
+    how_checked: "Edited ONLY src/lib/schema.ts in worktree agent-a88c42047b991b9c3 (baseline byte-identical to main, md5 22e58c595a7a8551a85dcbaf010c9526). Grep post-edit: `preconditions: z.array(PreconditionSchema).optional()` in ExerciseAuthoringExtensionsSchema; the only remaining `requires:` is CurriculumEntrySchema's `requires: z.array(z.string())`, byte-unchanged. Probe: valid preconditions value accepted, malformed rejected; curriculum entry with requires still accepted. OLD-name behavior recorded empirically: exercise authored with `requires` parses with the unknown key SILENTLY STRIPPED (default zod object), both direct and through ExercisesFileSchema — not an error; no content or consumer uses the old name (grep + validate confirm)."
+    evidence_path: ".program/evidence/ROOT.1.2.1/gen2-review-fixes.txt"
+    by_agent: implementer-ROOT.1.2.1-gen2
+  - criterion: "GEN2 REVIEW FIX 2 — TestOutProbeSchema.sourceExerciseId optional; refine requires it when kind === boss-equivalent (REQ-BT-02, concept-quiz probes sample lessons)"
+    how_checked: "sourceExerciseId now z.string().min(1).optional(); second .refine added mirroring the existing fixture refine with message 'test-out probe of kind \"boss-equivalent\" must declare a sourceExerciseId (the boss exercise whose verifier/rubric it reuses)'. Probe (npx tsx, exit 0, 10/10): boss-equivalent WITHOUT sourceExerciseId REJECTED with that message; concept-quiz WITHOUT sourceExerciseId ACCEPTED; hands-on without it accepted; boss-equivalent with both accepted; boss-equivalent without fixture still rejected (old refine intact); empty-string sourceExerciseId rejected (min(1) preserved)."
+    evidence_path: ".program/evidence/ROOT.1.2.1/gen2-review-fixes.txt"
+    by_agent: implementer-ROOT.1.2.1-gen2
+  - criterion: "GEN2 regression — npm run validate exit 0 zero content edits; npx tsc --noEmit exit 0; nothing else changed"
+    how_checked: "In worktree: npm run validate exit 0 ('All content valid.', 14 modules, 5/5 Module 1 lessons); npx tsc --noEmit exit 0 both with probe present and after probe deletion. git status/diff --stat: src/lib/schema.ts is the ONLY modified file (20 lines: 15+/5-); content/ untouched. Throwaway probe tmp-gen2-probe.mts created at worktree root (outside src/) and DELETED."
+    evidence_path: ".program/evidence/ROOT.1.2.1/gen2-review-fixes.txt"
+    by_agent: implementer-ROOT.1.2.1-gen2
 artifacts:
-  - src/lib/schema.ts # THE ONLY code file changed (additive)
+  - src/lib/schema.ts # THE ONLY code file changed (additive; gen2 fixes live in worktree agent-a88c42047b991b9c3, NOT yet in main)
+  - .program/evidence/ROOT.1.2.1/gen2-review-fixes.txt
   - .program/evidence/ROOT.1.2.1/validate-final.txt
   - .program/evidence/ROOT.1.2.1/tsc-final.txt
   - .program/evidence/ROOT.1.2.1/reject-probe.txt
@@ -50,7 +63,7 @@ artifacts:
   - .program/evidence/ROOT.1.2.1/validate.txt
   - .program/evidence/ROOT.1.2.1/validate-npm.txt
   - .program/evidence/ROOT.1.2.1/tsc.txt
-resume_hint: "COMPLETE and ALREADY INTEGRATED INTO MAIN — awaiting tier-2 review only (spec-conformance + consumer-fit). NOTHING LEFT TO IMPLEMENT OR MERGE: src/lib/schema.ts in the MAIN checkout already contains the additive extension (director-gen0 integrated it; 14159 bytes, 385 lines). DO NOT merge src/lib/schema.ts from ANY worktree: worktree agent-a187fcaa2f92bc282 was a duplicate concurrent implementation whose file has been overwritten to be byte-identical to main, and worktree agent-a14c2ab9a5be2a8d4's copy is the one already integrated — re-merging either is a no-op at best and a clobber at worst. Also do NOT take worktree scripts/run-e2e-with-server.sh (pre-existing unrelated drift). Re-verify anytime from the main checkout with: npm run validate && npx tsc --noEmit (both exit 0, confirmed twice independently post-integration). Do NOT copy .program/evidence/ROOT.1.2.1/reject-probe.ts.txt into the repo as a .ts file — tsconfig include is **/*.ts and it would enter the typecheck surface."
+resume_hint: "GEN2 REWORK DONE, back in_review. Main's src/lib/schema.ts holds the gen1 artifact; the two review fixes (requires->preconditions on ExerciseAuthoringExtensionsSchema; sourceExerciseId optional + boss-equivalent refine) exist ONLY in worktree agent-a88c42047b991b9c3's src/lib/schema.ts — INTEGRATOR MUST TAKE THAT FILE (git diff there: schema.ts only, 15+/5-). Do NOT take anything else from that worktree. Verified in worktree: npm run validate exit 0 zero content edits, npx tsc --noEmit exit 0, 10/10 probe assertions (evidence: .program/evidence/ROOT.1.2.1/gen2-review-fixes.txt). Older resume guidance about worktrees a187fcaa/a14c2ab9 remains valid for THOSE worktrees only."
 ---
 
 Pinned contract decisions (do not re-decide at leaf level):
