@@ -20,6 +20,6 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - **Build**: `npm run build`
 - **Typecheck**: `npx tsc --noEmit`
 - **Lint**: `npm run lint`
-- **Unit test**: _(no test suite configured)_
-- **Integration test**: _(no test suite configured)_
+- **Unit test**: `npm test`
+- **E2E test**: `npm run verify:e2e`
 - **Dev server**: `npm run dev`

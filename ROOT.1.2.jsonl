@@ -1,0 +1,2 @@
+{"ts":"2026-07-25T12:03:10Z","event":"interrupted","by":"director-gen0","detail":"coordinator-ROOT.1.2-gen0 killed by API server error mid-review (2 secondary request_changes pending primary verdicts). Item file state good; child statuses drifted: 1.2.4/5/6 use invalid vocabulary complete/completed; 1.2.2 done despite unresolved request_changes in view"}
+{"ts":"2026-07-25T12:03:10Z","event":"spawn","by":"director-gen0","detail":"dream-coordinator gen1 dispatched onto ROOT.1.2 (fresh context; infrastructure death, not work failure — same role, generation+1)"}
