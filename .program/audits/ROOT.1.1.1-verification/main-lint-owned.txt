@@ -1,0 +1,5 @@
+(no output — eslint reported zero problems)
+--- exit code: 0 ---
+command: npx eslint velite.config.ts src/lib/content.ts src/components/lesson/LessonRenderer.tsx
+cwd: C:/Users/jainv/workplace/ai-learning-app (MAIN checkout)
+note: whole-repo 'npm run lint' deliberately NOT run — eslint.config.mjs does not ignore .claude/**, so it recursively lints sibling agent worktrees and is unusable as a baseline in the shared checkout.

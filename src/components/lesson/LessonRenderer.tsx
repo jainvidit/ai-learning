@@ -1,5 +1,10 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
-import { MDXRemote } from "next-mdx-remote/rsc";
+import type {
+  ComponentPropsWithoutRef,
+  ReactElement,
+  ReactNode,
+} from "react";
+import { Fragment, jsx, jsxs } from "react/jsx-runtime";
+import { getCompiledLesson } from "@/lib/content";
 import type {
   Exercise as ExerciseData,
   QuizExercise,
@@ -11,6 +16,59 @@ import Terminal from "@/components/lesson/Terminal";
 import Challenge from "@/components/lesson/Challenge";
 import TokenVisualizer from "@/components/lesson/TokenVisualizer";
 import NextWordGame from "@/components/lesson/NextWordGame";
+
+/**
+ * INTERIM LESSON RENDERER (REQ-CP-01, coupling #27).
+ *
+ * MDX is no longer compiled here. Velite compiles it at BUILD time (velite.config.ts ->
+ * `.velite/lessons.json`); this component only EVALUATES already-compiled output, so
+ * there is no MDX compilation anywhere in the request path and `next-mdx-remote` is gone
+ * from the dependency tree.
+ *
+ * This file is INTERIM BY CHARTER: ROOT.4.2 replaces it with BeatRenderer in Phase 3.
+ * Two things must survive that replacement verbatim and are deliberately left
+ * byte-identical below so they can be lifted out as-is:
+ *
+ *   1. `mdxComponents` — the element/component map: h2, h3, p, ul, ol, li, code, pre,
+ *      blockquote, a, strong, table (wrapped in an overflow div), plus the component
+ *      entries Callout, TokenVisualizer, NextWordGame, plus the locally-closed
+ *      `Exercise` injected per render. Every className is unchanged from the
+ *      pre-Velite version, so the rendered DOM and every CSS selector are identical
+ *      (regression floor RF-02/RF-11 anchor on this file).
+ *   2. `sanitizeQuiz` — projects a QuizExercise down to ClientQuizExercise, dropping
+ *      `correctOptionIds` and `explanation` per question and every option field except
+ *      `id`/`text`, so answers never reach the client bundle or payload. Untouched.
+ */
+
+/**
+ * Evaluate a Velite-compiled MDX function body into a React element tree.
+ *
+ * Velite's default `outputFormat` is `'function-body'`: `code` is the BODY of a function
+ * that reads its JSX runtime from `arguments[0]` and returns `{ default }`. It must
+ * therefore be constructed with `new Function` (a non-arrow function, so `arguments`
+ * exists) and invoked with the runtime object. This is EVALUATION of a build-time
+ * artifact — no MDX parser, no compiler, and no `@mdx-js` code runs at request time.
+ *
+ * The compiled `default` export is INVOKED DIRECTLY rather than mounted as
+ * `<MdxContent/>`. Mounting would declare a fresh component identity on every render,
+ * which `react-hooks/static-components` correctly rejects: a new identity remounts the
+ * subtree and would reset the internal state of the interactive widgets the components
+ * map injects (TokenVisualizer, NextWordGame, Quiz). Calling it returns the element tree
+ * without introducing a new component identity.
+ */
+function renderCompiledMdx(
+  code: string,
+  components: Record<string, unknown>
+): ReactElement {
+  const factory = new Function(code) as (runtime: {
+    Fragment: unknown;
+    jsx: unknown;
+    jsxs: unknown;
+  }) => {
+    default: (props: { components?: Record<string, unknown> }) => ReactElement;
+  };
+  return factory({ Fragment, jsx, jsxs }).default({ components });
+}
 
 /** Strip answers/explanations so they never reach the client bundle/payload. */
 function sanitizeQuiz(exercise: QuizExercise): ClientQuizExercise {
@@ -103,12 +161,24 @@ const mdxComponents = {
 };
 
 export default function LessonRenderer({
-  mdx,
+  code,
   moduleId,
   lessonId,
   exercises,
 }: {
-  mdx: string;
+  /**
+   * Build-time-compiled MDX (a Velite `s.mdx()` function body). OPTIONAL: when omitted,
+   * the renderer resolves it from the compiled bundle by `moduleId`/`lessonId`, so the
+   * pre-Velite call site — which passes only `mdx`/`moduleId`/`lessonId`/`exercises` —
+   * keeps working unchanged. `src/app/learn/**` belongs to ROOT.4.2, not to this item, so
+   * this prop change is strictly additive.
+   */
+  code?: string;
+  /**
+   * @deprecated Raw MDX source is no longer rendered — compilation moved to build time
+   * (REQ-CP-01). Accepted and ignored so the existing call site still type-checks.
+   */
+  mdx?: string;
   moduleId: string;
   lessonId: string;
   exercises: ExerciseData[];
@@ -158,7 +228,15 @@ export default function LessonRenderer({
     }
   }
 
-  return (
-    <MDXRemote source={mdx} components={{ ...mdxComponents, Exercise }} />
-  );
+  const compiledCode = code ?? getCompiledLesson(moduleId, lessonId)?.code;
+  if (compiledCode === undefined) {
+    return (
+      <Callout kind="warning">
+        Lesson <code>{`${moduleId}/${lessonId}`}</code> has no build-time-compiled
+        content. Run <code>npm run content:build</code> and reload.
+      </Callout>
+    );
+  }
+
+  return renderCompiledMdx(compiledCode, { ...mdxComponents, Exercise });
 }

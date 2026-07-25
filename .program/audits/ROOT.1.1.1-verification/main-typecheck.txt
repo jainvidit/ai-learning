@@ -1,0 +1,5 @@
+(no output — tsc emitted zero diagnostics)
+--- exit code: 0 ---
+command: npx tsc --noEmit
+cwd: C:/Users/jainv/workplace/ai-learning-app (MAIN checkout)
+run: 2026-07-25 integration pass

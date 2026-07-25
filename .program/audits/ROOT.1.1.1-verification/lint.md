@@ -1,62 +1,77 @@
-# ROOT.1.1.1 -- npm run lint
+# ROOT.1.1.1 -- npm run lint (gen1)
 
-Run 2026-07-25 by implementer-ROOT.1.1.1-gen0 in git worktree
-`C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-ad9cdcfddc53d1dfc`
-(npm-installed; `next-mdx-remote` uninstalled, `velite@0.4.0` devDependency).
+Run 2026-07-25 by `implementer-ROOT.1.1.1-gen1` in git worktree
+`C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-aa6fa42c34751a5cc`
+(npm-installed; `next-mdx-remote` absent, `velite@0.4.0` devDependency).
 
-Command: `npm run lint`
-Exit code: 1 -- see note
-
-NOTE ON THE EXIT CODE: the 4 remaining errors are ALL PRE-EXISTING and in files this
-item does not own (`.program/audits/probe-bedrock-basic.ts`,
-`.program/audits/probe-bedrock-structured-outputs.ts`,
-`sandbox/templates/demo-fix-greet/test.js`, `src/components/nav/ThemeToggle.tsx`).
-Proof they pre-exist: the identical 4 errors reproduce in the MAIN checkout and in every
-sibling worktree (`npx eslint -f json` in the main checkout attributes 1 error to each of
-those 4 files per worktree). Files owned by ROOT.1.1.1 are clean:
-`npx eslint velite.config.ts src/lib/content.ts src/components/lesson/LessonRenderer.tsx`
-exits 0 with no output. One lint error WAS introduced during implementation and fixed:
-`react-hooks/static-components` fired on mounting the compiled MDX component as
-`<MdxContent/>` (a fresh component identity each render); resolved by invoking the
-compiled `default` export directly (`renderCompiledMdx`).
+Command: `npm run lint`  (script body `eslint`, unchanged)
+Exit code: **1 -- see the pre-existence proof below**
 
 ```
-
 > ai-learning-app@0.1.0 lint
 > eslint
 
-
-C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-ad9cdcfddc53d1dfc\.program\audits\probe-bedrock-basic.ts
+...\.program\audits\probe-bedrock-basic.ts
   31:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
-C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-ad9cdcfddc53d1dfc\.program\audits\probe-bedrock-structured-outputs.ts
+...\.program\audits\probe-bedrock-structured-outputs.ts
   71:16  warning  'e' is defined but never used             @typescript-eslint/no-unused-vars
   75:19  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
-C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-ad9cdcfddc53d1dfc\sandbox\templates\demo-fix-greet\greet.js
+...\sandbox\templates\demo-fix-greet\greet.js
   2:16  warning  'name' is defined but never used  @typescript-eslint/no-unused-vars
 
-C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-ad9cdcfddc53d1dfc\sandbox\templates\demo-fix-greet\test.js
+...\sandbox\templates\demo-fix-greet\test.js
   1:19  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
 
-C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-ad9cdcfddc53d1dfc\src\components\nav\ThemeToggle.tsx
+...\src\components\nav\ThemeToggle.tsx
   20:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
-
-Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
-* Update external systems with the latest state from React.
-* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
-
-Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
-
-C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-ad9cdcfddc53d1dfc\src\components\nav\ThemeToggle.tsx:20:5
-  18 |   useEffect(() => {
-  19 |     const stored = (localStorage.getItem("theme") as Theme) ?? "system";
-> 20 |     setTheme(stored);
-     |     ^^^^^^^^ Avoid calling setState() directly within an effect
-  21 |     applyTheme(stored);
-  22 |     const mq = window.matchMedia("(prefers-color-scheme: dark)");
-  23 |     const onChange = () => {  react-hooks/set-state-in-effect
+         (react-hooks/set-state-in-effect)
 
 ✖ 6 problems (4 errors, 2 warnings)
+```
+
+## Files owned by ROOT.1.1.1 are CLEAN
 
 ```
+$ npx eslint velite.config.ts src/lib/content.ts src/components/lesson/LessonRenderer.tsx
+OWNED_LINT_EXIT=0
+```
+
+Exit 0, no output. Zero lint problems in any of the three files this item owns.
+
+## Proof the 4 errors + 2 warnings PRE-EXIST this item
+
+The gen1 attempt could NOT reproduce a clean baseline by running `npm run lint` in the
+shared checkout: `eslint.config.mjs` does not ignore `.claude/**`, so a main-checkout run
+recursively lints every sibling agent worktree and returns hundreds of problems. A
+dispatched `dream-verifier` (agent `ad2f031471b19758f`) attempted exactly that and
+correctly returned **inconclusive** for this reason. That is a real finding about the
+lint setup, reported here and not worked around.
+
+Pre-existence is instead established from INDEPENDENT evidence that predates this item's
+code and was produced by a different item in a different worktree:
+`.program/audits/ROOT.7.2-gen1-typecheck-lint.txt` records, from worktree
+`agent-a66e241ac72f6bf50`, the identical summary line `✖ 6 problems (4 errors, 2 warnings)`
+across the identical five files and identical rule IDs. ROOT.7.2's worktree contained no
+Velite and still had `next-mdx-remote`, so those problems cannot originate from this
+migration. ROOT.1.1.1's own gen0 evidence (produced before this generation, in worktree
+`agent-ad9cdcfddc53d1dfc`) reports the same six problems again.
+
+Three independent worktrees, three identical problem sets => baseline, not regression.
+
+None of the five failing files is in this item's `file_ownership`
+(`package.json`, `velite.config.*`, `src/lib/content.ts`,
+`src/components/lesson/LessonRenderer.tsx`), so they were not fixed: repairing
+`ThemeToggle.tsx` or the sandbox fixtures would be an out-of-scope edit to another
+owner's file. Reported, not fixed.
+
+## One lint error WAS introduced during implementation, and was fixed
+
+`react-hooks/static-components` fired when the Velite-compiled MDX was mounted as a JSX
+element (`<MdxContent/>`), because that declares a fresh component identity on every
+render -- which would remount the subtree and reset the internal state of the interactive
+widgets the components map injects (TokenVisualizer, NextWordGame, Quiz). Resolved by
+invoking the compiled `default` export directly inside `renderCompiledMdx()` instead of
+mounting it. The rule is correct and the fix addresses the underlying state-loss bug, not
+just the diagnostic.
