@@ -5,11 +5,11 @@ type: Program
 title: AI Learning App — dream version build
 ledger_depth: 0
 status: in_progress
-owner_agent: director-gen0
+owner_agent: director-gen15
 owner_model: fable
-generation: 0
-spawned_at: 2026-07-25T03:47:35Z
-heartbeat_at: 2026-07-25T03:47:35Z
+generation: 15
+spawned_at: 2026-07-25T13:33:30Z
+heartbeat_at: 2026-07-25T13:38:00Z
 spec_refs:
   - .program/spec/migration-and-sequencing.md#req-ms-01
   - .program/spec/migration-and-sequencing.md#req-ms-02

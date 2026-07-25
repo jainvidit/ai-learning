@@ -5,8 +5,8 @@ type: Contract
 title: Contracts pack — schema.ts additive extensions + beat model + interface docs
 ledger_depth: 2
 status: in_progress
-owner_agent: coordinator-ROOT.1.2-gen2
-generation: 2
+owner_agent: coordinator-ROOT.1.2-gen3
+generation: 3
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-03
   - .program/spec/content-pipeline.md#req-cp-02

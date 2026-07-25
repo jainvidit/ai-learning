@@ -1,32 +1,67 @@
-# Genesis complete — ready to dispatch
+# Program status — 2026-07-25 execution update
 
-**Current phase:** Genesis complete — adversarially reviewed (ADR-0007); ready to dispatch ROOT.7.2 + ROOT.1.7 + ROOT.1.9
+## Current phase
 
-**Item counts by status:**
-- in_progress: 1 (ROOT)
-- proposed: 46
-- blocked: 2 (ROOT.6, ROOT.2.4 — both awaiting_human_authorization)
+**Phase 0 frontier — ROOT.1.2 closure in progress**
 
-**Ready frontier width:** 3 items, all Probes or Tasks
-- ROOT.7.2 (Task — verification surface)
-- ROOT.1.7 (Probe — next-mdx-remote archival)
-- ROOT.1.9 (Probe — Bedrock structured outputs)
+Coordinator gen2 exit logged (budget overrun, no brief). Gen3 closure coordinator
+dispatched per commit 15c207c. Probes 1.7/1.9 done. ROOT.1.2.1/2/3/4/5 done;
+ROOT.1.2.6 in_review (gen2 scope-locked). Schema, contracts, regression-floor seeded.
 
-These are the only items with empty depends_on that are not blocked and not gated by phase ordering. ROOT.1.2 (Contract — beat model pack) is also dispatchable but triggers ROOT.1 dispatch cascade.
+## Item counts by status
 
-**Top blockers with reasons:**
-- ROOT.6 (Phase 5 — Hosted Edition): awaiting_human_authorization — PARKED per ADR-0001; never owner-ratified; full of PART 9 hard stops (auth, public API, paid resources)
-- ROOT.2.4 (Legacy JSON progress archival): awaiting_human_authorization — PARKED; archival touches real learner data files; "additive so safe" reframe flagged as PART 9 instinct
+- **done:** 8 (ROOT.1.2.1–6, ROOT.1.7, ROOT.1.9)
+- **in_progress:** 3 (ROOT, ROOT.1.2, ROOT.7)
+- **in_review:** 1 (ROOT.1.2.6)
+- **proposed:** 35 (all post-Phase-0; phases 1–5; ROOT.7.1)
+- **blocked:** 2 (ROOT.6, ROOT.2.4 — awaiting_human_authorization)
+- **Total:** 49
 
-**Parked items:** 2
-- ROOT.6 — Phase 5 (Hosted Edition)
-- ROOT.2.4 — ROOT.2 child (Legacy JSON archival)
+## Ready frontier width (proposed + all depends_on done)
 
-**Pending decisions:** 13
-Recorded in DECISIONS-PENDING.md; none are blocking (reversible or deferred-by-design):
-- 12 decided and logged (ADR-0001 through ADR-0008, plus named open-by-design triggers)
-- 1 UNDECIDED: OQ #8 (Module 12 weakness mitigation — must be ADR'd before module 12 authoring; module 12 is last in authoring queue)
+**Width = 0** — nothing ready until ROOT.1.2 closes (in_progress).
 
-**Generation ≥ 3 scoping failures:** None flagged
+ROOT.1.1/1.3/1.4/1.5/1.6/1.10 all depend on ROOT.1.2 or its children. ROOT.2 depends
+on ROOT.1 (Phase). Gate sequencing (Phase 0 → Phase 1 → Phase 2 → Phase 3 → Phase 4)
+enforces strict ordering; no out-of-order dispatch possible.
 
-**Genesis adversarial review:** 3 blind Opus lenses filed 71 findings (completeness 13, coupling 27, sizing 31); disposition in ADR-0007; full texts in `.program/audits/genesis-review-*.md`
+## Top blockers with reasons
+
+1. **ROOT.1.2** (in_progress, gen2 coordinator exit, gen3 dispatch)
+   - Blocks: ROOT.1.1, ROOT.1.3, ROOT.1.6, ROOT.1.8, ROOT.1.10, and all downstream phases
+   - Reason: contracts steward; all Phase 0 items depend on schema finalization
+
+2. **ROOT.1.2.6** (in_review, generation 2, scope-locked)
+   - Reason: awaiting fresh blind review pair; gen2 rework complete with 13 scope-locked fixes
+
+3. **ROOT.1** (Phase, in_progress)
+   - Blocks: ROOT.2 and all downstream phases
+   - Reason: phase ordering; Phase 1 cannot start until Phase 0 gate passes
+
+## Parked items (awaiting_human_authorization)
+
+- **ROOT.6** — Phase 5 (Hosted Edition). Never owner-ratified; PART 9 hard stops
+  (auth, public API, paid resources). No downstream dependencies.
+- **ROOT.2.4** — Legacy JSON archival. Touches learner data files not created by
+  program. Standing never-delete flag (REQ-MS-03). Dual-write reversible half moved
+  to ROOT.2.1; nothing blocks on archival.
+
+## Pending decisions
+
+**Parked (3):** ROOT.6, ROOT.2.4, ROOT.5.1 (nightly backup, pre-flagged)
+
+**Decided/logged (15):** OQ #1–15, ASSUMPTIONS #11/#12 settled, ASSUMPTIONS #32 inferred,
+open-by-design triggers on OQ #3/#10/#11/#13/#14
+
+**Pending count:** 18 rows in DECISIONS-PENDING.md
+
+## Generation ≥ 3 anomalies
+
+**ROOT.1.2 at generation 2** — director-ruled infra-death artifact recovery:
+- Gen0 died pre-edit (infrastructure error)
+- Gen1: audit/re-dispatch; review closures complete (ROOT.1.2.1/2/3/4/5)
+- Gen2: narrow review fixes (two must-fixes on schema.ts); empirically re-verified on main
+- **Ruling:** No scoping failure. Closure sound per recorded evidence; marked for
+  architectural audit (director oversight) but ready for integration.
+
+No other items at generation ≥ 3.
