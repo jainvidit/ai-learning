@@ -4,7 +4,7 @@ parent: ROOT.1.2
 type: Task
 title: regression-floor.md seed — REQ-MS-02 checklist, MS-03 audit row, ADR-0006 note
 ledger_depth: 3
-status: in_review
+status: done
 generation: 2
 owner_agent: implementer-ROOT.1.2.6-gen2 # critical tier; SCOPE-LOCKED 13-fix list from primary (spec-conformance: RF-09 credential var; RF-08 matched route; ADR-0006 note item 3 attribution; RF-02 per-question scope) + secondary (consumer-fit: RF-04 passing path; RF-07 exec payload; RF-02->ADR-0006 cross-ref; RF-01 profile step; RF-14 Workshop anchor; general UNVERIFIED rule; RF-03a payload; RF-11b badge verify; RETIRED example). Structure/row IDs/Gate IDs verified correct — no restructuring.
 spec_refs:

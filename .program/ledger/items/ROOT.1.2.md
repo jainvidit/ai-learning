@@ -143,3 +143,21 @@ input; conflating them was ruled out by ADR-0005's beatId-stability reasoning.
     .program/evidence/ROOT.1.2.6/gen1-verification.md). NOTE: gen0 "complete" was
     written with an artifact that had never left the implementer's worktree —
     confirms the invalid-vocab statuses were also unlanded. Fresh pair running.
+- gen2 (takeover 13:25Z after gen1 budget exhaustion, no brief): closure scope only.
+  Spawned dream-verifier on 1.2.6 gen2 13-fix list + assembly dream-reviewer-primary
+  (13:27Z), then DIED on infra (~13:21-13:25Z director-session kill window); both
+  subagents died unverdicted. No merits failure — same-tier infra retry ruled by
+  director-gen15 (spawn event 13:35:30Z).
+- gen3 (takeover 13:38Z): owner/generation set; takeover event logged with the
+  director's ruling (coordinator gen3 = infra-death artifact, not scoping failure;
+  closure-scope continuation correct). Spec RE-READ this generation before dispatch:
+  content-pipeline.md REQ-CP-02 (line 23-33: ordered beat array, closed type set
+  prose|quiz|playground|terminal|challenge|widget, stable beatId, persistent flag,
+  completion passed|verified|attempted) and REQ-CP-03 (line 35-45: additive-only
+  extensions, Module 1 validates unchanged); ADR-0010 re-read
+  (requestStructured(schema) = tool-forcing + validate/repair, max one repair
+  round-trip, NOT output_config passthrough). 13:40Z: re-dispatched (a) dream-verifier
+  on the 1.2.6 gen2 13-fix list + Gate IDs against MAIN regression-floor.md;
+  (b) fresh blind dream-reviewer-primary for the tier-2 ASSEMBLY review of the
+  six-file pack vs REQ-CP-02/03 + ADR-0010 (cross-doc consistency lens). Both
+  replace gen2's unverdicted casualties. Awaiting verdicts.
