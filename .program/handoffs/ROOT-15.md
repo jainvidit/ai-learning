@@ -64,3 +64,25 @@ npm run verify:e2e (port 3001 only). Git: director only, timer commits.
 
 ROOT.1.6 (needs 1.2✓+1.1) and ROOT.1.3 (needs 1.2✓+1.6) → 1.5 (needs 1.9✓+1.3) →
 1.4 (needs 1.1+7.2✓) → 1.10 (needs 1.1,1.2✓,1.3,1.5,1.6, runs ALONE) → Gate 1.8.
+
+## POST-ROTATION ADDENDUM (14:25Z) — PROGRAM STALLED ON TOOLCHAIN DENIAL
+
+After the rotation marker, the ROOT.1.1 coordinator returned **blocked**: the
+permission system now denies npm/npx to ALL agents (director-verified empirically:
+`npm --version` denied in the director session and in a fresh dream-verifier).
+Contradiction on record: ROOT.7.2/ROOT.1.2.1 subagents ran full npm suites earlier
+today — the permission surface changed mid-program. Owner grant required; entry in
+DECISIONS-PENDING.md (ROOT.1.1 section).
+
+- ROOT.1.1 and ROOT.1.1.1 are blocked awaiting_human_authorization. ADR-0011 and the
+  4-leaf decomposition are RATIFIED — successor re-dispatches 1.1.1 fresh after the
+  grant (re-apply swap per its item-file inventory; `npm install` FIRST).
+- The repo was left build-broken mid-swap; I restored the green baseline
+  (git checkout 6df07a6^ -- package.json .gitignore; rm velite.config.ts). WIP is
+  preserved in commit 6df07a6. package.json is back on next-mdx-remote; repo coherent.
+- Every Phase 0 implementation item is transitively blocked behind 1.1. NO
+  dispatchable implementation frontier exists until the owner grants the toolchain.
+- Still dispatchable without npm: ROOT.7.1 steward batch for backlog notes 3+4
+  (prose-only additive edits to model-router.md / beat-model.md, read-verifiable) —
+  left for successor; do not start implementation work with review-only evidence
+  (PART 6 forbids it for framework-touching code).

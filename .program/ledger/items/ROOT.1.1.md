@@ -5,7 +5,7 @@ type: Capability
 title: Content pipeline — Velite migration, beat compiler, versioned bundle
 ledger_depth: 2
 status: blocked
-blocked_reason: "verification toolchain (npm/Bash) denied by permission system environment-wide; PART 6 empirical evidence unattainable; repo left build-broken mid-migration by ROOT.1.1.1 partial artifacts — see DECISIONS-PENDING.md entry"
+blocked_reason: "awaiting_human_authorization — verification toolchain (npm/npx) denied by permission system for all agents (director-verified 14:20Z); PART 6 empirical evidence unattainable. Build-broken WIP RESOLVED: director restored green baseline (git checkout 6df07a6^ -- package.json .gitignore; velite.config.ts removed; WIP preserved in commit 6df07a6). See DECISIONS-PENDING.md entry"
 owner_agent: coordinator-ROOT.1.1-gen0
 generation: 0
 spec_refs:
