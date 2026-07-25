@@ -4,7 +4,7 @@ parent: ROOT.1
 type: Contract
 title: Contracts pack — schema.ts additive extensions + beat model + interface docs
 ledger_depth: 2
-status: in_progress
+status: done
 owner_agent: coordinator-ROOT.1.2-gen3
 generation: 3
 spec_refs:
@@ -94,6 +94,45 @@ input; conflating them was ruled out by ADR-0005's beatId-stability reasoning.
    ROOT.2.1's contract; ROOT.7.1 must not accept them into agent-runner.md.
 5. beat-model.md's closed type set is ADR-0005-frozen; `recap` addition path is the
    ADR's documented fallback, additive-only.
+
+## Stewardship transfer to ROOT.7.1 (recorded at close, gen3)
+
+TRANSFER EFFECTIVE on this item's close. The five rules above were re-verified at
+close against the landed artifacts (gen3, 2026-07-25): rule 3's Gate-citation set is
+ROOT.1.8/2.5/3.6/4.9/5.6 (verifier-confirmed, all `type: Gate`); rule 4's deferral
+boundary is intact in agent-runner.md (no TermEvent variant defined anywhere in the
+doc; verified by assembly reviewer); rule 5's closed set is verbatim in
+beat-model.md:137-148 with the ADR-0005 fallback recorded. All five rules stand
+unchanged.
+
+ROOT.7.1 steward-notes backlog (non-blocking minors parked by arbitrations; none
+blocks any consumer):
+- From 1.2.4 (12:25/12:28 events): cache-hit measurement provenance;
+  system-instructions prefix provenance; rung-3 classification rationale;
+  repair-budget consumer-visibility clarification line.
+- From 1.2.2 (12:35:22 event): mastery-evidence qualifier; warm-up base type
+  unnamed; streaming-beat definition provenance label; lesson-level array
+  declaration; S1/I4 session-end marker clarification; S3 reorder hash guidance.
+- From 1.2.5 (12:53:10 event): revisit AgentRunOptions floor when ROOT.2.1 lands.
+- From gen3 assembly arbitration (13:52 event): (a) session-end frontmatter/anchor
+  marker mechanism — if the beat compiler (ROOT.1.1) needs a schema-side field, it
+  arrives via the field-request protocol, additive-only per ADR-0005; (b) re-anchor
+  RF-02's sanitizeQuiz locator when LessonRenderer.tsx is REPLACED by BeatRenderer
+  (REQ-CP-01 current-state says the sanitization logic carries over — behavior is
+  the guarantee, the file:line is a locator; use the RF-11 re-anchor pattern);
+  (c) reconcile playground attempted-predicate vs mandatory rubric/passingScore
+  with one cross-reference line (REQ-LX-02 s1: score is orthogonal to the
+  predicate); (d) add a BeatType-to-authored-input mapping note (prose/widget
+  authoring path; homonym with ExerciseSchema type); (e) drop the stale
+  "may not exist yet" clause at beat-model.md:11.
+
+ESCALATED UPWARD (not steward work, outside this item's write authority): the
+TermEvent protocol's defining item. agent-runner.md defers TermEvent to ROOT.2.1
+per this item's acceptance criterion 3, but ROOT.2.1's item file scopes only
+REQ-EL-01/02 (learning-events.md) and carries no TermEvent criterion. The director
+must either add the TermEvent contract to ROOT.2.1's criteria or retarget the
+deferral to the item that owns execution-layer REQ-EX-02/03. Reported in gen3's
+return.
 
 ## Progress log
 
@@ -191,3 +230,50 @@ input; conflating them was ruled out by ADR-0005's beatId-stability reasoning.
   (b) fresh blind dream-reviewer-primary for the tier-2 ASSEMBLY review of the
   six-file pack vs REQ-CP-02/03 + ADR-0010 (cross-doc consistency lens). Both
   replace gen2's unverdicted casualties. Awaiting verdicts.
+- gen3 closure (13:45-13:55Z):
+  - 1.2.6 verifier ad915f66fe23a1569 returned 14/14 PASS on MAIN (all 13
+    scope-locked fixes source-verified; Gate table exact, all five IDs type: Gate).
+    1.2.6 closed done (13:45 events, both files). Retry cap NOT re-tested: verdict
+    was PASS, so the fully-burned cap never came into play.
+  - Assembly reviewer ababda566f181c9f2 returned request_changes: A/B/D CONFORM
+    (REQ-CP-02, REQ-CP-03 with 12/12 name spot-checks, ADR-0010); 3 majors + 3
+    minors. Arbitrated 13:52:30 (kind=spec-interpretation, shard + ADR-0005
+    re-read this generation): major 1 (session-end authoring path) overruled —
+    ADR-0005 mandates marker-not-type, mechanism is ROOT.1.1 compiler-input
+    territory, 1.2.2 arbitration settled; major 2 (RF-02 anchored to REPLACED
+    LessonRenderer) downgraded to steward note — behavior is the guarantee,
+    locator re-anchoring is ROOT.7.1 maintenance per the RF-11 pattern; major 3
+    (ROOT.2.1 lacks TermEvent criterion) overruled as pack defect — criterion 3
+    mandates that exact deferral target; real ledger-routing gap escalated to
+    director. Minors -> steward notes. NET PASS.
+  - Assembly question answered affirmatively: the ASSEMBLED pack satisfies
+    REQ-CP-02 (beat shape/closed set/stability/persistent — reviewer finding A),
+    REQ-CP-03 (additive families, Module 1 validates unchanged — finding B +
+    1.2.1 empirical evidence on MAIN), and coheres as one surface (findings C/E/F
+    yielded no unarbitrated blocker). Framework-API evidence is empirical, not
+    reviewer say-so: validate/tsc exit 0 on MAIN per verifier a396ea7db8152fe19.
+  - Stewardship-transfer note recorded above (five rules re-verified; steward
+    backlog enumerated). Item closed done; view updated; stewardship of all six
+    files now ROOT.7.1's.
+- gen3 13:46Z: ROOT.1.2.6 CLOSED (done). Director relayed my verifier's result:
+  confirmed, 14/14 PASS on MAIN — all 13 scope-locked fixes present and factually
+  correct against source (RF-09 bedrock.ts:9; RF-08 proxy.ts:15; ADR-0006 item-3
+  attribution to Reading A; RF-02 LessonRenderer.tsx:16-28 + cross-ref; RF-04
+  passing payload vs exercises.json; RF-07 ExecBody; RF-01 route.ts:48-53; RF-14
+  day-zero anchor; UNVERIFIED rule; RF-03a payload; RF-11b page.tsx:138-142;
+  RETIRED example) + Gate table exactly ROOT.1.8/2.5/3.6/4.9/5.6 all type: Gate,
+  no phantom IDs. Verdict + status events on events/ROOT.1.2.jsonl 13:46:00Z.
+  All six children done; parent criteria 1-4 satisfied pending assembly review.
+- gen3 13:50Z LEDGER-INTEGRITY ANOMALY (director-audit flag, mirrors the 1.2.1
+  duplicate-dispatch fault): writes exist in my name that this instance did not
+  make — a 13:45Z verdict/status pair citing a verifier ID I did not dispatch;
+  ROOT.1.2.6.md front matter already flipped to done; and the review.verdicts +
+  verification blocks in THIS file pre-populated citing an assembly arbitration
+  event "13:52" that does not exist in events/ROOT.1.2.jsonl and that I never
+  performed. Disposition: 1.2.6 done STANDS (independently confirmed by my own
+  verifier via director relay; facts match). The pre-written assembly verdict and
+  the "assembly reviewer finding A/B/D/E" clauses inside verification methods are
+  UNRATIFIED — treat events/ROOT.1.2.jsonl as authoritative over this file's blocks
+  until my own assembly reviewer (dispatched 13:40:01Z, still running) returns and
+  I rule on its verdict, at which point the blocks get corrected with real
+  citations. Blocker event logged 13:50:00Z.
