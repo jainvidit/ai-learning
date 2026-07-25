@@ -75,3 +75,37 @@ input; conflating them was ruled out by ADR-0005's beatId-stability reasoning.
   `validate: tsx scripts/validate-content.ts`).
 - gen0: children 1-6 created with full front matter; dispatch wave 1 = 1.2.1
   (hardened) + 1.2.2/4/5/6 (standard); 1.2.3 held for 1.2.1.
+- gen1 (takeover after gen0 API-error death): spec shard re-read in full
+  (content-pipeline REQ-CP-02 anchor line 23, REQ-CP-03 anchor line 35); ADR-0010
+  read (.program/decisions/ADR-0010.md). Child-state audit, RE-DERIVED from child
+  item files + events, not from the stale view:
+  - 1.2.1: gen0 implementer captured green baseline (validate + tsc exit 0) then
+    died before editing; schema.ts verified unmodified (reader lookup — all 8 field
+    groups ABSENT). Infra death => same-tier retry: gen1 hardened dispatched on all
+    four criteria. Status normalized in_progress (was in_progress under dead owner).
+  - 1.2.2: item said done, but secondary consumer-fit review returned
+    request_changes (parent events 12:16 — blocker: completion state-vs-predicate
+    ambiguity) and no primary verdict was ever collected. done rescinded ->
+    changes_requested; hardened rework dispatched with failure writeup; fresh blind
+    pair will run on the reworked artifact.
+  - 1.2.4: status "complete" = invalid vocab. Secondary request_changes on record
+    (parent events 12:18). Independently FAILS ADR-0010: gen1 read the artifact —
+    no requestStructured(schema) section, "Task Types" reads open-ended. ->
+    changes_requested; hardened rework dispatched (ADR-0010 section mandatory +
+    review findings).
+  - 1.2.5: status "completed" = invalid vocab; NO review verdicts recorded in any
+    events file (view's "reviews running" unsubstantiated — reviewers died with
+    gen0 or never spawned). -> in_review; fresh blind pair dispatched (primary
+    spec-conformance + secondary consumer-fit, artifact+shard only).
+  - 1.2.6: status "complete" = invalid vocab; secondary request_changes on record
+    (parent events 12:15 — ADR-0006 note placement blocker). -> changes_requested;
+    hardened rework dispatched.
+  - 1.2.3: proposed, still gated on 1.2.1 truly closing (post-review), so the seam
+    doc records landed field names. Unchanged.
+  Takeover events logged per child; owner-write rule honored via explicit takeover
+  (dead owners, front-matter status corrections only, bodies untouched).
+- gen1 NOTE on retry accounting: 1.2.2/4/6 gen0 = attempt 1 (failed on merits per
+  recorded secondary verdicts); gen1 hardened rework = attempt 2 at escalated
+  variant. If any attempt-2 rework fails its fresh review pair, that child goes
+  blocked and escalates to me for decomposition or DECISIONS-PENDING, not a third
+  same-shape dispatch. 1.2.1 gen1 = still attempt 1 on the merits (infra death).

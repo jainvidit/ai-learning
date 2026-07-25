@@ -4,9 +4,9 @@ parent: ROOT.1.2
 type: Task
 title: agent-runner.md interface doc — AgentRunner seam contract (event types deferred)
 ledger_depth: 3
-status: completed
+status: in_review
 generation: 0
-owner_agent: implementer-ROOT.1.2.5-gen0
+owner_agent: null # gen0 dead; takeover logged by coordinator-ROOT.1.2-gen1 — "completed" invalid vocab; no review verdicts on record; fresh blind pair dispatched
 spec_refs:
   - .program/spec/execution-layer.md#req-ex-04
 acceptance_criteria:

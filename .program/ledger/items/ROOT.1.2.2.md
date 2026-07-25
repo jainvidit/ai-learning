@@ -4,9 +4,9 @@ parent: ROOT.1.2
 type: Task
 title: beat-model.md interface doc — beat type, stability rules, persistent-beat portal-slot contract
 ledger_depth: 3
-status: done
+status: changes_requested
 generation: 0
-owner_agent: implementer-ROOT.1.2.2-gen0
+owner_agent: null # gen0 dead; takeover logged by coordinator-ROOT.1.2-gen1 — done was invalid with unresolved secondary request_changes (see events ROOT.1.2.jsonl 12:16)
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-02
 acceptance_criteria:

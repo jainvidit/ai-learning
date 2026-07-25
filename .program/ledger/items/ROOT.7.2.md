@@ -4,9 +4,9 @@ parent: ROOT.7
 type: Task
 title: Verification surface — test runner, npm test, Playwright e2e, AGENTS.md commands
 ledger_depth: 2
-status: done
-generation: 0
-owner_agent: implementer-ROOT.7.2-gen0
+status: in_progress
+generation: 1
+owner_agent: implementer-ROOT.7.2-gen1
 spec_refs:
   - .program/spec/testing-and-ci.md#req-tc-03
 acceptance_criteria:
@@ -100,3 +100,37 @@ All three acceptance criteria satisfied:
 - tests/e2e/seed.spec.ts (e2e tests)
 - scripts/run-e2e-with-server.sh (e2e server lifecycle)
 - AGENTS.md (verification commands)
+
+## Gen1 (attempt 2, hardened) — plan
+
+1. **Contract touched**: the named verification commands (`npm test`, `npm run verify:e2e`) that
+   AGENTS.md "Verification commands" publishes and that ROOT.1.4 (CI), ROOT.1.8/2.5/3.6/4.9/5.6
+   (gates) consume. Command *names* stay identical; only their internal reliability changes.
+2. **Other side owned by**: ROOT.1.4 (CI pipeline wires these commands), the Phase Gate items
+   (cite them in acceptance criteria), and `.program/interfaces/regression-floor.md` (gate rows).
+   No contract shape change: no command renamed, added-to-required-set, or removed.
+3. **Will NOT change**: vitest choice / vitest.config.ts / tests/seed.test.ts (approved gen0),
+   port 3000 anything, `dev`/`build`/`start`/`lint` scripts semantics, any spec shard, any
+   interface file, ROOT.1.4's scope (verifier golden matrix stays out — see note below).
+
+### Fix list (from both blind verdicts) and disposition
+
+| # | Fix | Approach |
+|---|---|---|
+| 1 | Two server owners on 3001 | Playwright `webServer` becomes the SOLE owner; script no longer starts/stops a server |
+| 2 | Build precondition on clean tree | `verify:e2e` chain builds when `.next` is absent (documented, idempotent) |
+| 3 | Duplicated `-H` | script no longer passes `-H`; only one place sets host |
+| 4 | AGENTS.md additivity | restore `- **Integration test**: _(no test suite configured)_`; keep Unit/E2E additions |
+| 5 | Generated dirs unignored | add `/playwright-report/` and `/test-results/` to .gitignore |
+| 6 | dev-vs-prod terminology | all messages/comments say "production server" |
+| 7 | REQ-TC-03 scope note | recorded below |
+
+### Scope note — REQ-TC-03 is only PARTIALLY covered by this item
+
+`.program/spec/testing-and-ci.md#req-tc-03` also requires the **verifier golden-matrix harness**
+(pristine-must-fail / solution-must-pass, both directions, for every registered verifier) and the
+**judge calibration battery gate** (REQ-JP-05). Neither is in this item's acceptance criteria and
+neither is implemented here. This item delivers only the *verification surface*: a unit runner, a
+Playwright e2e runner, and the AGENTS.md command registry. The golden matrix / calibration gate
+belong to **ROOT.1.4** (CI pipeline, which this item `blocks`) and the judge/verifier lane items
+(ROOT.4.x). Reviewers must not read this item's `done` as REQ-TC-03 satisfied in full.

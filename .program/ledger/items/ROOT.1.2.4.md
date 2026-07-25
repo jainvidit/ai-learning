@@ -4,8 +4,8 @@ parent: ROOT.1.2
 type: Task
 title: model-router.md interface doc — ModelRouter/ModelGateway seam contract
 ledger_depth: 3
-status: complete
-owner_agent: implementer-ROOT.1.2.4-gen0
+status: changes_requested
+owner_agent: null # gen0 dead; takeover logged by coordinator-ROOT.1.2-gen1 — "complete" invalid vocab; secondary request_changes on record; ADR-0010 requestStructured(schema) missing from doc (gen1 direct read) = fail regardless of verdicts
 generation: 0
 spec_refs:
   - .program/spec/model-gateway.md#req-mg-01
