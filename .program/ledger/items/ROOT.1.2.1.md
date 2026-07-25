@@ -36,3 +36,11 @@ Pinned contract decisions (do not re-decide at leaf level):
   different fixture (BT-02 scenario 4); shape only, no runtime behavior.
 - Beat model types do NOT go in this file — they are compiler output (REQ-CP-02),
   documented in .program/interfaces/beat-model.md.
+
+## Plan (tier-2, written before implementing)
+- Contract touched: the authoring contract in src/lib/schema.ts — Zod schemas for curriculum/module/lesson-frontmatter/exercises. Additive optional fields only.
+- Other side owners: .program/interfaces/ is EMPTY at dispatch time (no seam docs written yet); consumers of this contract are scripts/validate-content.ts (imports CurriculumSchema, ModuleMetaSchema, ExercisesFileSchema, LessonFrontmatterSchema), src/lib/content.ts, src/lib/judge.ts, src/lib/progress.ts, src/lib/profiles.ts, and lesson components (type-only imports). ROOT.1.2.3 (content-schema.md seam doc) documents this seam downstream and is blocked on me.
+- Will NOT change: any existing field name/type/optionality; PlaygroundExercise rubric-sums-to-100 refine; ExerciseSchema union membership; Progress/Profile interfaces; scripts/validate-content.ts; any content file; package.json. No beat-model types (REQ-CP-02, ROOT.1.2.2 owns those). No module-level skill REGISTRY declaration (registry membership = REQ-CP-06 CI work, pinned out of scope).
+
+## Verification log
+- Pre-edit baseline (worktree C:/Users/jainv/workplace/ai-learning-app == main checkout, same content): npm run validate exit 0; npx tsc --noEmit exit 0. Recorded so post-edit green is attributable.

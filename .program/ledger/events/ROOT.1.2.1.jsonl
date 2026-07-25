@@ -1,2 +1,4 @@
 {"ts":"2026-07-25T00:00:00Z","id":"ROOT.1.2.1","event":"spawn","agent":"implementer-ROOT.1.2.1-gen0","role":"dream-implementer-hardened","tier":2,"note":"worktree agent-a14c2ab9a5be2a8d4; file_ownership src/lib/schema.ts"}
 {"ts":"2026-07-25T00:00:01Z","id":"ROOT.1.2.1","event":"status","status":"in_progress","agent":"implementer-ROOT.1.2.1-gen0","note":"baseline captured pre-edit: npm run validate exit 0 (14 modules, 5 lessons of 01-how-llms-work), npx tsc --noEmit exit 0"}
+{"ts":"2026-07-25T12:08:01Z","id":"ROOT.1.2.1","event":"takeover","agent":"coordinator-ROOT.1.2-gen1","note":"owner implementer-ROOT.1.2.1-gen0 dead with parent gen0 (API error); verification empty; schema.ts confirmed unmodified (reader ac40015a8f8b6bb9c) — infra death, same-tier retry authorized"}
+{"ts":"2026-07-25T12:08:01Z","id":"ROOT.1.2.1","event":"status","status":"interrupted","agent":"coordinator-ROOT.1.2-gen1","note":"in_progress -> interrupted pending gen1 hardened redispatch"}
