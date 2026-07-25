@@ -23,7 +23,7 @@ verification:
   - criterion: "Every item gets a stable ID plus content-hash itemRevision; any content change flips the hash while the ID stays fixed (CP-05 scenario 1)"
     verdict: PASS
     evidence: ".program/audits/ROOT.1.1.3-verification/npm-test.txt"
-    note: "Tests prove: content change flips hash (test 'CP-05 scenario 1'), determinism (identical hashes on unchanged content), key-order independence ({a:1,b:2} === {b:2,a:1}), nested object key-order independence"
+    note: "Tests prove: content change flips hash (test 'CP-05 scenario 1' + new test via buildRevisionsMap), determinism (identical hashes on unchanged content), key-order independence ({a:1,b:2} === {b:2,a:1}), nested object key-order independence, undefined canonicalization"
   - criterion: "Deterministic — recomputing over unchanged content yields identical hashes (no timestamps/counters)"
     verdict: PASS
     evidence: ".program/audits/ROOT.1.1.3-verification/npm-test.txt"
@@ -31,11 +31,22 @@ verification:
   - criterion: "Migration map mechanism exists: content/migrations/*.json validated shape linking {itemId, fromRevision, toRevision, note}; loader + validation function exported (CP-05 scenario 2)"
     verdict: PASS
     evidence: ".program/audits/ROOT.1.1.3-verification/npm-test.txt"
-    note: "Tests prove: valid entries load correctly, malformed JSON throws, missing required fields throw, wrong field types throw, array format supported, non-JSON files ignored, empty directory handled gracefully"
+    note: "Tests prove: valid entries load correctly (now synchronous), malformed JSON throws, missing required fields throw, wrong field types throw, array format supported, non-JSON files ignored, empty directory handled gracefully"
   - criterion: "npm test passes; npx tsc --noEmit passes; evidence paths recorded"
     verdict: PASS
-    evidence: ".program/audits/ROOT.1.1.3-verification/npm-test.txt and tsc-noemit.txt"
-    note: "All 84 tests pass including 19 revisions tests; TypeScript compiles without errors"
+    evidence: ".program/audits/ROOT.1.1.3-verification/npm-test.txt, tsc-noemit.txt, eslint-owned.txt"
+    note: "All 86 tests pass including 21 revisions tests; TypeScript compiles without errors; ESLint exits 0 on owned files"
+fix_cycle:
+  - fix: "CONTRACT FIX: loadMigrationMaps now synchronous returning MigrationEntry[] (was async Promise<MigrationEntry[]>). Uses readdirSync/readFileSync from node:fs."
+    proof: "Function signature changed, tests updated to remove await/async, all 86 tests pass including 7 loadMigrationMaps tests"
+  - fix: "ESM import: replaced require('crypto') with static import createHash from node:crypto"
+    proof: "npx eslint src/lib/revisions.ts tests/revisions.test.ts exits 0"
+  - fix: "Added test 'CP-05 scenario 1 via buildRevisionsMap' proving same id with changed content -> map key unchanged, map value (revision) changed"
+    proof: "New test passes in npm test output (86 tests total)"
+  - fix: "Canonicalization: keys with undefined values now omitted (matching JSON.stringify semantics). Added test proving {a:1,b:undefined} hashes identically to {a:1}"
+    proof: "New test 'canonicalization: keys with undefined values are omitted' passes"
+  - fix: "Fixed example-migration.json and README.md examples to use valid 16-char lowercase hex strings (replaced invalid hex chars like 'g')"
+    proof: "example-migration.json now uses a1b2c3d4e5f60001/b2c3d4e5f6071112; README examples updated; loadMigrationMaps tests with valid hex pass"
 artifacts:
   - "src/lib/revisions.ts"
   - "tests/revisions.test.ts"
