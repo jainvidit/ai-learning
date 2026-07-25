@@ -88,6 +88,17 @@ describe('computeItemRevision', () => {
     const hash2 = computeItemRevision({ value: 2 });
     expect(hash1).not.toBe(hash2);
   });
+
+  it('canonicalization: keys with undefined values are omitted (matching JSON.stringify semantics)', () => {
+    const content1 = { a: 1, b: undefined };
+    const content2 = { a: 1 };
+
+    const hash1 = computeItemRevision(content1);
+    const hash2 = computeItemRevision(content2);
+
+    // {a:1,b:undefined} should hash identically to {a:1}
+    expect(hash1).toBe(hash2);
+  });
 });
 
 describe('buildRevisionsMap', () => {
@@ -128,6 +139,22 @@ describe('buildRevisionsMap', () => {
 
     expect(map1['test']).toBe(map2['test']);
   });
+
+  it('CP-05 scenario 1 via buildRevisionsMap: same item id with changed content -> map key unchanged, map value changed', () => {
+    const itemId = 'exercise-001';
+    const originalContent = { id: itemId, title: 'Original Title', prompt: 'Original prompt' };
+    const modifiedContent = { id: itemId, title: 'Updated Title', prompt: 'Original prompt' };
+
+    const map1 = buildRevisionsMap([{ id: itemId, content: originalContent }]);
+    const map2 = buildRevisionsMap([{ id: itemId, content: modifiedContent }]);
+
+    // Both maps have the same key (itemId)
+    expect(map1).toHaveProperty(itemId);
+    expect(map2).toHaveProperty(itemId);
+
+    // But the revision hash values differ because content changed
+    expect(map1[itemId]).not.toBe(map2[itemId]);
+  });
 });
 
 describe('loadMigrationMaps', () => {
@@ -148,8 +175,8 @@ describe('loadMigrationMaps', () => {
 
     const validEntry: MigrationEntry = {
       itemId: 'exercise-loops-001',
-      fromRevision: 'a1b2c3d4e5f6g7h8',
-      toRevision: 'b2c3d4e5f6g7h8i9',
+      fromRevision: 'a1b2c3d4e5f60001',
+      toRevision: 'b2c3d4e5f6071112',
       note: 'Fixed typo in prompt',
     };
 
@@ -158,7 +185,7 @@ describe('loadMigrationMaps', () => {
       JSON.stringify(validEntry, null, 2)
     );
 
-    const entries = await loadMigrationMaps(subDir);
+    const entries = loadMigrationMaps(subDir);
     expect(entries).toHaveLength(1);
     expect(entries[0]).toEqual(validEntry);
   });
@@ -187,7 +214,7 @@ describe('loadMigrationMaps', () => {
       JSON.stringify(entries, null, 2)
     );
 
-    const loaded = await loadMigrationMaps(subDir);
+    const loaded = loadMigrationMaps(subDir);
     expect(loaded.length).toBeGreaterThanOrEqual(2);
     expect(loaded.some(e => e.itemId === 'ex-001')).toBe(true);
     expect(loaded.some(e => e.itemId === 'ex-002')).toBe(true);
@@ -202,7 +229,7 @@ describe('loadMigrationMaps', () => {
       '{ invalid json }'
     );
 
-    await expect(loadMigrationMaps(subDir)).rejects.toThrow('Failed to parse JSON');
+    expect(() => loadMigrationMaps(subDir)).toThrow('Failed to parse JSON');
   });
 
   it('throws on missing required fields', async () => {
@@ -220,7 +247,7 @@ describe('loadMigrationMaps', () => {
       JSON.stringify(invalidEntry, null, 2)
     );
 
-    await expect(loadMigrationMaps(subDir)).rejects.toThrow('Invalid migration entry');
+    expect(() => loadMigrationMaps(subDir)).toThrow('Invalid migration entry');
   });
 
   it('throws on wrong field types', async () => {
@@ -230,7 +257,7 @@ describe('loadMigrationMaps', () => {
     const invalidEntry = {
       itemId: 123, // should be string
       fromRevision: 'ffff666677778888',
-      toRevision: 'gggg777788889999',
+      toRevision: 'aaaa777788889999',
       note: 'Invalid itemId type',
     };
 
@@ -239,12 +266,12 @@ describe('loadMigrationMaps', () => {
       JSON.stringify(invalidEntry, null, 2)
     );
 
-    await expect(loadMigrationMaps(subDir)).rejects.toThrow('Invalid migration entry');
+    expect(() => loadMigrationMaps(subDir)).toThrow('Invalid migration entry');
   });
 
-  it('returns empty array if directory does not exist', async () => {
+  it('returns empty array if directory does not exist', () => {
     const nonExistentDir = join(process.cwd(), 'non-existent-migrations-dir');
-    const entries = await loadMigrationMaps(nonExistentDir);
+    const entries = loadMigrationMaps(nonExistentDir);
     expect(entries).toEqual([]);
   });
 
@@ -259,8 +286,8 @@ describe('loadMigrationMaps', () => {
 
     const validEntry: MigrationEntry = {
       itemId: 'ex-readme-test',
-      fromRevision: 'hhhh888899990000',
-      toRevision: 'iiii999900001111',
+      fromRevision: 'abcd888899990000',
+      toRevision: 'ef01999900001111',
       note: 'Test with README present',
     };
 
@@ -269,7 +296,7 @@ describe('loadMigrationMaps', () => {
       JSON.stringify(validEntry, null, 2)
     );
 
-    const entries = await loadMigrationMaps(subDir);
+    const entries = loadMigrationMaps(subDir);
     // Should load the JSON file but ignore README.md
     expect(entries).toHaveLength(1);
     expect(entries[0].itemId).toBe('ex-readme-test');

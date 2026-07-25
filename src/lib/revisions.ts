@@ -3,8 +3,9 @@
  * REQ-CP-05: Stable item IDs + content-hash itemRevision + migration maps
  */
 
-import { readdir, readFile } from 'fs/promises';
+import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'path';
+import { createHash } from 'node:crypto';
 import { z } from 'zod';
 
 // Migration entry schema - validate locally per item file requirement
@@ -63,12 +64,12 @@ export function buildRevisionsMap(
  * @returns Array of validated migration entries
  * @throws Error if entries are malformed or validation fails
  */
-export async function loadMigrationMaps(dir?: string): Promise<MigrationEntry[]> {
+export function loadMigrationMaps(dir?: string): MigrationEntry[] {
   const migrationsDir = dir ?? join(process.cwd(), 'content', 'migrations');
 
   let files: string[];
   try {
-    files = await readdir(migrationsDir);
+    files = readdirSync(migrationsDir);
   } catch (error) {
     // If directory doesn't exist, return empty array
     if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
@@ -82,7 +83,7 @@ export async function loadMigrationMaps(dir?: string): Promise<MigrationEntry[]>
 
   for (const file of jsonFiles) {
     const filePath = join(migrationsDir, file);
-    const content = await readFile(filePath, 'utf-8');
+    const content = readFileSync(filePath, 'utf-8');
 
     let parsed: unknown;
     try {
@@ -112,6 +113,7 @@ export async function loadMigrationMaps(dir?: string): Promise<MigrationEntry[]>
 /**
  * Produces canonical JSON string with recursively sorted object keys.
  * Ensures deterministic serialization regardless of original key order.
+ * Keys with undefined values are omitted (matching JSON.stringify semantics).
  */
 function canonicalStringify(value: unknown): string {
   if (value === null) return 'null';
@@ -128,10 +130,15 @@ function canonicalStringify(value: unknown): string {
 
   if (typeof value === 'object') {
     const keys = Object.keys(value).sort();
-    const pairs = keys.map(key => {
-      const val = (value as Record<string, unknown>)[key];
-      return `${JSON.stringify(key)}:${canonicalStringify(val)}`;
-    });
+    const pairs = keys
+      .filter(key => {
+        const val = (value as Record<string, unknown>)[key];
+        return val !== undefined; // Omit keys with undefined values
+      })
+      .map(key => {
+        const val = (value as Record<string, unknown>)[key];
+        return `${JSON.stringify(key)}:${canonicalStringify(val)}`;
+      });
     return `{${pairs.join(',')}}`;
   }
 
@@ -144,7 +151,5 @@ function canonicalStringify(value: unknown): string {
  * Uses Node.js crypto module.
  */
 function sha256(input: string): string {
-  // Dynamic import for Node.js crypto to avoid bundler issues
-  const crypto = require('crypto');
-  return crypto.createHash('sha256').update(input, 'utf8').digest('hex');
+  return createHash('sha256').update(input, 'utf8').digest('hex');
 }

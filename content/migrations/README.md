@@ -18,8 +18,8 @@ File: `2026-07-25-loops-typo.json`
 ```json
 {
   "itemId": "exercise-loops-001",
-  "fromRevision": "a1b2c3d4e5f6g7h8",
-  "toRevision": "b2c3d4e5f6g7h8i9",
+  "fromRevision": "a1b2c3d4e5f60001",
+  "toRevision": "b2c3d4e5f6071112",
   "note": "Fixed typo in prompt: 'teh' -> 'the'"
 }
 ```
@@ -32,14 +32,14 @@ File: `2026-07-25-batch-updates.json`
 [
   {
     "itemId": "exercise-loops-001",
-    "fromRevision": "a1b2c3d4e5f6g7h8",
-    "toRevision": "b2c3d4e5f6g7h8i9",
+    "fromRevision": "a1b2c3d4e5f60001",
+    "toRevision": "b2c3d4e5f6071112",
     "note": "Fixed typo in prompt"
   },
   {
     "itemId": "exercise-conditionals-003",
-    "fromRevision": "c3d4e5f6g7h8i9j0",
-    "toRevision": "d4e5f6g7h8i9j0k1",
+    "fromRevision": "c3d4e5f607a1b2c3",
+    "toRevision": "d4e5f6071112a3b4",
     "note": "Updated distractor to fix misleading wording"
   }
 ]

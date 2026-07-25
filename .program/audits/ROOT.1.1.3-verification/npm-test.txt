@@ -7,8 +7,7 @@
 
 
  Test Files  3 passed (3)
-      Tests  84 passed (84)
-   Start at  11:55:27
-   Duration  793ms (transform 289ms, setup 0ms, import 482ms, tests 379ms, environment 0ms)
+      Tests  86 passed (86)
+   Start at  12:05:04
+   Duration  833ms (transform 320ms, setup 0ms, import 529ms, tests 387ms, environment 1ms)
 
-Exit code: 0
