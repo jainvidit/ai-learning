@@ -130,8 +130,13 @@ export const TestOutProbeSchema = z
   .object({
     id: z.string().min(1),
     kind: TestOutProbeKindSchema,
-    /** Exercise whose verifier/rubric this probe reuses (the module boss for boss-equivalent). */
-    sourceExerciseId: z.string().min(1),
+    /**
+     * Exercise whose verifier/rubric this probe reuses (the module boss for
+     * boss-equivalent). Optional overall — concept-quiz probes sample lessons
+     * and need no source exercise (REQ-BT-02) — but required for
+     * boss-equivalent (see refine below).
+     */
+    sourceExerciseId: z.string().min(1).optional(),
     /** The different fixture the reused verifier/rubric runs against. */
     fixture: z.string().min(1).optional(),
     /** Lesson this probe samples, for per-lesson concept quizzes. */
@@ -141,6 +146,10 @@ export const TestOutProbeSchema = z
   .refine((probe) => probe.kind !== "boss-equivalent" || !!probe.fixture, {
     message:
       'test-out probe of kind "boss-equivalent" must declare a fixture (same verifier/rubric, different fixture)',
+  })
+  .refine((probe) => probe.kind !== "boss-equivalent" || !!probe.sourceExerciseId, {
+    message:
+      'test-out probe of kind "boss-equivalent" must declare a sourceExerciseId (the boss exercise whose verifier/rubric it reuses)',
   });
 export type TestOutProbe = z.infer<typeof TestOutProbeSchema>;
 
@@ -161,10 +170,11 @@ export const ExerciseAuthoringExtensionsSchema = z.object({
   hintLadder: HintLadderSchema.optional(),
   /**
    * Preconditions this exercise needs, e.g. ["artifact:claude-md:healthy"]
-   * (REQ-WA-05 scenario 4). Unrelated to CurriculumEntry.requires, which lists
-   * prerequisite MODULE ids.
+   * (REQ-WA-05 scenario 4). Named `preconditions` (not `requires`) so it can
+   * never be conflated with CurriculumEntry.requires, which lists prerequisite
+   * MODULE ids.
    */
-  requires: z.array(PreconditionSchema).optional(),
+  preconditions: z.array(PreconditionSchema).optional(),
   /** Artifacts a pass produces, each with the verifier that re-asserts it. */
   produces: z.array(ArtifactDeclarationSchema).min(1).optional(),
 });

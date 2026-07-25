@@ -1,0 +1,4 @@
+{"ts":"2026-07-25T00:00:00.000Z","item":"ROOT.1.2.3","event":"status_change","from":"proposed","to":"in_progress","agent":"implementer-ROOT.1.2.3-gen0"}
+{"ts":"2026-07-25T00:00:00.000Z","item":"ROOT.1.2.3","event":"artifact_created","path":".program/interfaces/content-schema.md","agent":"implementer-ROOT.1.2.3-gen0"}
+{"ts":"2026-07-25T00:00:00.000Z","item":"ROOT.1.2.3","event":"verification_complete","criteria_passed":3,"criteria_failed":0,"agent":"implementer-ROOT.1.2.3-gen0"}
+{"ts":"2026-07-25T00:00:00.000Z","item":"ROOT.1.2.3","event":"status_change","from":"in_progress","to":"in_review","agent":"implementer-ROOT.1.2.3-gen0"}

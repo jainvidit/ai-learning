@@ -4,8 +4,8 @@ parent: ROOT.1.2
 type: Task
 title: schema.ts additive extension — new authoring fields, Module 1 validates unchanged
 ledger_depth: 3
-status: in_review
-owner_agent: implementer-ROOT.1.2.1-gen2 # critical-variant rework: 2 must-fix review findings (changes_requested, coordinator-ROOT.1.2-gen1)
+status: done
+owner_agent: implementer-ROOT.1.2.1-gen2 # closed by coordinator-ROOT.1.2-gen1: gen2 fixes independently verified on main (dream-verifier 5/5, events ROOT.1.2.1.jsonl); tier-2 review resolved
 generation: 2
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-03
