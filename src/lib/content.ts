@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import { compileBeats, type Beat } from "./beats";
 import {
   Curriculum,
   CurriculumSchema,
@@ -191,6 +192,68 @@ export function getExercise(
   return loadLesson(moduleId, lessonId).exercises.find(
     (e) => e.id === exerciseId
   );
+}
+
+// ---------- Beat compilation (REQ-CP-02) ----------
+//
+// The beat compiler itself is `src/lib/beats.ts` — pure, I/O-free, so its determinism
+// (invariant S2) is a property of the code rather than a thing tests must chase. This
+// section is only the I/O seam: read authored source, hand it to `compileBeats`.
+//
+// WHY A SEPARATE ENTRY POINT INSTEAD OF A FIELD ON `loadLesson()`:
+// `loadLesson()` is reached from six API routes and from progress computation, none of
+// which read beats — the same argument the compiled-bundle readers above make for
+// degrading rather than throwing. Compiling beats inside `loadLesson()` would put a
+// build-failure throw (a duplicate beat key, an unresolvable anchor) in the path of quiz
+// submission and challenge verification. Beat consumers ask for beats explicitly.
+//
+// The re-export below is REQ-CP-02's "current state" note — `src/lib/content.ts` "gains
+// the beat-compile step" — satisfied without making this file the definition site.
+
+export type {
+  Beat,
+  BeatType,
+  CompletionPredicate,
+  BeatSourceExercise,
+} from "./beats";
+export {
+  compileBeats,
+  assertValidBeats,
+  slugifyHeading,
+  BeatCompileError,
+  COMPLETION_BY_BEAT_TYPE,
+  PERSISTENT_BEAT_TYPES,
+  EXERCISE_BEAT_ID_PREFIX,
+  PROSE_BEAT_ID_PREFIX,
+  INTRO_BEAT_ID,
+} from "./beats";
+
+/**
+ * The ordered beat array for one lesson (REQ-CP-02 scenario 1).
+ *
+ * Compiled from the AUTHORED MDX body plus `exercises.json`, never from Velite's compiled
+ * `code` (which is a JS function body — see `compileBeats`). Throws `BeatCompileError`,
+ * i.e. fails the build, when the lesson violates a compiler invariant.
+ */
+export function getLessonBeats(moduleId: string, lessonId: string): Beat[] {
+  const { mdx, exercises } = loadLesson(moduleId, lessonId);
+  return compileBeats(mdx, exercises, lessonKey(moduleId, lessonId));
+}
+
+/**
+ * Every built lesson's beat array, keyed by `lessonKey()` — the whole-bundle view
+ * REQ-CP-02 scenario 1 quantifies over ("given ANY built lesson"). Modules whose
+ * curriculum `status` is not `"built"` have no lesson files on disk yet and are skipped.
+ */
+export function compileAllLessonBeats(): Record<string, Beat[]> {
+  const out: Record<string, Beat[]> = {};
+  for (const entry of loadCurriculum().modules) {
+    if (entry.status !== "built") continue;
+    for (const lesson of loadModuleMeta(entry.id).lessons) {
+      out[lessonKey(entry.id, lesson.id)] = getLessonBeats(entry.id, lesson.id);
+    }
+  }
+  return out;
 }
 
 // ---------- Gating ----------

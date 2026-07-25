@@ -1,0 +1,61 @@
+
+> ai-learning-app@0.1.0 build
+> velite build --clean && next build
+
+[32m[VELITE][0m build finished in 963.63ms
+▲ Next.js 16.2.11 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+Turbopack build encountered 1 warnings:
+./next.config.ts
+Encountered unexpected file in NFT list
+A file was traced that indicates that the whole project was traced unintentionally. Somewhere in the import trace below, there are:
+- filesystem operations (like path.join, path.resolve or fs.readFile), or
+- very dynamic requires (like require('./' + foo)).
+To resolve this, you can
+- remove them if possible, or
+- only use them in development, or
+- make sure they are statically scoped to some subfolder: path.join(process.cwd(), 'data', bar), or
+- add ignore comments: path.join(/*turbopackIgnore: true*/ process.cwd(), bar)
+
+Import trace:
+  App Route:
+    ./next.config.ts
+    ./src/lib/claudeSpawn.ts
+    ./src/app/api/claude-code/exec/route.ts
+
+
+✓ Compiled successfully in 6.1s
+  Running TypeScript ...
+  Finished TypeScript in 7.0s ...
+  Collecting page data using 15 workers ...
+  Generating static pages using 15 workers (0/14) ...
+  Generating static pages using 15 workers (3/14) 
+  Generating static pages using 15 workers (6/14) 
+  Generating static pages using 15 workers (10/14) 
+✓ Generating static pages using 15 workers (14/14) in 565ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ƒ /_not-found
+├ ƒ /api/challenge/verify
+├ ƒ /api/claude-code/exec
+├ ƒ /api/claude-code/reset
+├ ƒ /api/playground/run
+├ ƒ /api/playground/score
+├ ƒ /api/profiles
+├ ƒ /api/profiles/[id]
+├ ƒ /api/profiles/switch
+├ ƒ /api/progress
+├ ƒ /api/quiz/submit
+├ ƒ /learn/[moduleId]
+├ ƒ /learn/[moduleId]/[lessonId]
+└ ƒ /profiles
+
+
+ƒ Proxy (Middleware)
+
+ƒ  (Dynamic)  server-rendered on demand
+
