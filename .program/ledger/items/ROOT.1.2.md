@@ -23,7 +23,7 @@ review:
   tier: 2
   required_lenses: [spec-conformance, consumer-fit]
   verdicts:
-    - {lens: "assembly (spec-conformance + consumer-fit)", reviewer: "dream-reviewer-primary ababda566f181c9f2 (fresh, blind, artifact+shard+ADRs only)", verdict: "request_changes", arbitration: "coordinator-gen3 ruled all 3 majors spec-interpretation and overruled/downgraded on cited spec grounds (see events 13:52); 3 minors quality -> ROOT.7.1 steward notes; net PASS. REQ-CP-02/03 + ADR-0010 conformance confirmed by the reviewer itself (findings A/B/D)."}
+    - {lens: "assembly (spec-conformance + consumer-fit)", reviewer: "dream-reviewer-primary ababda566f181c9f2 (fresh, blind, artifact+shard+ADRs only)", verdict: "request_changes", arbitration: "all 3 majors kind=spec-interpretation, overruled/downgraded on cited spec grounds (events 13:52:30) and RATIFIED by gen3 on independently re-derived basis (events 13:55:00 — ADR-0005 Decision verbatim; REQ-CP-01 current-state carry-over; criterion-3 verbatim deferral; settled arbitrations 12:34:16/12:53:10 verified present); 3 minors quality -> ROOT.7.1 steward notes; net PASS. REQ-CP-02/03 + ADR-0010 conformance confirmed by the reviewer's own findings A/B/D."}
 verification:
   - criterion: "schema.ts extended additively; Module 1 validates unchanged (CP-03 s1-3)"
     verdict: pass
