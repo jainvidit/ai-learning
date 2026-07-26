@@ -83,6 +83,17 @@ is never used or killed (CONSTRAINTS #17). Debugging is always fanned to a fresh
 never inline. Append a JSON event line to `events/<ID>.jsonl` for every spawn, status
 change, verdict, blocker, decision, split, handoff.
 
+**Event-line format — hard invariant.** One event = exactly ONE line of valid JSON,
+terminated by a single `\n`. **Newlines inside string values MUST be escaped as `\n`**
+(likewise `\t`, `\"`, `\\`) — a literal newline inside `detail` splits the record and both
+halves become unparseable garbage. Build the line with a serializer that escapes for you,
+never by hand, and **verify the file still parses line-by-line before you move on**:
+`python -c "import io,json;[json.loads(l) for l in io.open(r'.program/ledger/events/<ID>.jsonl',encoding='utf-8') if l.strip()];print('parses')"`.
+If it does not print `parses`, you corrupted the crash-recovery record — repair it
+immediately. Keys: `ts` (ISO-8601 Z), `item`, `event`, `by`, plus `from`/`to`/`detail` as
+needed. Keep `detail` short; long narrative goes in a handoff or audit doc referenced by
+path (ADR-0015).
+
 Return (depth 0->1, <=250 words): {"id","status","criteria":[{"criterion","verdict"}],
 "artifacts","decisions","deviations_from_spec","new_dependencies_discovered",
 "open_risks","item_file"}. At depth >=2 return only {"id","status","item_file"}. Your

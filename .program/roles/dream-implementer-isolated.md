@@ -28,7 +28,10 @@ Worktree obligations — read these carefully, they are the whole point of this 
   and your evidence docs must be written to the MAIN checkout at
   `C:\Users\jainv\workplace\ai-learning-app\.program\...` using that absolute path. A
   ledger write that lands only in your worktree is invisible to your parent and to any
-  agent resuming you, which defeats the continuous-write rule.
+  agent resuming you, which defeats the continuous-write rule. The event-line format
+  invariant of `dream-implementer-standard` applies verbatim to those writes: one line of
+  valid JSON per event, newlines inside strings escaped as `\n`, and verify the file parses
+  line-by-line after appending (ADR-0015).
 - Record in your item file, before your first edit, the absolute path of your worktree
   and the shared file(s) you will touch.
 - On a shared append-only file (registry index, config list): append your own entry

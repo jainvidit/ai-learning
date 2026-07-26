@@ -28,6 +28,47 @@ irreversible items (PART 9 Rule 2 — work routed around). Nothing here stalls t
 - **URGENT side effect — RESOLVED by director-gen15 (2026-07-25T14:20Z):** the repo was BUILD-BROKEN mid-migration (package.json swapped to velite with `npm install` never run; LessonRenderer.tsx still importing next-mdx-remote/rsc). Director restored the green baseline: `git checkout 6df07a6^ -- package.json .gitignore` + deleted the program-created velite.config.ts (reversible; the WIP swap survives in commit 6df07a6 and in ROOT.1.1.1's item-file inventory). The repo is coherent again; nothing needs hand-reverting. Director also re-verified the denial empirically this session: `npm --version` denied for the director AND for a fresh dream-verifier — yet earlier sessions today ran full npm suites (ROOT.7.2, ROOT.1.2.1 evidence), so the permission surface CHANGED mid-program. After permission grant: re-dispatch ROOT.1.1.1 fresh (re-apply the swap from the item-file inventory, then `npm install` first).
 - **Routed around:** nothing downstream of ROOT.1.1 can proceed (1.6/1.3/1.5 package.json chain waits on 1.1); ROOT.1.1 and ROOT.1.1.1 set blocked/awaiting_human_authorization.
 
+## Standing items — not blocking, must be discharged before the dependent work
+
+### Tier-3 and escalation paths are UNEXERCISED (2026-07-26, remediation)
+- **Fact:** across 38 director generations, `dream-reviewer-adversarial` and
+  `dream-ledger-auditor-deep` were **never dispatched — not once**. Zero dispatches, so
+  zero evidence that either role works: not that its prompt produces a usable verdict, not
+  that its return contract parses, not that its escalation trigger fires.
+- **Why it matters:** these are the roles the program leans on precisely when something has
+  already gone wrong (tier-3 scope, conflicting standard reviews, detected compaction,
+  systemic ledger drift). Discovering they are broken at that moment costs a generation in
+  the worst possible circumstances. The 38 generations that "worked" exercised only the
+  tier-1/2 path. Note also that both roles were among the five carrying `memory: project`
+  (ADR-0013), so their only known property is one that has since been removed.
+- **Action required:** **dry-run both against an already-completed item before any tier-3
+  work is dispatched.** Use a `done` item with recorded verdicts and evidence (ROOT.1.1.3
+  is the best candidate — it has a full fix cycle, four criteria, and independent reviewer
+  evidence under `.program/audits/ROOT.1.1.3-verification/`). Success is: the role returns
+  parseable output in its declared shape, its findings are checkable against what is
+  already known about the item, and it wrote nothing outside `.program/audits/**`
+  (ADR-0014). A dry-run that contradicts a settled verdict is a finding about the role, not
+  about the item.
+- **Not blocking:** nothing currently ready needs tier 3. This is a gate on the first
+  tier-3 dispatch, not on present work.
+- Related: `dream-gate-verifier-forensic`, `dream-implementer-critical`,
+  `dream-coordinator-recovery` and `dream-verifier-deep` are also unexercised; the same
+  argument applies to them, but with less force since they are not the review backstop.
+
+### Latent ownership overlaps to resolve at decomposition (2026-07-26, ADR-0016)
+- **Fact:** the 57-item glob scan found 9 pairs that would collide if both became ready.
+  Five are artifacts of ROOT.7.2 being `done` while its co-owners are not (harmless unless
+  it is reopened). Four are real and unresolved:
+  - **ROOT.2.1, ROOT.2.3, ROOT.4.5 ↔ ROOT.7.1** — each owns a named interface doc that also
+    falls inside the steward's `.program/interfaces/**` glob. Fix with the ADR-0016
+    `file_ownership_deferred` pattern when ROOT.2 / ROOT.4 are decomposed.
+  - **ROOT.4.8 ↔ ROOT.7.2** — both claim a bare `tests/**`. Narrow ROOT.4.8 to the specific
+    test files it adds before dispatching it.
+- **Not blocking:** all four are cross-phase and at least one side is `proposed`; nothing
+  collides today. Each has an `ownership_overlap_latent` event on its item log.
+- **Also standing:** re-run `.program/audits/ownership-overlap-scan/scan-globs.py` at each
+  phase boundary, on any glob change, and **before reopening any `done` item**.
+
 ## Decided and logged — reversible, owner may override
 
 | # | Item | Question | Chose | If the other reading is right |

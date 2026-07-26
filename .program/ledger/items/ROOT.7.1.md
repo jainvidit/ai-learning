@@ -15,10 +15,12 @@ acceptance_criteria:
   - Every interface doc change after its founding item closes goes through this item, additive-only, consumers notified via their parents' views
   - Every post-Phase-0 dependency addition to package.json lands through this item, serialized
   - The regression-floor checklist (.program/interfaces/regression-floor.md) is maintained here after ROOT.1.2 seeds it; ADR-0006's intended quiz-policy change recorded so Gates read it as intended, not regression
-depends_on: [ROOT.1.2]
+depends_on: [ROOT.1.2, ROOT.1.8]
 blocks: []
 children: []
-file_ownership: ["eslint.config.mjs", "src/lib/schema.ts", ".program/interfaces/**", "package.json", "package-lock.json"]
+file_ownership: ["eslint.config.mjs", ".program/interfaces/**"]
+file_ownership_deferred: ["src/lib/schema.ts", "package.json", "package-lock.json"]
+file_ownership_note: "Narrowed 2026-07-26 (ADR-0016). ADR-0007 #1 assigned this item schema.ts/package.json/interfaces 'when ROOT.1.2/Phase 0 close', but depends_on encoded only [ROOT.1.2] — so the item activated at ROOT.1.2 closure while Phase 0 was still open, holding package.json and src/lib/schema.ts concurrently with ROOT.1, ROOT.1.1 and ROOT.1.1.4. The three paths above move from file_ownership to file_ownership_deferred and transfer to this item when ROOT.1.8 (Phase 0 Gate) closes; depends_on now encodes that boundary. Until then the Phase-0 chain owns them, serialized by its own depends_on edges. Never exercised: the steward wrote no source file (batch-end 2026-07-25T19:08:00Z verified schema.ts/package.json/package-lock.json mtimes unchanged)."
 review: {tier: 2, required_lenses: [consumer-fit, additivity], verdicts: []}
 verification:
   - {batch: 2, criterion: "AC2 — interface-doc change is additive, consumers notified via parents' views", check: "beat-model.md persistent ruling ratified NARROW; heading list identical pre/post edit (22 headings, same content and order, only line numbers shifted; see correction event 19:12:00Z), all 6 predicate x type rows intact, no field/default/value-meaning change, LF endings preserved", evidence: ".program/ledger/events/ROOT.7.1.jsonl 2026-07-25T18:52:00Z"}
@@ -30,7 +32,7 @@ artifacts:
   - eslint.config.mjs                          # batch 1 (edited in worktree agent-aba62312f179e2f56; director records it as integrated to main)
   - .program/interfaces/beat-model.md          # batch 2 (main checkout)
   - .program/interfaces/model-router.md        # batch 2 (main checkout)
-resume_hint: "Activates when ROOT.1.2 closes (its globs transfer here — no concurrent overlap by construction). Long-lived: served by a fresh dream-implementer-hardened per request batch, item stays open across generations. Closes only when ROOT.5 closes."
+resume_hint: "ACTIVE NOW for eslint.config.mjs + .program/interfaces/** only (transferred at ROOT.1.2 closure). src/lib/schema.ts, package.json and package-lock.json are in file_ownership_deferred and transfer here only when ROOT.1.8 (Phase 0 Gate) closes — see ADR-0016; do NOT serve a request against those three before then, park it in the steward backlog instead. Long-lived: served by a fresh dream-implementer-hardened per request batch, item stays open across generations. Closes only when ROOT.5 closes."
 ---
 
 # Standing steward

@@ -83,7 +83,11 @@ Director (you, main session, supervisor-rotated)
 
 **Coordinators** own a subtree, decompose it, dispatch, and verify. They never implement.
 **Workers** implement exactly one leaf. **Reviewers, auditors, readers, verifiers** are
-disposable and read-only.
+disposable and have no Write/Edit — but they DO have Bash, which writes, so they are not
+literally read-only. Their boundary is a path rule: reviewers/auditors may write only under
+`.program/audits/**`; readers and verifiers write nothing at all (ADR-0014). Enforcement is
+permission deny rules, never the `tools:` declaration. No `dream-*` role may carry a
+`memory:` key — it silently grants Write and Edit (ADR-0013).
 
 ## Dispatch allowlist
 
@@ -182,6 +186,32 @@ resume_hint: first action for a successor
 
 Append a JSON event line for every spawn, status change, review verdict, blocker,
 escalation, decision, handoff, split, divergence, compaction and heartbeat.
+
+**Event-line format. This is a hard invariant — `events/<ID>.jsonl` is the crash-recovery
+record, and one unparseable line makes every downstream reader fail on that file.**
+
+- **One event = exactly ONE line of valid JSON**, terminated by a single `\n`. No pretty-
+  printing, no line wrapping, no blank lines, no trailing comma.
+- **Newlines inside string values must be escaped as `\n`** — a literal newline inside a
+  `detail` string splits the record in two and both halves become garbage. The same applies
+  to tabs (`\t`), double quotes (`\"`) and backslashes (`\\`). This is the defect that
+  actually occurred: four lines in `ROOT.jsonl` and three in `ROOT.1.1.4.jsonl` were written
+  with raw newlines inside `detail` and had to be repaired (ADR-0015).
+- **Validate before appending.** Do not hand-assemble the line and hope. Build it with a
+  serializer that escapes for you, and confirm it parses before it touches the file:
+  ```bash
+  # write the event via a serializer, then verify the file still parses end-to-end
+  python -c "import json,io;io.open(r'.program/ledger/events/<ID>.jsonl','a',encoding='utf-8',newline='').write(json.dumps({'ts':'<ISO8601Z>','item':'<ID>','event':'<kind>','by':'<agent>','detail':'<text>'},ensure_ascii=False)+'\n')"
+  python -c "import io,json;[json.loads(l) for l in io.open(r'.program/ledger/events/<ID>.jsonl',encoding='utf-8') if l.strip()];print('parses')"
+  ```
+  If the verify step does not print `parses`, you have corrupted the file — repair it before
+  doing anything else.
+- Keys: `ts` (ISO-8601 Z), `item`, `event`, `by`, and as needed `from`/`to`/`detail`. Include
+  `item` — it is missing on many historical lines, which makes cross-file reconstruction
+  harder than it should be.
+- Long narrative belongs in a handoff or an audit doc, referenced by path from `detail`. A
+  `detail` string running to hundreds of characters is a signal you are writing prose into
+  the wrong file, and it is where the newline defect comes from.
 
 The built-in task list is a dispatch mirror only. Files win on any disagreement.
 
@@ -463,8 +493,9 @@ correct parts that do not add up. Re-read the shard first.
 
 Reconciliation cannot be performed by the coordinator whose work it would indict.
 
-Run a read-only `ledger-auditor` on a timer — roughly every 20 completions. It writes only
-to `.program/audits/` and reports to you.
+Run a `ledger-auditor` on a timer — roughly every 20 completions. It writes only to
+`.program/audits/` (a path rule, not a tool rule — it has Bash; ADR-0014) and reports to
+you.
 
 Checks:
 - items `done` with empty `verification`, or criteria no evidence covers
@@ -633,7 +664,7 @@ PART 10.
    file-ownership boundary for each, and the specialist roles you intend to author.
 6. Assign review tiers across the top two levels.
 7. **Adversarial self-review, replacing the human gate.** Spawn three fresh `opus`
-   read-only reviewers — deliberately a different model from you, so they do not share
+   reviewers — deliberately a different model from you, so they do not share
    your blind spots in parallel. Give each the spec shards and your decomposition but
    **not** your reasoning. Lenses:
    - *completeness* — what in the shards is covered by no ledger item

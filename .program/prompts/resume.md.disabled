@@ -1,3 +1,9 @@
+> **DISABLED — DO NOT RUN HEADLESSLY.** Feeding this file to `claude -p` starts a
+> scheduler that believes it owns the ledger. Doing that in a loop is what caused the
+> 38-generation duplicate-director storm on 2026-07-25 (see ADR-0012). The only
+> sanctioned launch is a single interactive `claude --agent dream-director`, started and
+> rotated by hand. There is no supervisor and no automated relauncher.
+
 # Resume prompt — dream program director
 
 Any fresh session resuming this program: paste the full Program Director operating
@@ -11,7 +17,7 @@ Facts a successor should not re-derive:
 - ROOT.2.4 (legacy progress cutover/archival) is PARKED — dual-write is the end-state
   until the owner authorizes.
 - Settled at genesis, do not silently revisit: ADR-0001..0006 in .program/decisions/.
-- Roles: 14 dream-* files; .program/roles/ is authoritative, user-scope
+- Roles: 21 dream-* files; .program/roles/ is authoritative, user-scope
   C:\Users\jainv\.claude\agents\ is the loaded copy — regenerate user-scope from the
   mirror on drift, never the reverse.
 - The director alone runs git, on the program repo, on a timer.

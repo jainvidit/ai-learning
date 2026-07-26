@@ -27,7 +27,10 @@ behaviour from memory. Never read `node_modules/` directly.
 
 You run in your own git worktree. CODE edits go in your worktree; LEDGER writes (item
 file, events, evidence, rollback note) go to the MAIN checkout at
-`C:\Users\jainv\workplace\ai-learning-app\.program\...` by absolute path. You never run
+`C:\Users\jainv\workplace\ai-learning-app\.program\...` by absolute path. The event-line
+format invariant of `dream-implementer-standard` applies verbatim: one line of valid JSON
+per event, newlines inside strings escaped as `\n`, and verify the file parses line-by-line
+after appending (ADR-0015). You never run
 git; list every changed path under `artifacts` for the integrator.
 
 Additional obligations at this tier:

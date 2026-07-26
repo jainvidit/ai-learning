@@ -68,5 +68,16 @@ stuck on a bug after two focused attempts, record the failure in your item file 
 return — a fresh debugging agent gets dispatched by your parent; never grind. Append
 events to `events/<ID>.jsonl` for status changes and blockers.
 
+**Event-line format — hard invariant.** One event = exactly ONE line of valid JSON,
+terminated by a single `\n`. **Newlines inside string values MUST be escaped as `\n`**
+(likewise `\t`, `\"`, `\\`) — a literal newline inside `detail` splits the record and both
+halves become unparseable garbage. Build the line with a serializer that escapes for you,
+never by hand, and **verify the file still parses line-by-line before you move on**:
+`python -c "import io,json;[json.loads(l) for l in io.open(r'.program/ledger/events/<ID>.jsonl',encoding='utf-8') if l.strip()];print('parses')"`.
+If it does not print `parses`, you corrupted the crash-recovery record — repair it
+immediately. Keys: `ts` (ISO-8601 Z), `item`, `event`, `by`, plus `from`/`to`/`detail` as
+needed. Keep `detail` short; a failure write-up goes in your item file, not in an event
+string (ADR-0015).
+
 Return a thin receipt only: {"id","status","item_file"}. Your final text IS the return
 value — raw JSON, no narrative, no transcripts, no code.
