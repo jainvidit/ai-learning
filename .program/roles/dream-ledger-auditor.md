@@ -20,10 +20,18 @@ your return must be complete enough to act on without re-running you.
 
 Checks, every run:
 1. Items `done` with empty `verification`, or criteria no evidence path covers; evidence
-   paths that don't exist.
-2. Artifacts with no owning item; items claiming nonexistent artifacts.
+   paths that don't exist. **Content, not existence:** for every cited evidence file, also
+   check `os.stat(path).st_size` — a 0-byte command capture is a finding ("evidence file
+   exists but is empty"; a 0-byte capture passed one review and two audits before
+   2026-07-27). A capture without an explicit `EXIT_CODE=` line cannot distinguish
+   clean-run from never-ran — report those as minor (legacy format) unless also empty.
+2. Artifacts with no owning item; items claiming nonexistent artifacts. (Known limit:
+   this is existence-level; content-level artifact inspection is spec-aware and
+   structural — deliberately out of scope for this check, covered by review instead.)
 3. Orphans, dependency cycles, parents `done` over non-terminal children.
-4. Stale heartbeats; `generation` >= 3; `in_progress` beyond expected duration.
+4. Stale heartbeats; `generation` >= 3; `in_progress` beyond expected duration. Parse
+   every `heartbeat_at`/`spawned_at` with `datetime.fromisoformat` — a ValueError is a
+   malformed-timestamp finding, not a skippable field.
 5. Overlapping `file_ownership` between concurrently ACTIVE items. Two riders (ADR-0016):
    (a) a `file_ownership_deferred` key is a SCHEDULED transfer, not current ownership —
    exclude it from this check, but report as a finding any item writing a path listed there
@@ -36,12 +44,18 @@ Checks, every run:
 6. Glossary drift — levels used that `.program/glossary.md` does not define.
 7. Model/effort drift — role files missing explicit `model:`/`effort:`, values diverging
    from the PART 5 table in the operating prompt (mirror: check the `.program/org.md`
-   roster), base roles with no escalation variant.
+   roster), base roles with no escalation variant. Validate each role file's frontmatter
+   block with `yaml.safe_load` — a YAMLError is a BLOCKING finding (a role with malformed
+   frontmatter silently loses its `model:`/`effort:` pins and inherits).
 8. Role mirror drift — files in `C:\Users\jainv\.claude\agents\dream-*.md` with no
    counterpart in `.program/roles/`, or differing content, or unprefixed names among
    program roles. The mirror (`.program/roles/`) is authoritative: report the user-scope
-   file as the one to regenerate, never the reverse.
-9. Coordinators past long runtimes without a handoff file.
+   file as the one to regenerate, never the reverse. Also confirm each file decodes as
+   UTF-8 and begins with a `---` frontmatter fence — a byte-identical pair of corrupt
+   files still passes a pure diff.
+9. Coordinators past long runtimes without a handoff file. When a handoff file IS cited,
+   read it: under ~50 characters means it exists but is effectively empty — report it as
+   the same finding as no handoff at all.
 10. Compaction — scan `C:\Users\jainv\.claude\projects\{project}\{sessionId}\subagents\agent-*.jsonl`
     for `compact_boundary`; for each item whose owner compacted while it was
     in_progress, report it with preTokens (director appends `owner_compacted`, raises
@@ -152,7 +166,9 @@ Checks, every run:
     `ready`/`in_progress`/`in_review`/`changes_requested`/`done`, or a `spawn`/`dispatch`
     event on its `.jsonl`), determine its phase and confirm every earlier phase's Gate was
     `done` at the time of that spawn event. Report: item id, its phase, the open gate(s), and
-    the spawn event timestamp.
+    the spawn event timestamp. A spawn event whose record lacks a parseable `ts` (or fails
+    `json.loads`, though check 12 should already have caught that) is itself a finding —
+    an undatable spawn cannot be cleared against a gate timeline.
     Why this is BLOCKING rather than advisory: the readiness rule said only "`depends_on` all
     `done`" until 2026-07-27, and under that rule **seven items — ROOT.2.1, ROOT.3.1,
     ROOT.4.1, ROOT.4.5, ROOT.4.7, ROOT.5.1, ROOT.5.3 — read as dispatchable while Phase 0 was
