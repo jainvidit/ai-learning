@@ -63,9 +63,22 @@ Every item has a stable ID plus a content-hash `itemRevision`; every attempt eve
 **Source:** DREAM-BLUEPRINT.md §3 "Content pipeline — Versioning"; GLOSSARY.md "itemRevision". Event-side recording is REQ-EL-02 in `event-log-and-projections.md`.
 **Current state:** new mechanism; no current equivalent.
 
+**Hash-input domain (ADR-0017, amended 2026-07-27 — scenario 1's "in any way" is scoped
+to this enumeration, otherwise it is unfalsifiable):** hashable content is the JSON data
+model — `null`, booleans, finite numbers (`-0` normalized to `0`), strings, arrays of
+hashable values, and plain objects with string keys (key order irrelevant; keys with
+`undefined` values omitted). Distinct values within this domain MUST produce distinct
+canonical forms. Values outside it — `undefined` (other than an omitted object value),
+functions, symbols, BigInt, NaN, ±Infinity, Date, Map, Set, RegExp, typed arrays,
+non-plain class instances, circular references — MUST be rejected with a `TypeError`
+naming the JSON path of the offending value (a cycle is reported as a cycle, never a bare
+RangeError). Keys or ids equal to `__proto__` must round-trip without prototype-accessor
+loss.
+
 **Scenarios:**
-1. Given an item whose content changes in any way, when the bundle rebuilds, then its `itemRevision` hash changes while its item ID does not.
+1. Given an item whose content changes in any way within the hash-input domain, when the bundle rebuilds, then its `itemRevision` hash changes while its item ID does not.
 2. Given an item that materially changes, when the change ships, then a migration map entry exists linking old revision to new.
+3. Given item content containing a value outside the hash-input domain, when the hash is computed, then the computation fails with a `TypeError` naming the path of the offending value — it never silently coerces, collapses, or crashes with an unrelated error.
 
 ## REQ-CP-06: CI content gates {#req-cp-06}
 

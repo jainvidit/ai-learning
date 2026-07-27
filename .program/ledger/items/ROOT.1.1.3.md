@@ -4,9 +4,9 @@ parent: ROOT.1.1
 type: Task
 title: itemRevision content hashing + migration maps
 ledger_depth: 3
-status: changes_requested
-generation: 0
-owner_agent: implementer-ROOT.1.1.3-gen0
+status: in_progress
+generation: 1
+owner_agent: implementer-ROOT.1.1.3-gen1 (dream-implementer-hardened, fix cycle vs adversarial findings, dispatched by director-gen40 2026-07-27T05:30Z)
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-05
 acceptance_criteria:
@@ -14,6 +14,9 @@ acceptance_criteria:
   - Deterministic — recomputing over unchanged content yields identical hashes (no timestamps/counters)
   - Migration map mechanism exists: content/migrations/*.json validated shape linking {itemId, fromRevision, toRevision, note}; loader + validation function exported (CP-05 scenario 2)
   - npm test passes; npx tsc --noEmit passes; evidence paths recorded
+  - "FIX CYCLE (gen1, ADR-0017): canonicalStringify enforces the CP-05 hash-input domain — JSON data model only; every out-of-domain type in the shard enumeration (undefined/function/symbol/BigInt/NaN/±Infinity/Date/Map/Set/RegExp/typed arrays/non-plain instances/cycles) throws TypeError naming the JSON path; -0 normalizes to 0; cycles reported as cycles — each rejected type has a test (CP-05 scenario 3)"
+  - "FIX CYCLE (gen1): MigrationEntrySchema validates content — itemId nonempty, fromRevision/toRevision exactly 16 lowercase hex and unequal, note nonempty; loadMigrationMaps rejects conflicting duplicate {itemId,fromRevision} pairs, sorts entries deterministically (never readdirSync order), and throws on an explicitly-passed nonexistent dir (default dir absent may return [])"
+  - "FIX CYCLE (gen1): buildRevisionsMap handles id __proto__ without prototype-accessor loss (null-prototype object or Map) — proven by test; unfalsifiable >=2/.some assertions in existing tests replaced with exact expectations"
 depends_on: [ROOT.1.1.2]
 blocks: [ROOT.1.1.4]
 children: []

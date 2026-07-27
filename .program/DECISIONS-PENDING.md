@@ -206,3 +206,18 @@ flag.
 
 ### RESOLVED — ROOT.1.1 toolchain denial (2026-07-25, coordinator-ROOT.1.1-gen0)
 - The permission grant landed: `npm --version` succeeds in the ROOT.1.1 coordinator session (11.6.2). Baseline restore by director-gen15 verified intact (next-mdx-remote ^6.0.0 back in package.json, no velite.config.ts). ROOT.1.1/ROOT.1.1.1 unblocked; ROOT.1.1.1 gen1 re-dispatched. The 2026-07-25 "verification toolchain denied" entry above is closed.
+
+## Decided-and-logged (PART 9 Rule 1)
+
+### ADR-0017 — CP-05 hash-input domain (2026-07-27, director gen40)
+- **Question:** CP-05 s1 "content changes in any way -> hash changes" never stated which
+  JS types must be distinguishable; adversarial review proved the shipped hash collapses
+  NaN/Infinity/Date/Map/Set and crashes on cycles while the criterion still read as met.
+- **Readings:** (A) coerce-and-broaden — encode every JS type distinctly; (B)
+  enumerate-and-reject — hash domain = JSON data model, TypeError with JSON path outside it.
+- **Chose B**: least irreversible (B->A is additive per-type; A's silent collapses inside
+  published immutable bundles can never be disentangled) and consistent with adjacent
+  shards (bundle is JSON on disk per CP-04; CP-06 posture is fail-loudly-in-CI).
+- **If A is ever preferred:** admit types one by one with explicit encodings via a new
+  ADR, plus migration-map guidance for any item whose content newly admits a
+  previously-rejected type. Shard amended (domain clause + scenario 3).
