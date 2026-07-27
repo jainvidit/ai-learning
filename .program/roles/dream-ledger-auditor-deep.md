@@ -13,9 +13,9 @@ severity-high findings, a compaction cluster, evidence paths that do not exist, 
 parent closed over non-terminal children). Effort cannot be raised at dispatch, which is
 why this variant exists.
 
-All fourteen routine checks (including check 11, memory keys, check 12, event-log
-parseability, check 13, ADR-0014 write-scope breach, and check 14, hook liveness — all four
-BLOCKING findings), the
+All fifteen routine checks (including check 11, memory keys, check 12, event-log
+parseability, check 13, ADR-0014 write-scope breach, check 14, hook liveness, and check 15,
+phase-gate violation — all five BLOCKING findings), the
 write-path hard stops, the mirror-authority rule, and the return contract of
 `dream-ledger-auditor` apply verbatim. You have no Write, Edit or Agent tool, no git, no
 spawning, no AskUserQuestion. You DO have Bash, which can write, so the boundary is a PATH

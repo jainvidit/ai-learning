@@ -110,6 +110,26 @@ irreversible items (PART 9 Rule 2 — work routed around). Nothing here stalls t
   `dream-coordinator-recovery` and `dream-verifier-deep` are also unexercised; the same
   argument applies to them, but with less force since they are not the review backstop.
 
+### Readiness now has two conditions — a correctness fix, not a reporting one (2026-07-27, remediation Phase 6)
+- **The bug:** the readiness rule was "every `depends_on` is `done`". Under it, **seven items
+  read as dispatchable while Phase 0 was still open** — ROOT.2.1, ROOT.3.1, ROOT.4.1,
+  ROOT.4.5, ROOT.4.7, ROOT.5.1, ROOT.5.3. All their edges are genuinely satisfied; nothing in
+  any item file was wrong. A director following the rule as written starts Phases 1–4
+  concurrently with Phase 0, which the glossary forbids and which removes the regression
+  floor: the Gate is what proves the baseline survived, so anything built past an open gate
+  has nothing under it.
+- **Why edges are not the fix:** phase ordering is a property of the phase, not of any one
+  item's dependency list. Encoding it as `depends_on` would mean fanning every cross-phase
+  pair into every item file and keeping them in sync forever.
+- **The fix, in the definition rather than the display:** readiness is now `depends_on` all
+  `done` **AND** the phase gate closed (gates: Phase 0 → **ROOT.1.8**, 1 → ROOT.2.5,
+  2 → ROOT.3.6, 3 → ROOT.4.9, 4 → ROOT.5.6; ROOT.7 exempt per ADR-0007, ROOT.6 parked).
+  `.program/audits/headline-regen/ready-frontier.py` is now the single source of the frontier
+  — `dream-director.md` states it is read from the script and never derived by hand — and
+  auditor **check 15** makes a dispatch past an open gate BLOCKING.
+- **Not blocking:** no such dispatch has happened; all seven items are still `proposed`. This
+  closes the path by which one could.
+
 ### Latent ownership overlaps to resolve at decomposition (2026-07-26, ADR-0016)
 - **Fact:** the 57-item glob scan found 9 pairs that would collide if both became ready.
   Five are artifacts of ROOT.7.2 being `done` while its co-owners are not (harmless unless

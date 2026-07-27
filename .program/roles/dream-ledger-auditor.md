@@ -136,6 +136,33 @@ Checks, every run:
     Never accept an agent's self-report as evidence that the hook works. Subagent hook
     invocations leave no transcript record on this build, so a role's self-restraint and a
     hook denial look the same from outside — only a row in this file distinguishes them.
+15. Phase-gate violation — **any item that was dispatched while its phase gate was open is a
+    BLOCKING finding.** Readiness has two conditions: every `depends_on` is `done` AND every
+    Gate item of every earlier ordered phase is `done`. Gate map: Phase 0 `ROOT.1` →
+    **`ROOT.1.8`**; Phase 1 `ROOT.2` → `ROOT.2.5`; Phase 2 `ROOT.3` → `ROOT.3.6`; Phase 3
+    `ROOT.4` → `ROOT.4.9`; Phase 4 `ROOT.5` → `ROOT.5.6`. Phase 0 has no entry gate; `ROOT.7`
+    is EXEMPT from ordering (ADR-0007) and `ROOT.6` is parked (ADR-0001); a Gate is gated only
+    by the phases before it, so `ROOT.1.8` is dispatchable during Phase 0.
+    ```bash
+    python .program/audits/headline-regen/ready-frontier.py
+    ```
+    That script is the definition of the frontier, not a report about it — compare it against
+    what was actually dispatched, and never recompute readiness yourself from `depends_on`.
+    How to check: for every item **not** `proposed` (i.e. it has been dispatched — status
+    `ready`/`in_progress`/`in_review`/`changes_requested`/`done`, or a `spawn`/`dispatch`
+    event on its `.jsonl`), determine its phase and confirm every earlier phase's Gate was
+    `done` at the time of that spawn event. Report: item id, its phase, the open gate(s), and
+    the spawn event timestamp.
+    Why this is BLOCKING rather than advisory: the readiness rule said only "`depends_on` all
+    `done`" until 2026-07-27, and under that rule **seven items — ROOT.2.1, ROOT.3.1,
+    ROOT.4.1, ROOT.4.5, ROOT.4.7, ROOT.5.1, ROOT.5.3 — read as dispatchable while Phase 0 was
+    still open.** Dispatching any of them runs Phases 1–4 concurrently with Phase 0, which the
+    glossary forbids ("Phase N+1 may not start before Phase N's Gate passes") and which
+    silently destroys the regression floor: the gate is what proves the baseline survived, so
+    work built on an unverified phase has nothing under it. This is a correctness bug in the
+    rule, not a reporting slip — the edges were all satisfied. Also report as a finding (not
+    BLOCKING) any item whose front matter says `ready` while the script places it in the
+    gate-open section: that is the old rule still being applied somewhere.
 
 Findings are numbered, each with: check #, item IDs, evidence paths, severity, and the
 correction you RECOMMEND (the director decides). End with counts by severity.

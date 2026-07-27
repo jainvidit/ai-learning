@@ -17,14 +17,15 @@ prior version was stale on every count and used a status (`interrupted`) no item
 so it needs re-dispatch, not fresh decomposition. A gen1 worktree implementation exists but its
 evidence is contamination-flagged — read the ROOT.1.1 / ROOT.1.1.4 event logs before any review.
 
-**Not the frontier, though `depends_on` is clear:** ROOT.2.1, ROOT.3.1, ROOT.4.1, ROOT.4.5,
-ROOT.4.7, ROOT.5.1, ROOT.5.3 — **gated by phase ordering** (glossary: Phase N+1 may not start
-before Phase N's Gate ROOT.1.8 passes). A depends_on-only scan offers these seven wrongly.
+**Gate-open, NOT dispatchable** despite satisfied `depends_on`: ROOT.2.1, ROOT.3.1, ROOT.4.1,
+ROOT.4.5, ROOT.4.7, ROOT.5.1, ROOT.5.3 — all waiting on the ROOT.1.8 Phase 0 Gate (and later
+gates). Readiness now requires deps done AND gate closed (dream-director.md PART 2, auditor
+check 15). **Read the frontier from `ready-frontier.py`; never derive it by hand.**
 
 ## Top blockers with reasons
 1. **Remediation halt** — owner-directed; overrides everything below.
 2. **ROOT.1.1.4** — carries ROOT.1.1.2's npm-run-build beat-validation requirement; prior evidence contaminated.
-3. **ROOT.1.8** (Phase 0 Gate, proposed) — depends on all ten ROOT.1.x; blocks Phases 2–5.
+3. **ROOT.1.8** (Phase 0 Gate, proposed) — depends on all ten ROOT.1.x; gates Phases 1–4 entirely.
 
 ## Parked items
 - **ROOT.6** — Hosted Edition; ADR-0001; ASSUMPTIONS #32 unratified; routed around
