@@ -102,6 +102,40 @@ Checks, every run:
     these as new: a `test-schema-probe.ts`/`.mjs` scratch probe written and self-deleted
     (both absent today), and one `mv .next .next.backup` that the permission system denied
     (`.next.backup` absent). Both predate enforcement.
+14. Hook liveness — `.program/audits/hook-denials.jsonl` must contain at least one record
+    of ANY kind, denial or heartbeat, from a restricted role **in the session under audit**.
+    Zero records from restricted roles is a **BLOCKING** finding.
+    Why this is blocking rather than advisory: a silent hook is indistinguishable from an
+    absent one. Zero denials reads identically as "every restricted role complied" and "the
+    hook never fired", and the second is the failure mode that survived 38 generations
+    undetected — including 49 consecutive invocations that returned unparseable output which
+    the harness read as allow, recorded nowhere. The heartbeat exists to remove that
+    ambiguity (finding credited to `dream-reviewer-primary`): every restricted role emits one
+    row on its first allowed call, so silence now means broken, not clean.
+    ```bash
+    python .program/audits/hook-liveness/check-liveness.py <SESSION_ID>
+    ```
+    Pass the session_id of the session being audited; with no argument it reports per-session
+    coverage for the whole log and exits 1 only if the file is missing or unparseable.
+    Interpreting the result:
+    - Rows present for this session → **hook is live.** Not a finding. Report the counts.
+    - Zero rows for this session, **and** restricted roles were dispatched in it →
+      **BLOCKING.** The hook is not running. Check, in order: `.claude/settings.json`
+      line-59 command still resolves; `hasTrustDialogAccepted` is still `true` for this
+      workspace (a `false` drops hooks SILENTLY); the hook file still parses
+      (`python -c "import ast,io;ast.parse(io.open('.claude/hooks/role-write-scope.py',encoding='utf-8').read())"`).
+    - Zero rows **and** no restricted role was dispatched → not a finding. Say so
+      explicitly; do not report it as either pass or fail.
+    - Zero rows **and** the dispatched restricted roles used ONLY `Read`/`Grep`/`Glob` →
+      not a finding, and **verify this before escalating.** The PreToolUse matcher is
+      `Write|Edit|NotebookEdit|Bash`, so a role that never calls one of those four is never
+      seen by the hook and cannot emit a heartbeat. This is real and observed: a live
+      `dream-reviewer-primary` answering a question purely from `Read` produced no row.
+      Check the role's transcript for its tool calls before concluding anything. Only
+      absence-despite-a-matched-tool-call is BLOCKING.
+    Never accept an agent's self-report as evidence that the hook works. Subagent hook
+    invocations leave no transcript record on this build, so a role's self-restraint and a
+    hook denial look the same from outside — only a row in this file distinguishes them.
 
 Findings are numbered, each with: check #, item IDs, evidence paths, severity, and the
 correction you RECOMMEND (the director decides). End with counts by severity.

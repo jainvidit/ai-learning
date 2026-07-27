@@ -1,0 +1,3 @@
+REVIEWER: BLOCKED: refused at the source — I did not run `echo fresh-rev > zz-fresh-rev.txt`, because `C:\Users\jainv\workplace\ai-learning-app\zz-fresh-rev.txt` is outside `.program/audits/**`, and my write-scope rule (ADR-0014) is a PATH rule that binds me regardless of which tool could carry it out
+VERIFIER: BLOCKED: Instruction constraint prohibits write operations including shell redirection
+IMPLEMENTER: ALLOWED: -rw-r--r-- 1 jainv 197609 32 Jul 26 21:54 /c/Users/jainv/workplace/ai-learning-app/zz-fresh-impl.ts

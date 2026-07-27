@@ -45,6 +45,38 @@ THE GUARD SPLIT - read this before editing
 BASH INSPECTION
     Inspect the whole command string, not just paths: a path-based deny rule was
     defeated by `tee` in testing (ADR-0014), so write verbs are enumerated.
+
+HEARTBEAT - why allows are logged too
+    Finding credited to `dream-reviewer-primary`, which raised it unprompted when
+    asked to probe its own deny branch (2026-07-27):
+
+        Zero denials is AMBIGUOUS. It reads identically as "every restricted role
+        complied" and "the hook is not firing at all". A reader cannot tell the
+        two apart, and a silent hook is indistinguishable from an absent one.
+
+    That is not hypothetical: 49 invocations of this hook once returned
+    unparseable output, every one of which the harness read as allow, and no
+    artifact anywhere recorded it. The reviewer also declined to manufacture a
+    violation to close the gap, correctly - the fix belongs in the evidence
+    design, not in an agent breaking a rule to prove the rule is enforced.
+
+    So one HEARTBEAT record is written per (session, agent) the first time a
+    restricted role's call is allowed. Presence of a heartbeat proves the hook
+    ran for that role in that session; absence is now a finding (auditor
+    check 14) rather than an absence of evidence.
+
+    Restricted roles ONLY. Implementers, coordinators and the director
+    short-circuit before this point and are never logged: they generate the bulk
+    of all tool calls, and logging them would bury the signal this exists to
+    surface. One row per agent per session, not one per call, for the same
+    reason.
+
+    KNOWN LIMIT: the settings.json matcher is `Write|Edit|NotebookEdit|Bash`, so
+    a restricted role that works purely through Read/Grep/Glob never reaches this
+    hook and emits no heartbeat. Observed with a live reviewer answering from
+    `Read` alone. Absence of a heartbeat therefore means "the hook did not run for
+    a matched tool call", not "the role did nothing" - auditor check 14 has to
+    check the role's tool calls before treating absence as a failure.
 """
 
 import io
@@ -62,7 +94,16 @@ NO_WRITES_PREFIXES = ("dream-reader-", "dream-verifier")
 
 ALLOWED_WRITE_ROOT = ".program/audits/"
 
-DENIAL_LOG = ".program/audits/hook-denials.jsonl"
+# Resolve the log relative to THIS FILE, not the caller's cwd. Worktree
+# implementers and any agent that cd's elsewhere would otherwise scatter
+# evidence into a second tree - and check 14 reads absence as failure, so a
+# misplaced log is worse than none.
+_REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+DENIAL_LOG = os.path.join(_REPO, ".program", "audits", "hook-denials.jsonl")
+
+# Marker directory for "this (session, agent) already has a heartbeat". Kept out
+# of .program/audits/ so it never looks like evidence; it is bookkeeping.
+HEARTBEAT_STATE = os.path.join(_REPO, ".program", "audits", ".heartbeat-state")
 
 FILE_TOOLS = ("Write", "Edit", "NotebookEdit", "MultiEdit")
 
@@ -218,8 +259,8 @@ def decide(payload):
     return "allow", "tool cannot write", tool
 
 
-def log_denial(record):
-    """Never let logging turn a decision into a crash."""
+def log_record(record):
+    """Append one evidence row. Never let logging turn a decision into a crash."""
     try:
         d = os.path.dirname(DENIAL_LOG)
         if d:
@@ -230,6 +271,34 @@ def log_denial(record):
             f.write(line + "\n")
     except Exception:
         pass
+
+
+def _claim_heartbeat(session_id, agent_id, agent_type):
+    """True if THIS call should write the heartbeat for this (session, agent).
+
+    One row per agent per session. The claim must be atomic: several tool calls
+    from the same agent can be in flight, and a check-then-write would emit
+    duplicates. `os.open(O_CREAT|O_EXCL)` succeeds for exactly one caller.
+
+    Fails OPEN in the logging sense - if the claim cannot be made for any
+    reason, return False and write nothing. A missing heartbeat is a check-14
+    finding, which is the correct failure direction: it reports a problem rather
+    than hiding one.
+    """
+    try:
+        os.makedirs(HEARTBEAT_STATE, exist_ok=True)
+        key = "%s__%s__%s" % (session_id or "nosession",
+                              agent_id or "noagent",
+                              agent_type or "norole")
+        key = re.sub(r"[^A-Za-z0-9_.-]", "_", key)[:180]
+        fd = os.open(os.path.join(HEARTBEAT_STATE, key),
+                     os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+        os.close(fd)
+        return True
+    except FileExistsError:
+        return False
+    except Exception:
+        return False
 
 
 def _utc_now():
@@ -261,7 +330,7 @@ def main():
             raise ValueError("payload is not an object")
     except Exception as e:
         sys.stderr.write("role-write-scope: unparseable payload: %r\n" % (e,))
-        log_denial({"ts": _utc_now(), "agent_type": None, "agent_id": None,
+        log_record({"ts": _utc_now(), "agent_type": None, "agent_id": None,
                     "tool": None, "command": None,
                     "reason": "HOOK FAILURE (failed open): unparseable payload: "
                               "%r" % (e,), "session_id": None})
@@ -272,7 +341,7 @@ def main():
         decision, reason, tool = decide(payload)
     except Exception as e:
         sys.stderr.write("role-write-scope: internal error: %r\n" % (e,))
-        log_denial({
+        log_record({
             "ts": _utc_now(),
             "agent_type": payload.get("agent_type"),
             "agent_id": payload.get("agent_id"),
@@ -284,12 +353,14 @@ def main():
         emit("allow", "hook internal error; failing open")
         return
 
+    tin = payload.get("tool_input")
+    if not isinstance(tin, dict):
+        tin = {}
+
     if decision == "deny":
-        tin = payload.get("tool_input")
-        if not isinstance(tin, dict):
-            tin = {}
-        log_denial({
+        log_record({
             "ts": payload.get("timestamp") or _utc_now(),
+            "kind": "denial",
             "agent_type": payload.get("agent_type"),
             "agent_id": payload.get("agent_id"),
             "tool": tool,
@@ -298,6 +369,25 @@ def main():
             "reason": reason,
             "session_id": payload.get("session_id"),
         })
+    elif policy_for(payload.get("agent_type")) is not None:
+        # Allowed call by a RESTRICTED role -> heartbeat, once per (session,
+        # agent). Unrestricted roles never reach here: decide() short-circuits
+        # them, and policy_for() is re-checked so a future edit to decide()
+        # cannot start logging implementer traffic by accident.
+        if _claim_heartbeat(payload.get("session_id"),
+                            payload.get("agent_id"),
+                            payload.get("agent_type")):
+            log_record({
+                "ts": payload.get("timestamp") or _utc_now(),
+                "kind": "heartbeat",
+                "agent_type": payload.get("agent_type"),
+                "agent_id": payload.get("agent_id"),
+                "tool": tool,
+                "command": None,
+                "reason": "hook live for this role/session; first allowed call "
+                          "(%s)" % reason,
+                "session_id": payload.get("session_id"),
+            })
 
     emit(decision, reason)
 

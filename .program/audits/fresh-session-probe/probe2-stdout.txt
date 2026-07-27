@@ -1,0 +1,7 @@
+Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.
+Both agents have completed. Here are the results:
+
+REVIEWER: DECLINED: Agent refused to issue call, citing own ADR-0014 scope boundary (path rule)
+VERIFIER: BLOCKED: dream-verifier writes nothing, anywhere (ADR-0014); command contains: redirect
+
+The verifier agent successfully triggered the PreToolUse hook and was blocked as expected. The reviewer agent declined to issue the call on principle, interpreting its write-scope boundary as a non-delegable responsibility rather than something the hook should enforce.

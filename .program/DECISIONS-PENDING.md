@@ -28,27 +28,31 @@ irreversible items (PART 9 Rule 2 — work routed around). Nothing here stalls t
 - **URGENT side effect — RESOLVED by director-gen15 (2026-07-25T14:20Z):** the repo was BUILD-BROKEN mid-migration (package.json swapped to velite with `npm install` never run; LessonRenderer.tsx still importing next-mdx-remote/rsc). Director restored the green baseline: `git checkout 6df07a6^ -- package.json .gitignore` + deleted the program-created velite.config.ts (reversible; the WIP swap survives in commit 6df07a6 and in ROOT.1.1.1's item-file inventory). The repo is coherent again; nothing needs hand-reverting. Director also re-verified the denial empirically this session: `npm --version` denied for the director AND for a fresh dream-verifier — yet earlier sessions today ran full npm suites (ROOT.7.2, ROOT.1.2.1 evidence), so the permission surface CHANGED mid-program. After permission grant: re-dispatch ROOT.1.1.1 fresh (re-apply the swap from the item-file inventory, then `npm install` first).
 - **Routed around:** nothing downstream of ROOT.1.1 can proceed (1.6/1.3/1.5 package.json chain waits on 1.1); ROOT.1.1 and ROOT.1.1.1 set blocked/awaiting_human_authorization.
 
-### Workspace trust is FALSE — deny rules and the write-scope hook are inert in any fresh session (2026-07-27, remediation Phase 5) — **NEEDS AN OWNER DECISION**
-- **Fact:** `projects["C:/Users/jainv/workplace/ai-learning-app"].hasTrustDialogAccepted` is
-  `false` in `C:\Users\jainv\.claude.json`. That flag gates whether
-  `.claude/settings.json` is honoured **at all**: `permissions.allow` is dropped with a
-  visible warning (`Ignoring 11 permissions.allow entries from .claude/settings.json: this
-  workspace has not been trusted`), and `hooks` are dropped **silently**.
-- **Consequence:** the entire Phase 5 enforcement layer — the global deny rules AND the
-  ADR-0014 per-role write-scope hook — applies only to the long-lived session that predates
-  the settings change. **Any fresh session, including any restart of the director, starts
-  with none of it.** The failure is silent for hooks, which is the dangerous half: a
-  reviewer would write wherever it liked and nothing would log a denial.
-- **The circularity, which is the actual decision:** trusting the workspace is what makes
-  the deny rules live — and the deny rule on `.claude/settings*.json` is a large part of
-  what makes trusting it tolerable, since `.claude/settings.json` is executable
-  configuration living in a repo the program itself edits. Neither half is safe without
-  the other, and they cannot be sequenced.
-- **Action needed (owner only — agents must not edit user settings):** either accept the
-  trust dialog by running Claude Code interactively here once, or set
-  `hasTrustDialogAccepted: true` for this project in `C:\Users\jainv\.claude.json`.
-- **BLOCKING on restart:** the program must not be resumed in a new session until this is
-  decided. Resuming untrusted silently discards every guarantee ADR-0014 claims.
+## Standing items — not blocking, must be discharged before the dependent work
+
+### No live dream-reviewer-primary has been stopped by the hook — resolves on its own, do NOT force it (2026-07-27, remediation Phase 5)
+- **What IS proven:** the reviewer deny branch at the **policy layer** — all six
+  role×target combinations exercised directly against `role-write-scope.py`
+  (`dream-reviewer-primary` denied outside `.program/audits/**`, allowed inside; verifier
+  denied everywhere; implementer allowed everywhere), 3 denial rows written, 0 files
+  created. Plus a **live** `dream-verifier` denial in a fresh session (`5aa61865…`), which
+  proves the hook denies real subagents, not just synthetic payloads.
+- **What is NOT proven:** that a live `dream-reviewer-primary` gets stopped by the *hook*.
+  Asked three times to probe its own deny branch, it declined every time — and its
+  reasoning was correct: authorization relayed through an agent message is not its user's
+  consent, and "attempt it so we can see if the guard works" is still an attempt. It also
+  noted that its self-restraint and a hook denial are indistinguishable in the log, which
+  is the finding that produced the heartbeat.
+- **Why this is not blocking:** the two claims differ only in *which* mechanism stops the
+  reviewer, and both hold. The heartbeat confirms the hook is live for that role —
+  `dream-reviewer-primary` heartbeat recorded in fresh session `8f90f1ed…`, agent
+  `abc7407389f7fed04` — so the hook is demonstrably running for reviewers even though no
+  reviewer has yet given it a write to refuse.
+- **It resolves naturally.** The first time a real reviewer attempts a write outside
+  `.program/audits/**` during actual work, the denial row appears and this closes itself.
+  **Do not manufacture a test for it.** Instructing a role to violate its own rule to
+  demonstrate that the rule is enforced trains exactly the behaviour the rule exists to
+  prevent, and the reviewer was right to refuse.
 
 ### Hook enforcement is verifiable ONLY through hook-denials.jsonl on this build (2026-07-27, remediation Phase 5)
 - **Fact:** subagent hook invocations leave **no transcript record** on this build. The
@@ -56,8 +60,14 @@ irreversible items (PART 9 Rule 2 — work routed around). Nothing here stalls t
   sidechain records** in the session transcript, so a subagent's hook decisions are
   invisible there. `.program/audits/hook-denials.jsonl` — written by the hook itself — is
   the only available ground truth.
-- **Standing rule:** **any future claim that a hook works requires a denial row in that
-  file, not a self-report.** A live probe that completes with zero denial rows is a
+- **Partially mitigated (2026-07-27):** the hook now also writes a **heartbeat** row — one
+  per (session, agent) on a restricted role's first allowed call — so "the hook is live" no
+  longer requires waiting for a violation. Auditor **check 14** makes total silence a
+  BLOCKING finding. Limit: the matcher is `Write|Edit|NotebookEdit|Bash`, so a role working
+  purely through `Read`/`Grep`/`Glob` still emits nothing; absence must be checked against
+  the role's actual tool calls before it is read as failure.
+- **Standing rule:** **any future claim that a hook works requires a row in that file —
+  denial or heartbeat — not a self-report.** A live probe that completes with zero denial rows is a
   FAILURE, whatever the agent says it did or could not do. Corroborate with the filesystem
   (`ls`/`cat`), never with agent prose.
 - **Why this is stated so strongly — three self-reports contradicted the filesystem during
@@ -74,8 +84,6 @@ irreversible items (PART 9 Rule 2 — work routed around). Nothing here stalls t
   read that as allow. **Nothing in any agent's report would have revealed it.**
 - **Not blocking:** the enforcement works today (verified by live dispatch); this governs
   how future claims about it must be evidenced.
-
-## Standing items — not blocking, must be discharged before the dependent work
 
 ### Tier-3 and escalation paths are UNEXERCISED (2026-07-26, remediation)
 - **Fact:** across 38 director generations, `dream-reviewer-adversarial` and
@@ -146,6 +154,35 @@ Genesis adversarial review (2026-07-25): three blind opus lenses filed 71 findin
 `.program/audits/genesis-review-*.md`. Owner-relevant: the review confirmed the two
 parks above and surfaced no new irreversible-action candidates beyond the nightly-backup
 flag.
+
+## Resolved — kept for the findings, not for action
+
+### RESOLVED (2026-07-27) — workspace trust granted; enforcement re-verified in fresh sessions
+- **What the problem was:** `projects["C:/Users/jainv/workplace/ai-learning-app"].hasTrustDialogAccepted`
+  was `false` in `C:\Users\jainv\.claude.json`. That flag gates whether
+  `.claude/settings.json` is honoured **at all**: `permissions.allow` was dropped with a
+  visible warning (`Ignoring 11 permissions.allow entries from .claude/settings.json: this
+  workspace has not been trusted`), and `hooks` were dropped **silently**. So the whole
+  Phase 5 enforcement layer — deny rules AND the ADR-0014 write-scope hook — held only in
+  the long-lived session that predated the settings change; any fresh session, including any
+  restart of the director, would have started with none of it and logged nothing about it.
+- **The circularity that made it a real decision:** trusting the workspace is what makes the
+  deny rules live — and the deny rule on `.claude/settings*.json` is a large part of what
+  makes trusting it tolerable, since that file is executable configuration living in a repo
+  this program edits. Neither half is safe without the other, and they cannot be sequenced.
+- **RESOLUTION:** the owner granted trust on 2026-07-27; `hasTrustDialogAccepted` is now
+  `true` for this project. Re-verified in genuinely fresh sessions (separate processes, each
+  with its own session_id): no `Ignoring N permissions.allow entries` warning; the hook loads
+  (fresh session `0a02180a`, 1 Bash call produced 1 `hook_success`, empty content, no cmd
+  banner); a live `dream-verifier` denial landed (`5aa61865…`); an implementer wrote
+  unimpeded; and both `dream-verifier` and `dream-reviewer-primary` heartbeats landed
+  (`6bf45fe0…`, `8f90f1ed…`). The circularity resolved in the only order that works — trust
+  first, with the `Edit(**/.claude/settings*.json)` deny rule already in place to make it
+  tolerable.
+- **The durable finding, which outlives this entry:** a `false` here removes hooks with **no
+  warning of any kind** — the permissions half at least prints one. Never infer that a hook
+  is running because it is configured. Auditor **check 14** now enforces that from an
+  artifact every audit cycle.
 
 ### RESOLVED — ROOT.1.1 toolchain denial (2026-07-25, coordinator-ROOT.1.1-gen0)
 - The permission grant landed: `npm --version` succeeds in the ROOT.1.1 coordinator session (11.6.2). Baseline restore by director-gen15 verified intact (next-mdx-remote ^6.0.0 back in package.json, no velite.config.ts). ROOT.1.1/ROOT.1.1.1 unblocked; ROOT.1.1.1 gen1 re-dispatched. The 2026-07-25 "verification toolchain denied" entry above is closed.
