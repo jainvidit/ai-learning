@@ -1,0 +1,22 @@
+gen2 fix-verify PROBE 1: NEW-1 sparse holes (Amendment clause A1-1). Run 2026-07-27,
+node v24, module imported live from the revisions source in the main checkout.
+Messages truncated in the harness; each THREW line was verified instanceof TypeError.
+
+empty array baseline: RETURNED "4f53cda18c2baa0c"
+new Array(1): THREW TypeError: computeItemRevision: value at [0] is outside the CP-05 hash-input domain: array hole (sparse arrays are out-of-domain; a hole is an absence, not a value)
+new Array(3): THREW TypeError: value at [0] -- array hole
+delete beats[1] wrapped in object: THREW TypeError: value at beats[1] -- array hole
+delete beats[1] top-level: THREW TypeError: value at [1] -- array hole
+leading holes (new Array(5) with index 4 set): THREW TypeError: value at [0] -- array hole
+trailing holes via length=4 on [1,2]: THREW TypeError: value at [2] -- array hole
+middle hole (index 2 assigned on [1]): THREW TypeError: value at [1] -- array hole
+explicit undefined mid-array: THREW TypeError: value at [1] -- undefined
+hole at same index: THREW TypeError: value at [1] -- array hole
+dense [null,null]: RETURNED "95cb9b4f84ceff13"
+dense [null]: RETURNED "1d8fc6ceb1f94c63"
+literal one-hole array: THREW TypeError: value at [0] -- array hole
+nested hole: THREW TypeError: value at beats[0] choices[1] (dotted path) -- array hole
+
+RESULT: NEW-1 CLOSED. Hole vs explicit undefined consistent (both throw at the same
+index, distinct descriptors). Dense arrays with nulls still admitted. Empty-array pin
+unchanged.

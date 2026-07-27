@@ -1,0 +1,17 @@
+gen2 fix-verify PROBE 2: NEW-2 depth bound (Amendment clause A1-2). Run 2026-07-27.
+
+depth 63 arrays: RETURNED "06d6cea9d0d44cd5"
+depth 64 arrays (boundary, in-domain): RETURNED "47a6ea3d0d276d44"
+depth 65 arrays: THREW TypeError naming the 65-segment bracket path + "exceeds MAX_HASH_DEPTH 64"
+depth 64 objects: RETURNED "b0f8cae594986f22"
+depth 65 objects: THREW TypeError naming the dotted key path + MAX_HASH_DEPTH message
+mixed 64 (32 array + 32 object levels): RETURNED "ea7b7ce258b2a886"
+mixed 66: THREW TypeError, path alternates bracket and key segments
+5000-deep arrays: THREW TypeError; instanceof TypeError=true, instanceof RangeError=false
+100000-deep arrays: THREW TypeError; message length=488 chars (bounded -- the counter
+  fires at depth 65 so the path never exceeds 65 segments; no path explosion, no
+  stack overflow)
+object at depth 64 whose primitive child is at 65: THREW TypeError MAX_HASH_DEPTH
+
+RESULT: NEW-2 CLOSED. Boundary exact (64 admitted, 65 rejected), objects and arrays
+counted together, explicit counter fires long before any recursion limit.

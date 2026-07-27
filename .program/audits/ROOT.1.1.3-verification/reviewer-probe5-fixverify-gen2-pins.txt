@@ -1,0 +1,22 @@
+gen2 fix-verify PROBE 5: frozen contract -- independent re-derivation of the 10 pinned
+pre-fix hashes. Independent canonicalizer written inside the probe (sorted keys,
+undefined-key omission, negative zero normalized to 0, sha256 truncated to 16 hex),
+never calling the module under test for derivation. Run 2026-07-27.
+
+null: pin=74234e98afe7498f independent=74234e98afe7498f live=74234e98afe7498f MATCH
+true: pin=b5bea41b6c623f7c independent=b5bea41b6c623f7c live=b5bea41b6c623f7c MATCH
+42: pin=73475cb40a568e8d independent=73475cb40a568e8d live=73475cb40a568e8d MATCH
+negative zero: pin=5feceb66ffc86f38 independent=5feceb66ffc86f38 live=5feceb66ffc86f38 MATCH
+hello: pin=5aa762ae383fbb72 independent=5aa762ae383fbb72 live=5aa762ae383fbb72 MATCH
+empty object: pin=44136fa355b3678a independent=44136fa355b3678a live=44136fa355b3678a MATCH
+empty array: pin=4f53cda18c2baa0c independent=4f53cda18c2baa0c live=4f53cda18c2baa0c MATCH
+nested: pin=90d6116c9bd77072 independent=90d6116c9bd77072 live=90d6116c9bd77072 MATCH
+beat: pin=5ac6a2295c26fb46 independent=5ac6a2295c26fb46 live=5ac6a2295c26fb46 MATCH
+undefined-valued key: pin=015abd7f5cc57a2d independent=015abd7f5cc57a2d live=015abd7f5cc57a2d MATCH
+ALL_PINS_MATCH=true
+
+Export signatures verified unchanged by source read: computeItemRevision taking unknown
+returning string; buildRevisionsMap taking an array of id-plus-content returning a
+string record; loadMigrationMaps taking an optional dir string returning MigrationEntry
+array. Commands: npm test 161 of 161 passed EXIT_CODE=0; tsc noEmit EXIT_CODE=0;
+eslint both artifact files EXIT_CODE=0.

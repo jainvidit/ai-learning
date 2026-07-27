@@ -1,0 +1,4 @@
+gen2 fix-verify: npx eslint on the two artifact files (revisions source + revisions test)
+Run 2026-07-27 by dream-reviewer-adversarial (fresh instance).
+Output: (empty - no warnings, no errors)
+EXIT_CODE=0

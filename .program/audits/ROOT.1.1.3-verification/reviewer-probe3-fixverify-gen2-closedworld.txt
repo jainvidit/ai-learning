@@ -1,0 +1,25 @@
+gen2 fix-verify PROBE 3: closed-world allowlist (Amendment clause A1-3). Run 2026-07-27.
+All probed values appear in NO enumeration in the shard or ADR. Every throw was
+verified programmatically: instanceof TypeError AND a named path in the message.
+
+Promise -> TypeError at p: Promise
+WeakRef -> TypeError at w: WeakRef
+SharedArrayBuffer -> TypeError at s: SharedArrayBuffer
+DataView -> TypeError at d: DataView
+boxed Number via Object(1) -> TypeError at n: Number
+boxed String -> TypeError at s: String
+boxed Boolean -> TypeError at b: Boolean
+generator object -> TypeError at g: Generator
+generator function -> TypeError at gf: function
+async function -> TypeError at af: function
+Error instance -> TypeError at e: Error
+URL -> TypeError at u: URL
+Object created from a null-prototype prototype chain of length 2 -> TypeError at o: non-plain object
+WeakSet -> TypeError at ws: WeakSet
+arguments object -> TypeError (symbol-keyed property named first)
+Math namespace object -> TypeError (symbol-keyed toStringTag named)
+top-level Promise -> TypeError at (root): Promise
+
+RESULT: closed world HOLDS for every probed unlisted type. ONE ADMISSION NOTED:
+an Array subclass instance holding [1] RETURNED "080a9ed428559ef6", identical to the
+hash of plain [1]. Array-isArray admits subclasses; see probe 4 and the verdict doc.
