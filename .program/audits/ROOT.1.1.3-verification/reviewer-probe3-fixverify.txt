@@ -1,0 +1,10 @@
+empty array | RETURNED "4f53cda18c2baa0c"
+Array(1) all holes | RETURNED "4f53cda18c2baa0c"
+COLLAPSE: Array(1) hashes same as [] -- true
+sparse 1,hole,3 | RETURNED "cb0cfcbc65391b8b"
+same-shape sparse equal -- true
+deleted-index array | RETURNED "886ad6246ed150b2"
+leading-holes array | RETURNED "f6a050b722da147a"
+explicit undefined element for contrast:
+[1, undefined, 3] | THREW TypeError | computeItemRevision: value at [1] is outside the CP-05 hash-input domain: undefined. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+EXIT_CODE=0

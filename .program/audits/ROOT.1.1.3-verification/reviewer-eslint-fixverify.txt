@@ -1,0 +1,1 @@
+eslint on the two artifact files (module and test) run 2026-07-27 by adversarial fix-verify reviewer: no output, exit code 0
