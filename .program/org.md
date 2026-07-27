@@ -43,17 +43,17 @@ to block.
 | `dream-implementer-isolated` | sonnet / medium / 60 | +Agent (readers only), Write, Edit, **isolation: worktree** | Tier 0–1 variant for leaves whose ownership could collide with a live sibling (verifier registry append, package.json chain on a Gate reopen) |
 | `dream-implementer-hardened` | opus / high / 80 | +Agent (readers only), Write, Edit, **isolation: worktree** | ESCALATION above standard; interface-crossing, shared-schema, or second-attempt work |
 | `dream-implementer-critical` | fable / high / 80 | +Agent (readers only), Write, Edit, **isolation: worktree** | ESCALATION above hardened; the two-key firewall and data-adjacent code |
-| `dream-reviewer-primary` | opus / high / 40 | read-only (no Agent/Write/Edit), memory: project | Blind spec-conformance review, artifact + shard only |
-| `dream-reviewer-secondary` | sonnet / medium / 40 | read-only, memory: project | Independent second lens |
-| `dream-reviewer-adversarial` | fable / max / 50 | read-only, memory: project | ESCALATION above primary/secondary; hunts what both reviewers missed |
+| `dream-reviewer-primary` | opus / high / 40 | read-only (no Agent/Write/Edit) | Blind spec-conformance review, artifact + shard only |
+| `dream-reviewer-secondary` | sonnet / medium / 40 | read-only | Independent second lens |
+| `dream-reviewer-adversarial` | fable / max / 50 | read-only | ESCALATION above primary/secondary; hunts what both reviewers missed |
 | `dream-verifier` | sonnet / low / 20 | read-only | Runs the named check to close factual review disputes |
 | `dream-verifier-deep` | sonnet / medium / 30 | read-only | ESCALATION above verifier: designs a falsifiable check when the named one returned inconclusive |
 | `dream-gate-verifier` | sonnet / medium / 40 | Write, Edit (own item + audits glob), no Agent | Owns a Gate ledger item: executes the regression-floor checklist + verification commands, writes evidence |
 | `dream-gate-verifier-forensic` | opus / high / 40 | Write, Edit (own item + audits glob), no Agent | ESCALATION above gate-verifier: re-runs a failed/UNVERIFIED gate and separates regression from never-worked |
 | `dream-reader-corpus` | sonnet / low / 30 | read-only | Large-corpus reads returning bounded findings; sonnet for the 1M window |
 | `dream-reader-lookup` | haiku / low / 15 | read-only (no Bash) | Narrow lookups only; escalates to corpus rather than attempt a large read |
-| `dream-ledger-auditor` | sonnet / medium / 40 | read-only, memory: project | PART 7 checks incl. compaction + mirror drift; returns findings, director persists them |
-| `dream-ledger-auditor-deep` | sonnet / high / 40 | read-only, memory: project | ESCALATION above auditor: full-history forensics, bookkeeping-vs-work call, sampled re-verification |
+| `dream-ledger-auditor` | sonnet / medium / 40 | read-only | PART 7 checks incl. compaction + mirror drift; returns findings, director persists them |
+| `dream-ledger-auditor-deep` | sonnet / high / 40 | read-only | ESCALATION above auditor: full-history forensics, bookkeeping-vs-work call, sampled re-verification |
 | `dream-collector` | sonnet / low / 30 | Write (digest only), no Agent/Edit | Gathers completions into one digest; director reads digest only |
 | `dream-reporter` | haiku / low / 15 | Write (2 files only), no Agent/Edit | Regenerates HEADLINE.md and INDEX.md from front matter only |
 
