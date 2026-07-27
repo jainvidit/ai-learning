@@ -4,10 +4,9 @@ parent: ROOT.1.1
 type: Task
 title: itemRevision content hashing + migration maps
 ledger_depth: 3
-status: blocked
-blocked_reason: failed_twice
-generation: 1
-owner_agent: implementer-ROOT.1.1.3-gen1 (dream-implementer-hardened, fix cycle vs adversarial findings, dispatched by director-gen40 2026-07-27T05:30Z)
+status: in_progress
+generation: 2
+owner_agent: implementer-ROOT.1.1.3-gen2 (dream-implementer-critical, owner-authorized third cycle after ADR-0017 Amendment 1, dispatched by director-gen41 2026-07-27)
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-05
 acceptance_criteria:
@@ -18,6 +17,10 @@ acceptance_criteria:
   - "FIX CYCLE (gen1, ADR-0017): canonicalStringify enforces the CP-05 hash-input domain — JSON data model only; every out-of-domain type in the shard enumeration (undefined/function/symbol/BigInt/NaN/±Infinity/Date/Map/Set/RegExp/typed arrays/non-plain instances/cycles) throws TypeError naming the JSON path; -0 normalizes to 0; cycles reported as cycles — each rejected type has a test (CP-05 scenario 3)"
   - "FIX CYCLE (gen1): MigrationEntrySchema validates content — itemId nonempty, fromRevision/toRevision exactly 16 lowercase hex and unequal, note nonempty; loadMigrationMaps rejects conflicting duplicate {itemId,fromRevision} pairs, sorts entries deterministically (never readdirSync order), and throws on an explicitly-passed nonexistent dir (default dir absent may return [])"
   - "FIX CYCLE (gen1): buildRevisionsMap handles id __proto__ without prototype-accessor loss (null-prototype object or Map) — proven by test; unfalsifiable >=2/.some assertions in existing tests replaced with exact expectations"
+  - "FIX CYCLE (gen2, ADR-0017 Amendment 1 / A1.1): any sparse-array hole (index i in [0,length) with !(i in arr)) throws TypeError naming the path of the first hole (e.g. 'beats[1]: array hole'); hole detection is explicit (index-based `in` checks or key-count equality), NEVER hole-skipping iteration (map/forEach); tests prove new Array(1) throws (no longer collides with []), delete arr[1] throws at [1], and ['a',undefined,'b'] vs ['a',<hole>,'b'] both throw (consistently)"
+  - "FIX CYCLE (gen2, A1.2): nesting beyond MAX_HASH_DEPTH = 64 (root = depth 0, objects+arrays counted together) throws TypeError naming the path where the limit was exceeded — explicit depth counter, never a bare RangeError/stack overflow; tests prove depth-64 in-domain content hashes, depth-65 throws with path, and the reviewer's ~5000-deep probe now TypeErrors"
+  - "FIX CYCLE (gen2, A1.3): canonicalStringify is structured as a closed-world ALLOWLIST — a switch/dispatch whose default branch throws TypeError naming the path — never a denylist of known-bad cases; test coverage proves the default-reject branch fires for an unlisted value with a path"
+  - "FIX CYCLE (gen2): frozen contract held — all three export signatures unchanged; the 10 pinned pre-fix in-domain hashes unchanged; npm test / npx tsc --noEmit / per-file eslint all exit 0 with -gen2 evidence captures incl. EXIT_CODE lines"
 depends_on: [ROOT.1.1.2]
 blocks: [ROOT.1.1.4]
 children: []
@@ -167,6 +170,13 @@ fix_cycle_plan_gen1:
   - other_side_owner: "Downstream consumer ROOT.1.1.4. .program/interfaces/beat-model.md declares itemRevision a sidecar and explicitly out of its own scope (line 334) — no interface file owns the revisions surface, so the item-file signature block is the contract of record."
   - will_not_change: "src/lib/schema.ts (steward-owned), 16-hex truncated SHA-256, sorted-key canonicalization, undefined-value-key omission, buildRevisionsMap return type (stays Record<string,string>), and the in-domain canonical output (pinned by a regression test written BEFORE the code change)."
 resume_hint: |
+  GEN2 FIX CYCLE IN FLIGHT (dream-implementer-critical, worktree): scope is EXACTLY the two
+  fixverify findings (NEW-1 sparse holes, NEW-2 depth) plus the A1.3 allowlist restructure,
+  per ADR-0017 Amendment 1 + amended REQ-CP-05. Re-derive scope from
+  .program/audits/ROOT.1.1.3-adversarial-fixverify.md and the shard, NOT from any brief.
+  Nothing else changes: frozen signatures, pinned hashes, migration schema all stand.
+  On completion -> in_review; fix-verify by a FRESH dream-reviewer-adversarial instance.
+  --- prior gen1 hint below ---
   FIX CYCLE gen1 COMPLETE — all 3 fix criteria PASS plus a self-imposed regression guard; status
   in_review (the adversarial reviewer owns fix verification, NOT this implementer). Nothing left to do
   unless the reviewer reopens. Adversarial findings F1-F6 all addressed (see fix_cycle_gen1).
