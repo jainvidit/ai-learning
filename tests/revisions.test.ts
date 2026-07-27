@@ -382,6 +382,181 @@ describe('computeItemRevision: CP-05 hash-input domain enforcement (scenario 3)'
   });
 });
 
+/**
+ * ADR-0017 Amendment 1 (gen2 fix cycle): sparse-array holes (A1.1), the
+ * MAX_HASH_DEPTH = 64 nesting bound (A1.2), and closed-world allowlist
+ * default-reject coverage (A1.3). These close the two adversarial fix-verify
+ * findings NEW-1 and NEW-2 (.program/audits/ROOT.1.1.3-adversarial-fixverify.md).
+ */
+describe('computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world)', () => {
+  function expectTypeErrorWithPath(fn: () => unknown, path: string, descriptor: RegExp) {
+    let caught: unknown;
+    try {
+      fn();
+    } catch (error) {
+      caught = error;
+    }
+    expect(caught, 'expected a throw but the call returned normally').toBeInstanceOf(TypeError);
+    expect(caught).not.toBeInstanceOf(RangeError);
+    const message = (caught as TypeError).message;
+    expect(message).toContain(path);
+    expect(message).toMatch(descriptor);
+  }
+
+  describe('A1.1: sparse-array holes are out-of-domain (fix-verify NEW-1)', () => {
+    it('rejects new Array(1) — it no longer hash-collides with []', () => {
+      // [] must still hash (its pinned baseline 4f53cda18c2baa0c is asserted above);
+      // Array(1) must throw, so no collision between distinct values is possible.
+      expect(computeItemRevision([])).toBe('4f53cda18c2baa0c');
+      expectTypeErrorWithPath(() => computeItemRevision(new Array(1)), '[0]', /array hole/);
+    });
+
+    it('rejects a deleted-index hole, naming the path of the hole', () => {
+      const beats = ['intro', 'quiz', 'outro'];
+      // Reflect.deleteProperty === the `delete beats[1]` from the reviewer probe
+      // (TS disallows `delete` on a non-optional index).
+      Reflect.deleteProperty(beats, 1);
+      expectTypeErrorWithPath(
+        () => computeItemRevision({ beats }),
+        'beats[1]',
+        /array hole/
+      );
+    });
+
+    it('names the FIRST hole when several exist (leading-holes array)', () => {
+      const big = new Array(5);
+      big[4] = 'last';
+      expectTypeErrorWithPath(() => computeItemRevision(big), '[0]', /array hole/);
+    });
+
+    it('rejects a hole created by out-of-bounds assignment (a[2] = 3 on [1])', () => {
+      const a: unknown[] = [1];
+      a[2] = 3;
+      expectTypeErrorWithPath(() => computeItemRevision(a), '[1]', /array hole/);
+    });
+
+    it('explicit undefined and a hole at the same index now behave consistently: both throw', () => {
+      const explicitUndef = ['a', undefined, 'b'];
+      const holey = ['a', 'x', 'b'];
+      Reflect.deleteProperty(holey, 1); // delete holey[1]
+
+      // Same index, same outcome class: TypeError naming index 1.
+      expectTypeErrorWithPath(() => computeItemRevision(explicitUndef), '[1]', /undefined/);
+      expectTypeErrorWithPath(() => computeItemRevision(holey), '[1]', /array hole/);
+    });
+
+    it('still admits dense arrays containing explicit nulls (density check is not a value check)', () => {
+      expect(computeItemRevision([null, null])).toMatch(/^[0-9a-f]{16}$/);
+      expect(computeItemRevision([null])).not.toBe(computeItemRevision([null, null]));
+    });
+  });
+
+  describe('A1.2: MAX_HASH_DEPTH = 64, explicit counter (fix-verify NEW-2)', () => {
+    /** Wraps a leaf in `levels` nested arrays: the leaf ends up at depth `levels`. */
+    function nestArrays(levels: number): unknown {
+      let value: unknown = 'leaf';
+      for (let i = 0; i < levels; i++) value = [value];
+      return value;
+    }
+
+    /** Wraps a leaf in `levels` nested objects under key 'a'. */
+    function nestObjects(levels: number): unknown {
+      let value: unknown = 'leaf';
+      for (let i = 0; i < levels; i++) value = { a: value };
+      return value;
+    }
+
+    it('hashes content whose deepest value sits exactly at depth 64 (in-domain boundary)', () => {
+      expect(computeItemRevision(nestArrays(64))).toMatch(/^[0-9a-f]{16}$/);
+      expect(computeItemRevision(nestObjects(64))).toMatch(/^[0-9a-f]{16}$/);
+    });
+
+    it('throws a TypeError naming the path at depth 65 — never a bare RangeError', () => {
+      expectTypeErrorWithPath(
+        () => computeItemRevision(nestArrays(65)),
+        '[0][0]',
+        /MAX_HASH_DEPTH 64/
+      );
+      expectTypeErrorWithPath(
+        () => computeItemRevision(nestObjects(65)),
+        'a.a.',
+        /MAX_HASH_DEPTH 64/
+      );
+    });
+
+    it('counts objects and arrays together toward the same limit', () => {
+      // 32 array levels + 32 object levels = leaf at depth 64: in-domain.
+      let mixedOk: unknown = 'leaf';
+      for (let i = 0; i < 32; i++) mixedOk = [{ a: mixedOk }];
+      expect(computeItemRevision(mixedOk)).toMatch(/^[0-9a-f]{16}$/);
+
+      // One more mixed level pushes past the ceiling; the path alternates [0].a.
+      expectTypeErrorWithPath(
+        () => computeItemRevision([{ a: mixedOk }]),
+        '[0].a[0]',
+        /MAX_HASH_DEPTH 64/
+      );
+    });
+
+    it("replays the reviewer's ~5000-deep probe: TypeError with a path, not a stack overflow", () => {
+      let deep: unknown = 0;
+      for (let i = 0; i < 5000; i++) deep = [deep];
+      expectTypeErrorWithPath(() => computeItemRevision(deep), '[0]', /MAX_HASH_DEPTH 64/);
+    });
+
+    it('is unaffected by width: a 10k-key object at shallow depth still hashes', () => {
+      const wide: Record<string, number> = {};
+      for (let i = 0; i < 10000; i++) wide[`k${i}`] = i;
+      expect(computeItemRevision(wide)).toMatch(/^[0-9a-f]{16}$/);
+    });
+  });
+
+  describe('A1.3: closed-world allowlist — the default-reject branch has coverage', () => {
+    it('rejects an unlisted container type (Promise) via the container default branch, with a path', () => {
+      // Promise appears NOWHERE in the shard's illustrative reject list; only the
+      // closed-world default can catch it. If the implementation were a denylist
+      // of known-bad cases, this would silently fall through.
+      expectTypeErrorWithPath(
+        () => computeItemRevision({ pending: Promise.resolve(1) }),
+        'pending',
+        /Promise/
+      );
+    });
+
+    it('rejects an unlisted container type (WeakMap) via the container default branch, with a path', () => {
+      expectTypeErrorWithPath(
+        () => computeItemRevision({ cache: new WeakMap() }),
+        'cache',
+        /WeakMap/
+      );
+    });
+
+    it('rejects an ArrayBuffer (not a typed array, not enumerated) via the default branch', () => {
+      expectTypeErrorWithPath(
+        () => computeItemRevision({ raw: new ArrayBuffer(8) }),
+        'raw',
+        /ArrayBuffer/
+      );
+    });
+
+    it('rejects boxed primitives (Object(1), a Number object) — caught by the container default', () => {
+      expectTypeErrorWithPath(
+        () => computeItemRevision({ n: Object(1) as object }),
+        'n',
+        /Number/
+      );
+    });
+
+    it('primitive-arm default: function values are rejected by the default branch, with a path', () => {
+      expectTypeErrorWithPath(
+        () => computeItemRevision({ cb: () => 1 }),
+        'cb',
+        /function/
+      );
+    });
+  });
+});
+
 describe('buildRevisionsMap', () => {
   it('builds a map of id to itemRevision', () => {
     const items = [

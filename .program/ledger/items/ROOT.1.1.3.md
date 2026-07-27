@@ -4,7 +4,7 @@ parent: ROOT.1.1
 type: Task
 title: itemRevision content hashing + migration maps
 ledger_depth: 3
-status: in_progress
+status: in_review
 generation: 2
 owner_agent: implementer-ROOT.1.1.3-gen2 (dream-implementer-critical, owner-authorized third cycle after ADR-0017 Amendment 1, dispatched by director-gen41 2026-07-27)
 spec_refs:
@@ -127,6 +127,63 @@ verification:
       beat 5ac6a2295c26fb46, undef-omit 015abd7f5cc57a2d). The describe block carries a comment
       forbidding future agents from "updating the expected value" without a migration map + new ADR.
       This is the guard that proves the fix is failure-behaviour-only for ROOT.1.1.4.
+  - criterion: "FIX CYCLE (gen2, A1.1): sparse-array holes throw TypeError naming the path of the first hole; detection is explicit index-based `in` checks, never hole-skipping iteration"
+    verdict: PASS
+    evidence: ".program/audits/ROOT.1.1.3-verification/npm-test-gen2.txt, .program/audits/ROOT.1.1.3-verification/adversarial-probe-replay-gen2.txt"
+    note: |
+      Array branch of canonicalStringifyContainer iterates by index with an explicit
+      `if (!(index in arr))` check BEFORE reading the element -- no map/forEach anywhere in
+      the canonicalization path (the gen1 bypass). First hole is named: rejection path uses
+      indexPath, e.g. 'beats[1]' / '[0]'. Tests (describe 'A1.1'): new Array(1) throws at [0]
+      while [] still returns its pinned 4f53cda18c2baa0c (collision eliminated, baseline
+      intact); Reflect.deleteProperty(beats,1) [= delete beats[1]] throws at beats[1];
+      leading-holes Array(5) names FIRST hole [0]; explicit-undefined vs hole at the same
+      index both throw TypeError naming [1] (consistent); dense [null,null] still admitted
+      (density check is not a value check). Reviewer probes 3+5 replayed verbatim against the
+      worktree module: every previously-silent sparse case now TypeErrors (probe replay doc,
+      sections PROBE 3/3b/5/5b).
+  - criterion: "FIX CYCLE (gen2, A1.2): MAX_HASH_DEPTH = 64 explicit depth counter; depth-64 hashes, depth-65 throws TypeError with path; reviewer's ~5000-deep probe now TypeErrors"
+    verdict: PASS
+    evidence: ".program/audits/ROOT.1.1.3-verification/npm-test-gen2.txt, .program/audits/ROOT.1.1.3-verification/adversarial-probe-replay-gen2.txt"
+    note: |
+      MAX_HASH_DEPTH = 64 constant with A1.2 doc comment (policy ceiling, root = depth 0,
+      raising later is additive). canonicalStringify takes an explicit depth parameter and
+      checks `depth > MAX_HASH_DEPTH` FIRST, before any type dispatch -- deterministic
+      TypeError naming the path where the limit was exceeded, never a recursion crash
+      reinterpreted (engine stack limits are thousands of frames away at depth 65).
+      Tests (describe 'A1.2'): leaf at exactly depth 64 hashes for pure-array, pure-object,
+      and mixed 32+32 nestings (objects and arrays counted together); depth-65 throws with
+      path and /MAX_HASH_DEPTH 64/ for all three shapes, asserted NOT instanceof RangeError;
+      the reviewer's 5000-deep probe replayed as a test AND via verbatim probe4 (which also
+      shows 200k-deep -> TypeError with path, 100k-wide object still hashes).
+  - criterion: "FIX CYCLE (gen2, A1.3): closed-world allowlist with throwing default branches; default-reject coverage for unlisted values with a path"
+    verdict: PASS
+    evidence: ".program/audits/ROOT.1.1.3-verification/npm-test-gen2.txt"
+    note: |
+      canonicalStringify restructured as an allowlist dispatch: each switch case is exactly
+      one HASHABLE shard rule (boolean / finite number / string / typeof-object arm), the
+      switch DEFAULT throws via rejectOutOfDomain (catches undefined, function, symbol,
+      bigint, and any unknown future typeof). The typeof-object arm delegates to
+      canonicalStringifyContainer whose fallthrough default (not-dense-array, not-plain-
+      object) also throws. describeRejectedPrimitive/describeObject only DESCRIBE for the
+      message -- the default branches throw unconditionally; nothing is admitted implicitly.
+      Default-reject coverage (describe 'A1.3'): Promise, WeakMap, ArrayBuffer (none of them
+      in the shard's illustrative reject list -- only a closed world catches them) all throw
+      TypeError naming the key path; boxed Object(1) via container default; function via
+      primitive default. All pass in npm-test-gen2.txt.
+  - criterion: "FIX CYCLE (gen2): frozen contract held -- signatures unchanged, 10 pinned hashes unchanged, npm test / tsc / per-file eslint all exit 0 with -gen2 evidence"
+    verdict: PASS
+    evidence: ".program/audits/ROOT.1.1.3-verification/npm-test-gen2.txt, tsc-noemit-gen2.txt, eslint-owned-gen2.txt, adversarial-probe-replay-gen2.txt"
+    note: |
+      All three export signatures untouched (tsc --noEmit exit 0 over unchanged call sites).
+      The 10 pinned pre-fix in-domain hashes pass UNCHANGED inside npm test (describe 'pinned
+      in-domain hashes (pre-fix baseline)' -- no expected value edited; gen2 touched only the
+      header comment, MAX_HASH_DEPTH constant, rejectOutOfDomain message,
+      describeRejectedPrimitive, and the canonicalStringify/Container restructure -- zero
+      changes to number/string/key-sort/undefined-omission emission). npm test 161/161
+      (revisions file 96/96, was 80) EXIT_CODE=0; npx tsc --noEmit EXIT_CODE=0; npx eslint on
+      the two owned files EXIT_CODE=0. MigrationEntrySchema / loadMigrationMaps /
+      buildRevisionsMap / content/migrations/** untouched this cycle.
 fix_cycle:
   - fix: "CONTRACT FIX: loadMigrationMaps now synchronous returning MigrationEntry[] (was async Promise<MigrationEntry[]>). Uses readdirSync/readFileSync from node:fs."
     proof: "Function signature changed, tests updated to remove await/async, all 86 tests pass including 7 loadMigrationMaps tests"
@@ -156,6 +213,13 @@ fix_cycle_gen1:
   - fix: "content/migrations/README.md aligned with the now-enforced rules (hex regex, self-link ban, duplicate ban, deterministic sort, explicit-dir ENOENT throw, hash-input domain)."
     proof: "README Format/Usage sections rewritten; example-migration.json unchanged and still loads (exact-equality test)"
 artifacts:
+  - "WORKTREE (gen2, agent-a40d03275212d51da): src/lib/revisions.ts (MODIFIED -- A1.1 hole rejection, A1.2 depth guard, A1.3 allowlist restructure; integrator merges from .claude/worktrees/agent-a40d03275212d51da/src/lib/revisions.ts)"
+  - "WORKTREE (gen2, agent-a40d03275212d51da): tests/revisions.test.ts (MODIFIED -- +16 tests, 96 total in file; from .claude/worktrees/agent-a40d03275212d51da/tests/revisions.test.ts)"
+  - ".program/audits/ROOT.1.1.3-verification/npm-test-gen2.txt (NEW gen2 evidence, EXIT_CODE=0, 161/161)"
+  - ".program/audits/ROOT.1.1.3-verification/tsc-noemit-gen2.txt (NEW gen2 evidence, EXIT_CODE=0)"
+  - ".program/audits/ROOT.1.1.3-verification/eslint-owned-gen2.txt (NEW gen2 evidence, EXIT_CODE=0)"
+  - ".program/audits/ROOT.1.1.3-verification/adversarial-probe-replay-gen2.txt (NEW gen2 evidence -- reviewer probes 3/4/5 replayed verbatim + guarded continuations)"
+  - ".program/audits/ROOT.1.1.3-verification/gen2-probe3b-continuation.mjs, gen2-probe5b-continuation.mjs (NEW -- guarded continuations of the reviewer probes past their now-throwing unguarded lines)"
   - "src/lib/revisions.ts (MODIFIED — domain enforcement, schema hardening, defineProperty map, sort, ENOENT policy)"
   - "tests/revisions.test.ts (MODIFIED — 21 -> 80 tests; unfalsifiable assertions replaced)"
   - "content/migrations/README.md (MODIFIED — documents the enforced contract)"
@@ -165,12 +229,51 @@ artifacts:
   - ".program/audits/ROOT.1.1.3-verification/eslint-owned-gen1.txt (NEW evidence)"
   - ".program/audits/ROOT.1.1.3-verification/adversarial-probe-replay-gen1.txt (NEW evidence — reviewer F1-F4 probes replayed against the fixed module)"
   - ".program/ledger/items/ROOT.1.1.3.md (this file)"
+fix_cycle_gen2:
+  - fix: "NEW-1 (major, A1.1): array branch rewritten to index-based iteration with explicit `!(index in arr)` hole detection before element read; first hole rejected with TypeError at its indexPath. Array.prototype.map removed from the canonicalization path entirely."
+    proof: "6 new A1.1 tests pass; reviewer probes 3/5 replayed: Array(1) throws at [0] (no longer collides with [] whose pinned hash still returns), delete beats[1] throws at beats[1], hole vs explicit undefined consistent (adversarial-probe-replay-gen2.txt)"
+  - fix: "NEW-2 (minor, A1.2): MAX_HASH_DEPTH = 64 constant + explicit depth parameter checked before type dispatch; exceeding it throws TypeError naming the path, never a bare RangeError."
+    proof: "5 new A1.2 tests pass incl. depth-64 in-domain (array/object/mixed), depth-65 TypeError-with-path asserted not-RangeError, and the reviewer's 5000-deep probe as a test; verbatim probe4 shows 5000-deep and 200k-deep -> TypeError with path, 100k-wide still hashes"
+  - fix: "A1.3: canonicalStringify restructured as a closed-world allowlist -- typeof switch whose cases each match one HASHABLE rule, default throws; container arm (canonicalStringifyContainer) admits only dense arrays and plain objects, fallthrough throws. describeRejectedPrimitive added (describes, never admits)."
+    proof: "5 new A1.3 default-reject tests: Promise/WeakMap/ArrayBuffer (unlisted anywhere in the shard) + boxed Object(1) + function all TypeError with a path; npm test 161/161"
+rollback_note_gen2: |
+  Written BEFORE the first gen2 code edit (dream-implementer-critical obligation).
+  All gen2 changes live in worktree .claude/worktrees/agent-a40d03275212d51da (under the
+  main checkout root) and touch EXACTLY two code files: src/lib/revisions.ts and
+  tests/revisions.test.ts. Nothing is merged into main by this agent (it never runs git);
+  the integrator picks the worktree paths up from artifacts. UNDO: discard the worktree
+  copies of those two files (git checkout -- src/lib/revisions.ts tests/revisions.test.ts
+  in the worktree, or simply do not integrate) -- main is untouched and remains at the
+  gen1-merged state (commit 2c36056, 145/145 tests). Evidence files written by gen2 are
+  additive new files (.program/audits/ROOT.1.1.3-verification/*-gen2.txt) -- deleting
+  them is a full undo. Ledger writes are append-only events plus this item file;
+  reverting the item file to its pre-gen2 revision restores the prior record. No data/**
+  or sandbox paths are touched; content/migrations/** is in scope by ownership but gen2
+  plans NO changes there.
+fix_cycle_plan_gen2:
+  - contract_touched: "Same surface as gen1 -- the three frozen export signatures of src/lib/revisions.ts. gen2 changes FAILURE BEHAVIOUR ONLY: two new rejection classes (sparse-array holes per A1.1, depth > MAX_HASH_DEPTH=64 per A1.2) and an internal allowlist restructure (A1.3). No in-domain canonical form changes; the 10 pinned pre-fix hashes are the regression guard."
+  - other_side_owner: "Downstream consumer ROOT.1.1.4 (unchanged from gen1: no interface file owns this surface; the item-file signature block is the contract of record). New rejections only widen the error domain for inputs that were previously silent collisions (holes) or bare RangeErrors (depth) -- both already build bugs per the amended shard."
+  - will_not_change: "Export signatures; 10 pinned hashes; 16-hex truncated SHA-256; sorted-key canonicalization; undefined-value-key omission; -0 -> 0; MigrationEntrySchema; loadMigrationMaps behavior; buildRevisionsMap defineProperty mechanism; src/lib/schema.ts; package.json/package-lock.json; content/migrations/** contents."
 fix_cycle_plan_gen1:
   - contract_touched: "src/lib/revisions.ts exports consumed by ROOT.1.1.4 — computeItemRevision(content: unknown): string; buildRevisionsMap(items): Record<string,string>; loadMigrationMaps(dir?): MigrationEntry[] (sync). All three signatures FROZEN; only failure behaviour (new TypeErrors for out-of-domain input) and internal representation change."
   - other_side_owner: "Downstream consumer ROOT.1.1.4. .program/interfaces/beat-model.md declares itemRevision a sidecar and explicitly out of its own scope (line 334) — no interface file owns the revisions surface, so the item-file signature block is the contract of record."
   - will_not_change: "src/lib/schema.ts (steward-owned), 16-hex truncated SHA-256, sorted-key canonicalization, undefined-value-key omission, buildRevisionsMap return type (stays Record<string,string>), and the in-domain canonical output (pinned by a regression test written BEFORE the code change)."
 resume_hint: |
-  GEN2 FIX CYCLE IN FLIGHT (dream-implementer-critical, worktree): scope is EXACTLY the two
+  GEN2 FIX CYCLE COMPLETE -- all 4 gen2 criteria PASS (see verification + fix_cycle_gen2);
+  status in_review: fix-verify belongs to a FRESH dream-reviewer-adversarial instance, NOT
+  this implementer. Scope was the closed ADR-0017 Amendment 1 list (A1.1 holes, A1.2
+  depth=64, A1.3 allowlist) and stayed closed -- no third finding class emerged.
+  CODE lives in worktree .claude/worktrees/agent-a40d03275212d51da (src/lib/revisions.ts,
+  tests/revisions.test.ts) and is NOT merged; integrator picks paths from artifacts. The
+  worktree has a node_modules JUNCTION to the main checkout (mklink /J) -- integrator may
+  want to remove it before/after merge; it is not a repo file. Main checkout evidence:
+  .program/audits/ROOT.1.1.3-verification/{npm-test,tsc-noemit,eslint-owned,
+  adversarial-probe-replay}-gen2.txt, all EXIT_CODE=0 semantics (verbatim probes 3/5 exit 1
+  AT the new rejections by design -- explained in the replay doc header). npm test 161/161
+  (revisions 96/96, was 80). Frozen contract held: 3 signatures, 10 pinned hashes,
+  migration schema, migrations dir all untouched. Rollback: see rollback_note_gen2.
+  --- prior gen2 dispatch hint below ---
+  GEN2 FIX CYCLE dispatch note: scope is EXACTLY the two
   fixverify findings (NEW-1 sparse holes, NEW-2 depth) plus the A1.3 allowlist restructure,
   per ADR-0017 Amendment 1 + amended REQ-CP-05. Re-derive scope from
   .program/audits/ROOT.1.1.3-adversarial-fixverify.md and the shard, NOT from any brief.

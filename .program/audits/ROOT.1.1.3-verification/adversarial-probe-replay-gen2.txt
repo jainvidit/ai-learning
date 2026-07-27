@@ -1,0 +1,127 @@
+ROOT.1.1.3 gen2 fix cycle: adversarial probe replay (fix-verify NEW-1 / NEW-2)
+Agent: implementer-ROOT.1.1.3-gen2 (dream-implementer-critical). Date: 2026-07-27.
+Module under test: WORKTREE copy
+  .claude/worktrees/agent-a40d03275212d51da/src/lib/revisions.ts
+Probes: the reviewer's own fixverify probe3/4/5 (from
+.program/audits/ROOT.1.1.3-verification/reviewer-fixverify-probe{3,4,5}.mjs),
+verbatim except the import specifier retargeted from the MAIN module to the
+WORKTREE module (single sed on the file:/// URL). Probe3 and probe5 each contain
+an UNGUARDED sparse-array hash on a top-level line (probe3 line 25 `sparseHash ===
+computeItemRevision(b2)`, probe5 line 4 `computeItemRevision(new Array(1))`) that
+the pre-fix module returned from and the fixed module correctly THROWS on, so the
+verbatim scripts exit 1 at that line BY DESIGN OF THE FIX. Each is followed by a
+guarded continuation (probe3b/probe5b, same cases wrapped in the reviewer's own
+attempt() helper) that covers every remaining probe case to completion.
+
+INTERPRETATION SUMMARY
+- NEW-1 CLOSED: Array(1) no longer collides with [] (it throws TypeError at [0]
+  "array hole"; [] still returns its pinned hash 4f53cda18c2baa0c). delete
+  beats[1] throws TypeError at beats[1]. Leading-holes array names the FIRST
+  hole [0]. Explicit undefined and a hole at the same index are now consistent:
+  both throw TypeError naming index 1.
+- NEW-2 CLOSED: the reviewer's 5000-deep and 200k-deep nested arrays now throw
+  TypeError naming the path where MAX_HASH_DEPTH 64 was exceeded — no bare
+  RangeError, no stack overflow. The 100k-wide object still hashes (width is
+  unaffected).
+
+==============================================================================
+PROBE 3 — verbatim replay (sparse holes; exits 1 at its own unguarded line, see header)
+==============================================================================
+(node:27016) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a40d03275212d51da/src/lib/revisions.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-a40d03275212d51da\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+empty array | RETURNED "4f53cda18c2baa0c"
+Array(1) all holes | THREW TypeError | computeItemRevision: value at [0] is outside the CP-05 hash-input domain: array hole (sparse arrays are out-of-domain; a hole is an absence, not a value). Hashable content is the JSON data model (null, booleans, finite numbers, strings, dense arrays, plain objects) nested at most 64 levels deep.
+COLLAPSE: Array(1) hashes same as [] -- false
+sparse 1,hole,3 | THREW TypeError | computeItemRevision: value at [1] is outside the CP-05 hash-input domain: array hole (sparse arrays are out-of-domain; a hole is an absence, not a value). Hashable content is the JSON data model (null, booleans, finite numbers, strings, dense arrays, plain objects) nested at most 64 levels deep.
+file:///C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a40d03275212d51da/src/lib/revisions.ts:269
+  throw new TypeError(
+        ^
+
+TypeError: computeItemRevision: value at [1] is outside the CP-05 hash-input domain: array hole (sparse arrays are out-of-domain; a hole is an absence, not a value). Hashable content is the JSON data model (null, booleans, finite numbers, strings, dense arrays, plain objects) nested at most 64 levels deep.
+    at rejectOutOfDomain (file:///C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a40d03275212d51da/src/lib/revisions.ts:269:9)
+    at canonicalStringifyContainer (file:///C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a40d03275212d51da/src/lib/revisions.ts:400:18)
+    at canonicalStringify (file:///C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a40d03275212d51da/src/lib/revisions.ts:365:14)
+    at computeItemRevision (file:///C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a40d03275212d51da/src/lib/revisions.ts:105:25)
+    at file:///C:/Users/jainv/AppData/Local/Temp/gen2-probes/probe3.mjs:25:58
+    at ModuleJob.run (node:internal/modules/esm/module_job:413:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:660:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.12.0
+probe3 EXIT_CODE=1
+
+==============================================================================
+PROBE 3b — guarded continuation (remaining probe3 cases)
+==============================================================================
+(node:36852) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a40d03275212d51da/src/lib/revisions.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-a40d03275212d51da\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+same-shape sparse b2 [1,hole,3] | THREW TypeError | computeItemRevision: value at [1] is outside the CP-05 hash-input domain: array hole (sparse arrays are out-of-domain; a hole is an absence,
+deleted-index array | THREW TypeError | computeItemRevision: value at [1] is outside the CP-05 hash-input domain: array hole (sparse arrays are out-of-domain; a hole is an absence,
+leading-holes array | THREW TypeError | computeItemRevision: value at [0] is outside the CP-05 hash-input domain: array hole (sparse arrays are out-of-domain; a hole is an absence,
+explicit undefined element for contrast:
+[1, undefined, 3] | THREW TypeError | computeItemRevision: value at [1] is outside the CP-05 hash-input domain: undefined. Hashable content is the JSON data model (null, booleans
+probe3b EXIT_CODE=0
+
+==============================================================================
+PROBE 4 — verbatim replay (depth: 5000-deep, 200k-deep, 100k-wide)
+==============================================================================
+(node:36220) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a40d03275212d51da/src/lib/revisions.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-a40d03275212d51da\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+5000-deep nested array (in-domain) | THREW TypeError | computeItemRevision: value at [0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0]
+200k-deep nested array | THREW TypeError | computeItemRevision: value at [0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0][0]
+100k-wide object | RETURNED "9a72499a287bfbbf"
+probe4 EXIT_CODE=0
+
+==============================================================================
+PROBE 5 — verbatim replay (exits 1 at its own unguarded line 4 = the fixed rejection)
+==============================================================================
+(node:37156) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a40d03275212d51da/src/lib/revisions.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-a40d03275212d51da\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+file:///C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a40d03275212d51da/src/lib/revisions.ts:269
+  throw new TypeError(
+        ^
+
+TypeError: computeItemRevision: value at [0] is outside the CP-05 hash-input domain: array hole (sparse arrays are out-of-domain; a hole is an absence, not a value). Hashable content is the JSON data model (null, booleans, finite numbers, strings, dense arrays, plain objects) nested at most 64 levels deep.
+    at rejectOutOfDomain (file:///C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a40d03275212d51da/src/lib/revisions.ts:269:9)
+    at canonicalStringifyContainer (file:///C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a40d03275212d51da/src/lib/revisions.ts:400:18)
+    at canonicalStringify (file:///C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a40d03275212d51da/src/lib/revisions.ts:365:14)
+    at computeItemRevision (file:///C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a40d03275212d51da/src/lib/revisions.ts:105:25)
+    at file:///C:/Users/jainv/AppData/Local/Temp/gen2-probes/probe5.mjs:4:14
+    at ModuleJob.run (node:internal/modules/esm/module_job:413:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:660:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.12.0
+probe5 EXIT_CODE=1
+
+==============================================================================
+PROBE 5b — guarded continuation (remaining probe5 cases)
+==============================================================================
+(node:38980) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a40d03275212d51da/src/lib/revisions.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-a40d03275212d51da\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[] | RETURNED "4f53cda18c2baa0c"
+Array(1) | THREW TypeError | computeItemRevision: value at [0] is outside the CP-05 hash-input domain: array hole (sparse arrays are out-of-domain; a hole is an absence,
+Array(2) | THREW TypeError | computeItemRevision: value at [0] is outside the CP-05 hash-input domain: array hole (sparse arrays are out-of-domain; a hole is an absence,
+in-domain collision impossible: Array(1) and Array(2) both throw; [] returns
+{beats: [intro,quiz,outro]} before delete | RETURNED "d1f45c11f2c64e05"
+{beats} after delete beats[1] | THREW TypeError | computeItemRevision: value at beats[1] is outside the CP-05 hash-input domain: array hole (sparse arrays are out-of-domain; a hole is an abs
+{beats: [intro,undefined,outro]} explicit undefined | THREW TypeError | computeItemRevision: value at beats[1] is outside the CP-05 hash-input domain: undefined. Hashable content is the JSON data model (null, boo
+hole vs explicit undefined: CONSISTENT -- both throw TypeError at beats[1]
+probe5b EXIT_CODE=0
+
+Overall: the two fix-verify findings are empirically closed against the
+worktree module. Verbatim-probe exit codes 1 are the new rejections firing on
+previously-silent lines; every guarded run (probe3b, probe4, probe5b) exits 0.
+EXIT_CODE=0
