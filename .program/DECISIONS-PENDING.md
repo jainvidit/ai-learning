@@ -221,3 +221,16 @@ flag.
 - **If A is ever preferred:** admit types one by one with explicit encodings via a new
   ADR, plus migration-map guidance for any item whose content newly admits a
   previously-rejected type. Shard amended (domain clause + scenario 3).
+
+### ADR-0017 Amendment 1 — holes, depth bound, closed world (2026-07-27, gen41, owner-directed)
+- **What changed:** (1) sparse-array holes REJECTED (an absence, not a type; domain check
+  must not use hole-skipping iteration — map/forEach bypass was the gen1 defect); (2)
+  MAX_HASH_DEPTH = 64, exceeded -> TypeError with path, never bare RangeError; (3) domain
+  restated CLOSED-WORLD: HASHABLE enumeration is exhaustive, reject list illustrative,
+  implementation must be allowlist-with-throwing-default. Shard scenario 3 broadened,
+  scenario 4 (in-domain distinctness) added.
+- **Reversal path:** each is additive to relax — normalize holes, raise/remove the depth
+  ceiling, admit new types — via new ADR + migration-map guidance (previously-rejected
+  content becomes newly hashable; never the reverse).
+- **Compat:** all three changes reject what was previously undefined behavior; no
+  in-domain hash changes. The 10 pinned pre-fix regression hashes remain binding.

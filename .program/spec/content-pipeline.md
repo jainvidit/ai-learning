@@ -63,22 +63,34 @@ Every item has a stable ID plus a content-hash `itemRevision`; every attempt eve
 **Source:** DREAM-BLUEPRINT.md §3 "Content pipeline — Versioning"; GLOSSARY.md "itemRevision". Event-side recording is REQ-EL-02 in `event-log-and-projections.md`.
 **Current state:** new mechanism; no current equivalent.
 
-**Hash-input domain (ADR-0017, amended 2026-07-27 — scenario 1's "in any way" is scoped
-to this enumeration, otherwise it is unfalsifiable):** hashable content is the JSON data
-model — `null`, booleans, finite numbers (`-0` normalized to `0`), strings, arrays of
-hashable values, and plain objects with string keys (key order irrelevant; keys with
-`undefined` values omitted). Distinct values within this domain MUST produce distinct
-canonical forms. Values outside it — `undefined` (other than an omitted object value),
-functions, symbols, BigInt, NaN, ±Infinity, Date, Map, Set, RegExp, typed arrays,
-non-plain class instances, circular references — MUST be rejected with a `TypeError`
-naming the JSON path of the offending value (a cycle is reported as a cycle, never a bare
-RangeError). Keys or ids equal to `__proto__` must round-trip without prototype-accessor
+**Hash-input domain (ADR-0017 as amended 2026-07-27; CLOSED WORLD — scenario 1's "in
+any way" is scoped to this enumeration, otherwise it is unfalsifiable):** hashable
+content is EXACTLY the following, and **anything not matched by these rules is rejected
+— the HASHABLE list is exhaustive; there is no third category**:
+`null`; booleans; finite numbers (`-0` normalized to `0`); strings; **dense** arrays of
+hashable values; plain objects with string keys and hashable values (key order
+irrelevant; keys with `undefined` values omitted), nested to a maximum depth of
+**MAX_HASH_DEPTH = 64** (root = depth 0). Distinct values within this domain MUST
+produce distinct canonical forms.
+
+Rejection semantics: any out-of-domain value throws `TypeError` naming the JSON path of
+the offending value. Specifically (illustrative, NOT definitional — the closed world
+above is the rule): `undefined` (other than an omitted object value), functions,
+symbols, BigInt, NaN, ±Infinity, Date, Map, Set, RegExp, typed arrays, non-plain class
+instances; **a sparse-array hole** (any index `i` in `[0, length)` with `!(i in arr)`) —
+a hole is an absence, not a type, and the domain check MUST NOT rely on hole-skipping
+iteration (`Array.prototype.map`/`forEach` skip holes); **nesting beyond
+MAX_HASH_DEPTH**, which throws a `TypeError` naming the path where the limit was
+exceeded — never a bare `RangeError`; and circular references, reported as cycles with
+their path. The implementation is an allowlist whose default branch throws — never a
+denylist. Keys or ids equal to `__proto__` must round-trip without prototype-accessor
 loss.
 
 **Scenarios:**
 1. Given an item whose content changes in any way within the hash-input domain, when the bundle rebuilds, then its `itemRevision` hash changes while its item ID does not.
 2. Given an item that materially changes, when the change ships, then a migration map entry exists linking old revision to new.
-3. Given item content containing a value outside the hash-input domain, when the hash is computed, then the computation fails with a `TypeError` naming the path of the offending value — it never silently coerces, collapses, or crashes with an unrelated error.
+3. Given item content containing a value outside the hash-input domain — including any value or structural condition NOT matched by the HASHABLE enumeration, a sparse-array hole, or nesting beyond MAX_HASH_DEPTH — when the hash is computed, then the computation fails with a `TypeError` naming the path of the offending value — it never silently coerces, collapses, or crashes with an unrelated error.
+4. Given two item contents that are both within the hash-input domain and differ under its equality rules (after `-0` normalization and undefined-key omission), when both are hashed, then their `itemRevision` values differ.
 
 ## REQ-CP-06: CI content gates {#req-cp-06}
 
