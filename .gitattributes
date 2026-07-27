@@ -1,0 +1,19 @@
+# Line-ending policy.
+#
+# core.autocrlf is true on this machine, which rewrites LF to CRLF on checkout.
+# For most files that is harmless. For the program ledger it is not: ADR-0015
+# documents an event record that was corrupted by a raw CR landing inside a JSON
+# string value, and the pre-repair audit copies exist to preserve those exact
+# bytes. A checkout that "helpfully" converts them destroys the evidence and
+# invalidates the SHA-256 digests recorded in ADR-0015.
+#
+# -text disables all end-of-line conversion in both directions.
+
+# Byte-for-byte evidence. Never convert, never diff as text.
+.program/audits/malformed-events-pre-repair/** -text -diff
+
+# Append-only event logs: LF in the repo, LF in the working tree.
+.program/ledger/events/*.jsonl -text
+
+# Hook denial log — same reason (written by tooling, read as evidence).
+.program/audits/hook-denials.jsonl -text
