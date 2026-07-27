@@ -47,13 +47,14 @@ Ambiguities found while sharding docs/DREAM-BLUEPRINT.md, the two design reviews
 - **Reading B:** the owner's "personal desktop tool, not a production service" directive means hosted work should not be scheduled at all without a fresh directive.
 - Affects: hosted-edition.md (entire shard), migration-and-sequencing REQ-MS-01 Phase 5.
 
-## 7. Monorepo split (`apps/web`, `apps/api`, …) vs single-process simplicity
+## 7. Monorepo split (`apps/web`, `apps/api`, …) vs single-process simplicity — **CLOSED (ADR-0002)**
 
 - Blueprint §6 Phase 0 includes a monorepo split with a separate `apps/api`.
 - CONSTRAINTS.md #15 [HARD]: single process where possible; blueprint §3 itself says the Next server "plus a session service" is the BFF.
 - **Reading A:** the split is a code-organization move (packages + two deployables that Home runs as one process or one supervised pair) — compatible with the directive.
 - **Reading B:** a separate api app is production-service shape the directive rules out for Home; Phase 0 should split packages only.
-- Affects: migration-and-sequencing REQ-MS-01 Phase 0.
+- **RESOLVED — Reading B, by ADR-0002 (accepted at genesis 2026-07-25).** Phase 0 extracts packages and keeps exactly one Next.js app/process. No `apps/api`. Reasoning: least irreversible (package extraction is additive; a second deployable reshapes run/ops/docs), and adjacent shards already assume it — blueprint §3 calls the Next server the BFF, and api-and-streaming REQ-API-01 has the browser talking only to the Next server. Reversible if wrong: move the extracted packages behind an `apps/api` later.
+- Affects: migration-and-sequencing REQ-MS-01 Phase 0 — **the shard text was contradicting this decision until 2026-07-27 and now states the packages-only split.** Kept here rather than deleted because the shard cites this number and a reader needs the resolution, not a dangling reference.
 
 ## 8. Module 12's weakness — which mitigation
 

@@ -17,8 +17,18 @@ Facts a successor should not re-derive:
 - ROOT.2.4 (legacy progress cutover/archival) is PARKED — dual-write is the end-state
   until the owner authorizes.
 - Settled at genesis, do not silently revisit: ADR-0001..0006 in .program/decisions/.
+  ADR-0007..0016 were added later and are equally binding — read the whole directory, not
+  the genesis range.
 - Roles: 21 dream-* files; .program/roles/ is authoritative, user-scope
   C:\Users\jainv\.claude\agents\ is the loaded copy — regenerate user-scope from the
   mirror on drift, never the reverse.
-- The director alone runs git, on the program repo, on a timer.
+- **The director runs git by hand, not on a timer.** Corrected 2026-07-27: the "on a timer"
+  claim described the automated relauncher that ADR-0012 removed. Nothing schedules the
+  director; commits happen when a human-started session makes them. A successor that reads
+  the old wording waits for a timer that does not exist.
+- Enforcement that a successor must not assume is inert: a PreToolUse hook restricts
+  reviewer/auditor/reader/verifier writes to `.program/audits/**` (ADR-0014), and the
+  event-log append is only safe through `.program/ledger/append-event.py` (ADR-0015).
+  Both depend on workspace trust being granted; verify liveness from
+  `.program/audits/hook-denials.jsonl` (auditor check 14), never by assumption.
 - Port 3000 is the owner's. Never AskUserQuestion. Debugging is always fanned out.

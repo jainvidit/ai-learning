@@ -1,33 +1,42 @@
 # Dream Program — Status Report
 
-**Phase**: Phase 0 executing | **Active**: director-gen39 | **Done**: 12 | **Interrupted**: 2 | **Proposed**: 39 | **Blocked**: 2
+**Phase**: Phase 0 executing — **HALTED for remediation (2026-07-27). No implementer may be dispatched until the owner resumes it.**
+**Counts (total 57)**: done 13 | in_progress 6 | proposed 36 | blocked 2
 
-## Item counts (total 58)
-- **Done**: ROOT.1.1.1–1.1.3, ROOT.1.2 (+ 5 children), ROOT.1.7, 1.9
-- **In progress**: ROOT, ROOT.1, ROOT.7.1
-- **Interrupted**: ROOT.1.1 (gen2 resuming), ROOT.1.1.4 (plan-only, gen0 died)
-- **Blocked**: ROOT.2.4, ROOT.6 (both awaiting_human_authorization)
+Derived 2026-07-27 by `.program/audits/headline-regen/{count-ledger,ready-frontier}.py`. The
+prior version was stale on every count and used a status (`interrupted`) no item file carries —
+**statuses here are the ledger's own; do not reintroduce `interrupted`.**
+
+## Item counts (total 57)
+- **done (13)**: ROOT.1.1.1–1.1.3, ROOT.1.2 + all six children (1.2.1–1.2.6), ROOT.1.7, ROOT.1.9, ROOT.7.2
+- **in_progress (6)**: ROOT (gen15), ROOT.1, ROOT.1.1 (gen2 coordinator), ROOT.1.1.4, ROOT.7, ROOT.7.1
+- **blocked (2)**: ROOT.2.4, ROOT.6 — both `awaiting_human_authorization`
 
 ## Ready frontier: 1 item
-**ROOT.1.1.4** — all depends_on satisfied. Awaiting gen2 dispatch.
+**ROOT.1.1.4** — `depends_on: [ROOT.1.1.3]` satisfied; already `in_progress` with a gen1 owner,
+so it needs re-dispatch, not fresh decomposition. A gen1 worktree implementation exists but its
+evidence is contamination-flagged — read the ROOT.1.1 / ROOT.1.1.4 event logs before any review.
+
+**Not the frontier, though `depends_on` is clear:** ROOT.2.1, ROOT.3.1, ROOT.4.1, ROOT.4.5,
+ROOT.4.7, ROOT.5.1, ROOT.5.3 — **gated by phase ordering** (glossary: Phase N+1 may not start
+before Phase N's Gate ROOT.1.8 passes). A depends_on-only scan offers these seven wrongly.
 
 ## Top blockers with reasons
-1. **ROOT.1.1** (interrupted) — gen1 coordinator died ~16:22Z. ROOT.1.1.1/2/3 done. Gen2 fresh dispatch of ROOT.1.1.4 pending.
-2. **ROOT.1.1.4** (interrupted) — plan stage. Carries npm-run-build beat-validation requirement from ROOT.1.1.2.
-3. **ROOT.2.4** (awaiting_human_authorization) — Legacy JSON archival; REQ-MS-03 never-delete; routed around.
-4. **ROOT.5.1** (pre-auth flag) — Nightly git-bundle backup; scheduled job on learner data.
-5. **ROOT.6** (awaiting_human_authorization) — Hosted Edition; ASSUMPTIONS #32 unratified; PART 9 hard stops; parked ADR-0001.
+1. **Remediation halt** — owner-directed; overrides everything below.
+2. **ROOT.1.1.4** — carries ROOT.1.1.2's npm-run-build beat-validation requirement; prior evidence contaminated.
+3. **ROOT.1.8** (Phase 0 Gate, proposed) — depends on all ten ROOT.1.x; blocks Phases 2–5.
 
 ## Parked items
-- ROOT.6 — Hosted Edition; routed around
-- ROOT.2.4 — JSON archival; routed around
-- ROOT.5.1 — nightly backup; pre-authorization pending
-- ROOT.1.1 toolchain denial — **RESOLVED** (permission grant landed)
+- **ROOT.6** — Hosted Edition; ADR-0001; ASSUMPTIONS #32 unratified; routed around
+- **ROOT.2.4** — legacy JSON archival; REQ-MS-03 never-delete; routed around
+- **ROOT.5.1** — pre-auth flag on the nightly Workshop backup (a flag, not the item's status)
 
 ## Pending decisions
-- **Decided & logged**: 12 decisions in DECISIONS-PENDING.md
-- **Open-by-design**: OQ #10 (Velite tiebreak), OQ #11 (Langfuse fallback), OQ #12 (cosmetic)
-- **Undecided**: OQ #7 Module-12 mitigation (must ADR before ROOT.5.5)
+15 decided-and-logged in DECISIONS-PENDING.md; open-by-design OQ #10/#11/#12; **undecided OQ #8**
+(Module-12 mitigation — ADR required before module 12 authoring; prior versions mislabelled this
+"OQ #7", which is the monorepo split, **CLOSED by ADR-0002**). Standing non-blocking: tier-3 roles
+unexercised; hook liveness provable only from `hook-denials.jsonl` (check 14); 4 latent overlaps.
 
-## Generation ≥3: None
-Highest: ROOT.1.2 gen3 (done; stewardship → ROOT.7.1).
+## Generation >= 3 — SCOPING FAILURE
+**ROOT gen15** (38-generation director storm, ADR-0012) and **ROOT.1.2 gen3** (done). The prior
+version said "None" while ROOT sat at gen15.

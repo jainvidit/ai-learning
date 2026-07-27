@@ -4,11 +4,11 @@
 |----|----|-------|--------|-----|---------|
 | ROOT | root | AI Learning App — dream version build | in_progress | 15 | — |
 | ROOT.1 | phase | Phase 0 — Forced foundations | in_progress | 0 | — |
-| ROOT.1.1 | capability | Content pipeline — Velite migration, beat compiler, versioned bundle | interrupted | 1 | gen2 coordinator resuming (gen1 died ~16:22Z) |
+| ROOT.1.1 | capability | Content pipeline — Velite migration, beat compiler, versioned bundle | in_progress | 2 | gen2 coordinator owns it (gen1 died ~16:22Z) |
 | ROOT.1.1.1 | task | Velite swap — build-time MDX compilation + interim LessonRenderer | done | 1 | — |
 | ROOT.1.1.2 | task | Beat compiler — ordered beat arrays with stable beatIds | done | 0 | — |
 | ROOT.1.1.3 | task | itemRevision content hashing + migration maps | done | 0 | — |
-| ROOT.1.1.4 | task | Versioned immutable content bundle emitter + static route | interrupted | 0 | plan stage, gen0 died; awaiting gen2 dispatch |
+| ROOT.1.1.4 | task | Versioned immutable content bundle emitter + static route | in_progress | 1 | gen1 owner recorded; gen0 died at plan stage; prior worktree evidence contamination-flagged |
 | ROOT.1.2 | contract | Contracts pack — schema.ts additive extensions + beat model + interface docs | done | 3 | — |
 | ROOT.1.2.1 | task | schema.ts additive extension — new authoring fields, Module 1 validates unchanged | done | 2 | — |
 | ROOT.1.2.2 | task | beat-model.md interface doc — beat type, stability rules, persistent-beat portal-slot contract | done | 1 | — |
@@ -60,4 +60,7 @@
 | ROOT.7.1 | contract | Standing contract steward — schema.ts, interfaces, package.json (post-Phase-0) | in_progress | 0 | depends_on: ROOT.1.2 (satisfied) |
 | ROOT.7.2 | task | Verification surface — test runner, npm test, Playwright e2e, AGENTS.md commands | done | 1 | — |
 
-**Items indexed:** 58 | **Counts:** done 12 | in_progress 3 | interrupted 2 | proposed 39 | blocked 2 | **Parked:** ROOT.6, ROOT.2.4, ROOT.5.1 (pre-auth flag)
+**Items indexed:** 57 | **Counts:** done 13 | in_progress 6 | proposed 36 | blocked 2 | **Parked:** ROOT.6, ROOT.2.4, ROOT.5.1 (pre-auth flag)
+
+Regenerated 2026-07-27 from the item files. The prior footer claimed 58 items and a
+status (`interrupted`) that no item file carries; both are now derived, not carried over.
