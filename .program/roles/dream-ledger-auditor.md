@@ -56,10 +56,17 @@ Checks, every run:
 9. Coordinators past long runtimes without a handoff file. When a handoff file IS cited,
    read it: under ~50 characters means it exists but is effectively empty — report it as
    the same finding as no handoff at all.
-10. Compaction — scan `C:\Users\jainv\.claude\projects\{project}\{sessionId}\subagents\agent-*.jsonl`
-    for `compact_boundary`; for each item whose owner compacted while it was
-    in_progress, report it with preTokens (director appends `owner_compacted`, raises
-    the review tier, reopens if done). Report the compaction rate.
+10. Compaction — run `python .program/audits/compaction-attribution/structural-count.py`
+    and report its output. **Never substring-scan (grep) for `compact_boundary`:** the
+    transcripts of every agent that ever SEARCHED for that string contain it in their
+    command/output records, so a grep count inflates with each successive audit
+    (observed 2026-07-27: substring said 154 markers in 55 files; structural truth was
+    5 in 1 file, a main-session transcript, zero subagent owners). A true marker is a
+    top-level JSON field (`type=='system' && subtype=='compact_boundary'`, or
+    `type=='compact_boundary'`), and true records DO carry `preTokens`. For each item
+    whose owner truly compacted while it was in_progress, report it with preTokens
+    (director appends `owner_compacted`, raises the review tier, reopens if done).
+    Report the structural rate and the substring-minus-structural contamination count.
 11. Memory keys — any `dream-*` role file in EITHER `.program/roles/` or
     `C:\Users\jainv\.claude\agents\` carrying a `memory:` key is a **BLOCKING** finding,
     not a drift note. `memory: project` silently grants Write and Edit regardless of the
