@@ -4,7 +4,7 @@ parent: ROOT.1.1
 type: Task
 title: itemRevision content hashing + migration maps
 ledger_depth: 3
-status: done
+status: changes_requested
 generation: 0
 owner_agent: implementer-ROOT.1.1.3-gen0
 spec_refs:
@@ -18,7 +18,7 @@ depends_on: [ROOT.1.1.2]
 blocks: [ROOT.1.1.4]
 children: []
 file_ownership: ["src/lib/revisions.ts", "tests/revisions.test.ts", "content/migrations/**"]
-review: {tier: 1, required_lenses: [spec-conformance], verdicts: ["primary/spec-conformance: approve-with-notes (independent re-run test+tsc exit 0); 3 should-fix arbitrated by coordinator (events ROOT.1.1.jsonl 18:45:01) -> directed fix cycle applied; dream-verifier confirmed all 4 fixes landed conclusively (npm test 86/86, tsc 0, per-file eslint 0, sync signature, hex examples)"]}
+review: {tier: 2, required_lenses: [spec-conformance, adversarial], verdicts: ["primary/spec-conformance: approve-with-notes (independent re-run test+tsc exit 0); 3 should-fix arbitrated by coordinator (events ROOT.1.1.jsonl 18:45:01) -> directed fix cycle applied; dream-verifier confirmed all 4 fixes landed conclusively (npm test 86/86, tsc 0, per-file eslint 0, sync signature, hex examples)", "adversarial (2026-07-27, first execution of role): request_changes — 1 critical (canonicalStringify collapses distinct contents: NaN/Infinity===null, Date/Map/Set==={}, function values embed literal undefined, circular refs bare RangeError — violates CP-05 s1 'content changes in any way -> hash changes'), 2 major (MigrationEntrySchema four bare z.string(): empty/non-hex/self-link/conflicting-duplicate all pass — CP-05 s2; buildRevisionsMap silently drops id __proto__), 1 minor (readdirSync order platform-dependent; explicit-dir ENOENT -> []; >=2/.some test assertions cannot fail). Held under attack: JSON string escaping, sidecar rule, prototype pollution via migration JSON, 16-hex collision bound. All probes executed empirically. Findings: .program/audits/ROOT.1.1.3-adversarial-review.md"]}
 verification:
   - criterion: "Every item gets a stable ID plus content-hash itemRevision; any content change flips the hash while the ID stays fixed (CP-05 scenario 1)"
     verdict: PASS
