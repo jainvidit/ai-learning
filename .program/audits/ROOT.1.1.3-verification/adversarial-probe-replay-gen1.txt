@@ -1,0 +1,34 @@
+(node:32216) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a4cf181fb3d5672a6/src/lib/revisions.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-a4cf181fb3d5672a6\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+=== F1: canonicalization collapse probes (review claimed silent collapse) ===
+NaN -> TypeError: computeItemRevision: value at v is outside the CP-05 hash-input domain: NaN. Hashable content is the JSON data model (null, booleans, finite numbers, strings, a
+Infinity -> TypeError: computeItemRevision: value at v is outside the CP-05 hash-input domain: Infinity. Hashable content is the JSON data model (null, booleans, finite numbers, strin
+-Infinity -> TypeError: computeItemRevision: value at v is outside the CP-05 hash-input domain: -Infinity. Hashable content is the JSON data model (null, booleans, finite numbers, stri
+Date -> TypeError: computeItemRevision: value at v is outside the CP-05 hash-input domain: Date. Hashable content is the JSON data model (null, booleans, finite numbers, strings, 
+Map -> TypeError: computeItemRevision: value at v is outside the CP-05 hash-input domain: Map. Hashable content is the JSON data model (null, booleans, finite numbers, strings, a
+Set -> TypeError: computeItemRevision: value at v is outside the CP-05 hash-input domain: Set. Hashable content is the JSON data model (null, booleans, finite numbers, strings, a
+RegExp -> TypeError: computeItemRevision: value at v is outside the CP-05 hash-input domain: RegExp. Hashable content is the JSON data model (null, booleans, finite numbers, strings
+Uint8Array -> TypeError: computeItemRevision: value at v is outside the CP-05 hash-input domain: Uint8Array. Hashable content is the JSON data model (null, booleans, finite numbers, str
+function value -> TypeError: computeItemRevision: value at v is outside the CP-05 hash-input domain: function. Hashable content is the JSON data model (null, booleans, finite numbers, strin
+top-level function -> TypeError: computeItemRevision: value at (root) is outside the CP-05 hash-input domain: function. Hashable content is the JSON data model (null, booleans, finite numbers, 
+BigInt -> TypeError: computeItemRevision: value at v is outside the CP-05 hash-input domain: BigInt (1n). Hashable content is the JSON data model (null, booleans, finite numbers, st
+symbol -> TypeError: computeItemRevision: value at v is outside the CP-05 hash-input domain: symbol (Symbol(s)). Hashable content is the JSON data model (null, booleans, finite numb
+class instance -> TypeError: computeItemRevision: value at v is outside the CP-05 hash-input domain: class instance (Foo). Hashable content is the JSON data model (null, booleans, finite nu
+top-level undefined -> TypeError: computeItemRevision: value at (root) is outside the CP-05 hash-input domain: undefined. Hashable content is the JSON data model (null, booleans, finite numbers,
+toJSON object -> TypeError: computeItemRevision: value at toJSON is outside the CP-05 hash-input domain: function. Hashable content is the JSON data model (null, booleans, finite numbers, 
+circular (was bare RangeError) -> TypeError: computeItemRevision: circular reference detected at a.b.back — the value is its own ancestor (cycle). Circular content is outside the CP-05 hash-input domain.
+=== F1 in-domain distinctness (must all be false) ===
+null === "null" string? false
+{} === [] ? false
+-0 === 0 ? (MUST be true: normalization) true
+=== F3: buildRevisionsMap __proto__ ===
+own keys = ["__proto__","constructor"]
+m["__proto__"] = 4834945f7bf91f82
+hasOwn __proto__ = true
+Object.prototype polluted? = false
+=== F2/F4: loadMigrationMaps ===
+explicit nonexistent dir (was []) -> Error: Migration directory not found: ./definitely-not-here (an explicitly-passed directory must exist)
+default dir (must not throw) -> RETURNED 1
+EXIT_CODE=0

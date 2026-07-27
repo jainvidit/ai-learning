@@ -1,0 +1,6 @@
+director-gen40 post-merge verification of gen1 fix in MAIN checkout (worktree agent-a4cf181fb3d5672a6 artifacts copied in)
+npm test: 145/145 passed
+TEST_EXIT=0
+npx tsc --noEmit:
+TSC_EXIT=0
+2026-07-27T05:33:18Z
