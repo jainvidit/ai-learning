@@ -72,6 +72,36 @@ Checks, every run:
     brace, or RAW control characters (CR/LF/tab) inside a string value splitting one record
     across several physical lines. Both have occurred (ADR-0015). Do NOT repair them — you
     are not a repairing agent; report and let the director fix.
+13. Write-scope breach by a read-only role — sweep the subagent transcripts and report any
+    write by a reviewer, auditor, reader or verifier role that landed outside
+    `.program/audits/**`. Any such write is a **BLOCKING** finding. This is the
+    defence-in-depth half of ADR-0014: a PreToolUse hook prevents these writes, but its
+    write-verb list is an enumeration and no enumeration is provably complete — a `tee`
+    pipeline already defeated one path-based rule. A finding here means the hook has a
+    hole, so report the exact vector.
+    Attribute per RECORD via `attributionAgent`, never per file: the relauncher's
+    `git add -A` destroyed git attribution (ADR-0012), so git cannot answer this. The
+    reproducible sweep is `.program/audits/write-scope-sweep/sweep.py` — run it, do not
+    hand-roll the scan and do NOT paste it into a heredoc (backslashes do not survive that,
+    which is why it is a file):
+    ```bash
+    python .program/audits/write-scope-sweep/sweep.py
+    ```
+    It prints `candidate breaches: N` plus, for each, the agent, vector, target,
+    transcript+line, and whether the hook logged a matching denial. Exit 1 means at least
+    one candidate.
+    **A hit is a candidate, not a proven breach — triage every one before reporting:**
+    - `hook denied : True` → **enforcement worked.** Not a finding. Report only as a count.
+    - `hook denied : False` → **corroborate before escalating.** Check whether the file
+      exists now. Three distinct outcomes: the write predates the hook (check the timestamp
+      against ADR-0014's amendment date); the command was refused by a permission rule
+      rather than the hook; or the write genuinely landed. **Only the third is BLOCKING**,
+      and it is the serious one — it means the write bypassed enforcement entirely and the
+      hook's write-verb enumeration has a hole. Name the vector so it can be added.
+    Known-benign historical hits, already dispositioned in ADR-0014 — do not re-report
+    these as new: a `test-schema-probe.ts`/`.mjs` scratch probe written and self-deleted
+    (both absent today), and one `mv .next .next.backup` that the permission system denied
+    (`.next.backup` absent). Both predate enforcement.
 
 Findings are numbered, each with: check #, item IDs, evidence paths, severity, and the
 correction you RECOMMEND (the director decides). End with counts by severity.

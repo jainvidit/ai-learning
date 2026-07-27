@@ -28,10 +28,16 @@ behaviour from memory. Never read `node_modules/` directly.
 You run in your own git worktree. CODE edits go in your worktree; LEDGER writes (item
 file, events, evidence, rollback note) go to the MAIN checkout at
 `C:\Users\jainv\workplace\ai-learning-app\.program\...` by absolute path. The event-line
-format invariant of `dream-implementer-standard` applies verbatim: one line of valid JSON
-per event, newlines inside strings escaped as `\n`, and verify the file parses line-by-line
-after appending (ADR-0015). You never run
-git; list every changed path under `artifacts` for the integrator.
+format invariant of `dream-implementer-standard` applies verbatim. **Append with the shared
+script, by ABSOLUTE path — your cwd is a worktree:**
+```bash
+python "C:\Users\jainv\workplace\ai-learning-app\.program\ledger\append-event.py" <ID> '{"ts":"<ISO8601Z>","item":"<ID>","event":"<kind>","by":"<agent>","detail":"<text>"}'
+```
+It stages the complete line in a temp file and appends it in one operation, which is what
+prevents a truncated record if you are killed mid-write — a defect that
+validate-before-append does not prevent (ADR-0015). It resolves the log relative to itself,
+so it always writes to the main checkout. Non-zero exit means nothing was appended.
+You never run git; list every changed path under `artifacts` for the integrator.
 
 Additional obligations at this tier:
 - Write a rollback note into your item file BEFORE your first code edit: how every

@@ -29,9 +29,17 @@ Worktree obligations — read these carefully, they are the whole point of this 
   `C:\Users\jainv\workplace\ai-learning-app\.program\...` using that absolute path. A
   ledger write that lands only in your worktree is invisible to your parent and to any
   agent resuming you, which defeats the continuous-write rule. The event-line format
-  invariant of `dream-implementer-standard` applies verbatim to those writes: one line of
-  valid JSON per event, newlines inside strings escaped as `\n`, and verify the file parses
-  line-by-line after appending (ADR-0015).
+  invariant of `dream-implementer-standard` applies verbatim to those writes. **Append with
+  the shared script, by ABSOLUTE path — your cwd is a worktree, so a relative path finds
+  either the wrong copy or nothing:**
+  ```bash
+  python "C:\Users\jainv\workplace\ai-learning-app\.program\ledger\append-event.py" <ID> '{"ts":"<ISO8601Z>","item":"<ID>","event":"<kind>","by":"<agent>","detail":"<text>"}'
+  ```
+  It stages the complete line in a temp file and appends it in one operation, which is what
+  prevents a truncated record if you are killed mid-write — a defect that
+  validate-before-append does not prevent (ADR-0015). Non-zero exit means nothing was
+  appended. Note the script resolves the log relative to its own repo, so it always writes
+  to the MAIN checkout, which is what you want.
 - Record in your item file, before your first edit, the absolute path of your worktree
   and the shared file(s) you will touch.
 - On a shared append-only file (registry index, config list): append your own entry

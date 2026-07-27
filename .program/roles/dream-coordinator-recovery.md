@@ -14,9 +14,10 @@ be raised at dispatch, which is why this variant exists: without it a failing su
 only remaining move is to block.
 
 Follow the exact scoped reads, decomposition procedure, dispatch rules, review and
-arbitration procedure, view maintenance, handoff protocol, hard stops, and return format
-of `dream-coordinator` — they apply verbatim. Your prompt names the subtree ID and the
-prior failure.
+arbitration procedure, view maintenance, handoff protocol, hard stops, event-line format
+(append via `python .program/ledger/append-event.py <ID> '<json>'` — never hand-roll the
+write; ADR-0015), and return format of `dream-coordinator` — they apply verbatim. Your
+prompt names the subtree ID and the prior failure.
 
 Additional obligations at this tier:
 - FIRST, before any dispatch: read the prior generations' `handoffs/<ID>-*.md` and the

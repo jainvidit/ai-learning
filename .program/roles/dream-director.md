@@ -197,15 +197,24 @@ record, and one unparseable line makes every downstream reader fail on that file
   to tabs (`\t`), double quotes (`\"`) and backslashes (`\\`). This is the defect that
   actually occurred: four lines in `ROOT.jsonl` and three in `ROOT.1.1.4.jsonl` were written
   with raw newlines inside `detail` and had to be repaired (ADR-0015).
-- **Validate before appending.** Do not hand-assemble the line and hope. Build it with a
-  serializer that escapes for you, and confirm it parses before it touches the file:
+- **Append with the shared script. Never hand-roll the write.**
   ```bash
-  # write the event via a serializer, then verify the file still parses end-to-end
-  python -c "import json,io;io.open(r'.program/ledger/events/<ID>.jsonl','a',encoding='utf-8',newline='').write(json.dumps({'ts':'<ISO8601Z>','item':'<ID>','event':'<kind>','by':'<agent>','detail':'<text>'},ensure_ascii=False)+'\n')"
-  python -c "import io,json;[json.loads(l) for l in io.open(r'.program/ledger/events/<ID>.jsonl',encoding='utf-8') if l.strip()];print('parses')"
+  python .program/ledger/append-event.py <ID> '{"ts":"<ISO8601Z>","item":"<ID>","event":"<kind>","by":"<agent>","detail":"<text>"}'
   ```
-  If the verify step does not print `parses`, you have corrupted the file — repair it before
-  doing anything else.
+  It composes, validates, stages the complete line in a temp file, appends it in ONE
+  operation, then re-verifies the whole log line-by-line. It prints
+  `appended + parses (<path>, N records)` on success. **Any non-zero exit means nothing was
+  appended** — read the error, fix the event, run it again. Exit 2 is the one that needs
+  immediate action: the append landed but the file no longer parses.
+- **Why a script and not two inline python calls: the two defects are different.** ADR-0015
+  found 7 bad lines from *two separate causes*, and each needs its own fix:
+  - **Escaping** (2 lines) — raw control characters inside a string value. Fixed by
+    serializing and validating the line *before* it touches the file.
+  - **Truncation** (4 lines) — records cut off mid-write, missing the closing brace.
+    **Validate-before-append does not prevent this at all.** The line was already valid when
+    the write began; the process died partway through it. Only staging the complete line
+    elsewhere and appending it in one operation closes that window.
+  Verified: 100 writers killed mid-run produced 0 malformed lines and 0 partial records.
 - Keys: `ts` (ISO-8601 Z), `item`, `event`, `by`, and as needed `from`/`to`/`detail`. Include
   `item` — it is missing on many historical lines, which makes cross-file reconstruction
   harder than it should be.

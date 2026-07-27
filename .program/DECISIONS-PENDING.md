@@ -28,6 +28,53 @@ irreversible items (PART 9 Rule 2 — work routed around). Nothing here stalls t
 - **URGENT side effect — RESOLVED by director-gen15 (2026-07-25T14:20Z):** the repo was BUILD-BROKEN mid-migration (package.json swapped to velite with `npm install` never run; LessonRenderer.tsx still importing next-mdx-remote/rsc). Director restored the green baseline: `git checkout 6df07a6^ -- package.json .gitignore` + deleted the program-created velite.config.ts (reversible; the WIP swap survives in commit 6df07a6 and in ROOT.1.1.1's item-file inventory). The repo is coherent again; nothing needs hand-reverting. Director also re-verified the denial empirically this session: `npm --version` denied for the director AND for a fresh dream-verifier — yet earlier sessions today ran full npm suites (ROOT.7.2, ROOT.1.2.1 evidence), so the permission surface CHANGED mid-program. After permission grant: re-dispatch ROOT.1.1.1 fresh (re-apply the swap from the item-file inventory, then `npm install` first).
 - **Routed around:** nothing downstream of ROOT.1.1 can proceed (1.6/1.3/1.5 package.json chain waits on 1.1); ROOT.1.1 and ROOT.1.1.1 set blocked/awaiting_human_authorization.
 
+### Workspace trust is FALSE — deny rules and the write-scope hook are inert in any fresh session (2026-07-27, remediation Phase 5) — **NEEDS AN OWNER DECISION**
+- **Fact:** `projects["C:/Users/jainv/workplace/ai-learning-app"].hasTrustDialogAccepted` is
+  `false` in `C:\Users\jainv\.claude.json`. That flag gates whether
+  `.claude/settings.json` is honoured **at all**: `permissions.allow` is dropped with a
+  visible warning (`Ignoring 11 permissions.allow entries from .claude/settings.json: this
+  workspace has not been trusted`), and `hooks` are dropped **silently**.
+- **Consequence:** the entire Phase 5 enforcement layer — the global deny rules AND the
+  ADR-0014 per-role write-scope hook — applies only to the long-lived session that predates
+  the settings change. **Any fresh session, including any restart of the director, starts
+  with none of it.** The failure is silent for hooks, which is the dangerous half: a
+  reviewer would write wherever it liked and nothing would log a denial.
+- **The circularity, which is the actual decision:** trusting the workspace is what makes
+  the deny rules live — and the deny rule on `.claude/settings*.json` is a large part of
+  what makes trusting it tolerable, since `.claude/settings.json` is executable
+  configuration living in a repo the program itself edits. Neither half is safe without
+  the other, and they cannot be sequenced.
+- **Action needed (owner only — agents must not edit user settings):** either accept the
+  trust dialog by running Claude Code interactively here once, or set
+  `hasTrustDialogAccepted: true` for this project in `C:\Users\jainv\.claude.json`.
+- **BLOCKING on restart:** the program must not be resumed in a new session until this is
+  decided. Resuming untrusted silently discards every guarantee ADR-0014 claims.
+
+### Hook enforcement is verifiable ONLY through hook-denials.jsonl on this build (2026-07-27, remediation Phase 5)
+- **Fact:** subagent hook invocations leave **no transcript record** on this build. The
+  main session's own calls produce `hook_success` attachments, and there are **zero
+  sidechain records** in the session transcript, so a subagent's hook decisions are
+  invisible there. `.program/audits/hook-denials.jsonl` — written by the hook itself — is
+  the only available ground truth.
+- **Standing rule:** **any future claim that a hook works requires a denial row in that
+  file, not a self-report.** A live probe that completes with zero denial rows is a
+  FAILURE, whatever the agent says it did or could not do. Corroborate with the filesystem
+  (`ls`/`cat`), never with agent prose.
+- **Why this is stated so strongly — three self-reports contradicted the filesystem during
+  this phase alone:**
+  1. A reviewer reported "Bash redirects successfully bypass Edit deny rules" while its
+     file was **ABSENT** — it had been denied and misread the outcome.
+  2. Two probe arms reported DENIED-by-frontmatter when Bash was in fact denied
+     generically, making both arms uninformative and nearly producing a wrong verdict about
+     the enforcement mechanism.
+  3. A reviewer reported declining a probe on ADR-0014 grounds and left a 0-byte file — the
+     shell had created it, so "no write happened" and "the hook blocked it" were
+     indistinguishable from the report alone.
+  A fourth, adjacent: the hook fired 49 times returning unparseable output, and the harness
+  read that as allow. **Nothing in any agent's report would have revealed it.**
+- **Not blocking:** the enforcement works today (verified by live dispatch); this governs
+  how future claims about it must be evidenced.
+
 ## Standing items — not blocking, must be discharged before the dependent work
 
 ### Tier-3 and escalation paths are UNEXERCISED (2026-07-26, remediation)
