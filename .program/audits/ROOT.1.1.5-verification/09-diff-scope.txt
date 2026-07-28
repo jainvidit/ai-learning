@@ -1,0 +1,16 @@
+ M src/lib/revisions.ts
+ M tests/revisions.test.ts
+ src/lib/revisions.ts    |  96 ++++++++++++++++++++++++--
+ tests/revisions.test.ts | 179 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 271 insertions(+), 4 deletions(-)
+
+--- pinned-hash literal audit ---
+git diff -U0 tests/revisions.test.ts filtered on all 10 pinned hash literals
+(74234e98afe7498f b5bea41b6c623f7c 73475cb40a568e8d 5feceb66ffc86f38 5aa762ae383fbb72
+ 44136fa355b3678a 4f53cda18c2baa0c 90d6116c9bd77072 5ac6a2295c26fb46 015abd7f5cc57a2d):
+MATCHING ADDED/REMOVED LINES = 0
+=> not one pinned expected value was added, removed, or edited. The frozen contract block
+   is byte-identical; the 18 new tests reference only the NON-pinned collision partners
+   49a64717d5d4cb19 ([1,2]) and a615eeaee21de517 ([1,2,3]) measured in the pre-fix probe.
+Owned-file scope: only src/lib/revisions.ts and tests/revisions.test.ts are modified.
+EXIT_CODE=0

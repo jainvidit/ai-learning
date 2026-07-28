@@ -4,7 +4,7 @@ parent: ROOT.7.3
 type: Decision
 title: Ratify REQ-MS-03 s1 delete-verb list as canonical (borderline) (ADR-0028)
 ledger_depth: 3
-status: in_review
+status: done
 owner_agent: implementer-ROOT.7.3.10-gen0 (dream-implementer-standard, dispatched by director-gen42 2026-07-27 ~22:25Z)
 spawned_at: 2026-07-27T22:25:00Z
 generation: 0
@@ -17,7 +17,7 @@ depends_on: []
 blocks: [ROOT.1.8]
 children: []
 file_ownership: [".program/decisions/ADR-0028.md", ".program/spec/migration-and-sequencing.md"]
-review: {tier: 1, required_lenses: [spec-conformance], verdicts: []}
+review: {tier: 1, required_lenses: [spec-conformance], verdicts: [{lens: spec-conformance, verdict: approve, confidence: high, event_ts: 2026-07-27T23:05:00Z}]}
 verification: []
 artifacts: []
 resume_hint: "Scheduled by ADR-0018. NEAR-TERM: blocks ROOT.1.8 (Phase 0 Gate) — the Gate's MS-03 never-delete row needs a canonical verb list to be falsifiable. Likely a short ratification. Survey row: migration-and-sequencing REQ-MS-03 s1 (borderline)."

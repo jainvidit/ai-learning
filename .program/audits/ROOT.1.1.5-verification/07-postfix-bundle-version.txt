@@ -1,0 +1,5 @@
+POSTFIX_BUNDLE_VERSION=eb647973722173b3
+EXPECTED_BUNDLE_VERSION=eb647973722173b3
+MATCH=true
+payload sections=beats,bundleFormat,curriculum,exercises,goldens,migrations,revisions
+EXIT_CODE=0

@@ -4,7 +4,7 @@ parent: ROOT.7.3
 type: Decision
 title: Enumerate REQ-API-03 s3 "any SSE response" — SSE endpoint domain (ADR-0019)
 ledger_depth: 3
-status: in_review
+status: changes_requested
 owner_agent: implementer-ROOT.7.3.1-gen0 (dream-implementer-standard, dispatched by director-gen42 2026-07-27 ~22:25Z)
 spawned_at: 2026-07-27T22:25:00Z
 generation: 0
