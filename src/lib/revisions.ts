@@ -6,8 +6,9 @@
  * AMENDED — Amendment 1, 2026-07-27: closed world, holes, depth bound):
  *
  *   HASHABLE — this enumeration is EXHAUSTIVE; there is no third category:
- *   null; booleans; finite numbers (-0 normalized to 0); strings; DENSE arrays
- *   of hashable values; plain objects (Object.prototype or null prototype) with
+ *   null; booleans; finite numbers (-0 normalized to 0); strings; DENSE PLAIN
+ *   arrays (prototype exactly Array.prototype; index slots only) of hashable
+ *   values; plain objects (Object.prototype or null prototype) with
  *   string keys and hashable values — key order irrelevant, keys whose value is
  *   `undefined` are omitted — nested to a maximum depth of MAX_HASH_DEPTH = 64
  *   (root = depth 0, objects and arrays counted together). Distinct values in
@@ -19,7 +20,12 @@
  *   Illustrative rejects (NOT definitional): `undefined` (except as an omitted
  *   object value), functions, symbols (as values or as keys), BigInt, NaN,
  *   +/-Infinity, Date, Map, Set, RegExp, typed arrays, non-plain class
- *   instances; sparse-array holes (A1.1 — any index i in [0, length) with
+ *   instances (INCLUDING Array subclass instances and cross-realm /
+ *   reassigned-prototype arrays, which Array.isArray accepts but which are not
+ *   plain arrays — GEN2-1); own symbol keys and enumerable non-index own
+ *   ("expando") properties on an array, which would otherwise be silently
+ *   dropped along with any out-of-domain value they hold (GEN2-2);
+ *   sparse-array holes (A1.1 — any index i in [0, length) with
  *   !(i in arr); a hole is an absence, not a type, and detection never relies
  *   on hole-skipping iteration like Array.prototype.map/forEach); nesting
  *   beyond MAX_HASH_DEPTH (A1.2 — explicit depth counter, never a recursion
@@ -308,6 +314,48 @@ function isPlainObject(value: object): boolean {
 }
 
 /**
+ * True only for PLAIN arrays: `Array.isArray` is prototype-blind, so it also
+ * accepts `Array` subclass instances, cross-realm arrays, and arrays whose
+ * prototype was reassigned. Those are class instances / non-plain prototypes,
+ * which ADR-0017 rejects; the HASHABLE rule says "dense arrays", not "any exotic
+ * object `Array.isArray` accepts" (A1.3 closed world). This is the array-arm
+ * counterpart of `isPlainObject` — the two arms are now symmetric.
+ *
+ * Note the deliberate asymmetry with `isPlainObject`, which admits a `null`
+ * prototype (`Object.create(null)` is named as plain in ADR-0017): there is no
+ * corresponding "plain null-prototype array" idiom, and `JSON.parse` never
+ * produces one, so a null-prototype array is a reassignment accident and is
+ * rejected.
+ */
+function isPlainArray(value: object): boolean {
+  return Object.getPrototypeOf(value) === Array.prototype;
+}
+
+/** Human-readable tag for an array-like whose prototype is not Array.prototype. */
+function describeNonPlainArray(value: object): string {
+  const proto = Object.getPrototypeOf(value) as unknown;
+  const ctorName = (value as { constructor?: { name?: string } }).constructor?.name;
+  const protoDescription =
+    proto === null
+      ? 'its prototype is null (a reassignment accident, not the Object.create(null) plain-object case)'
+      : ctorName && ctorName !== 'Array'
+        ? `it is a class instance (${ctorName})`
+        : 'its prototype is a foreign or reassigned Array prototype (e.g. cross-realm)';
+  return `non-plain array — Array.isArray accepts it, but ${protoDescription}`;
+}
+
+/**
+ * True only for the canonical decimal spelling of an array index in
+ * `[0, length)`: `"0"`, `"1"`, `"2"`, … Deliberately rejects `"01"`, `"+1"`,
+ * `"1.0"`, `"1e0"`, `"-0"`, `" 1"` and `""` — each is a non-index own property
+ * that merely looks numeric, and none of them is an element slot.
+ */
+function isCanonicalArrayIndex(key: string, length: number): boolean {
+  const index = Number(key);
+  return Number.isInteger(index) && index >= 0 && index < length && String(index) === key;
+}
+
+/**
  * Produces canonical JSON with recursively sorted object keys, enforcing the
  * CP-05 hash-input domain. Every out-of-domain value throws a TypeError naming
  * its JSON path (e.g. `beats[3].meta.createdAt`).
@@ -372,7 +420,7 @@ function canonicalStringify(
   }
 }
 
-/** Container arm of the allowlist: dense arrays and plain objects only. */
+/** Container arm of the allowlist: dense PLAIN arrays and plain objects only. */
 function canonicalStringifyContainer(
   objectValue: object,
   path: string,
@@ -390,6 +438,46 @@ function canonicalStringifyContainer(
   try {
     if (Array.isArray(objectValue)) {
       const arr = objectValue as unknown[];
+
+      // GEN2-1: PLAIN arrays only. `Array.isArray` is prototype-blind, so it
+      // admits Array subclass instances and cross-realm/reassigned-prototype
+      // arrays — class instances that ADR-0017 rejects and that the "dense
+      // arrays" HASHABLE rule never matched (A1.3: the burden sits on the
+      // HASHABLE rule, not on the illustrative reject list). Checked BEFORE
+      // iterating, so a non-plain array is never partially canonicalized.
+      if (!isPlainArray(arr)) {
+        return rejectOutOfDomain(path, describeNonPlainArray(arr));
+      }
+
+      // GEN2-2: an array's hashable content is EXACTLY its index slots. Own
+      // symbol keys and enumerable non-index own ("expando") properties are
+      // structural conditions no HASHABLE rule matches, so the closed world
+      // rejects them — mirroring the object arm below, which already rejects
+      // symbol keys. Rejection, not silent ignoring: an expando can carry an
+      // out-of-domain value (a Date, a function) or even a reference back to
+      // the array itself, and CP-05 scenario 3 forbids an out-of-domain value
+      // reaching the hash input unreported ("never silently coerces,
+      // collapses"). Non-ENUMERABLE own properties stay tolerated, matching the
+      // object arm's existing leniency rather than introducing the opposite
+      // asymmetry (`length` is non-enumerable, so it is not an expando).
+      const arraySymbolKeys = Object.getOwnPropertySymbols(arr);
+      if (arraySymbolKeys.length > 0) {
+        return rejectOutOfDomain(
+          `${path}[${arraySymbolKeys[0].toString()}]`,
+          'symbol-keyed property on an array (an array\'s hashable content is its index slots only)'
+        );
+      }
+      for (const ownKey of Object.keys(arr)) {
+        if (!isCanonicalArrayIndex(ownKey, arr.length)) {
+          return rejectOutOfDomain(
+            keyPath(path, ownKey),
+            `non-index enumerable own property "${ownKey}" on an array (an array's hashable ` +
+              `content is its index slots only; such a property would otherwise be silently ` +
+              `dropped, hiding any out-of-domain value it holds)`
+          );
+        }
+      }
+
       // A1.1: dense arrays only. Detection is an explicit index-based `in`
       // check — NEVER Array.prototype.map/forEach, which skip holes (the exact
       // gen1 bypass). The FIRST hole is named; a hole is an absence, not a

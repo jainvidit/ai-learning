@@ -4,7 +4,7 @@ parent: ROOT.1.1
 type: Task
 title: revisions.ts rejection-widening — array-arm plainness + non-index own-prop checks (GEN2-1/GEN2-2)
 ledger_depth: 3
-status: in_progress
+status: in_review
 owner_agent: implementer-ROOT.1.1.5-gen0 (dream-implementer-hardened, dispatched by director-gen42 2026-07-27 ~22:25Z)
 spawned_at: 2026-07-27T22:25:00Z
 generation: 0
@@ -50,6 +50,10 @@ verification:
     how: "The diff touches only rejectOutOfDomain call sites plus three new pure file-local helpers (isPlainArray, describeNonPlainArray, isCanonicalArrayIndex); no export line changed, no async/await/Promise introduced (tsc clean confirms the bundle script call sites still typecheck against synchronous returns). git status --porcelain in the worktree lists EXACTLY two modified files, so the bundle script, src/lib/bundle.ts, tests/bundle.test.ts, src/lib/schema.ts and package.json are untouched. No dependency change."
     evidence: ".program/audits/ROOT.1.1.5-verification/06-postfix-tsc-noemit.txt, 09-diff-scope.txt"
     result: PASS
+  - criterion: "SELF-CHECK (not an AC; recorded for the reviewer) - no perf regression, no over-rejection"
+    how: "A 200,000-element in-domain array hashes in 89ms and deterministically: the new Object.keys(arr) pass is O(n) beside the existing O(n) hole loop, so nothing super-linear was introduced. FROZEN and SEALED plain arrays still hash to 49a64717d5d4cb19 (== plain [1,2]) - freezing changes neither prototype nor own keys, so the widening does not over-reject. Exotic string keys (empty string, constructor, __proto__, 0x1, Infinity, NaN) each reject with the key named in the path; `length` cannot be redefined as enumerable so it can never be read as an expando. A realistic nested beats/skillIds content shape still hashes."
+    evidence: ".program/audits/ROOT.1.1.5-verification/10-adversarial-selfcheck.txt"
+    result: PASS
 artifacts:
   - path: "src/lib/revisions.ts"
     checkout: "WORKTREE .claude/worktrees/agent-a3da94d911d4bd3fe (branch program/dream-build) - PENDING MERGE by the director"
@@ -85,3 +89,44 @@ loadMigrationMaps signatures untouched, all synchronous. The disposition doc nam
 exact probes that must flip from silent-admission to TypeError-with-path. ROOT.1.1.4
 consumes revisions.ts but only on valid corpus content (74 arrays, 0 non-plain) — this
 fix cannot change any emitted bundle hash; if it does, stop and escalate.
+
+## Completion note (implementer-ROOT.1.1.5-gen0, 2026-07-27)
+
+DONE, status in_review. All 5 acceptance criteria PASS plus both hard invariants; nothing
+deviated from scope and nothing is blocked.
+
+INTEGRATOR ACTION REQUIRED: the two CODE files live in the worktree
+`.claude/worktrees/agent-a3da94d911d4bd3fe` (branch program/dream-build) and must be merged
+into main by the director. I ran no git commands beyond read-only status/diff. All 11
+evidence files are already in the MAIN checkout at
+`.program/audits/ROOT.1.1.5-verification/`.
+
+WHAT CHANGED (both inside the array arm of `canonicalStringifyContainer`, before the
+existing A1.1 hole loop, so a rejected array is never partially canonicalized):
+1. GEN2-1 - `isPlainArray(arr)`: `Object.getPrototypeOf(arr) === Array.prototype` or reject.
+   Note the DELIBERATE asymmetry with `isPlainObject`, which admits a null prototype
+   (ADR-0017 names `Object.create(null)` as plain): there is no plain null-prototype ARRAY
+   idiom and JSON.parse never makes one, so a null-prototype array is a reassignment
+   accident and is rejected. Recorded here because a reviewer will ask.
+2. GEN2-2 - own symbol keys rejected (mirrors the object arm's existing check and message
+   shape), then every `Object.keys(arr)` entry must be a canonical index in [0, length).
+   NARROW form chosen, per the disposition's explicit statement that narrow-vs-strict is a
+   scoping call for the fix item: non-ENUMERABLE own properties stay tolerated, because the
+   object arm already tolerates them and the strict form would create the opposite
+   asymmetry the disposition warned about.
+
+ONE TEST PREMISE CORRECTED MID-WORK (not an implementation change): I first asserted that
+`defineProperty(arr, '5', ...)` on a length-2 array yields a non-index property. It does
+not - a numeric key within the array-index range is an index write and extends `length` to
+6, so the array becomes sparse and the more specific A1.1 HOLE diagnosis correctly wins.
+The test now documents that real semantics and a second test covers 4294967296, which is
+past the max array index and so genuinely stays a non-index property. The implementation
+was never changed for this; ordering hole-detection after the non-index check was
+considered and rejected as it would produce the less specific message.
+
+CARRIED RISK (none blocking): the widening newly rejects cross-realm arrays (vm contexts).
+The object arm already rejected cross-realm plain objects before this change, so this makes
+the arms symmetric rather than creating a new asymmetry - documented in the disposition and
+in the code comment. No migration map and no new ADR are needed: ADR-0017 Consequences
+requires those only for RELAXATIONS that newly ADMIT previously-rejected content, and both
+changes here are rejection-only in the opposite direction.

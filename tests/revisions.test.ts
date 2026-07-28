@@ -555,6 +555,185 @@ describe('computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world)
       );
     });
   });
+
+  /**
+   * GEN2-1 / GEN2-2 (item ROOT.1.1.5, .program/audits/GEN2-minors-disposition.md):
+   * the array arm was gated solely on `Array.isArray`, which is prototype-blind
+   * and index-only, so two whole structural conditions reached the canonical form
+   * unreported. REJECTION-WIDENING ONLY — every hash pinned above is unchanged;
+   * the values below previously HASHED and must now THROW.
+   *
+   * Pre-fix hashes measured on the unfixed module (probe reproduced in
+   * .program/audits/ROOT.1.1.5-verification/02-prefix-probe.txt): every case here
+   * collided with the plain array it decorates — 49a64717d5d4cb19 for [1,2] and
+   * a615eeaee21de517 for [1,2,3]. Those constants are asserted against the plain
+   * arrays below so the collision partner stays pinned: if a future change makes
+   * one of these throw for the WRONG reason, or admits it again, the pairing fails.
+   */
+  describe('GEN2-1: the array arm requires a PLAIN array (prototype === Array.prototype)', () => {
+    /** The collision partners these defects produced, re-pinned. */
+    it('the plain arrays these cases collided with still hash to their measured values', () => {
+      expect(computeItemRevision([1, 2])).toBe('49a64717d5d4cb19');
+      expect(computeItemRevision([1, 2, 3])).toBe('a615eeaee21de517');
+    });
+
+    it('rejects an Array SUBCLASS instance with a path — it no longer hashes as a plain array', () => {
+      class BossArray extends Array {}
+      const subclass = new BossArray();
+      subclass.push(1, 2, 3);
+
+      // Array.isArray still accepts it: this is exactly why the prototype check is needed.
+      expect(Array.isArray(subclass)).toBe(true);
+      expectTypeErrorWithPath(() => computeItemRevision(subclass), '(root)', /non-plain array/);
+      // And the message names the class, so the author can find it.
+      expectTypeErrorWithPath(() => computeItemRevision(subclass), '(root)', /BossArray/);
+    });
+
+    it('names the nested JSON path of a subclass array, not just the root', () => {
+      class Tagged extends Array {}
+      const nested = new Tagged();
+      nested.push('a');
+      expectTypeErrorWithPath(
+        () => computeItemRevision({ beats: [{ choices: nested }] }),
+        'beats[0].choices',
+        /non-plain array/
+      );
+    });
+
+    it('two differently-tagged subclass arrays both throw instead of colliding with each other', () => {
+      class Alpha extends Array {}
+      class Beta extends Array {}
+      const alpha = new Alpha();
+      alpha.push(1, 2);
+      const beta = new Beta();
+      beta.push(1, 2);
+
+      expectTypeErrorWithPath(() => computeItemRevision(alpha), '(root)', /Alpha/);
+      expectTypeErrorWithPath(() => computeItemRevision(beta), '(root)', /Beta/);
+    });
+
+    it('rejects an array whose prototype was reassigned to null (a reassignment accident, not Object.create(null))', () => {
+      const reassigned: unknown[] = [1, 2];
+      Object.setPrototypeOf(reassigned, null);
+      expect(Array.isArray(reassigned)).toBe(true);
+      expectTypeErrorWithPath(() => computeItemRevision(reassigned), '(root)', /non-plain array/);
+    });
+
+    it('still admits genuinely plain arrays: literals, Array.from, spread, and JSON.parse output', () => {
+      expect(computeItemRevision([1, 2])).toBe(computeItemRevision(Array.from([1, 2])));
+      expect(computeItemRevision([1, 2])).toBe(computeItemRevision([...[1, 2]]));
+      expect(computeItemRevision([1, 2])).toBe(computeItemRevision(JSON.parse('[1,2]')));
+      // The whole nested pinned fixture shape still hashes (regression guard on the
+      // real content shape: beat choices, skillIds, empty arrays).
+      expect(
+        computeItemRevision({ choices: ['3', '4', '5'], meta: { skillIds: ['arith.add'] }, empty: [] })
+      ).toMatch(/^[0-9a-f]{16}$/);
+    });
+
+    it('the two container arms are symmetric: a plain-object subclass is rejected the same way', () => {
+      class Meta {
+        a = 1;
+      }
+      expectTypeErrorWithPath(() => computeItemRevision(new Meta()), '(root)', /Meta/);
+    });
+  });
+
+  describe('GEN2-2: the array arm rejects symbol keys and non-index enumerable own properties', () => {
+    it('rejects an own SYMBOL key on an array, naming the symbol in the path', () => {
+      const tagged: unknown[] = [1, 2];
+      (tagged as unknown as Record<symbol, unknown>)[Symbol('boss')] = 'hidden';
+      expectTypeErrorWithPath(
+        () => computeItemRevision(tagged),
+        'Symbol(boss)',
+        /symbol-keyed property on an array/
+      );
+    });
+
+    it('rejects an array carrying a DATE on an expando key (previously hashed as plain [1,2])', () => {
+      const withDate: unknown[] = [1, 2];
+      (withDate as unknown as Record<string, unknown>).createdAt = new Date(0);
+      expectTypeErrorWithPath(() => computeItemRevision(withDate), 'createdAt', /non-index/);
+    });
+
+    it('rejects an array carrying a FUNCTION on an expando key', () => {
+      const withFn: unknown[] = [1, 2];
+      (withFn as unknown as Record<string, unknown>).verify = () => true;
+      expectTypeErrorWithPath(() => computeItemRevision(withFn), 'verify', /non-index/);
+    });
+
+    it('rejects an array holding a reference to ITSELF on an expando key (an undetected cycle before the fix)', () => {
+      const selfRef: unknown[] = [1, 2];
+      (selfRef as unknown as Record<string, unknown>).self = selfRef;
+      expectTypeErrorWithPath(() => computeItemRevision(selfRef), 'self', /non-index/);
+    });
+
+    it('rejects an in-domain-valued expando too — the rule is structural, not a value check', () => {
+      const tagged: unknown[] = [1, 2];
+      (tagged as unknown as Record<string, unknown>).tag = 'alpha';
+      expectTypeErrorWithPath(() => computeItemRevision(tagged), 'tag', /non-index/);
+    });
+
+    it('names the nested JSON path of the offending expando key', () => {
+      const beats: unknown[] = ['intro'];
+      (beats as unknown as Record<string, unknown>).authoredAt = new Date(0);
+      expectTypeErrorWithPath(
+        () => computeItemRevision({ lesson: { beats } }),
+        'lesson.beats.authoredAt',
+        /non-index/
+      );
+    });
+
+    it('rejects index-LOOKING keys that are not canonical index slots ("01", "1.0", "-0", "+1")', () => {
+      for (const key of ['01', '1.0', '-0', '+1', '1e0', ' 1']) {
+        const arr: unknown[] = [1, 2];
+        (arr as unknown as Record<string, unknown>)[key] = 'x';
+        expectTypeErrorWithPath(() => computeItemRevision(arr), key, /non-index/);
+      }
+    });
+
+    it('a numeric key past `length` extends length, so it surfaces as a HOLE, not a non-index property', () => {
+      // Documents real JS semantics rather than assuming: defining "5" on a
+      // length-2 array is an ARRAY INDEX write, which updates length to 6. The
+      // key is then a legitimate slot and the array is sparse, so the more
+      // specific hole diagnosis is the correct one.
+      const arr: unknown[] = [1, 2];
+      Object.defineProperty(arr, '5', { value: 'x', enumerable: true, configurable: true });
+      expect(arr.length).toBe(6);
+      expectTypeErrorWithPath(() => computeItemRevision(arr), '[2]', /array hole/);
+    });
+
+    it('rejects a numeric key beyond the array-index range (2^32-1), which does NOT extend length', () => {
+      // 4294967296 is past the maximum array index, so the spec treats it as an
+      // ordinary string-keyed property: length stays 2 and the non-index check
+      // is the only thing that can catch it.
+      const arr: unknown[] = [1, 2];
+      (arr as unknown as Record<string, unknown>)['4294967296'] = 'x';
+      expect(arr.length).toBe(2);
+      expectTypeErrorWithPath(() => computeItemRevision(arr), '4294967296', /non-index/);
+    });
+
+    it('does NOT reject `length` or any non-enumerable own property (matching the object arm\'s leniency)', () => {
+      // `length` is a non-enumerable own property of every array: if the check
+      // treated it as an expando, no array could ever hash.
+      expect(computeItemRevision([1, 2])).toBe('49a64717d5d4cb19');
+
+      const hidden: unknown[] = [1, 2];
+      Object.defineProperty(hidden, 'hidden', { value: 'x', enumerable: false });
+      // Deliberate scoping call (GEN2-2 narrow form): the object arm already
+      // tolerates non-enumerable own string properties, so rejecting them on
+      // arrays only would create the opposite asymmetry.
+      expect(computeItemRevision(hidden)).toBe('49a64717d5d4cb19');
+    });
+
+    it('holes are still reported AS HOLES, not as missing index properties (A1.1 unchanged)', () => {
+      // A sparse array has fewer own index keys than length; the non-index check
+      // must not shadow the hole message, which is the more specific diagnosis.
+      expectTypeErrorWithPath(() => computeItemRevision(new Array(1)), '[0]', /array hole/);
+      const deleted = ['a', 'b', 'c'];
+      Reflect.deleteProperty(deleted, 1);
+      expectTypeErrorWithPath(() => computeItemRevision(deleted), '[1]', /array hole/);
+    });
+  });
 });
 
 describe('buildRevisionsMap', () => {

@@ -1,0 +1,14 @@
+
+> ai-learning-app@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.10 C:/Users/jainv/workplace/ai-learning-app
+
+
+ Test Files  4 passed (4)
+      Tests  218 passed (218)
+   Start at  22:00:46
+   Duration  10.91s (transform 660ms, setup 0ms, import 1.23s, tests 10.64s, environment 1ms)
+
+EXIT_CODE=0
