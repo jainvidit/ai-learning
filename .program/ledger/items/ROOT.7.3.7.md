@@ -4,10 +4,11 @@ parent: ROOT.7.3
 type: Decision
 title: Ratify or enumerate REQ-EX-01 s3 "never branches on driver" (borderline) (ADR-0025)
 ledger_depth: 3
-status: in_review
-owner_agent: implementer-ROOT.7.3.7-gen1 (dream-implementer-standard, fix cycle, dispatched by director-gen43 2026-07-28 ~01:10Z)
+status: changes_requested
+owner_agent: UNASSIGNED — gen2 fix is a gen44 action; ESCALATE to dream-implementer-hardened (second attempt rule) OR take the reviewer's downgrade option (necessary-not-sufficient screen + typed complement)
 spawned_at: 2026-07-28T01:10:00Z
-generation: 1
+generation: 2
+review_findings_gen1: "Fix-verify request_changes/high (.program/audits/ROOT.7.3.7-fixverify.md — written with # as literal-dot substitute, see its closing note; 6th+ path-guard denial). F1/F3/F4 + no-edit ruling DISCHARGED (all 11 commands reproduce character-for-character; exception properly parked; ROOT.4.5/4.9 bound). REMAINING: F2a run-all-checks.sh:57 CHECK 8 regex narrower than ADR body (cannot match 'switch (activeDriver.name)' — capital D, case-sensitive) and ADR line 140 claims a hit its own evidence file contradicts (Exit: 1) — align script to ADR, regenerate run log, reconcile hit list; F2b 8 NEW escapes beyond the gen0 ten (if-form driver.name, destructured kind, driver?.kind, driver[quoted-kind], Reflect.get, driver.isLocal, driver.mode, isLocalDriver ternary render — the last directly violates s3's no-RENDERING-branches) — either extend checks with negative-control re-run, or downgrade the ADR's claim from definitive binary verdict to necessary-not-sufficient screen and name the typed complement (e.g. a lint rule or review obligation ROOT.4.5 owns). WARNING: this is the SECOND failed review cycle — one more failure means blocked-with-diagnosis per PART 9."
 review_findings_gen0: |
   request_changes/high (.program/audits/ROOT.7.3.7-review.md — transcribed by director, reviewer write denied):
   1. BLOCKING - recorded rg command not executable (rg has no `tsx` file type; exits 2). Baseline "PASS" cannot have come from the recorded command. Need corrected command + pasted transcript with exit code.

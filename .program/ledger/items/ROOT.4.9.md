@@ -13,6 +13,7 @@ acceptance_criteria:
   - Every REPLACED predecessor's retirement leaf (in ROOT.4.2/4.3) cites gate evidence — this gate VERIFIES citations, never performs retirement (sizing #6)
   - Owner UI [HARD] 26 (active profile), 27 (theme switcher), 28 (independent nav scroll), 29 (per-question quiz cards) re-verified as four separate checklist rows
   - The a11y audit rows (per surface, from ROOT.4.1's late leaves) and the MS-03 never-delete row pass
+  - The ADR-0025 no-driver-branching 10-check procedure runs as a gate row (transcript with exit codes in the gate evidence doc); any hit outside an ADR-0025-named exception fails the gate
   - npm run build, npx tsc --noEmit, npm run lint, npm test, npm run verify:e2e pass
 depends_on: [ROOT.4.1, ROOT.4.2, ROOT.4.3, ROOT.4.4, ROOT.4.5, ROOT.4.6, ROOT.4.7, ROOT.4.8, ROOT.4.10]
 blocks: []

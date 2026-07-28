@@ -35,7 +35,7 @@ Per-skill states: `Introduced → Practiced → Fluent`.
 2. Given a skill with 2 clear positives ≥2 sessions apart, when the second lands, then the skill becomes Practiced.
 3. Given a Practiced skill with 3 clear positives all from judge verdicts (zero deterministic), when promotion is evaluated, then it does NOT become Fluent.
 4. Given a Practiced skill meeting all Fluent conditions except FSRS stability ≥21 days, when promotion is evaluated, then it does NOT become Fluent.
-5. Given a Fluent skill and any number of subsequent failures, when state is read, then it is still Fluent (never demote); scheduler stability was reset without UI surface.
+5. Given a Fluent skill and any number of subsequent failures, when state is read, then it is still Fluent (never demote); scheduler stability was reset without UI surface. **Failure-pattern domain (ADR-0020):** "Any number of subsequent failures" quantifies over six enumerated patterns (consecutive clear-misses, scattered failures interleaved with passes, in-band failures 0.4–0.7, cross-skill bursts, long-idle return with probe miss, low-confidence reversions). Each pattern has defined testable behavior; new patterns join via additive ADR. Closed-world: patterns outside the enumeration default to the most similar listed pattern.
 6. Given a Fluent skill idle 45+ days that then misses a probe, when state surfaces are read, then "worth a refresh" is shown (and this is the only decay surface).
 7. Given any learner-facing mastery surface, when inspected, then no continuous mastery number or percent appears — only discrete states and literal evidence events.
 

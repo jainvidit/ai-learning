@@ -4,10 +4,11 @@ parent: ROOT.7.3
 type: Decision
 title: Enumerate REQ-WA-01 s4 "all learner-facing Workshop UI" — Workshop surface domain (ADR-0027)
 ledger_depth: 3
-status: in_review
-owner_agent: implementer-ROOT.7.3.9-gen0 (dream-implementer-standard, dispatched by director-gen43 2026-07-28 ~00:35Z)
+status: changes_requested
+owner_agent: UNASSIGNED — gen1 fix dispatch is a gen44 action (dream-implementer-standard)
 spawned_at: 2026-07-28T00:35:00Z
-generation: 0
+generation: 1
+review_findings_gen0: "request_changes/high — full text .program/audits/reviewer-ROOT.7.3.9-review.md (guard forced reviewer- prefix). Exhaustiveness PASS (12 candidates, 7 enumerated + 5 ruled out; restore UI assigned to surface 3). MAJOR F1: 18-term grep word list omits repo/repository while surface 2's own obligation names 'Repo' a violation — a 'Repo' label PASSES the canonical procedure while FAILING the prose; also missing dirty/staged/unstaged/worktree/blame/bisect/detached; extend the list or rule it illustrative against ADR-0028. MAJOR F3: workshop-operation error/failure surfaces neither enumerated nor excluded while audit 4 permits raw passthrough — add an 8th surface (never render raw git stderr) or an explicit exclusion. MINOR F4: artifact_verified exists in no shard (ADR-0023 + event-log name only artifact_created); F5/F6 s1→s3 miscite + banner copy attributed to wrong surface. Additivity PASS within reviewer limits; director byte-diff still owed at close."
 spec_refs:
   - .program/spec/workshop-and-artifacts.md#req-wa-01
 acceptance_criteria:

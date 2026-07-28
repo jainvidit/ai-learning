@@ -4,10 +4,11 @@ parent: ROOT.7.3
 type: Decision
 title: Enumerate REQ-CH-01 s1 "any tutor invocation" — invocation-context domain (ADR-0022)
 ledger_depth: 3
-status: in_review
-owner_agent: implementer-ROOT.7.3.4-gen0 (dream-implementer-standard, dispatched by director-gen43 2026-07-28 ~00:35Z)
-spawned_at: 2026-07-28T00:35:00Z
-generation: 0
+status: changes_requested
+owner_agent: implementer-ROOT.7.3.4-gen1 (dream-implementer-standard, fix cycle, dispatched by director-gen43 2026-07-28 ~02:10Z)
+spawned_at: 2026-07-28T02:10:00Z
+generation: 1
+review_findings_gen0: "request_changes/high — full text .program/audits/ROOT-7-3-4-review.md (reviewer wrote dashed filename, path guard rejected dotted). BLOCKING: SR-03 micro-probe/canonical-fallback inherit nothing; context 1 missing rung-4 bullet + contradictory heading; unrevealed-authored-hints in NEVER list but absent from all six OUT lists; ADR-0021 Trigger 2 disagreement ('3 clear-miss' vs 'clear-miss OR in-band' — arbitration event ROOT.7.3.2 02:05:00Z rules in-band COUNTS, align verbatim) + MM-05 s3-vs-s2 miscites; session-end retrieval question + exploration 'MAY suppress' undecidable hedges. MAJOR: fail-closed default has no named rejection seam; widget beat type misfiled as future; s1 narrowed in place while Consequences claim purely-additive (record as 'replaces' per ADR-0021 precedent or prove no words changed). MINOR: REQ-TX-04 miscredited with snapshot sanitization."
 spec_refs:
   - .program/spec/coach-and-hints.md#req-ch-01
 acceptance_criteria:

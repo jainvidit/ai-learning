@@ -18,7 +18,7 @@ The tutor receives ONLY: objectives, instructions, rubric descriptions (no weigh
 **Current state (docs/origin/CURRENT-STATE.md):** new service; no tutor exists today (Sage §2: "beyond hint 3 a stuck learner has nowhere to go").
 
 **Scenarios:**
-1. Given any tutor invocation in an enumerated context (ADR-0022: playground/quiz/challenge/boss/test-out/review), when its assembled context is inspected, then none of: answer keys, verifier source code, exemplar solutions, rubric weights, passingScore, or `improvedPromptExample` are present. Per-context isolation obligations (what constitutes an "answer key" or "verifier source" for each context, rung-4 method-not-artifact constraints) are defined in ADR-0022.
+1. Given any tutor invocation in an enumerated context (ADR-0022: playground/quiz/challenge/boss/test-out/review), when its assembled context is inspected, then none of: answer keys, verifier source code, exemplar solutions, rubric weights, passingScore, `improvedPromptExample`, or unrevealed authored hints for this item are present. Per-context isolation obligations (what constitutes an "answer key" or "verifier source" for each context, rung-4 method-not-artifact constraints) are defined in ADR-0022.
 2. Given the ladder position, when a tutor call is made, then the position came from server state, not from any client-supplied value.
 
 ## REQ-CH-02: On-demand affordance; struggle-watcher surfaces, never auto-opens {#req-ch-02}

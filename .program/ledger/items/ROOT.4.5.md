@@ -18,6 +18,7 @@ acceptance_criteria:
   - Server-held reattachable sessions — attach(sessionId, fromSeq); abort-on-unmount removed (EX-03)
   - Prompt-based interaction preserved; transport PTY-upgradeable (EX-05)
   - Sandbox lifecycle — drills throwaway, path-confined, per-profile isolation; bulk cleanup EXCLUDES any Workshop directory by guard, not convention (EX-06 incl. scenario 3 — the guard lives here even though Workshop arrives in Phase 4)
+  - ADR-0025 no-driver-branching check run as part of acceptance — the 10-check procedure (.program/decisions/ADR-0025.md) executed against src/ after ExecutionDriver exists, transcript recorded; if a composition point needs to branch, it is named (single file+symbol) via additive amendment to ADR-0025 per its exception rules
   - MS-03 baseline remediation (ADR-0028) — the two recorded baseline violations in this item's ownership, src/lib/sandbox.ts:65 and scripts/seed-sandboxes.ts:33 (fs.rmSync targeting sandbox/live/**), are DISPOSITIONED — either refactored so no delete path targets a protected tree, or ruled an allowed exception via additive ADR per ADR-0028's exception-recording rules (file, line, justification); the ADR-0028 Gate grep re-run over these two files shows zero unclassified hits. Any disposition that keeps a delete on learner data is PART 9-adjacent — park for authorization, never self-approve.
 depends_on: [ROOT.7.3.7]
 blocks: [ROOT.4.6]

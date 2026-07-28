@@ -4,10 +4,11 @@ parent: ROOT.1.1
 type: Task
 title: revisions.ts rejection-widening — array-arm plainness + non-index own-prop checks (GEN2-1/GEN2-2)
 ledger_depth: 3
-status: in_review
-owner_agent: implementer-ROOT.1.1.5-gen0 (dream-implementer-hardened, dispatched by director-gen42 2026-07-27 ~22:25Z)
+status: changes_requested
+owner_agent: UNASSIGNED — gen1 fix dispatch is a gen44 first action (dream-implementer-hardened, tier 2)
 spawned_at: 2026-07-27T22:25:00Z
-generation: 0
+generation: 1
+review_findings_gen0: "Tier-2 split verdict. Lens 1 spec-conformance APPROVE/high (.program/audits/ROOT.1.1.5-review-spec-conformance.md). Lens 2 adversarial-fixverify REQUEST_CHANGES/high (.program/audits/ROOT.1.1.5-adversarial-fixverify.md): all 8 disposition probes THREW (GEN2 scope genuinely fixed), pins + bundle id unchanged, BUT 3 NEW MAJOR admissions in the array arm: (A) Array.prototype pollution defeats the hole check ('in' walks the chain) - sparse [1,2,hole] with polluted prototype ADMITTED, collides with dense array (both 742804ccea6d339e); (B) enumerable getter at a canonical index ADMITTED and IMPURE - same object hashed twice gave two hashes, side effects run; (C) Proxy over array ADMITTED - get-trap proxy collided with frozen pin 49a64717d5d4cb19 then changed. MINOR: non-enumerable expandos hash silently in both arms (pre-existing symmetric, Gate note - matches lens-1 MINOR). Fix is rejection-widening again: hole check must use own-property semantics not 'in'; reject own enumerable getters (accessor descriptors); reject exotic/proxy arrays if detectable or disposition explicitly. Pins remain FROZEN."
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-05
 acceptance_criteria:
@@ -20,7 +21,7 @@ depends_on: [ROOT.1.1.3]
 blocks: []
 children: []
 file_ownership: ["src/lib/revisions.ts", "tests/revisions.test.ts"]
-review: {tier: 2, required_lenses: [spec-conformance, adversarial-fixverify], verdicts: [{lens: spec-conformance, verdict: approve, confidence: high, event_ts: 2026-07-28T00:40:00Z, evidence: ".program/audits/ROOT.1.1.5-review-spec-conformance.md", note: "12/12 pins independently re-derived without importing the artifact; scoping calls (a) narrow-form and (b) null-proto-array asymmetry both ruled consistent-with-spec; MINOR not-this-item: non-enumerable own props hash silently in BOTH arms (pre-existing, symmetric) - Phase 0 Gate note"}]}
+review: {tier: 2, required_lenses: [spec-conformance, adversarial-fixverify], verdicts: [{lens: spec-conformance, verdict: approve, confidence: high, event_ts: 2026-07-28T00:40:00Z, evidence: ".program/audits/ROOT.1.1.5-review-spec-conformance.md", note: "12/12 pins independently re-derived without importing the artifact; scoping calls (a) narrow-form and (b) null-proto-array asymmetry both ruled consistent-with-spec; MINOR not-this-item: non-enumerable own props hash silently in BOTH arms (pre-existing, symmetric) - Phase 0 Gate note"}, {lens: adversarial-fixverify, verdict: request_changes, confidence: high, event_ts: 2026-07-28T02:30:00Z, evidence: ".program/audits/ROOT.1.1.5-adversarial-fixverify.md", note: "GEN2 scope fixed (8/8 probes THREW) but 3 NEW MAJOR admissions: prototype-pollution hole bypass, enumerable-getter impurity, Proxy admission colliding with frozen pin. 4th consecutive generation a higher lens found what the prior cycle missed."}]}
 verification:
   - criterion: "AC1 GEN2-1 - array arm rejects non-plain arrays (getPrototypeOf === Array.prototype required)"
     how: "isPlainArray() gate added at the TOP of the array arm, before any iteration, so a non-plain array is never partially canonicalized. Verified empirically by a before/after probe over the same 11 cases: pre-fix an Array subclass of 1,2,3 HASHED a615eeaee21de517 (identical to plain [1,2,3]) and a null-prototype array HASHED 49a64717d5d4cb19 (identical to plain [1,2]); post-fix both throw TypeError naming the path and the offending class name. 6 new tests (subclass at root, subclass at nested path beats[0].choices, two differently-tagged subclasses Alpha/Beta, reassigned-null prototype, plain-array admission regression, object-arm symmetry)."

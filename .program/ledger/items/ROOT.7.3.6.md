@@ -4,10 +4,11 @@ parent: ROOT.7.3
 type: Decision
 title: Enumerate REQ-LX-07 s3 "any beat entering view" — beat entry-mode domain (ADR-0024)
 ledger_depth: 3
-status: in_review
-owner_agent: implementer-ROOT.7.3.6-gen0 (dream-implementer-standard, dispatched by director-gen43 2026-07-28 ~00:50Z)
+status: changes_requested
+owner_agent: UNASSIGNED — gen1 fix dispatch is a gen44 action (dream-implementer-standard)
 spawned_at: 2026-07-28T00:50:00Z
-generation: 0
+generation: 1
+review_findings_gen0: "request_changes/high — full text .program/audits/ROOT.7.3.6-review.md. BLOCKING: F1 exhaustiveness (in-lesson header resume chip + header exercise chips per REQ-LX-04 line 49; Verify deep-link per REQ-TX-02 s3; route-change return REQ-TX-01 s1 unclassified); F2 default self-contradictory (line 72 'NOT bound' vs line 78 'default is to emit' — pick fail-closed per ADR-0017 with emit-anyway non-normative, or fail-open with the closed-world claim deleted + checkable call-site enumeration procedure); F3 multiplicity undefined (refresh = mode 4 AND 7; smooth-scroll transited beats undefined across motion preferences); F4 either/or checks unfalsifiable (mode 7, mode 1 duplicates, persistent re-entry) — need policy-independent assertions with ROOT.2.1 idempotency explicitly out of scope. MAJOR: F5 ADDITIVITY VIOLATED — original s3 sentence removed/reworded in place; restore verbatim + append Domain clause in the ADR-0026 form; F6 citation drift in persistent-beat section (substance correct) — quote-anchored citations per beat-model line 348."
 spec_refs:
   - .program/spec/lesson-experience.md#req-lx-07
 acceptance_criteria:
