@@ -4,7 +4,9 @@ parent: ROOT.7.3
 type: Decision
 title: Ratify REQ-CP-05 s3 disposition — "outside an enumerated inside" accepted as-is (ADR-0029)
 ledger_depth: 3
-status: proposed
+status: in_progress
+owner_agent: implementer-ROOT.7.3.11-gen0 (dream-implementer-standard, dispatched by director-gen43 2026-07-28 ~00:55Z)
+spawned_at: 2026-07-28T00:55:00Z
 generation: 0
 spec_refs:
   - .program/spec/content-pipeline.md#req-cp-05

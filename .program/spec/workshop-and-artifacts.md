@@ -19,7 +19,7 @@ One persistent, git-backed workshop directory per profile with app-owned plumbin
 1. Given a workshop exercise about to run, when it starts, then an automatic checkpoint commit exists from immediately before the run.
 2. Given a verified workshop exercise pass, when recorded, then a `good/<exerciseId>` tag points at the passing state.
 3. Given a restore to a prior checkpoint, when executed, then it lands as a NEW commit on top of history (no rewrite, no reset), and no UI control anywhere performs a hard reset.
-4. Given all learner-facing Workshop UI, when audited, then no git terminology or raw git operations are exposed.
+4. Given all learner-facing Workshop UI (domain: ADR-0027 enumerates seven surfaces — workshop exercise beats, workshop dock tab, artifact shelf page, shelf teaser on dashboard, regression repair session, regression banner, artifact-created celebration; closed-world, future surfaces join via additive ADR), when audited per the five-audit template (text/control/state/path/celebration copy), then no git terminology or raw git operations are exposed.
 5. Given the nightly schedule, when it runs, then a git-bundle backup of each workshop is produced.
 6. Given two profiles, when their workshops are inspected, then they are fully isolated directories.
 

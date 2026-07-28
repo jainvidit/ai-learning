@@ -1,0 +1,1 @@
+{"ts": "2026-07-28T00:42:00Z", "item": "ROOT.7.3.4", "event": "status_change", "by": "implementer-ROOT.7.3.4-gen0", "from": "in_progress", "to": "in_review", "detail": "ADR-0022 ratified (6 contexts enumerated closed-world); coach-and-hints.md amended additively; per-context isolation obligations defined"}

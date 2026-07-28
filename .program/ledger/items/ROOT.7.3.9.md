@@ -4,7 +4,7 @@ parent: ROOT.7.3
 type: Decision
 title: Enumerate REQ-WA-01 s4 "all learner-facing Workshop UI" — Workshop surface domain (ADR-0027)
 ledger_depth: 3
-status: in_progress
+status: in_review
 owner_agent: implementer-ROOT.7.3.9-gen0 (dream-implementer-standard, dispatched by director-gen43 2026-07-28 ~00:35Z)
 spawned_at: 2026-07-28T00:35:00Z
 generation: 0
@@ -18,7 +18,13 @@ blocks: [ROOT.5.1]
 children: []
 file_ownership: [".program/decisions/ADR-0027.md", ".program/spec/workshop-and-artifacts.md"]
 review: {tier: 1, required_lenses: [spec-conformance], verdicts: []}
-verification: []
-artifacts: []
-resume_hint: "Scheduled by ADR-0018. Must be done before ROOT.5.1 dispatches (first item of Phase 4). Pattern: ADR-0017. Survey row: workshop-and-artifacts REQ-WA-01 s4."
+verification:
+  - criterion: "ADR-0027 ratified — learner-facing Workshop UI surfaces enumerated closed-world (unnamed/future surfaces join via additive ADR); the s4 obligation testable per surface"
+    method: "Corpus read: workshop-and-artifacts.md full (5 reqs), terminal-experience.md, dashboard-and-wayfinding.md, lesson-experience.md, frontend-platform.md, execution-layer.md (Workshop dependencies), CONSTRAINTS.md, REJECTED.md; grep .program/spec/ for workshop/artifact/shelf/restore/repair/regression language. Enumerated seven learner-facing surfaces with per-surface falsifiable s4 obligation (five-audit template: text/control/state/path/celebration copy for git-terminology absence). Closed-world rule: unenumerated surfaces out-of-domain until additive ADR. Consistency check: terminal-experience co-ownership (Workshop dock tab, session activity not git state), dashboard-and-wayfinding co-ownership (shelf teaser, health badges not git state), lesson-experience boundary (generic navigation not Workshop-specific), frontend-platform celebration policy (ADR-0023 row 6), execution-layer scoping (plumbing not UI), CONSTRAINTS/REJECTED (no contradictions). Precedents followed: ADR-0017 pattern (enumerate domain + closed-world + relaxation path), ADR-0019 per-endpoint falsifiable template, ADR-0028 grep-based text audit. Falsifiability bar met: every s4 obligation checkable by named five-audit procedure per surface; universal 'all UI' now bounded to seven enumerated surfaces."
+    evidence: ".program/decisions/ADR-0027.md"
+  - criterion: "workshop-and-artifacts.md amended additively so s4 quantifies over the enumerated surfaces"
+    method: "REQ-WA-01 s4 amended: inserted domain clause '(domain: ADR-0027 enumerates seven surfaces — workshop exercise beats, workshop dock tab, artifact shelf page, shelf teaser on dashboard, regression repair session, regression banner, artifact-created celebration; closed-world, future surfaces join via additive ADR), when audited per the five-audit template (text/control/state/path/celebration copy)' before 'then no git terminology or raw git operations are exposed.' ADDITIVE ONLY — no deletion or rewording of existing scenario text outside the domain clause insertion."
+    evidence: ".program/spec/workshop-and-artifacts.md lines 22 (s4 domain clause)"
+artifacts: [".program/decisions/ADR-0027.md"]
+resume_hint: "Both acceptance criteria satisfied. ADR-0027 ratified (seven surfaces enumerated closed-world, per-surface five-audit template, consistency checks green). Shard amended additively (s4 domain clause inserted). Set status in_review."
 ---

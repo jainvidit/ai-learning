@@ -12,11 +12,13 @@ The Socratic tutor persona ("Coach"), the server-enforced four-rung hint ladder 
 
 The tutor receives ONLY: objectives, instructions, rubric descriptions (no weights), missed-criterion IDs, the current draft, and the server-held ladder position. It NEVER receives answer keys, verifier sources, exemplar solutions, unrevealed authored hints, or `improvedPromptExample`. It cannot leak what it does not hold.
 
+**Invocation-context domain (closed-world, ADR-0022):** The data-plane isolation contract applies to exactly six enumerated contexts: (1) playground exercises (lesson-embedded), (2) quiz exercises (lesson-embedded), (3) challenge exercises (lesson-embedded, terminal-paired), (4) boss exercises (module-level integrative, follows underlying type's rules), (5) test-out probes (follows underlying probe type's rules), (6) spaced-review warm-up items (follows underlying variant type's rules). New exercise types or beat types do NOT invoke the tutor until explicitly added via additive ADR (fail-closed default). Each context has defined isolation obligations (context IN/OUT, leak check, rung-4 method-not-artifact constraints where applicable) enumerated in ADR-0022.
+
 **Source:** DREAM-BLUEPRINT.md §3 "Tutor (Coach)"; LEARNING-DESIGN-REVIEW-SAGE.md §3#5 ("Data-plane isolation: the tutor never holds answer keys"); GLOSSARY.md "Data-plane isolation".
 **Current state (docs/origin/CURRENT-STATE.md):** new service; no tutor exists today (Sage §2: "beyond hint 3 a stuck learner has nowhere to go").
 
 **Scenarios:**
-1. Given any tutor invocation, when its assembled context is inspected, then none of: answer keys, verifier source code, exemplar solutions, rubric weights, passingScore, or `improvedPromptExample` are present.
+1. Given any tutor invocation in an enumerated context (ADR-0022: playground/quiz/challenge/boss/test-out/review), when its assembled context is inspected, then none of: answer keys, verifier source code, exemplar solutions, rubric weights, passingScore, or `improvedPromptExample` are present. Per-context isolation obligations (what constitutes an "answer key" or "verifier source" for each context, rung-4 method-not-artifact constraints) are defined in ADR-0022.
 2. Given the ladder position, when a tutor call is made, then the position came from server state, not from any client-supplied value.
 
 ## REQ-CH-02: On-demand affordance; struggle-watcher surfaces, never auto-opens {#req-ch-02}

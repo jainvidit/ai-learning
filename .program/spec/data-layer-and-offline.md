@@ -41,5 +41,5 @@ Zero CANNOT queue offline writes (fact-checked; REJECTED.md). v1 offline = preca
 **Scenarios:**
 1. Given a device offline with a precached bundle, when the learner opens a prose/quiz lesson, then it renders client-side and quizzes grade locally.
 2. Given quiz attempts made offline, when connectivity returns, then the outbox replays them with idempotency keys, the server re-grades authoritatively, and duplicate replays produce no duplicate events.
-3. Given an offline learner reaching a playground, terminal, or challenge beat, when it renders, then it plainly states that this exercise needs network — it never fakes availability.
+3. Given an offline learner reaching a playground, terminal, or challenge beat, when it renders, then it plainly states that this exercise needs network — it never fakes availability. **Domain (ADR-0026):** "offline learner" quantifies over the enumerated offline states (Home v1: navigator.onLine=false OR model-gateway fetch failure; see ADR-0026 for full closed-world enumeration, Home-v1-reachability rulings, and additive relaxation path if REQ-DL-03 full machinery is later implemented).
 4. Given the precache configuration, when inspected, then it targets the versioned static bundle route, never RSC flight payloads.
