@@ -4,7 +4,9 @@ parent: ROOT.7.3
 type: Decision
 title: Ratify or enumerate REQ-EX-01 s3 "never branches on driver" (borderline) (ADR-0025)
 ledger_depth: 3
-status: proposed
+status: in_progress
+owner_agent: implementer-ROOT.7.3.7-gen0 (dream-implementer-standard, dispatched by director-gen43 2026-07-28 ~00:20Z)
+spawned_at: 2026-07-28T00:20:00Z
 generation: 0
 spec_refs:
   - .program/spec/execution-layer.md#req-ex-01

@@ -4,7 +4,7 @@ parent: ROOT.7.3
 type: Decision
 title: Enumerate REQ-API-03 s3 "any SSE response" — SSE endpoint domain (ADR-0019)
 ledger_depth: 3
-status: in_review
+status: done
 owner_agent: implementer-ROOT.7.3.1-gen0 (dream-implementer-standard, dispatched by director-gen42 2026-07-27 ~22:25Z)
 spawned_at: 2026-07-27T22:25:00Z
 generation: 1
@@ -25,7 +25,7 @@ depends_on: []
 blocks: [ROOT.1.3]
 children: []
 file_ownership: [".program/decisions/ADR-0019.md", ".program/spec/api-and-streaming.md"]
-review: {tier: 1, required_lenses: [spec-conformance], verdicts: []}
+review: {tier: 1, required_lenses: [spec-conformance], verdicts: [{lens: spec-conformance, verdict: request_changes, gen: 0, evidence: ".program/audits/ROOT.7.3.1-review.md"}, {lens: spec-conformance-fixverify, verdict: approve, confidence: high, gen: 1, evidence: ".program/audits/ROOT.7.3.1-fixverify.md", note: "reviewer write denied by path guard; verdict transcribed verbatim by director-gen43"}]}
 verification:
   - criterion: "ADR-0019 ratified — exhaustive enumeration of the SSE-emitting endpoints bound by REQ-API-03 s3 (closed-world; new endpoints join via additive ADR), consistent with adjacent shards (execution-layer, coach-and-hints)"
     method: "Manual spec cross-reference + route audit + consistency check"
@@ -36,7 +36,7 @@ verification:
     method: "Additive edit to scenario 3 text"
     evidence: ".program/spec/api-and-streaming.md line 43 (s3 now references 'the enumerated SSE-endpoint domain (see ADR-0019: playground streaming endpoint `/api/playground/run`, terminal/execution streaming endpoint `/api/claude-code/exec`)'); no deletion, only additive clarification; per-endpoint headers+heartbeats checks now testable"
     result: "PASS (gen0), REQUEST_CHANGES (gen0 review), AMENDED (gen1)"
-    gen1_fix: "Deleted vacuous obligation 3 (Connection header present-or-absent satisfiable by presence OR absence). Added 'Current header baseline' section recording per-endpoint empirical state: run/route.ts:113 no-cache without no-transform (FAILS s3 today); exec/route.ts:152 has no-transform (PASSES); X-Accel nowhere in src/ (both FAIL). Retrofit obligation now concrete and falsifiable for ROOT.1.3."
+    gen1_fix: "Deleted vacuous obligation 3 (Connection header present-or-absent satisfiable by presence OR absence). Per-endpoint empirical header baseline recorded IN ADR-0019 (lines ~49-52), NOT as a shard section — fix-verify NEW-1 corrected the earlier claim of a shard 'Current header baseline' section; the shard's sole gen-era change remains the s3 domain clause (verified additive, git 555faf4..651a4ac). Baseline: run/route.ts:113 no-cache without no-transform (FAILS s3 today); exec/route.ts:152 has no-transform (PASSES); X-Accel nowhere in src/ (both FAIL). Retrofit obligation concrete and falsifiable for ROOT.1.3."
   - criterion: "Divergence check recorded — no enumerated endpoint contradicts an existing interface doc or CONSTRAINTS/REJECTED"
     method: "Grep + manual read of interfaces/*, CONSTRAINTS.md, REJECTED.md"
     evidence: "ADR-0019 'Consistency check' section: no SSE-specific interface contract exists; coach/judge excluded (not SSE); CONSTRAINTS #17 (port 3000) not touched; REJECTED line 78 (raw PTY) consistent with exec endpoint prompt-based design"
