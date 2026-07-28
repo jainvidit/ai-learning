@@ -68,14 +68,16 @@ Per-module states: `Locked → Available → In progress → Complete → Master
 
 Items are tagged {skill, tier: intro/core/stretch}; selection targets ~80% success by state + retrievability; two fails step down a tier and inject a prerequisite probe; three fails trigger struggle-halt into the tutor ladder at the reflective rung (cross-link: coach-and-hints REQ-CH-03). Challenge passes propagate 0.25× credit to direct prerequisite skills.
 
-**Source:** DREAM-BLUEPRINT.md §4 "Adaptive difficulty"; GLOSSARY.md "Struggle-halt".
+**Struggle-signal domain (ADR-0021):** "Any struggling learner" quantifies over exactly FOUR enumerated triggers: (1) two consecutive clear-misses on the same skill → tier-stepping + prerequisite probe; (2) three failures on a skill → struggle-halt, coach affordance surfaced; (3) attempted-only completion → zero mastery evidence; (4) rung-4-assisted pass → reduced/zero evidence + redemption probe. Patterns outside this enumeration receive standard item selection (state + retrievability, no tier-stepping, no coach-surfacing, evidence per firewall). Timing-based triggers are REJECTED (REJECTED.md line 42: violates non-competitive constraint). Enumeration is closed-world; new triggers require additive ADR. Testable per-trigger behavior and detection rules recorded in ADR-0021.
+
+**Source:** DREAM-BLUEPRINT.md §4 "Adaptive difficulty"; GLOSSARY.md "Struggle-halt"; ADR-0021 (struggle-trigger domain enumeration).
 **Current state:** new; no adaptivity exists today.
 
 **Scenarios:**
-1. Given a learner failing the same skill twice, when the next item is selected, then it is one tier lower and a prerequisite probe is injected.
-2. Given a third failure on a skill, when it lands, then difficulty escalation stops and the tutor ladder opens at the reflective rung (affordance surfaced, not auto-opened — cross-link: coach-and-hints REQ-CH-02).
+1. Given a learner failing the same skill twice (consecutive clear-misses), when the next item is selected, then it is one tier lower and a prerequisite probe is injected (Trigger 1 per ADR-0021).
+2. Given a third failure on a skill, when it lands, then difficulty escalation stops and the tutor ladder opens at the reflective rung (affordance surfaced, not auto-opened — cross-link: coach-and-hints REQ-CH-02; Trigger 2 per ADR-0021).
 3. Given a challenge pass on an item, when evidence propagates, then direct prerequisite skills receive 0.25× credit and non-prerequisites receive none.
-4. Given any struggling learner, when content is served, then the item text itself is a pre-authored/pre-validated variant — the system never rewrites content live.
+4. Given any learner matching an enumerated struggle trigger (ADR-0021 Triggers 1–4), when content is served, then the item text itself is a pre-authored/pre-validated variant — the system never rewrites content live. Given a struggle pattern outside the enumeration (e.g., single isolated failure, cross-skill burst), when the next item is served, then standard selection applies (state + retrievability, no trigger-specific adaptivity).
 
 ## REQ-MM-06: Anti-requirements enforced by schema absence {#req-mm-06}
 

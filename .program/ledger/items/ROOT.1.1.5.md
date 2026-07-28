@@ -20,7 +20,7 @@ depends_on: [ROOT.1.1.3]
 blocks: []
 children: []
 file_ownership: ["src/lib/revisions.ts", "tests/revisions.test.ts"]
-review: {tier: 2, required_lenses: [spec-conformance, adversarial-fixverify], verdicts: []}
+review: {tier: 2, required_lenses: [spec-conformance, adversarial-fixverify], verdicts: [{lens: spec-conformance, verdict: approve, confidence: high, event_ts: 2026-07-28T00:40:00Z, evidence: ".program/audits/ROOT.1.1.5-review-spec-conformance.md", note: "12/12 pins independently re-derived without importing the artifact; scoping calls (a) narrow-form and (b) null-proto-array asymmetry both ruled consistent-with-spec; MINOR not-this-item: non-enumerable own props hash silently in BOTH arms (pre-existing, symmetric) - Phase 0 Gate note"}]}
 verification:
   - criterion: "AC1 GEN2-1 - array arm rejects non-plain arrays (getPrototypeOf === Array.prototype required)"
     how: "isPlainArray() gate added at the TOP of the array arm, before any iteration, so a non-plain array is never partially canonicalized. Verified empirically by a before/after probe over the same 11 cases: pre-fix an Array subclass of 1,2,3 HASHED a615eeaee21de517 (identical to plain [1,2,3]) and a null-prototype array HASHED 49a64717d5d4cb19 (identical to plain [1,2]); post-fix both throw TypeError naming the path and the offending class name. 6 new tests (subclass at root, subclass at nested path beats[0].choices, two differently-tagged subclasses Alpha/Beta, reassigned-null prototype, plain-array admission regression, object-arm symmetry)."

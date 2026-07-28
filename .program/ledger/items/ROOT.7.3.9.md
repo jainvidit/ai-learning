@@ -4,7 +4,9 @@ parent: ROOT.7.3
 type: Decision
 title: Enumerate REQ-WA-01 s4 "all learner-facing Workshop UI" — Workshop surface domain (ADR-0027)
 ledger_depth: 3
-status: proposed
+status: in_progress
+owner_agent: implementer-ROOT.7.3.9-gen0 (dream-implementer-standard, dispatched by director-gen43 2026-07-28 ~00:35Z)
+spawned_at: 2026-07-28T00:35:00Z
 generation: 0
 spec_refs:
   - .program/spec/workshop-and-artifacts.md#req-wa-01

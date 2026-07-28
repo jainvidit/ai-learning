@@ -52,7 +52,7 @@ Motion (motion.dev, LazyMotion ≈4.6kb) + native `document.startViewTransition`
 
 **Scenarios:**
 1. Given the dependency graph, when inspected, then Motion is the only animation library and exactly one confetti primitive exists, reachable only through the celebration API.
-2. Given any celebration anywhere, when its trigger is traced, then it is a typed server-confirmed projection-transition event, never a client-side guess.
+2. Given any celebration anywhere, when its trigger is traced, then it is a typed server-confirmed projection-transition event, never a client-side guess. **Celebration trigger domain (closed-world, per ADR-0023):** (1) first quiz pass, (2) lesson completion, (3) module mastery, (4) boss challenge pass, (5) test-out full pass, (6) artifact created/verified, (7) streak milestone (7/14/30/60/90/180/365 days). Any celebration-like moment not on this list must not trigger confetti/macro-motion animations until added via additive ADR per the ADR-0023 relaxation path.
 3. Given an element animated in-page by Motion, when routes change, then that element is not simultaneously driven by a View Transition.
 4. Given confetti, when a single event fires repeatedly, then confetti plays at most once per event.
 

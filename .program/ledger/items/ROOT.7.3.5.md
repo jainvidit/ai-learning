@@ -4,7 +4,7 @@ parent: ROOT.7.3
 type: Decision
 title: Enumerate REQ-FP-04 s2 "any celebration anywhere" — celebration trigger-point domain (ADR-0023)
 ledger_depth: 3
-status: in_progress
+status: in_review
 owner_agent: implementer-ROOT.7.3.5-gen0 (dream-implementer-standard, dispatched by director-gen43 2026-07-28 ~00:20Z)
 spawned_at: 2026-07-28T00:20:00Z
 generation: 0
@@ -19,7 +19,19 @@ blocks: [ROOT.4.1]
 children: []
 file_ownership: [".program/decisions/ADR-0023.md", ".program/spec/frontend-platform.md"]
 review: {tier: 1, required_lenses: [spec-conformance], verdicts: []}
-verification: []
+verification:
+  - criterion: "ADR-0023 ratified — all celebration trigger points across the app enumerated closed-world (new triggers join via additive ADR); per-trigger criterion testable"
+    method: "Enumerated 7 celebration triggers closed-world with per-trigger testable criteria; defined closed-world rule, relaxation path; recorded readings from lesson-experience, workshop-and-artifacts, dashboard-and-wayfinding, mastery-model, boss-and-test-out, spaced-review shards; cross-shard consistency verified"
+    evidence: ".program/decisions/ADR-0023.md"
+    timestamp: "2026-07-28"
+  - criterion: "frontend-platform.md amended additively so s2 quantifies over the enumerated triggers"
+    method: "Added celebration trigger domain clause (closed-world, 7 triggers enumerated) to REQ-FP-04 s2 with ADR-0023 citation and relaxation-path reference"
+    evidence: ".program/spec/frontend-platform.md line 56 (REQ-FP-04 s2 domain clause)"
+    timestamp: "2026-07-28"
+  - criterion: "Consistency with lesson-experience and workshop shards recorded (their celebration moments appear in the enumeration or are explicitly out)"
+    method: "Cross-shard consistency section in ADR-0023 verifies lesson-experience REQ-LX-05 (lesson completion interstitial = trigger #2), workshop-and-artifacts REQ-WA-04 (artifact shelf animation = trigger #6), dashboard-and-wayfinding REQ-DW-05 (first quiz = trigger #1); also verified mastery-model, boss-and-test-out, spaced-review for implicit moments; celebration-like moments ruled OUT explicitly recorded"
+    evidence: ".program/decisions/ADR-0023.md Cross-shard consistency check section + Closed-world rule OUT list"
+    timestamp: "2026-07-28"
 artifacts: []
 resume_hint: "Scheduled by ADR-0018. Must be done before ROOT.4.1 dispatches (first item of Phase 3). Pattern: ADR-0017. Survey row: frontend-platform REQ-FP-04 s2."
 readings:

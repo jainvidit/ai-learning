@@ -4,7 +4,9 @@ parent: ROOT.7.3
 type: Decision
 title: Enumerate REQ-DL-03 s3 "any offline learner reaching a playground, terminal, or challenge beat" — offline-state domain (ADR-0026)
 ledger_depth: 3
-status: proposed
+status: in_progress
+owner_agent: implementer-ROOT.7.3.8-gen0 (dream-implementer-standard, dispatched by director-gen43 2026-07-28 ~00:35Z)
+spawned_at: 2026-07-28T00:35:00Z
 generation: 0
 spec_refs:
   - .program/spec/data-layer-and-offline.md#req-dl-03
