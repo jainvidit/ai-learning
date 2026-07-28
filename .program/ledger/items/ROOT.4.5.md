@@ -18,7 +18,7 @@ acceptance_criteria:
   - Server-held reattachable sessions — attach(sessionId, fromSeq); abort-on-unmount removed (EX-03)
   - Prompt-based interaction preserved; transport PTY-upgradeable (EX-05)
   - Sandbox lifecycle — drills throwaway, path-confined, per-profile isolation; bulk cleanup EXCLUDES any Workshop directory by guard, not convention (EX-06 incl. scenario 3 — the guard lives here even though Workshop arrives in Phase 4)
-depends_on: []
+depends_on: [ROOT.7.3.7]
 blocks: [ROOT.4.6]
 children: []
 file_ownership: ["src/lib/claudeSpawn.ts", "src/lib/sandbox.ts", "src/lib/execution/**", "src/app/api/claude-code/**", ".program/interfaces/termevent-protocol.md"]

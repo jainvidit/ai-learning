@@ -14,7 +14,7 @@ acceptance_criteria:
   - oRPC-over-Zod routes emitting OpenAPI/JSON-Schema; the emitted JSON-Schema is publishable as the contract handed to content-authoring agents (API-02, CP-07)
   - Resumable SSE with heartbeats + backoff as shared plumbing (API-03)
   - The Home SSE resume-store decision (OQ #4, default Reading A — in-process/file-backed, no Redis) is ADR'd BEFORE the SSE plumbing leaf dispatches
-depends_on: [ROOT.1.2, ROOT.1.6]
+depends_on: [ROOT.1.2, ROOT.1.6, ROOT.7.3.1]
 blocks: []
 children: []
 file_ownership: ["src/app/api/**", "src/lib/api/**", "src/proxy.ts"]

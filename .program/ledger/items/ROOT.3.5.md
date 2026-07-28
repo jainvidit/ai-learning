@@ -18,7 +18,7 @@ acceptance_criteria:
   - Server-held four-rung ladder; rung 4 always reachable, method-not-artifact (CH-03)
   - Rung-4 passes emit reduced/zero evidence; redemption probe restores credit (CH-04)
   - No-numerics output schema + post-response leak check with authored fallback (CH-05 service half; the margin-note component labeled "not your grade" is ROOT.4.4's leaf)
-depends_on: [ROOT.3.2]
+depends_on: [ROOT.3.2, ROOT.7.3.4]
 blocks: []
 children: []
 file_ownership: ["src/lib/tutor/**", "src/app/api/tutor/**"]

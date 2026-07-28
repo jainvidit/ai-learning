@@ -15,7 +15,7 @@ acceptance_criteria:
   - Artifact record model + verifier interface published; ArtifactHealth projection implemented in src/lib/projections/artifactHealth.ts (WA-03)
   - The WA-02 mapping-rule validation gate is delivered as a ROOT.1.4-pattern leaf against scripts/validate-content.ts via the gate owner (WA-02)
   - Nightly workshop git-bundle backup (WA-01 s5) — designed and flagged for park-review before implementation (scheduled job touching learner data)
-depends_on: []
+depends_on: [ROOT.7.3.9]
 blocks: [ROOT.5.2]
 children: []
 file_ownership: ["src/lib/workshop.ts", "src/lib/projections/artifactHealth.ts"]

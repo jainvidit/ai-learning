@@ -18,7 +18,7 @@ acceptance_criteria:
   - Evidence quotes verified as substrings in code (JP-03)
   - Ungradeable-content path as graceful degradation (JP-04)
   - Calibration goldens per family + CI battery; the battery runs and reports kappa/flip-rate, and values below target (kappa ≥0.8, flip ≤2%) block the PR (JP-05, binary form per sizing #31)
-depends_on: [ROOT.2.1]
+depends_on: [ROOT.2.1, ROOT.7.3.2]
 blocks: []
 children: []
 file_ownership: ["src/lib/judge.ts", "src/app/api/playground/score/**", "src/lib/calibration/**", ".program/interfaces/judge-verdict.md"]

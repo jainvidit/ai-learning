@@ -1,0 +1,6 @@
+TypeScript: PASS exit 0
+Tests: PASS exit 0
+Build: PASS exit 0
+Determinism: PASS same version
+Static route: VERIFIED
+package.json: VERIFIED identical to HEAD

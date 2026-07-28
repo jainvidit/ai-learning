@@ -19,7 +19,7 @@ acceptance_criteria:
   - Stable item IDs + content-hash itemRevision + migration maps (CP-05)
 depends_on: [ROOT.1.2, ROOT.1.7]
 blocks: []
-children: [ROOT.1.1.1, ROOT.1.1.2, ROOT.1.1.3, ROOT.1.1.4]
+children: [ROOT.1.1.1, ROOT.1.1.2, ROOT.1.1.3, ROOT.1.1.4, ROOT.1.1.5]
 heartbeat: 2026-07-25T13:56:26Z
 file_ownership: ["velite.config.*", "src/lib/content.ts", "src/components/lesson/LessonRenderer.tsx", "package.json"]
 review: {tier: 2, required_lenses: [spec-conformance, framework-empirical], verdicts: []}

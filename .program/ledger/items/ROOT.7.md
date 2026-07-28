@@ -14,9 +14,10 @@ spec_refs:
 acceptance_criteria:
   - ROOT.7.2 (verification surface) done before ROOT.1.4 closes
   - ROOT.7.1 (standing steward) active whenever any later phase is in flight; closed only at program end
+  - ROOT.7.3 (enumeration ADRs, ADR-0018) — every child done/cancelled before its blocked capability dispatches
 depends_on: []
 blocks: []
-children: [ROOT.7.1, ROOT.7.2]
+children: [ROOT.7.1, ROOT.7.2, ROOT.7.3]
 file_ownership: []
 review: {tier: 1, required_lenses: [spec-conformance], verdicts: []}
 verification: []

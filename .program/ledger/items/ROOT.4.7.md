@@ -13,7 +13,7 @@ acceptance_criteria:
   - Reactive read store over SQLite with subscription/invalidation — dependent queries update without polling (DL-01/02)
   - Optimistic write + server-authoritative rebase path, with the LLM-verdict carve-out (server-truth only) asserted (DL-01)
   - A perf measurement harness demonstrates the <100ms read budget on dashboard queries, its command registered via the standing steward (DL-01)
-depends_on: []
+depends_on: [ROOT.7.3.8]
 blocks: [ROOT.4.3]
 children: []
 file_ownership: ["src/lib/data/**"]

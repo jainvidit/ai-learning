@@ -26,7 +26,7 @@ acceptance_criteria:
   - Quiz reveal policy per ADR-0006 lands in api/quiz/submit + Quiz.tsx; per-question results (incl. misses) recorded as events (CC-06 scenarios 1–3, moved here per ADR-0007 item 9)
   - Module page rework — time chips, resume emphasis, completion states (DW-04 s2, CURRENT-STATE module-page row)
   - LessonRenderer + lesson page predecessors retired only after this item's replacement passes the regression floor, with gate-evidence citation (final leaf)
-depends_on: [ROOT.4.1]
+depends_on: [ROOT.4.1, ROOT.7.3.6]
 blocks: []
 children: []
 file_ownership: ["src/app/learn/**", "src/app/api/quiz/**", "src/components/lesson/beats/**", "src/components/lesson/BeatRenderer.tsx", "src/components/lesson/Rail.tsx", "src/components/lesson/ExerciseFrame.tsx", "src/components/lesson/Quiz.tsx", "src/components/lesson/LessonRenderer.tsx", "src/components/lesson/NextWordGame.tsx", "src/components/lesson/TokenVisualizer.tsx"]

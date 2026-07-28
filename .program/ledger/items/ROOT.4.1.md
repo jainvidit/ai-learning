@@ -13,7 +13,7 @@ acceptance_criteria:
   - Motion 12 tokens + native View Transitions with feature detection; never both on one element (FP-04)
   - Celebration API with a typed event contract fires only on server-confirmed events (FP-04; consumes ROOT.2.2 projections + ROOT.2.3 gate verdicts)
   - A11y audit tooling installed with its command registered via the standing steward; per-surface WCAG 2.2 AA audit leaves run LATE in Phase 3, one per shipped surface (FP-05, sizing #18)
-depends_on: []
+depends_on: [ROOT.7.3.5]
 blocks: [ROOT.4.2, ROOT.4.3, ROOT.4.6]
 children: []
 file_ownership: ["src/components/ui/motion/**", "src/components/ui/celebration/**", "src/lib/motion/**"]

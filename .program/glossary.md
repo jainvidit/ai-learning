@@ -13,11 +13,12 @@ Capability are defined now, instantiated later by coordinators.
 | **Feature** | Capability/Contract (depth 3+) | One REQ-* requirement (or coherent sub-slice) implemented and verified against its listed scenarios | Every scenario has a `verification` entry with evidence |
 | **Task** | any (leaf) | Passes the six-point leaf test (PART 3) at dispatch | Named AGENTS.md verification command passes; evidence path recorded |
 | **Probe** | any (leaf) | Empirical discharge of an [INFERRED]/[VERIFIED-EXTERNALLY] assumption (e.g., ASSUMPTIONS #11 next-mdx-remote archived, #12 Bedrock structured outputs) | Evidence doc written; assumption confirmed or divergence logged |
+| **Decision** | any (leaf) | A spec-domain enumeration or ratification whose exit is a ratified ADR (ADR-0018: closing an open-world universally-quantified criterion before its owning capability decomposes), plus an additive shard amendment where needed | ADR ratified with consistency-vs-adjacent-shards evidence; blocked capability's edge dischargeable |
 | **Gate** | Phase (leaf) | Verification checkpoint: every row of `.program/interfaces/regression-floor.md` (the single shared checklist — Gates cite rows, never re-derive the list) + the MS-03 never-delete audit row + all AGENTS.md verification commands | Every row passes or the phase halts; per-row evidence doc in `.program/audits/` |
 
-**Leaf-test point-5 exemption (ADR-0007, recorded decision, not drift):** Probe and
-Gate are leaf types whose exit is an EVIDENCE ARTIFACT, not a named command — the
-six-point test's point 5 does not apply to them. For every other leaf, point 5 binds:
+**Leaf-test point-5 exemption (ADR-0007; extended to Decision by ADR-0018):** Probe,
+Gate and Decision are leaf types whose exit is an EVIDENCE ARTIFACT, not a named
+command — the six-point test's point 5 does not apply to them. For every other leaf, point 5 binds:
 until ROOT.7.2 lands `npm test` / `npm run verify:e2e` in AGENTS.md, no behavioral
 criterion can be leaf-dispatched.
 

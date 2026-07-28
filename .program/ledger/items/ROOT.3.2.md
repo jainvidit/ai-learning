@@ -17,7 +17,7 @@ acceptance_criteria:
   - Judge-noise firewall — <0.4 Again, >0.7 Good, 0.4–0.7 scheduler-only; never Easy from judge, never Hard from anything (MM-03)
   - Module states with Mastered = MIN over skills + boss (MM-04)
   - Adaptive selection — ~80% target, step-down + prerequisite probe, struggle-halt, 0.25× propagation; never live rewriting (MM-05)
-depends_on: [ROOT.3.1]
+depends_on: [ROOT.3.1, ROOT.7.3.3]
 blocks: []
 children: []
 file_ownership: ["packages/learning-engine/src/mastery/**", "src/lib/projections/skillState.ts"]
