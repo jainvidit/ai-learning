@@ -73,6 +73,12 @@ The CURRENT-STATE.md [OBSERVED] verified-working baseline is the regression floo
    is under `data/**`, the Workshop directory, or `docs/origin/**`. FAIL = one or more; quote
    the file, line and resolved target. A hit whose target is a variable or glob that *could*
    resolve into a protected tree is a FAIL, not a pass — this fails closed, matching the hook.
+   **AMENDED 2026-07-27 per ADR-0028:** the canonical closed-world verb list is `rm`, `rmdir`,
+   `unlink`, `rmtree`, `Remove-Item`, `fs.rm`, `fs.rmSync`, `fs.rmdir`, `fs.rmdirSync`,
+   `fs.unlink`, `fs.unlinkSync`, `del`, `truncate`, `rimraf`. Additions require an additive
+   ADR. The exact grep procedure, exclusions (node_modules, .program/ledger/, test files), and
+   hit classification rules are in ADR-0028. Allowed exceptions (e.g., .program/ledger/append-
+   event.py temp-file cleanup) are named in the ADR and recorded in each Gate evidence doc.
 2. **Legacy JSON archived, not deleted.** CHECK: after the ROOT.2 cutover, count files
    matching `data/progress/*.json` at their original path plus the archive path. PASS =
    `original_count == archive_count` and every original filename appears in the archive, with

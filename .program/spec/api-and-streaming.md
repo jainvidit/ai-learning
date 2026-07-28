@@ -40,5 +40,5 @@ Playground: SSE from route handlers + resumable-stream so a refresh doesn't kill
 **Scenarios:**
 1. Given a playground run in progress, when the page refreshes and the client reconnects with its last seq, then the stream resumes without restarting the model call.
 2. Given a running playground stream, when the stop endpoint is called, then generation halts server-side.
-3. Given any SSE response, when headers are inspected, then `X-Accel-Buffering: no` and no-transform caching directives are present, and heartbeats arrive at ~20s intervals during quiet periods.
+3. Given any SSE response **from the enumerated SSE-endpoint domain (see ADR-0019: playground streaming endpoint `/api/playground/run`, terminal/execution streaming endpoint `/api/claude-code/exec`)**, when headers are inspected, then `X-Accel-Buffering: no` and no-transform caching directives are present, and heartbeats arrive at ~20s intervals during quiet periods.
 4. Given a dropped connection, when the client reconnects, then it backs off and supplies its last received seq for gap-free resume.

@@ -4,7 +4,7 @@ parent: ROOT.1.1
 type: Task
 title: Versioned immutable content bundle emitter + static route
 ledger_depth: 3
-status: in_review
+status: done
 generation: 2
 owner_agent: implementer-ROOT.1.1.4-gen2 (dream-implementer-hardened, dispatched by director-gen42 at 2026-07-27 ~09:40Z wall clock; gen1 owner was recorded but never launched — rotation hit first, see HEADLINE 2026-07-27 + handoff ROOT-41)
 spawned_at: 2026-07-27T09:40:00Z
@@ -20,7 +20,7 @@ depends_on: [ROOT.1.1.3]
 blocks: []
 children: []
 file_ownership: ["scripts/build-content-bundle.ts", "src/lib/bundle.ts", "tests/bundle.test.ts", "package.json", "public/content-bundle/**"]
-review: {tier: 2, required_lenses: [spec-conformance, framework-empirical], verdicts: []}
+review: {tier: 2, required_lenses: [spec-conformance, framework-empirical], verdicts: [{lens: framework-empirical, verdict: approve, confidence: high, doc: .program/audits/ROOT.1.1.4-review-secondary.md, event_ts: 2026-07-27T22:30:00Z}, {lens: spec-conformance, verdict: approve, confidence: high, doc: "verdict preserved verbatim in events @2026-07-27T22:45:00Z (sandbox path filter blocked the reviewer's audit-doc write)", event_ts: 2026-07-27T22:45:00Z}]}
 verification:
   - criterion: "AC1 - one bundle under a single version id containing curriculum DAG with COMPUTED (col,lane) layout hints, all beat arrays, exercise bank, calibration goldens (empty-but-structured), revisions sidecar + migration maps (CP-04 s1, CP-05)"
     how_checked: "vitest suite tests/bundle.test.ts describe 'CP-04 scenario 1' (19 tests): asserts exactly ONE version dir + manifest and nothing else; version id is a short content hash; all 7 section files + bundle.json + index.json present; one DAG node per module (14) and one edge per requires entry (17); every module strictly right of each prerequisite; lanes grouped by track with no two modules at the same (col,lane); layout derived from topology NOT authored order (shuffled-input test); ordered contract-shaped beat array per built lesson; every exercise beat resolves to a bank entry (7 exercises); goldens section empty-but-structured; 16-hex itemRevision per exercise/beat/lesson; migration maps loaded from content/migrations; NO timestamp or build counter anywhere in the payload. Emitted payload independently inspected: bundle.json keys = beats,bundleFormat,curriculum,exercises,goldens,migrations,revisions; curriculum.layout = columns 8, lanes 3, bandByTrack over fundamentals/prompting/claude-code."
@@ -57,7 +57,7 @@ artifacts:
     note: "Emitted bundle: manifest.json plus eb647973722173b3/{bundle,beats,curriculum,exercises,goldens,migrations,revisions,index}.json. Worktree agent-af25383e7431d0a4c, pending merge."
   - path: ".program/audits/ROOT.1.1.4-verification/npm-build.txt, npm-test.txt, typecheck.txt"
     note: "gen2 evidence, already written to the MAIN checkout."
-resume_hint: "Implementation COMPLETE in worktree agent-af25383e7431d0a4c (scripts/build-content-bundle.ts, src/lib/bundle.ts, tests/bundle.test.ts, additive package.json, public/content-bundle/eb647973722173b3). All 4 acceptance criteria verified with green evidence in .program/audits/ROOT.1.1.4-verification/. Awaiting director/integrator MERGE of that worktree into program/dream-build, then tier-2 review (spec-conformance + framework-empirical lenses). Do NOT reimplement. Open items for the reviewer: no gen2 lint evidence (stale gen0 eslint-owned.txt); goldens section intentionally empty-but-structured."
+resume_hint: "DONE. Merged to main by director-gen42 (events @2026-07-27T21:55:00Z; commit f5bf9a3) with independent main re-verification (main-tsc-noemit.txt, main-npm-test.txt 200/200, main-npm-build.txt full chain, all EXIT 0; LF main reproduced eb647973722173b3 = CRLF worktree id). Tier-2 review both lenses APPROVE (framework-empirical @22:30:00Z; spec-conformance @22:45:00Z, verdict text in events - reviewer's doc write was sandbox-blocked). Closes the 1.1 leaf set except ROOT.1.1.5 (GEN2 minors fix, in flight); then ROOT.1.1 assembly review."
 ---
 Emitter script scripts/build-content-bundle.ts (run via a new package.json script, e.g.
 `build:content` — package.json edits ADDITIVE ONLY; never disturb existing

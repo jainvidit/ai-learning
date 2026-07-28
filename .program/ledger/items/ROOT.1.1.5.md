@@ -25,6 +25,23 @@ verification: []
 artifacts: []
 resume_hint: "Created by director-gen42 from the GEN2 minors disposition (.program/audits/GEN2-minors-disposition.md — both ruled DEFECT vs ADR-0017 A1.3 closed-world). Must close before ROOT.1.1 assembly review / Phase 0 Gate. No new ADR needed (disposition: rejection-widening within ADR-0017 Amendment 1). Globs overlap only ROOT.1.1.3 (done) — do not reopen it; overlap scan re-run required if 1.1.3 ever reopens."
 ---
+## Tier-2 pre-implementation plan (implementer-ROOT.1.1.5-gen0)
+
+1. CONTRACT TOUCHED: the CP-05 hash-input domain (REQ-CP-05 "Hash-input domain" /
+   ADR-0017 A1.3 closed world) as enforced in the array arm of
+   canonicalStringifyContainer inside src/lib/revisions.ts. The exported signatures
+   (computeItemRevision, buildRevisionsMap, loadMigrationMaps) are NOT part of the
+   change - only the set of inputs that throw widens.
+2. OTHER SIDE OWNED BY: no .program/interfaces shard governs the hash domain (grep over
+   interfaces: beat-model.md only REFERENCES itemRevision as the change-detection
+   mechanism per REQ-CP-05 and explicitly puts CP-05 hashing out of its own scope). The
+   real consumer is the bundle builder script (ROOT.1.1.4, done) via
+   buildRevisionsMap/computeItemRevision; its observable contract is the emitted bundle
+   version id eb647973722173b3, which must not move.
+3. WILL NOT CHANGE: any pinned hash; any exported signature or its synchronous-ness; the
+   object arm; hole/depth/cycle logic; the bundle builder script, src/lib/bundle.ts,
+   tests/bundle.test.ts, src/lib/schema.ts, package.json.
+
 Fix venue: main checkout unless the hook forces a worktree (predecessor pattern: code in
 worktree, director merges). Frozen contract: computeItemRevision / buildRevisionsMap /
 loadMigrationMaps signatures untouched, all synchronous. The disposition doc names the
