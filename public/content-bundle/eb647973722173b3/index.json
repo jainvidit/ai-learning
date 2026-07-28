@@ -1,0 +1,41 @@
+{
+  "files": [
+    {
+      "bytes": 5251,
+      "file": "beats.json",
+      "hash": "994e67f8bb3f71bc"
+    },
+    {
+      "bytes": 56541,
+      "file": "bundle.json",
+      "hash": "f4af9c1a24bdcf97"
+    },
+    {
+      "bytes": 7466,
+      "file": "curriculum.json",
+      "hash": "4b0c6800391c1db1"
+    },
+    {
+      "bytes": 35765,
+      "file": "exercises.json",
+      "hash": "cb2c24a76a0dc4c2"
+    },
+    {
+      "bytes": 279,
+      "file": "goldens.json",
+      "hash": "27fb01a76aebbac1"
+    },
+    {
+      "bytes": 208,
+      "file": "migrations.json",
+      "hash": "217074982e2ac996"
+    },
+    {
+      "bytes": 4714,
+      "file": "revisions.json",
+      "hash": "6254f3ad0c38e2e9"
+    }
+  ],
+  "indexFormat": 1,
+  "version": "eb647973722173b3"
+}
