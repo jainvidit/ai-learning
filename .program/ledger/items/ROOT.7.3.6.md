@@ -4,7 +4,7 @@ parent: ROOT.7.3
 type: Decision
 title: Enumerate REQ-LX-07 s3 "any beat entering view" — beat entry-mode domain (ADR-0024)
 ledger_depth: 3
-status: in_progress
+status: in_review
 owner_agent: implementer-ROOT.7.3.6-gen0 (dream-implementer-standard, dispatched by director-gen43 2026-07-28 ~00:50Z)
 spawned_at: 2026-07-28T00:50:00Z
 generation: 0
@@ -19,8 +19,17 @@ blocks: [ROOT.4.2]
 children: []
 file_ownership: [".program/decisions/ADR-0024.md", ".program/spec/lesson-experience.md"]
 review: {tier: 1, required_lenses: [spec-conformance], verdicts: []}
-verification: []
-artifacts: []
+verification:
+  - criterion: "ADR-0024 ratified — beat entry modes enumerated closed-world (e.g. scroll, jump, resume, restore) with the s3 obligation testable per mode; additive relaxation path"
+    method: "ADR-0024 written following ADR-0017 pattern: enumerated 7 beat entry modes (scroll entry, rail jump, resume, initial load, Continue, keyboard nav, state restore) closed-world with testable s3 obligation per mode, decidable default (emit event) for unenumerated, additive relaxation path via future ADRs"
+    evidence: ".program/decisions/ADR-0024.md"
+  - criterion: "lesson-experience.md amended additively so s3 quantifies over the enumerated modes"
+    method: "REQ-LX-07 s3 amended additively to reference ADR-0024 enumeration, replaced 'any beat entering view' with 'any beat entering view via one of the enumerated modes (scroll entry, rail jump navigation, resume from stored position, initial page load, Continue button navigation, keyboard navigation, or state restore after page refresh — enumerated closed-world in ADR-0024)', stated decidable default and exhaustiveness"
+    evidence: ".program/spec/lesson-experience.md line 93 (s3 amended)"
+  - criterion: "Consistency with beat-model.md persistent-beat ruling (steward NARROW ratification) recorded"
+    method: "ADR-0024 includes dedicated section 'Consistency with beat-model.md persistent-beat ruling' citing ROOT.7.1 2026-07-25 ratification (beat-model.md lines 169-255). Confirms no entry mode contradicts the ruling: persistent beats apply uniformly to all seven modes; stay-mounted obligation is lifecycle, not entry; portal moves are not entry modes. Citations: REQ-LX-03 s1, beat-model lines 160-163, 189. No contradiction found."
+    evidence: ".program/decisions/ADR-0024.md section 'Consistency with beat-model.md persistent-beat ruling'"
+artifacts: [".program/decisions/ADR-0024.md"]
 resume_hint: "Scheduled by ADR-0018. Must be done before ROOT.4.2 (BeatRenderer) dispatches (Phase 3). Pattern: ADR-0017. Survey row: lesson-experience REQ-LX-07 s3."
 ---
 

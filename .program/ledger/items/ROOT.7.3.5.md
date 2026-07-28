@@ -4,10 +4,11 @@ parent: ROOT.7.3
 type: Decision
 title: Enumerate REQ-FP-04 s2 "any celebration anywhere" — celebration trigger-point domain (ADR-0023)
 ledger_depth: 3
-status: in_review
-owner_agent: implementer-ROOT.7.3.5-gen0 (dream-implementer-standard, dispatched by director-gen43 2026-07-28 ~00:20Z)
-spawned_at: 2026-07-28T00:20:00Z
-generation: 0
+status: changes_requested
+owner_agent: implementer-ROOT.7.3.5-gen1 (dream-implementer-standard, fix cycle, dispatched by director-gen43 2026-07-28 ~01:30Z)
+spawned_at: 2026-07-28T01:30:00Z
+generation: 1
+review_findings_gen0: "request_changes/high — full text .program/audits/ROOT.7.3.5-review.md. BLOCKING: F1 module-completion vs module-mastery undispositioned; F2 REQ-DW-02 s2 earned-color + REQ-TX-02 s2 dock pulse undispositioned; F3 closed-world default bars only confetti/macro-motion, micro/meso escape. Medium: F4 FP-04 body parenthetical unreconciled; F5 ruled-OUT bullet contradicts trigger 1; F6 event types untraceable to REQ-EL-01; F7 streak milestone set is new unspecced behaviour, cite ADR-0004 + OQ#9. Additivity (F8) confirmed by director."
 spec_refs:
   - .program/spec/frontend-platform.md#req-fp-04
 acceptance_criteria:

@@ -92,5 +92,5 @@ Completed lessons open fully undimmed with the rail as jump-nav and Continue hid
 **Scenarios:**
 1. Given a completed lesson reopened, when rendered, then no dimming applies, the rail is pure jump-nav, and Continue is absent.
 2. Given a resume action from the dashboard chip, when navigation completes, then the view lands on the exact stored beat ID.
-3. Given any beat entering view, when telemetry is checked, then a beat_viewed event was recorded.
+3. Given any beat entering view via one of the enumerated modes (scroll entry, rail jump navigation, resume from stored position, initial page load, Continue button navigation, keyboard navigation, or state restore after page refresh — enumerated closed-world in ADR-0024), when telemetry is checked, then a `beat_viewed` event was recorded for that beat. Event shape and idempotency policy are defined by ROOT.2.1 (Event Log and Projections); this scenario obligates only that the event is recorded per mode. The enumeration is exhaustive — unenumerated modes fall under the decidable default (emit event) until explicitly added or excluded via additive ADR.
 4. Given a return after >48h, when the lesson opens, then a dismissible "you left off here N days ago" banner shows.

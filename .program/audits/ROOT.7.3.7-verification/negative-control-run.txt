@@ -1,0 +1,55 @@
+==========================================
+ADR-0025 Negative Control Run
+==========================================
+
+=== CHECK 1: instanceof LocalDriver/CloudDriver/ExecutionDriver ===
+8:  if (driver instanceof LocalDriver) {
+11:  if (driver instanceof CloudDriver) {
+Exit: 0
+
+=== CHECK 2: Quoted driver literals ===
+18:  if (driver === "cloud") {
+21:  if (driver === 'local') {
+34:  if (driverKind === 'cloud') {
+81:  const module = await import(driverType === 'cloud' ? './cloud' : './local');
+Exit: 0
+
+=== CHECK 3a: .kind field access ===
+26:// MECHANISM 3: Non-driver receiver (d.kind, driverKind, anything.kind where driver flows)
+28:  if (d.kind === 'local') {
+Exit: 0
+
+=== CHECK 3b: driverKind variable ===
+26:// MECHANISM 3: Non-driver receiver (d.kind, driverKind, anything.kind where driver flows)
+33:function check3b(driverKind: string) {
+34:  if (driverKind === 'cloud') {
+Exit: 0
+
+=== CHECK 4: constructor.name ===
+41:  if (driver.constructor.name === 'LocalDriver') {
+Exit: 0
+
+=== CHECK 5: in operator duck-typing ===
+48:  if ('sandboxToken' in driver) {
+Exit: 0
+
+=== CHECK 6: config.executionMode ===
+53:// MECHANISM 6: config.executionMode-style config flags
+55:  if (config.executionMode === 'local') {
+Exit: 0
+
+=== CHECK 7: process.env.EXECUTION_DRIVER ===
+62:  if (process.env.EXECUTION_DRIVER === 'cloud') {
+Exit: 0
+
+=== CHECK 8: switch on driver.name ===
+Exit: 1
+
+=== CHECK 9: conditional import() ===
+81:  const module = await import(driverType === 'cloud' ? './cloud' : './local');
+Exit: 0
+
+=== CHECK 10: driver.type field ===
+85:// MECHANISM 10: driver.type field access (already in gen0 pattern)
+87:  if (driver.type === 'local') {
+Exit: 0
