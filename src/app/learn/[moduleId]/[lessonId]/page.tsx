@@ -63,7 +63,7 @@ export default async function LessonPage({
   const meta = loadModuleMeta(moduleId);
   if (!meta.lessons.some((l) => l.id === lessonId)) notFound();
 
-  const progress = loadProgress(profile.id);
+  const progress = await loadProgress(profile.id);
   if (!isLessonUnlocked(progress, moduleId, lessonId)) {
     redirect(`/learn/${moduleId}`);
   }

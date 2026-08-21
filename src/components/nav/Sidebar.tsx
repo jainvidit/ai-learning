@@ -20,7 +20,7 @@ const TRACK_DOT: Record<Track, string> = {
 export default async function Sidebar() {
   const curriculum = loadCurriculum();
   const profile = await getActiveProfile();
-  const progress = profile ? loadProgress(profile.id) : null;
+  const progress = profile ? await loadProgress(profile.id) : null;
 
   return (
     <aside className="flex h-full w-72 shrink-0 flex-col overflow-hidden border-r border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950">
