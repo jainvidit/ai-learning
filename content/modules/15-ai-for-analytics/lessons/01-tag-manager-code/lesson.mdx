@@ -55,7 +55,9 @@ Here's the loop:
 ```javascript
 function() {
   var url = {{Page URL}}; // GTM built-in variable
-  var params = new URLSearchParams(url.split('?')[1]?.split('#')[0]);
+  var queryPart = url.split('?')[1];
+  if (!queryPart) return null;
+  var params = new URLSearchParams(queryPart.split('#')[0]);
   return params.get('product_id') || null;
 }
 ```

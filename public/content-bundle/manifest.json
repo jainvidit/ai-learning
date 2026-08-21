@@ -1,10 +1,14 @@
 {
-  "latest": "94d247879696488a",
+  "latest": "c9dee85cf1724978",
   "manifestFormat": 1,
   "versions": [
     {
       "path": "/content-bundle/94d247879696488a",
       "version": "94d247879696488a"
+    },
+    {
+      "path": "/content-bundle/c9dee85cf1724978",
+      "version": "c9dee85cf1724978"
     },
     {
       "path": "/content-bundle/eb647973722173b3",

@@ -41,7 +41,7 @@ export default async function ModulePage({
     );
   }
 
-  const progress = loadProgress(profile.id);
+  const progress = await loadProgress(profile.id);
   const unlocked = isModuleUnlocked(progress, moduleId);
 
   // Check if module is locked by prerequisites
