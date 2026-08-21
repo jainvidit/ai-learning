@@ -1,0 +1,88 @@
+[
+  {
+    "type": "playground",
+    "id": "playground-observe-variance",
+    "title": "Catch the Dice Roll (Then Tame It)",
+    "instructions": "This is a two-step observation experiment.\n\nStep 1 — Run the starter prompt. Then run it AGAIN, unchanged. Compare the two responses: different name? different slogan? different tone? That's the built-in randomness — the model rolled the dice differently each time.\n\nStep 2 — Now edit the prompt to demand consistency. Constrain it hard: ask for exactly one name and one slogan, tell it to choose the most conventional/standard option (no creativity), and pin down the exact output format, e.g. 'Format: Name: ... / Slogan: ...'. Run your edited prompt twice and see how much more similar the two runs are.\n\nYour score is based on your FINAL prompt: it should still be a creative-generation task (so variance is observable), explicitly ask for the single most standard/conventional answer, and explicitly constrain the output format.",
+    "starterPrompt": "Give me a name and one-line slogan for a coffee shop for night-owls.",
+    "maxTokens": 512,
+    "rubric": [
+      {
+        "id": "explicit-format",
+        "description": "The final prompt explicitly constrains the output format — e.g., specifies exactly one name and one slogan and a template like 'Name: ... / Slogan: ...' or an equally precise structure.",
+        "weight": 35
+      },
+      {
+        "id": "standard-answer",
+        "description": "The prompt explicitly asks for the single most standard, conventional, or common answer (or tells the model not to be creative), which reduces run-to-run variance.",
+        "weight": 35
+      },
+      {
+        "id": "creative-task",
+        "description": "The prompt is a creative-generation task (naming, slogan, tagline, or similar open-ended invention) where run-to-run variance would be observable — not a pure factual lookup.",
+        "weight": 30
+      }
+    ],
+    "passingScore": 60
+  },
+  {
+    "type": "quiz",
+    "id": "quiz-randomness",
+    "title": "Check Your Understanding: Randomness",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-why-different",
+        "kind": "single",
+        "prompt": "Why can the exact same question give different answers on different days?",
+        "options": [
+          { "id": "a", "text": "The model re-trains itself overnight and changes its opinions" },
+          { "id": "b", "text": "At each word, the model rolls weighted dice over a menu of likely next words — different rolls send the answer down different paths" },
+          { "id": "c", "text": "The model remembers your earlier question and deliberately avoids repeating itself" },
+          { "id": "d", "text": "It's a bug that developers haven't fixed yet" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Randomness is built in on purpose. The model computes probabilities for many candidate next words and samples among them; one different early pick reshapes everything after it. It's not retraining, memory, or a bug."
+      },
+      {
+        "id": "q2-temperature",
+        "kind": "single",
+        "prompt": "What does the 'temperature' setting control?",
+        "options": [
+          { "id": "a", "text": "How fast the model responds" },
+          { "id": "b", "text": "How much the model knows about a topic" },
+          { "id": "c", "text": "How adventurous the word choices are — low is predictable and repeatable, high is varied and creative" },
+          { "id": "d", "text": "How polite the model's tone is" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Temperature is a dial on the dice rolls: low means the top-probability word nearly always wins (predictable), high means lower-ranked words get picked more often (varied, sometimes weird). It doesn't affect speed, knowledge, or politeness."
+      },
+      {
+        "id": "q3-when-random",
+        "kind": "multi",
+        "prompt": "For which tasks is LOW randomness (high consistency) the better fit? (Select all that apply.)",
+        "options": [
+          { "id": "a", "text": "Answering a factual question" },
+          { "id": "b", "text": "Brainstorming twenty possible podcast names" },
+          { "id": "c", "text": "Generating code or precise step-by-step instructions" },
+          { "id": "d", "text": "Writing a surprising opening line for a short story" }
+        ],
+        "correctOptionIds": ["a", "c"],
+        "explanation": "Facts and code have right answers — creativity only adds ways to be wrong, and you want the same input to give the same output. Brainstorming and creative writing are exactly where you WANT the dice to roll freely."
+      },
+      {
+        "id": "q4-prompt-dial",
+        "kind": "single",
+        "prompt": "You can't access any temperature setting in your chat app, but you need a consistent, repeatable answer. What's your best move?",
+        "options": [
+          { "id": "a", "text": "Nothing — without the setting, consistency is impossible" },
+          { "id": "b", "text": "Ask the same question many times and pick your favorite answer" },
+          { "id": "c", "text": "Type the question in all capital letters to make it more serious" },
+          { "id": "d", "text": "Ask in the prompt for 'the single most standard, conventional answer' and specify an exact output format" }
+        ],
+        "correctOptionIds": ["d"],
+        "explanation": "Your wording can do the dial's job: asking for the most standard/conventional option and pinning down the exact format makes the safe choice the plausible choice, so run-to-run variance shrinks. Capital letters change nothing, and re-rolling for a favorite is the opposite of repeatable."
+      }
+    ]
+  }
+]

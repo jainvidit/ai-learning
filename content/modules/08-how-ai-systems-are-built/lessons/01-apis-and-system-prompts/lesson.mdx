@@ -1,0 +1,107 @@
+---
+id: 01-apis-and-system-prompts
+title: "APIs & System Prompts: A Peek at This App"
+minutes: 12
+objectives:
+  - Explain what an LLM API is and identify the basic request/response structure
+  - Read a real API route and identify the system prompt, user content, and response handling
+  - Explain why the system prompt is the product's "personality and rules"
+  - Recognize that this app is itself an AI product you can read
+---
+
+## Every AI Product Is a Wrapper
+
+When you click "AI summarize" in your email app, when you ask ChatGPT a question, when you use any AI feature in any product — what's actually happening under the hood?
+
+There's no magic middle layer. Every AI product sends an HTTPS request to a model API: a list of messages goes in, generated text comes out. That's it. The product's value lives entirely in *what it wraps around that call* — the system prompt, the interface, the tools it offers, and the business logic that handles the response.
+
+The model itself? Often the same Claude or GPT that ten other products use. What makes each product different is the wrapper.
+
+## Anatomy of a Request
+
+Here's what a simplified API request looks like in JSON:
+
+```json
+{
+  "model": "claude-3-5-sonnet-20241022",
+  "max_tokens": 1024,
+  "system": "You are a helpful assistant that answers questions about cooking.",
+  "messages": [
+    { "role": "user", "content": "How do I poach an egg?" }
+  ]
+}
+```
+
+Notice the two places text comes from:
+
+- **`system`** — the product's standing instructions. Role, rules, tone, output format. Applied before any user message. This is the **system prompt** you learned about in module 04, now seen in its actual home.
+- **`messages`** — the conversation. Each message has a `role` (`user` or `assistant`) and `content` (the text). This is where your question lives.
+
+The model reads both, generates a completion, and the API returns it. One call, one answer. If you see a "typing" animation in a product, that's the app streaming the response token by token — but it's still one request.
+
+## You Are Inside an AI Product Right Now
+
+Meta moment: **this course is an AI product.** Every playground exercise you've completed was graded by a real model call. The rubric you saw? It was injected into the prompt using XML tags — the exact technique you learned in module 04 — and the model returned a JSON verdict.
+
+Let's look at the actual code. This app's grading pipeline has two parts:
+
+1. **The API route** (`src/app/api/playground/score/route.ts`) receives your prompt and the model output and calls the judge.
+2. **The judge** (`src/lib/judge.ts`) builds the request and parses the model's JSON reply.
+
+Here's the opening of the judge's system prompt, verbatim from the source code:
+
+> You are a strict but encouraging prompt-engineering instructor grading a beginner's prompt against a rubric.
+
+And here's the call structure, pulled from the same file:
+
+```ts
+const response = await bedrock.messages.create({
+  model: JUDGE_MODEL,
+  max_tokens: MAX_TOKENS,
+  system,
+  messages: [{ role: "user", content: userContent }]
+});
+```
+
+That `userContent`? It's built from four XML blocks: `<exercise_instructions>`, `<rubric>`, `<student_prompt>`, and `<model_output>`. The rubric lists each criterion with its weight. The model reads it all, decides met/not-met per criterion, and returns JSON.
+
+**You were graded by the same prompting techniques you learned.** The tagger became the tagged.
+
+## Why the System Prompt Matters Commercially
+
+Two products can use the same model and feel completely different because their system prompts are different. The system prompt encodes:
+
+- **Personality and tone** — formal vs. casual, verbose vs. terse
+- **Rules and guardrails** — "decline requests for financial advice," "always cite sources"
+- **Output format** — prose, JSON, bullet points, a specific structure
+
+This app's judge demands strict JSON output and refuses to grade anything but the prompt. That behavior isn't in the model's training — it's in the system prompt the app injects before every call. Change the prompt, change the product.
+
+## Reliability Tricks in Real Code
+
+Production AI engineering splits work carefully:
+
+- The **model** does fuzzy judgment calls: "does this prompt set a clear role?"
+- **Code** does math, parsing, and control flow.
+
+This app's judge follows that pattern:
+
+- The model returns `met: true` or `met: false` for each rubric criterion.
+- **The app computes your numeric score in code** by summing the weights of the criteria the model marked as met. The model never sees the arithmetic.
+- If the model's JSON doesn't parse, **the app retries the call once** before giving up.
+
+Why? Because LLMs are famously unreliable at arithmetic and occasionally return malformed output. Trust the model for what it's good at; don't trust it for things code can do perfectly.
+
+<Callout kind="tip">
+When you build with AI, keep this split in mind: model for judgment, code for everything deterministic. You'll write more reliable systems.
+</Callout>
+
+## What You've Learned
+
+You've seen the guts of an AI product — the one you're inside. Every "AI feature" is this same loop: build a request with a system prompt and user messages, call the model, parse the response, show the result. The system prompt is the product's DNA. The model is the engine, but the wrapper is the product.
+
+Next, we'll look at how products **do** things — not just answer, but act.
+
+<Exercise id="quiz-apis" />
+
+<Exercise id="pg-system-prompt" />

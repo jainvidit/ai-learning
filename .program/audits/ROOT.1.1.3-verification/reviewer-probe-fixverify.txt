@@ -1,0 +1,54 @@
+=== F1 replay ===
+NaN | THREW TypeError | computeItemRevision: value at score is outside the CP-05 hash-input domain: NaN. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+Infinity | THREW TypeError | computeItemRevision: value at score is outside the CP-05 hash-input domain: Infinity. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+negInfinity | THREW TypeError | computeItemRevision: value at score is outside the CP-05 hash-input domain: -Infinity. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+Date nested | THREW TypeError | computeItemRevision: value at meta.createdAt is outside the CP-05 hash-input domain: Date. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+Map | THREW TypeError | computeItemRevision: value at m is outside the CP-05 hash-input domain: Map. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+Set | THREW TypeError | computeItemRevision: value at s is outside the CP-05 hash-input domain: Set. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+function value | THREW TypeError | computeItemRevision: value at fn is outside the CP-05 hash-input domain: function. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+top-level function | THREW TypeError | computeItemRevision: value at (root) is outside the CP-05 hash-input domain: function. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+BigInt | THREW TypeError | computeItemRevision: value at n is outside the CP-05 hash-input domain: BigInt (9n). Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+symbol value | THREW TypeError | computeItemRevision: value at t is outside the CP-05 hash-input domain: symbol (Symbol(x)). Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+top-level undefined | THREW TypeError | computeItemRevision: value at (root) is outside the CP-05 hash-input domain: undefined. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+undefined in array | THREW TypeError | computeItemRevision: value at beats[1] is outside the CP-05 hash-input domain: undefined. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+toJSON owner | THREW TypeError | computeItemRevision: value at toJSON is outside the CP-05 hash-input domain: function. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+RegExp | THREW TypeError | computeItemRevision: value at r is outside the CP-05 hash-input domain: RegExp. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+Uint8Array | THREW TypeError | computeItemRevision: value at b is outside the CP-05 hash-input domain: Uint8Array. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+class instance | THREW TypeError | computeItemRevision: value at c is outside the CP-05 hash-input domain: class instance (Foo). Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+deep cycle | THREW TypeError | computeItemRevision: circular reference detected at a[0].b.back — the value is its own ancestor (cycle). Circular content is outside the CP-05 hash-input domain.
+array self-cycle | THREW TypeError | computeItemRevision: circular reference detected at [1] — the value is its own ancestor (cycle). Circular content is outside the CP-05 hash-input domain.
+== adversarial pass on NEW code ==
+sparse array | RETURNED "cb0cfcbc65391b8b"
+array 1 null 3 | RETURNED "7db5b36a1553a4e3"
+boxed Number | THREW TypeError | computeItemRevision: value at n is outside the CP-05 hash-input domain: Number. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+boxed String | THREW TypeError | computeItemRevision: value at s is outside the CP-05 hash-input domain: String. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+Proxy over plain | RETURNED "015abd7f5cc57a2d"
+non-enum ignored like JSON -- true
+null-proto admitted equal -- true
+proto-of-proto null (non-plain) | THREW TypeError | computeItemRevision: value at (root) is outside the CP-05 hash-input domain: non-plain object. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+symbol-keyed only | THREW TypeError | computeItemRevision: value at (root)[Symbol(hidden)] is outside the CP-05 hash-input domain: symbol-keyed property (hashable objects have string keys only). Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+minus-zero normalized -- true
+1e21 vs string distinct -- true
+NaN deep path | THREW TypeError | computeItemRevision: value at beats[2].meta.score is outside the CP-05 hash-input domain: NaN. Hashable content is the JSON data model (null, booleans, finite numbers, strings, arrays, plain objects).
+== F3 replay ==
+own keys: ["__proto__","constructor"]
+hasOwn proto key: true
+value: afbf9d0f3560b0fd
+Object.prototype clean: true
+duplicate proto ids | THREW Error | Duplicate item ID encountered: __proto__
+== F4 replay ==
+explicit missing dir | THREW Error | Migration directory not found: definitely-not-a-real-dir-xyz (an explicitly-passed directory must exist)
+default dir count | RETURNED 1
+== pinned-hash independent reproduction ==
+pin null | indep 74234e98afe7498f | module 74234e98afe7498f | pinned 74234e98afe7498f | MATCH
+pin true | indep b5bea41b6c623f7c | module b5bea41b6c623f7c | pinned b5bea41b6c623f7c | MATCH
+pin 42 | indep 73475cb40a568e8d | module 73475cb40a568e8d | pinned 73475cb40a568e8d | MATCH
+pin minus-zero | indep 5feceb66ffc86f38 | module 5feceb66ffc86f38 | pinned 5feceb66ffc86f38 | MATCH
+pin hello | indep 5aa762ae383fbb72 | module 5aa762ae383fbb72 | pinned 5aa762ae383fbb72 | MATCH
+pin emptyObj | indep 44136fa355b3678a | module 44136fa355b3678a | pinned 44136fa355b3678a | MATCH
+pin emptyArr | indep 4f53cda18c2baa0c | module 4f53cda18c2baa0c | pinned 4f53cda18c2baa0c | MATCH
+pin nested | indep 90d6116c9bd77072 | module 90d6116c9bd77072 | pinned 90d6116c9bd77072 | MATCH
+pin beat | indep 5ac6a2295c26fb46 | module 5ac6a2295c26fb46 | pinned 5ac6a2295c26fb46 | MATCH
+pin undefValKey | indep 015abd7f5cc57a2d | module 015abd7f5cc57a2d | pinned 015abd7f5cc57a2d | MATCH
+all pinned reproduced: true
+EXIT_CODE=0

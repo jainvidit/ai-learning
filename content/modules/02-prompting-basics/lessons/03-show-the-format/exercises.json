@@ -1,0 +1,63 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-format",
+    "title": "Check: formats",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "Why is showing a small example of the format you want especially effective?",
+        "options": [
+          { "id": "a", "text": "The model is a pattern continuer, so a demonstrated pattern strongly shapes what comes next" },
+          { "id": "b", "text": "Examples make the prompt longer, and longer prompts always get better answers" },
+          { "id": "c", "text": "The model copies your example word for word into the answer" },
+          { "id": "d", "text": "Examples are required — the model errors without one" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Models continue patterns, so one concrete demonstration often beats a paragraph of description. Length alone doesn't help (b) — relevance does. The model follows the SHAPE of your example, not its words (c), and examples are optional, just powerful (d)."
+      },
+      {
+        "id": "q2",
+        "kind": "multi",
+        "prompt": "Which are format instructions (rather than task or context)? Select all that apply.",
+        "options": [
+          { "id": "a", "text": "\"Answer in a table with columns Option / Cost / Risk\"" },
+          { "id": "b", "text": "\"I'm choosing between three apartments\"" },
+          { "id": "c", "text": "\"Keep it under 150 words\"" },
+          { "id": "d", "text": "\"Use plain language a 12-year-old could follow\"" },
+          { "id": "e", "text": "\"Compare the apartments for me\"" }
+        ],
+        "correctOptionIds": ["a", "c", "d"],
+        "explanation": "Structure (a), length (c), and style (d) are the three format levers. \"I'm choosing between three apartments\" is context (b), and \"compare them\" is the task itself (e). Great prompts usually contain all three kinds."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "You asked for meal ideas and got a 600-word essay when you wanted a quick list. What's the best fix?",
+        "options": [
+          { "id": "a", "text": "Ask the exact same question again and hope for a shorter answer" },
+          { "id": "b", "text": "Reask with explicit format: \"Give me 7 dinner ideas as a bulleted list, one line each\"" },
+          { "id": "c", "text": "Give up — the model can only write essays" },
+          { "id": "d", "text": "Add \"please\" to the original question" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Naming the structure (bulleted list), count (7), and length (one line each) removes the guesswork. Re-rolling the same prompt (a) just samples another essay-shaped answer; politeness (d) doesn't specify anything; and (c) — the model formats however you ask, once you actually ask."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-format",
+    "title": "Design the output",
+    "instructions": "Ask the model to plan a simple weekend trip to a city of your choice — but YOU design the output. Your prompt must (1) state the trip request with at least one preference (budget, food, walking pace, interests), (2) specify the structure of the answer (e.g. a day-by-day plan, a table, or grouped sections — name the sections or columns), (3) set a length limit (word count, item count, or lines per item), and (4) include a one-line example showing the format of a single entry, like: \"9am — Coffee at a local cafe (cheap, near hotel)\".",
+    "rubric": [
+      { "id": "task-pref", "description": "The prompt requests the trip plan and includes at least one personal preference or constraint.", "weight": 20 },
+      { "id": "structure", "description": "The prompt names an explicit output structure (sections, columns, or day-by-day breakdown).", "weight": 30 },
+      { "id": "length", "description": "The prompt sets a concrete length limit (word count, item count, or per-item length).", "weight": 20 },
+      { "id": "example", "description": "The prompt includes a one-line example demonstrating the format of a single entry.", "weight": 30 }
+    ],
+    "passingScore": 70
+  }
+]

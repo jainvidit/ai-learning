@@ -1,0 +1,77 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-apis",
+    "title": "Quiz: APIs & System Prompts",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-what-is-api",
+        "kind": "single",
+        "prompt": "When you use an AI feature inside any app, what is actually happening under the hood?",
+        "options": [
+          { "id": "a", "text": "The app has its own small AI model built into your device's app files" },
+          { "id": "b", "text": "The app sends a request containing messages to a model API over the internet and receives generated text back" },
+          { "id": "c", "text": "A human reviewer answers most requests, with AI for overflow" },
+          { "id": "d", "text": "The app searches a database of pre-written answers" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Nearly every AI product is a wrapper around a model API: messages in, completion out. The product's value lives in what it puts around that call — the system prompt, tools, and interface."
+      },
+      {
+        "id": "q2-system-role",
+        "kind": "single",
+        "prompt": "In an API request, what is the system prompt for?",
+        "options": [
+          { "id": "a", "text": "It's the user's most recent question" },
+          { "id": "b", "text": "It's a debugging log the model ignores" },
+          { "id": "c", "text": "It's the product's standing instructions — role, rules, tone, and output format — applied before any user message" },
+          { "id": "d", "text": "It configures which GPU the model runs on" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "The system prompt is where a product encodes its personality and rules. This app's judge system prompt tells the model it is 'a strict but encouraging prompt-engineering instructor' and demands JSON-only output — that IS the grading product."
+      },
+      {
+        "id": "q3-this-app",
+        "kind": "single",
+        "prompt": "When this app grades one of your playground prompts, what does its judge code do with the rubric?",
+        "options": [
+          { "id": "a", "text": "It injects the rubric into the model's request wrapped in XML tags, and asks for a JSON verdict per criterion" },
+          { "id": "b", "text": "It compares your prompt to a stored answer key character by character" },
+          { "id": "c", "text": "It counts keywords in your prompt without calling a model" },
+          { "id": "d", "text": "It emails the rubric to a human grader" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "The judge builds a user message with <exercise_instructions>, <rubric>, <student_prompt>, and <model_output> XML blocks — the exact tagging technique you learned in module 04 — and parses the model's JSON reply."
+      },
+      {
+        "id": "q4-trust-split",
+        "kind": "multi",
+        "prompt": "This app's judge computes your numeric score in code (summing rubric weights), while the model only decides met/not-met per criterion. Which lessons does that design reflect? (select all that apply)",
+        "options": [
+          { "id": "a", "text": "Trust the model for judgment calls, but code for arithmetic and control flow" },
+          { "id": "b", "text": "Models can produce malformed output, so production systems validate and retry" },
+          { "id": "c", "text": "Models are always better than code at math" },
+          { "id": "d", "text": "Keeping the model's job small and structured makes its output more reliable" }
+        ],
+        "correctOptionIds": ["a", "b", "d"],
+        "explanation": "Production AI engineering splits work: the model does fuzzy judgment; deterministic code does math, parsing, and scoring. The judge even retries once if the JSON doesn't parse. Option c is backwards — LLMs are famously unreliable at arithmetic."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-system-prompt",
+    "title": "Playground: Write a Product's System Prompt",
+    "instructions": "You're building 'RecipeRescue', an app where users type ingredients they have and get one dinner suggestion. Write the SYSTEM PROMPT for its API calls. It must: give the model a clear role, set a friendly-but-brief tone, force a fixed output format (recipe name, 3-6 numbered steps, one substitution tip), and include at least one guardrail (e.g., decline non-food requests, flag allergy uncertainty). Test it: the user message will be 'chicken thighs, half a lemon, rice, and a sad-looking zucchini'.",
+    "starterPrompt": "You are...",
+    "maxTokens": 1024,
+    "rubric": [
+      { "id": "role", "description": "The prompt assigns the model a clear role/persona appropriate to a recipe-suggestion product", "weight": 20 },
+      { "id": "format", "description": "The prompt specifies a concrete output format including a recipe name, numbered steps, and a substitution tip", "weight": 30 },
+      { "id": "tone", "description": "The prompt sets an explicit tone or length constraint (e.g., friendly, brief, no rambling)", "weight": 20 },
+      { "id": "guardrail", "description": "The prompt includes at least one guardrail: off-topic refusal, allergy/safety caution, or similar standing rule", "weight": 30 }
+    ],
+    "passingScore": 70
+  }
+]

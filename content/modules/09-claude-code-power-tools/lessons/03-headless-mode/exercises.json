@@ -1,0 +1,76 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-headless",
+    "title": "Quiz: Headless Mode",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-flag",
+        "kind": "single",
+        "prompt": "What does `claude -p` do?",
+        "options": [
+          { "id": "a", "text": "Opens Claude Code in plan mode" },
+          { "id": "b", "text": "Runs Claude Code headlessly: takes a prompt, runs the agent loop without an interactive UI, prints output, and exits" },
+          { "id": "c", "text": "Prints Claude Code's version" },
+          { "id": "d", "text": "Pauses the current session" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "-p is print/headless mode — the non-interactive building block. Scripts, CI jobs, and apps (including this one) drive Claude Code this way."
+      },
+      {
+        "id": "q2-stream-json",
+        "kind": "single",
+        "prompt": "With `--output-format stream-json`, what does Claude Code emit?",
+        "options": [
+          { "id": "a", "text": "A single JSON file written to disk at the end" },
+          { "id": "b", "text": "Newline-delimited JSON events as they happen: text deltas, tool-use starts, and a final result with session id and cost" },
+          { "id": "c", "text": "YAML, one document per turn" },
+          { "id": "d", "text": "The same prose as interactive mode, wrapped in quotes" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Streamed NDJSON lets a consuming program react in real time — exactly how this app turns deltas into streaming text and tool_use blocks into the tool badges in your terminal panel."
+      },
+      {
+        "id": "q3-this-app",
+        "kind": "single",
+        "prompt": "When you press Run in this app's terminal exercises, what actually happens on the server?",
+        "options": [
+          { "id": "a", "text": "A simulated terminal replays pre-recorded output" },
+          { "id": "b", "text": "The real claude binary is spawned headlessly inside your personal sandbox copy, with the exercise's allowed tools and turn limit, and its JSON stream is relayed to your browser" },
+          { "id": "c", "text": "Your prompt is sent directly to a bare model API with no tools" },
+          { "id": "d", "text": "A human instructor runs the commands" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "It's the real thing: `claude -p --allowedTools ... --max-turns ... --output-format stream-json` in `sandbox/live/<your-profile>/<lesson>`. Everything you've learned transfers directly to the real CLI."
+      },
+      {
+        "id": "q4-resume",
+        "kind": "multi",
+        "prompt": "Which are true about sessions in headless mode? (select all that apply)",
+        "options": [
+          { "id": "a", "text": "The final result event includes a session id" },
+          { "id": "b", "text": "Passing --resume with that id continues the conversation with prior context intact" },
+          { "id": "c", "text": "Headless sessions can never be continued" },
+          { "id": "d", "text": "This app's Reset button discards the stored session id and reseeds the sandbox — a genuinely fresh start" }
+        ],
+        "correctOptionIds": ["a", "b", "d"],
+        "explanation": "Headless runs are resumable via session id — that's how the app's terminal keeps context across your prompts, and why Reset (new sandbox + no resume) truly clears the slate."
+      }
+    ]
+  },
+  {
+    "type": "terminal",
+    "id": "term-headless-observe",
+    "title": "Terminal: Watch the Machinery",
+    "instructions": "You're inside the machinery this lesson described. Give Claude a small multi-step task and watch the event stream: 'Read package.json, then create a file called about.txt describing what this project does in two sentences.' Notice the tool badges (Read, Write) — each is a tool_use event from the JSON stream. Then send a SECOND prompt: 'What did you write in about.txt?' — it remembers, because the app resumed your session. Finally press Reset and ask the same question: with the session gone, Claude must read the file again (or won't know).",
+    "sandboxTemplate": "m09-headless-demo",
+    "allowedTools": "Read,Glob,Write",
+    "maxTurns": 8,
+    "suggestedPrompts": [
+      "Read package.json, then create about.txt describing this project in two sentences.",
+      "What did you write in about.txt?",
+      "Without reading any files: what is in about.txt?"
+    ]
+  }
+]

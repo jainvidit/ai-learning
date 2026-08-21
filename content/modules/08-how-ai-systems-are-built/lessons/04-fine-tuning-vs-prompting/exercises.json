@@ -1,0 +1,62 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-finetune",
+    "title": "Quiz: Fine-Tuning vs Prompting",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-define",
+        "kind": "single",
+        "prompt": "What is fine-tuning?",
+        "options": [
+          { "id": "a", "text": "Writing a more detailed system prompt" },
+          { "id": "b", "text": "Continuing to train an existing model on your own examples so its internal weights change" },
+          { "id": "c", "text": "Adding a retrieval index to a model" },
+          { "id": "d", "text": "Manually editing the model's answers after the fact" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Fine-tuning changes the model itself. Prompting and RAG change only what goes into the context. That's why fine-tuning is powerful for behavior and style but expensive and slow to iterate."
+      },
+      {
+        "id": "q2-facts",
+        "kind": "single",
+        "prompt": "Your company's product catalog changes weekly and you want the AI to answer questions about it. Best approach?",
+        "options": [
+          { "id": "a", "text": "Fine-tune the model on the catalog every week" },
+          { "id": "b", "text": "RAG — index the catalog and retrieve relevant entries per question" },
+          { "id": "c", "text": "Hope the base model learned your catalog during training" },
+          { "id": "d", "text": "Paste the full catalog into every prompt" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Changing facts belong in a retrieval index you can update instantly. Fine-tuning bakes knowledge into weights — stale within a week and costly to redo. Full-catalog pasting blows the context budget."
+      },
+      {
+        "id": "q3-ladder",
+        "kind": "single",
+        "prompt": "A teammate's first idea for fixing an AI feature's inconsistent tone is 'let's fine-tune.' What's the better first step?",
+        "options": [
+          { "id": "a", "text": "Agree — fine-tuning is always the strongest fix" },
+          { "id": "b", "text": "Climb the ladder: improve the system prompt and add few-shot examples of the desired tone first; they're 10-100x cheaper to try" },
+          { "id": "c", "text": "Switch model providers" },
+          { "id": "d", "text": "Add a RAG index of tone guidelines" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Prompt → few-shot → RAG → fine-tune, in that order. Tone is often fixable with a clear system prompt plus 2-3 examples — the same techniques you practiced in modules 02-04."
+      },
+      {
+        "id": "q4-when-ft",
+        "kind": "multi",
+        "prompt": "When is fine-tuning genuinely the right call? (select all that apply)",
+        "options": [
+          { "id": "a", "text": "Enforcing a strict output format across millions of calls where every prompt token counts" },
+          { "id": "b", "text": "Teaching the model this week's product prices" },
+          { "id": "c", "text": "Distilling a consistent brand voice that prompting can't reliably hold" },
+          { "id": "d", "text": "Replacing a large prompted model with a smaller, cheaper specialized one" }
+        ],
+        "correctOptionIds": ["a", "c", "d"],
+        "explanation": "Fine-tuning shines for behavior, style, and efficiency at scale. Fresh facts (b) belong in RAG — weights are the wrong place for anything that changes."
+      }
+    ]
+  }
+]

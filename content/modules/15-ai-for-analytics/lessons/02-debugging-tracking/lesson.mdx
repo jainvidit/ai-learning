@@ -1,0 +1,153 @@
+---
+id: 02-debugging-tracking
+title: "Debugging Tracking Issues"
+minutes: 13
+objectives:
+  - Interpret browser console errors related to tracking
+  - Understand how to prompt AI to debug data layer issues
+  - Use AI to analyze network request payloads
+  - Fix broken tag implementations systematically
+---
+
+## When Tags Go Wrong
+
+You just deployed a GA4 event for "add_to_cart" tracking. You test it. Nothing fires. You check the console — there's a cryptic error: `Cannot read property 'push' of undefined`. The data layer isn't initializing. Somewhere in your 400-line GTM container, something broke.
+
+**Debugging tracking is different from writing it.** You're not building from scratch — you're detective work. You need to:
+- Reproduce the issue
+- Isolate what's broken (data layer? trigger? tag config?)
+- Understand the error message
+- Fix the root cause, not the symptom
+
+AI can accelerate every step of this loop — if you know how to describe what's broken.
+
+## The Debugging Loop: A Systematic Approach
+
+<Callout kind="tip">
+The fastest path to fixing a broken tag: reproduce it, describe exactly what you see to AI (error message, expected behavior, relevant code), then test the fix.
+</Callout>
+
+**1. Reproduce the problem**
+
+Can you make the error happen consistently? "Tags fail sometimes" is hard to debug. "Tags fail when user clicks Add to Cart button on product pages" gives you a starting point.
+
+**2. Isolate the failure point**
+
+Where in the tracking chain is it breaking?
+- Data layer not being set? (check `console.log(dataLayer)`)
+- Tag not firing? (check GTM preview mode)
+- Tag firing but sending wrong data? (check browser network tab)
+- Data arriving in analytics but formatted wrong? (check your analytics tool's debugger)
+
+**3. Gather the evidence**
+
+Before asking AI for help, collect:
+- The exact error message from the console
+- The expected behavior ("should send product_id: ABC-123")
+- The actual behavior ("sends product_id: undefined")
+- The relevant code (the data layer push, the GTM tag config, etc.)
+
+**4. Describe it clearly to AI**
+
+**Bad prompt:** "My tracking isn't working, can you fix it?"
+
+**Good prompt:** "I'm getting a JavaScript error: 'Cannot read property push of undefined' when trying to push to the data layer on line 23 of my product page script. Here's the code: [paste code]. The data layer should be initialized before this runs. What's the likely issue and how do I fix it?"
+
+## Reading Console Errors (and What They Mean)
+
+Common tracking errors and what they're telling you:
+
+**"Cannot read property 'push' of undefined"**
+→ `dataLayer` isn't defined yet. You're trying to push events before initializing `dataLayer = dataLayer || [];`
+
+**"Uncaught ReferenceError: gtag is not defined"**
+→ The Google Analytics script hasn't loaded yet, or it's blocked by an ad blocker. Check your script loading order.
+
+**"Uncaught TypeError: X is not a function"**
+→ You're calling something that doesn't exist or isn't the type you think it is. Common with outdated GTM code or copy-paste mistakes.
+
+**No error, but tag doesn't fire**
+→ Not a JavaScript error — this is a GTM trigger problem. Check GTM preview mode to see why the trigger didn't activate.
+
+## Describing Bugs to AI: The Checklist
+
+When AI is your debugging partner, give it everything it needs:
+
+1. **The error message** (copy-paste the exact text, don't paraphrase)
+2. **Where it happens** (which page, which user action, which line of code)
+3. **What you expected** vs **what you got** (with examples)
+4. **The relevant code** (don't dump your entire 500-line tag manager container — just the function/tag that's failing)
+5. **What you've already tried** (if you tested something that didn't work, say so)
+
+**Example:**
+> "I'm getting this error in Chrome DevTools:
+> 
+> `Uncaught TypeError: Cannot read properties of null (reading 'product_id')`
+>
+> This happens when a user clicks the 'Add to Cart' button on https://example.com/products/shoes. I'm trying to read the product ID from a data attribute on the button.
+>
+> Here's the code (line 15 is where it fails):
+> ```javascript
+> var button = document.querySelector('.add-to-cart');
+> var productId = button.getAttribute('data-product-id'); // line 15
+> ```
+>
+> Expected: productId should be 'SHOE-9876' (the value from the HTML data attribute)
+> Actual: Getting error because button is null
+>
+> The button exists on the page — I can see it in the Elements tab. What am I missing?"
+
+This gives AI everything: error, context, code, expected vs actual, and what you've verified.
+
+## The Quick Wins: Common Fixes
+
+Before diving deep, check these first:
+
+**Data layer timing issue?**
+```javascript
+// Wrong: dataLayer might not exist yet
+dataLayer.push({ event: 'page_view' });
+
+// Right: Initialize first
+window.dataLayer = window.dataLayer || [];
+dataLayer.push({ event: 'page_view' });
+```
+
+**Selector not finding element?**
+```javascript
+// Wrong: querySelector returns null if element doesn't exist
+var value = document.querySelector('.product-id').textContent;
+
+// Right: Check before accessing properties
+var el = document.querySelector('.product-id');
+var value = el ? el.textContent : null;
+```
+
+**Trigger firing before DOM is ready?**
+In GTM, make sure your tag fires on DOM Ready or Window Loaded, not Page View, if it's reading page elements.
+
+## AI's Role: Pattern Recognition, Not Mind Reading
+
+AI can spot common mistakes instantly ("you forgot to initialize dataLayer") because it's seen thousands of similar bugs. But it can't debug what it can't see.
+
+**AI is great at:**
+- Spotting syntax errors you missed
+- Recognizing anti-patterns ("this will fail if the element doesn't exist")
+- Suggesting null checks and error handling
+- Explaining cryptic error messages in plain English
+
+**AI can't debug:**
+- Race conditions without timing context ("which loads first?")
+- Browser-specific bugs without knowing your browser/version
+- Tag firing behavior without seeing your GTM trigger config
+- Third-party script conflicts without knowing what else is on the page
+
+You provide context. AI provides pattern recognition.
+
+## Your Turn: Debug a Broken Tag
+
+<Exercise id="tx-debug-ga4" />
+
+---
+
+**Next:** In the next lesson, you'll learn how to use AI to write SQL queries for analytics data — from simple event counts to complex funnels and retention analysis.

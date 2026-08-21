@@ -1,0 +1,86 @@
+---
+id: 04-permission-modes
+title: "Permission Modes & Allowed Tools"
+minutes: 12
+objectives:
+  - Read and interpret an --allowedTools list
+  - Understand scoped Bash rules like Bash(node *)
+  - Know the three permission modes and when to use each
+  - Apply least-privilege thinking to tool selection
+---
+
+## Recap and Deepen
+
+Module 05 introduced the permission prompt: when Claude wants to use a tool, you see what it's about to do and can approve or deny it. That's the default safety model — human in the loop.
+
+Power users script permissions instead of clicking through them. The `--allowedTools` flag pre-approves exactly the tools you specify, and a permission mode controls what happens when Claude tries something not on the list.
+
+This lesson shows you how to read an allowlist, choose the right mode, and apply least-privilege thinking.
+
+## The Grammar
+
+The `--allowedTools` flag takes a comma-separated list. Each entry can be:
+
+- **A tool name:** `Read`, `Edit`, `Write`, `Grep`, `Glob` — allows that tool unconditionally.
+- **A scoped Bash rule:** `Bash(prefix *)` allows shell commands matching a prefix.
+
+### Scoped Bash Rules
+
+`Bash(node *)` means: allow any shell command that starts with `node`. So `node test.js` runs, but `npm install` or `rm -rf build` are denied.
+
+Why scope Bash instead of allowing it wholesale? Because unscoped `Bash` is a universal escape hatch: anything you can run in a terminal, Claude can run. Scoped rules let you grant exactly the shell access the job needs and nothing more.
+
+Examples:
+
+- `Bash(node *)` — run Node scripts, but not npm or system commands.
+- `Bash(git status)` — allow `git status` only; nothing else.
+- `Bash(pytest *)` — run Python tests, but not pip or arbitrary scripts.
+
+This is the heart of least-privilege agent design.
+
+## Permission Modes
+
+Once you've declared an allowlist, a **permission mode** controls what happens when Claude tries something not on it:
+
+1. **Default (prompt):** You get a permission prompt for anything not pre-approved. Good for exploration where you want visibility into each action.
+
+2. **acceptEdits:** File edits (Edit, Write) are auto-approved; everything else still prompts. Perfect for refactor sessions where you trust Claude to change files but want to see shell commands before they run.
+
+3. **dontAsk (bypass):** Never prompt. Allowed tools run; everything else is denied automatically, and Claude must adapt or report it can't proceed.
+
+`dontAsk` is what this app uses. Why? Because there's no way to click "approve" mid-stream when Claude is running headlessly in a server process. The allowlist is the fence; anything outside the fence simply doesn't run.
+
+## Least Privilege as a Design Skill
+
+For each job, ask: **what's the smallest tool set that can do it?**
+
+- **Review task** (read code, report issues): `Read,Glob,Grep` — nothing else needed.
+- **Fix-a-bug task** (diagnose, edit, verify): add `Edit` and `Bash(node *)` for running tests.
+- **Setup task** (install deps, configure): you might grant `Bash(npm *)` or even unscoped `Bash`, but only if you trust the environment and the agent's instructions.
+
+More power = more risk. Granting `Edit` to a read-only job is harmless waste. Granting unscoped `Bash` to a task that only needs `Bash(node test.js)` is a real exposure: one bad prompt or one malicious instruction could run `rm -rf /`.
+
+### Worked Examples
+
+**Scenario:** Generate a README by reading the codebase.
+
+- Tools needed: `Read,Glob,Grep,Write`
+- Mode: doesn't matter (no dangerous tools), but `dontAsk` keeps it clean.
+
+**Scenario:** Refactor a module — move functions, rename variables, ensure tests still pass.
+
+- Tools needed: `Read,Edit,Bash(node test/*)`
+- Mode: `acceptEdits` if you want to see test commands; `dontAsk` if you trust the scoped Bash rule.
+
+**Scenario:** Migrate database schema (unknown scripts might run).
+
+- Tools needed: could be broad — `Read,Edit,Bash` if the migration uses shell scripts.
+- Mode: default (prompt), because you want to see every command. This is a dangerous operation; automate only after you've validated the process.
+
+## What a Denial Looks Like
+
+When Claude tries a tool that's denied (in `dontAsk` mode), it receives an error message: "Tool X is not allowed." Claude sees this just like any other error and must adapt.
+
+In the next lesson, you'll experience this firsthand: you'll ask Claude to fix a bug with read-only tools, then watch it find the bug and explain the fix — but report it can't actually edit. Then you'll give it write access and watch the same request succeed.
+
+<Exercise id="quiz-permissions" />

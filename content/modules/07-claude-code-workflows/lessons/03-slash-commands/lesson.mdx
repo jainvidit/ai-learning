@@ -1,0 +1,55 @@
+---
+id: 03-slash-commands
+title: "The Slash Command Tour"
+minutes: 10
+objectives:
+  - Explain what slash commands are - instructions to the app, not prompts to the model
+  - Name what /help, /clear, /resume, and /config do
+  - Choose the right command for common session situations
+---
+
+Everything you've typed so far was FOR Claude — a goal, a question, an instruction.
+
+But sometimes you need to talk to the APP AROUND Claude: wipe the slate, pick up yesterday's session, change a setting.
+
+Those messages start with `/` — **slash commands**.
+
+## The distinction
+
+A **prompt** goes INTO the conversation. Claude reads it and acts on it.
+
+A **slash command** steers the SESSION itself. The conversation is the cargo; slash commands drive the truck.
+
+Typing `/` first is how the app knows the difference.
+
+## The everyday four
+
+Here are the commands you'll reach for daily:
+
+### `/help`
+
+Lists what's available. The command you're allowed to forget everything else because of.
+
+### `/clear`
+
+Wipes the conversation and starts fresh in the same project.
+
+When to use: the context is polluted (remember module 02's "restart beats a fifth correction" — now you have the button for it), or you're switching to an unrelated task.
+
+### `/resume`
+
+Shows past sessions and lets you pick one up with its full memory intact. Tomorrow's lesson makes this concrete.
+
+### `/config`
+
+Opens settings to view or change how Claude Code behaves. The interactive cousin of the settings.json file you just read.
+
+<Callout kind="tip">
+/clear is the most underused command in real workflows. A long, wandering conversation drags every wrong turn along with it. Done with a task means /clear before the next one.
+</Callout>
+
+<Callout kind="info">
+There are more commands — /help lists them all — and module 09 introduces the power set (including commands you can create yourself). Note this app's embedded terminal doesn't take slash commands; its Reset button plays the role of /clear, and its Continue session box plays the role of /resume.
+</Callout>
+
+<Exercise id="quiz-slash" />

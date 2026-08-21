@@ -1,0 +1,9 @@
+
+ RUN  v4.1.10 C:/Users/jainv/workplace/ai-learning-app
+
+
+ Test Files  1 passed (1)
+      Tests  19 passed (19)
+   Start at  11:57:13
+   Duration  579ms (transform 61ms, setup 0ms, import 205ms, tests 53ms, environment 0ms)
+

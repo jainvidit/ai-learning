@@ -1,0 +1,20 @@
+[
+  {
+    "type": "challenge",
+    "id": "challenge-green-tests",
+    "title": "Challenge: Make the Suite Pass",
+    "instructions": "Direct Claude Code to create journal.js (in the repo root) so that node tests/journal.test.js exits 0 with every case printing PASS. The test file is the complete spec — have Claude read it, implement add/list/search (in-memory storage is fine), and run the suite after each change until it's green. Hard rule: tests/journal.test.js must not be modified. Use goal-style phrasing: end state, check, constraint, turn bound — then let Claude iterate.",
+    "sandboxTemplate": "m14-capstone",
+    "allowedTools": "Read,Glob,Grep,Write,Edit,Bash(node *)",
+    "maxTurns": 15,
+    "verifierId": "m14-tests",
+    "criteria": [
+      "node tests/journal.test.js exits with code 0 (all cases PASS)"
+    ],
+    "hints": [
+      "Start with: 'Read tests/journal.test.js, then implement journal.js so every case passes. Run the tests after each change. Do not edit the test file. Stop when the suite exits 0.'",
+      "The tests expect module.exports = { add, list, search }; add returns an object with id and text; search is case-insensitive and returns an array.",
+      "If one case keeps failing, have Claude paste the exact FAIL line and re-read just that case in the test file — the expected behavior is written there."
+    ]
+  }
+]

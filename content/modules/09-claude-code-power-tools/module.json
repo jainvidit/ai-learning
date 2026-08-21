@@ -1,0 +1,13 @@
+{
+  "id": "09-claude-code-power-tools",
+  "title": "Claude Code Power Tools",
+  "track": "claude-code",
+  "description": "Level up from everyday use to power use: skills that load knowledge on demand, hooks that automate around events, headless mode that turns Claude Code into a building block — the exact mechanism running this app's terminal — and the permission system that keeps it all safe.",
+  "lessons": [
+    { "id": "01-skills", "title": "Skills: Knowledge on Demand" },
+    { "id": "02-hooks", "title": "Hooks: Automation on Events" },
+    { "id": "03-headless-mode", "title": "Headless Mode: How This App Works" },
+    { "id": "04-permission-modes", "title": "Permission Modes & Allowed Tools" },
+    { "id": "05-sandboxing-in-practice", "title": "Sandboxing in Practice" }
+  ]
+}

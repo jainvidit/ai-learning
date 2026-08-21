@@ -1,0 +1,63 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-confidence",
+    "title": "Check: confidence vs correctness",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "Why do wrong answers from an LLM usually sound just as confident as right ones?",
+        "options": [
+          { "id": "a", "text": "The model is trained to deceive users" },
+          { "id": "b", "text": "Confident phrasing is the most likely continuation style in its training text, produced the same way whether the fact is right or invented" },
+          { "id": "c", "text": "The model is always at least 90% sure of what it says" },
+          { "id": "d", "text": "Wrong answers actually do sound noticeably more hesitant" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Training text — articles, textbooks, explanations — overwhelmingly sounds sure of itself, so confident tone is simply the likeliest style to predict. Tone is part of the output, not a self-report of certainty. There's no deception motive (a) and no reliable hesitancy signal (d)."
+      },
+      {
+        "id": "q2",
+        "kind": "multi",
+        "prompt": "Which situations call for verifying the model's answer before acting on it? Select all that apply.",
+        "options": [
+          { "id": "a", "text": "It suggested a medication dosage for your child" },
+          { "id": "b", "text": "It brainstormed 20 names for your book club" },
+          { "id": "c", "text": "It stated a statistic you're about to put in a presentation" },
+          { "id": "d", "text": "It gave you a deadline for a government form you must file" },
+          { "id": "e", "text": "It drafted a silly birthday poem" }
+        ],
+        "correctOptionIds": ["a", "c", "d"],
+        "explanation": "Dosages and filing deadlines are high-stakes (and for medical questions, AI should only assist a professional or primary source, never replace one); a statistic you'll repeat publicly is medium-stakes and worth checking. Brainstormed names (b) and a poem (e) are low-stakes — usefulness is the only test, so verification adds nothing."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "You ask the same factual question in two fresh conversations and get confident but CONTRADICTORY answers. What should you conclude?",
+        "options": [
+          { "id": "a", "text": "The first answer is right because it came first" },
+          { "id": "b", "text": "At least one confident answer is wrong — treat the fact as unverified and check a real source" },
+          { "id": "c", "text": "Average the two answers" },
+          { "id": "d", "text": "The longer, more detailed answer is the correct one" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Contradiction under reruns is a hallucination red flag: the model is sampling plausible-sounding answers, not retrieving a solid fact. Order (a), averaging (c), and length or detail (d) carry no evidence — detail is generated as fluently as everything else. Go to a primary source."
+      },
+      {
+        "id": "q4",
+        "kind": "single",
+        "prompt": "Which is the best use of the 'trust / verify / wrong-tool' rule?",
+        "options": [
+          { "id": "a", "text": "Trust everything from the model that sounds professional" },
+          { "id": "b", "text": "Verify every single output no matter how trivial, or don't use AI at all" },
+          { "id": "c", "text": "Match your checking effort to the stakes: use drafts freely, verify facts you'll rely on, and keep AI as assistant-only for medical, legal, and financial decisions" },
+          { "id": "d", "text": "Only use AI for questions you already know the answer to" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Stakes-based checking is the working professional's approach: it keeps the speed benefits for low-stakes work while protecting you where errors are costly. Blanket trust (a) ignores everything this lesson showed; blanket verification (b) or only-known-answers (d) throws away most of the tool's value."
+      }
+    ]
+  }
+]

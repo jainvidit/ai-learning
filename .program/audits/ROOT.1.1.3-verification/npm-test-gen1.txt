@@ -1,0 +1,14 @@
+
+> ai-learning-app@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.10 C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a4cf181fb3d5672a6
+
+
+ Test Files  3 passed (3)
+      Tests  145 passed (145)
+   Start at  01:28:08
+   Duration  839ms (transform 288ms, setup 0ms, import 477ms, tests 484ms, environment 1ms)
+
+EXIT_CODE=0

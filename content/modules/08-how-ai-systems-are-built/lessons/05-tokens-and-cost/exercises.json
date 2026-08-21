@@ -1,0 +1,62 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-cost",
+    "title": "Quiz: Tokens & Cost",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-billing",
+        "kind": "single",
+        "prompt": "How are LLM API calls typically billed?",
+        "options": [
+          { "id": "a", "text": "A flat fee per API call regardless of size" },
+          { "id": "b", "text": "By tokens: everything sent in (prompt + context) and everything generated out, priced per million tokens" },
+          { "id": "c", "text": "By the seconds of compute time used" },
+          { "id": "d", "text": "By the number of correct answers" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Input and output tokens are metered separately, priced per million. Every word of system prompt, retrieved document, and chat history is on the bill — every single call."
+      },
+      {
+        "id": "q2-math",
+        "kind": "single",
+        "prompt": "At $3 per million input tokens and $15 per million output tokens, roughly what does a call with 10,000 input tokens and 1,000 output tokens cost?",
+        "options": [
+          { "id": "a", "text": "About $0.045 (4.5 cents)" },
+          { "id": "b", "text": "About $4.50" },
+          { "id": "c", "text": "About $0.0045 (half a cent)" },
+          { "id": "d", "text": "About $45" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Input: 10,000 ÷ 1,000,000 × $3 = $0.03. Output: 1,000 ÷ 1,000,000 × $15 = $0.015. Total ≈ $0.045. Pennies per call — until you multiply by a million calls."
+      },
+      {
+        "id": "q3-output-premium",
+        "kind": "single",
+        "prompt": "Why do output tokens usually cost several times more than input tokens?",
+        "options": [
+          { "id": "a", "text": "Output tokens are longer words" },
+          { "id": "b", "text": "Generating tokens is sequential — one at a time, each requiring a full pass — while reading input can be processed in parallel" },
+          { "id": "c", "text": "Providers charge more for whatever users want most" },
+          { "id": "d", "text": "Output tokens include images" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Reading (prefill) parallelizes; generation is inherently one-token-at-a-time. That asymmetry in compute shows up directly in the price sheet — and is a reason to constrain response length."
+      },
+      {
+        "id": "q4-leaks",
+        "kind": "multi",
+        "prompt": "Which habits leak money in an AI product? (select all that apply)",
+        "options": [
+          { "id": "a", "text": "A 3,000-token system prompt resent with every one of a million daily calls" },
+          { "id": "b", "text": "Retrieving 20 document chunks when 3 would answer the question" },
+          { "id": "c", "text": "Long chats that resend the entire conversation history each turn" },
+          { "id": "d", "text": "Asking the model for a one-paragraph answer instead of an essay" }
+        ],
+        "correctOptionIds": ["a", "b", "c"],
+        "explanation": "Repeated bloat, over-retrieval, and unbounded history are the classic leaks — each re-billed on every call. Constraining output length (d) SAVES money. Trimming context also tends to improve answer quality, as module 10 will show."
+      }
+    ]
+  }
+]

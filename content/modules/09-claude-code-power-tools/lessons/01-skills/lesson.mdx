@@ -1,0 +1,66 @@
+---
+id: 01-skills
+title: "Skills: Knowledge on Demand"
+minutes: 12
+objectives:
+  - Define what a Claude Code skill is and where it lives
+  - Know the SKILL.md layout and frontmatter requirements
+  - Explain trigger-based loading and why it beats stuffing everything into CLAUDE.md
+  - Decide when to use a skill versus CLAUDE.md for project documentation
+---
+
+## The Problem Skills Solve
+
+CLAUDE.md is loaded into every session, whether the instructions are relevant or not. That's perfect for facts that always matter: your build command, the project layout, coding standards that apply to every file.
+
+But what about deep instructions for occasional tasks? Your release process, chart styling guidelines, database migration procedures — procedures that might be 40–80 lines of detail but only needed once a week or once a month. Loading all of that into every session would bloat your context with instructions that sit unused 95% of the time.
+
+This is the problem skills solve. Hold this thought — in module 10, you'll see this idea generalized into a broader principle called progressive disclosure.
+
+## What a Skill Is
+
+A skill is a folder `.claude/skills/<name>/` containing a `SKILL.md` file. That file has two parts:
+
+1. **Frontmatter** (YAML): a `name` and a one-line `description`.
+2. **Body** (Markdown): the full instructions.
+
+The `description` is the trigger. Claude sees only that one-line description in its context (like a table of contents). When your task matches the description, Claude loads the full file. Knowledge on demand: zero context cost until it's needed.
+
+## Anatomy: A Complete Example
+
+Here's a small but complete skill you might write for a web project:
+
+```markdown
+---
+name: release-notes
+description: Use when asked to write or update release notes for a version bump
+---
+# Writing release notes
+
+1. Read CHANGELOG.md for unreleased entries.
+2. Group by Added/Fixed/Changed.
+3. Write in past tense, one line per change, no marketing language.
+```
+
+That's it. When Claude sees a task that sounds like "prepare release notes," it loads this file and follows the procedure exactly.
+
+## When to Make a Skill vs CLAUDE.md
+
+- **CLAUDE.md:** always-true facts about the project. Build command, directory layout, architecture decisions that apply to every file.
+- **Skill:** procedures needed occasionally. Release process, migration steps, specialized formatting rules for one artifact type.
+
+Rule of thumb: **if it only matters for some tasks, make it a skill.**
+
+Why? Because CLAUDE.md is read in full at the start of every session. A 60-line migration procedure in CLAUDE.md is 60 lines of context tax on every session, even when you're just fixing a typo. The same procedure as a skill costs almost nothing until the day you run a migration.
+
+## This Course Uses Skills-Style Documentation Too
+
+The authoring pipeline that built this very module uses the same pattern: a detailed AUTHORING-GUIDE.md that module-builder agents load only when authoring. When those agents run ordinary tasks (like formatting or validation), they never see the authoring instructions. Selective context is how complex projects stay fast.
+
+<Exercise id="quiz-skills" />
+
+## Try It Yourself
+
+In the next exercise, you'll explore a real skill in a tiny notes project, watch Claude use it, and verify the output follows the skill's rules.
+
+<Exercise id="term-inspect-skill" />

@@ -1,0 +1,76 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-what-is-llm",
+    "title": "Quiz: What is an LLM?",
+    "passingScore": 80,
+    "questions": [
+      {
+        "id": "q1-core-job",
+        "kind": "single",
+        "prompt": "At its core, what does a large language model actually do?",
+        "options": [
+          { "id": "a", "text": "It searches the internet for the best answer to your question" },
+          { "id": "b", "text": "It predicts the most likely next word, over and over, to build up a response" },
+          { "id": "c", "text": "It follows a giant list of if-then rules written by programmers" },
+          { "id": "d", "text": "It understands language the same way a human brain does" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "An LLM does one thing repeatedly: given some text, it predicts what probably comes next, adds that to the text, and predicts again. A whole essay is thousands of these tiny predictions strung together — like your phone's autocomplete, scaled up enormously. It isn't searching the web, following hand-written rules, or working like a human brain."
+      },
+      {
+        "id": "q2-database",
+        "kind": "single",
+        "prompt": "When you ask an LLM \"What is the capital of France?\", does it look the answer up in a database of stored facts?",
+        "options": [
+          { "id": "a", "text": "Yes — it has a fact database and finds the matching entry" },
+          { "id": "b", "text": "Yes, but only for geography questions" },
+          { "id": "c", "text": "No — its knowledge is baked into patterns from training, and it predicts \"Paris\" as the likely continuation" },
+          { "id": "d", "text": "No — it asks a human operator behind the scenes" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "There's no filing cabinet of facts inside. During training, the model absorbed patterns from a huge amount of text, and those patterns are stored in its internal dials. \"Paris\" comes out because it's overwhelmingly the most likely word to follow that question — more like remembering the gist of something you read than looking up an exact record. This is also why LLMs can confidently get facts wrong: likely-sounding is not the same as verified."
+      },
+      {
+        "id": "q3-scale",
+        "kind": "single",
+        "prompt": "Your phone's autocomplete and an LLM both predict the next word. What's the main reason the LLM feels so much smarter?",
+        "options": [
+          { "id": "a", "text": "The LLM uses a completely different trick that has nothing to do with prediction" },
+          { "id": "b", "text": "The LLM is connected to a team of experts who review its answers" },
+          { "id": "c", "text": "Scale — it's trained on vastly more text with billions of internal dials, and very good prediction starts to look like understanding" },
+          { "id": "d", "text": "The LLM genuinely understands and believes what it says, while your phone doesn't" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "It's the same fundamental move — predict the next word — but at a massively different scale. To predict really well, the model has to absorb facts, grammar, and patterns about how the world works, because finishing a sentence like \"The capital of France is ___\" quietly requires knowledge. That's why scale makes prediction feel like intelligence, without the model having beliefs of its own."
+      },
+      {
+        "id": "q4-opinion",
+        "kind": "single",
+        "prompt": "An LLM writes: \"I think the beach is the best vacation spot.\" What is the most accurate way to interpret this?",
+        "options": [
+          { "id": "a", "text": "The model has genuinely reflected and formed a preference for beaches" },
+          { "id": "b", "text": "The model produced a likely-sounding continuation of the conversation, not a real belief" },
+          { "id": "c", "text": "The model's programmers hard-coded a pro-beach opinion into it" },
+          { "id": "d", "text": "The model surveyed the internet in real time and beaches won" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "LLMs don't have beliefs, preferences, or plans — they produce text that plausibly continues what came before. Ask the same question framed a bit differently and the model might argue for the mountains instead. Remembering this helps you treat AI output as \"likely text\" to evaluate, rather than the testimony of someone with real opinions."
+      },
+      {
+        "id": "q5-true-statements",
+        "kind": "multi",
+        "prompt": "Which of the following are TRUE about how LLMs work? (select all that apply)",
+        "options": [
+          { "id": "a", "text": "A long response is built one small prediction at a time" },
+          { "id": "b", "text": "For a given sentence start, several different next words can each be plausible" },
+          { "id": "c", "text": "ChatGPT and Claude are products built around an LLM, like a car built around an engine" },
+          { "id": "d", "text": "Between your messages, the model sits and thinks about what to say to you next" },
+          { "id": "e", "text": "An LLM verifies every sentence against trusted sources before writing it" }
+        ],
+        "correctOptionIds": ["a", "b", "c"],
+        "explanation": "The first three are the heart of the mental model: responses are generated piece by piece, the model weighs many possible continuations with different probabilities (remember the ambiguous round in the game?), and chat products wrap an LLM engine in an interface and safety training. The last two are false: the model only computes when given text to continue — it isn't thinking between messages — and it produces likely text, not verified text, which is why it can sound confident while being wrong."
+      }
+    ]
+  }
+]

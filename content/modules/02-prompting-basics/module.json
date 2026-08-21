@@ -1,0 +1,12 @@
+{
+  "id": "02-prompting-basics",
+  "title": "Talking to AI: Prompting Basics",
+  "track": "prompting",
+  "description": "Learn the four habits that separate a frustrating AI conversation from a great one: be specific about what you want, give the model context and a role, show it the format you expect, and treat the first answer as a first draft. You'll practice each habit in a live playground and get graded feedback on your prompts.",
+  "lessons": [
+    { "id": "01-be-specific", "title": "Be Specific" },
+    { "id": "02-context-and-role", "title": "Give Context and a Role" },
+    { "id": "03-show-the-format", "title": "Show the Format You Want" },
+    { "id": "04-iterate", "title": "Iterate: The First Answer Is a Draft" }
+  ]
+}

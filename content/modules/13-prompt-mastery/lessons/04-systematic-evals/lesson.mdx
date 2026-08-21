@@ -1,0 +1,62 @@
+---
+id: 04-systematic-evals
+title: "Systematic Evals & Iteration"
+minutes: 12
+objectives:
+  - Explain why spot-checking fails
+  - Describe the eval loop (cases → run → score → change one thing → re-run)
+  - Build a useful eval set including edge and adversarial cases
+  - Avoid overfitting to the eval set
+---
+
+## Vibes Don't Scale
+
+You tweak a prompt, try two inputs, it "seems better," you ship. Next week a category of input you never tried is failing.
+
+Spot-checking measures your memory of what to check, not the prompt. You test the cases you happened to think of, and improvements on those can hide regressions everywhere else.
+
+## The Eval Loop
+
+A systematic eval is a fixed process:
+
+1. **CASES** — Collect real inputs plus expected outcomes. Include typical ones, edge cases (empty, huge, wrong language), and adversarial ones (lesson 3's injection specimens belong in every eval set).
+
+2. **RUN** — Execute the prompt over all cases. Capture every output.
+
+3. **SCORE** — Grade each result. Use exact-match where output is structured; use a rubric-with-judge where it's prose (lesson 2's skill, industrialized).
+
+4. **CHANGE ONE THING** — Revise the prompt. One variable at a time.
+
+5. **RE-RUN** — Execute the new prompt over the same cases and compare totals, not anecdotes.
+
+This is the same discipline as debugging. Module 10's needle experiment was exactly this shape: one variable, controlled comparison. You can only say "v3 beats v2" if you run both on the same suite and compare the totals.
+
+<Callout kind="tip">
+Every time the prompt fails in the wild, that input becomes an eval case. The suite grows from real damage, not from guesses about what might go wrong. Keep a production failure log and feed it back into your cases.
+</Callout>
+
+## One Change at a Time
+
+Change three things and the score moves — which one did it? Maybe the examples gained +5 while the format change lost 2, netting +3. You can't see that without isolating variables.
+
+Bundled changes confound attribution. One revision per iteration keeps cause connected to effect.
+
+## Regressions Are the Point
+
+A new prompt that fixes 5 cases and silently breaks 7 is a net loss. You literally cannot see that without a suite.
+
+Evals are unit tests for prompts. Versioning (lesson 1) plus evals gives you "v3 beats v2 on the suite, 41/50 → 46/50" instead of "v3 feels better."
+
+<Callout kind="warning">
+The most dangerous prompt change: one that improves the cases you're watching while breaking cases you're not. Without a fixed eval set, you're flying blind. The suite is what makes improvements and regressions visible.
+</Callout>
+
+## Don't Overfit
+
+Tuning until your 20 cases pass can lace the prompt with case-specific hacks that fail on case 21.
+
+Hold some cases out — never tune against them, only measure against them at the end. Refresh the set from production failures. A perfect score on a small fixed set is a warning sign, not a victory.
+
+The eval suite should grow over time. Add the weirdest production inputs. Add the cases that broke your last three prompt versions. A static eval set measures the past; a growing one protects the future.
+
+<Exercise id="quiz-evals" />

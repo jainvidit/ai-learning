@@ -1,0 +1,12 @@
+{
+  "name": "tag-audit-exercise",
+  "version": "1.0.0",
+  "description": "Tag validation exercise for analytics tracking quality",
+  "main": "validator.js",
+  "scripts": {
+    "test": "node validator.js page-clean.html && node validator.js page-broken.html"
+  },
+  "keywords": ["analytics", "validation", "tracking"],
+  "author": "",
+  "license": "ISC"
+}

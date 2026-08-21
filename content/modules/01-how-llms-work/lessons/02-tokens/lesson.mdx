@@ -1,0 +1,69 @@
+---
+id: 02-tokens
+title: "Tokens: How AI Reads"
+minutes: 8
+objectives:
+  - Explain what a token is in plain language
+  - Understand why common words are one token while rare words get split into pieces
+  - See why AI struggles with letter-level tasks like counting the r's in "strawberry"
+  - Get a first glimpse of the context window as a token budget
+---
+
+## The model doesn't see what you see
+
+In the last lesson, we said an LLM predicts "the next word." That was a friendly simplification, and now it's time to meet the real unit: the **token**.
+
+When you read a sentence, you see letters that form words. An LLM sees neither. Before your message ever reaches the model, a program called a **tokenizer** chops it into chunks — and those chunks, called tokens, are all the model ever sees.
+
+Think of it like a chef's meal kit. You might think of a recipe in terms of "dinner," but the kit arrives as pre-portioned packets: one packet of rice, one of sauce, two of chopped vegetables. Tokens are the pre-portioned packets of language.
+
+## Chunks, not words
+
+Here's the key rule of thumb:
+
+- **Common words become a single token.** Words like "the," "cat," "coffee," and "running" appear so often in text that the tokenizer gives each one its own packet.
+- **Rare or unusual words get split into pieces.** A word like "antidisestablishmentarianism" almost never appears in text, so the tokenizer breaks it into several smaller chunks it *does* recognize — something like "anti / dis / establishment / arian / ism."
+
+Why do it this way? Efficiency. The tokenizer keeps a fixed menu of chunks (roughly a hundred thousand of them) that can be combined to spell out *anything* — every word, name, emoji, and typo ever written. Common things get short codes; rare things get assembled from parts. It's the same logic as shorthand: frequent phrases get their own symbol, unusual ones get spelled out.
+
+<Callout kind="info">
+A handy rough conversion for English: **one token is about three-quarters of a word**, or around 4 characters. So 100 tokens is roughly 75 words. You'll see this ratio come up whenever people talk about AI pricing or limits.
+</Callout>
+
+## See it with your own eyes
+
+The visualizer below chops text into token-like chunks and colors each one. Try typing your own name (names are often split — they're rare words!), then a normal sentence, then one giant word. Watch how the token count compares to the character count.
+
+<TokenVisualizer />
+
+Notice how short, common words each get one chip, while long or unusual words shatter into several. Your name might split in a place that looks totally arbitrary — the tokenizer doesn't care about meaning, only about which chunks show up often in text.
+
+## The strawberry problem
+
+Here's a famous puzzle: ask an AI *"How many r's are in the word strawberry?"* and it may confidently answer "two." (The right answer is three: st**r**awbe**rr**y.)
+
+How can something that writes beautiful essays fail a task a seven-year-old can do? Tokens.
+
+To the model, "strawberry" isn't ten letters. It's one or two tokens — sealed packets. The model sees the packet labeled *strawberry*, not the letters inside it. Asking it to count the r's is like asking someone to count the grains of rice in a sealed meal-kit packet by looking at the label. It can guess from experience, but it can't actually see inside.
+
+<Callout kind="warning">
+This is why LLMs are often shaky at letter-level tasks: counting letters, reversing words, precise rhyming, or acrostics. It's not that the model is dumb — it literally reads at a different resolution than you do. When an AI stumbles on something like this, you now know why.
+</Callout>
+
+## Tokens are also the currency
+
+One more reason tokens matter: they're how AI usage is *measured*. Everything an LLM reads and writes is counted in tokens, and every model has a limit on how many tokens it can handle in one conversation. That limit is called the **context window** — think of it as the model's desk space, or a token budget for the whole conversation.
+
+If your conversation gets longer than the budget, the oldest parts fall off the desk, and the model genuinely can't see them anymore. Ever had a long chat where the AI seemed to forget what you said at the beginning? That's the context window at work.
+
+<Callout kind="tip">
+We're only teasing the context window here — a later module digs into how big these budgets are, what happens when you hit them, and how to work within them. For now, just remember: **tokens in, tokens out, and there's a budget.**
+</Callout>
+
+## The takeaway
+
+Last lesson's mental model gets a small upgrade: an LLM is a machine that predicts the next **token**, over and over. It reads and writes in chunks — not letters, not quite words — and that one fact explains its odd blind spots (strawberry!), how its usage is measured, and why conversations have a size limit.
+
+## Check your understanding
+
+<Exercise id="quiz-tokens" />

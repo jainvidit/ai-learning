@@ -1,0 +1,66 @@
+---
+id: 02-mcp-servers
+title: "MCP: Plugging In the World"
+minutes: 12
+objectives:
+  - Define MCP (Model Context Protocol) and explain its purpose
+  - Understand that MCP servers expose tools and resources to any MCP client
+  - Describe the install-and-trust flow for MCP servers
+  - Reason about security and context costs when connecting MCP servers
+---
+
+## The Gap
+
+Claude Code's built-in tools—Read, Bash, Edit, Grep—all operate on your filesystem and shell. That's powerful for local development, but what about everything else?
+
+What if Claude needs to query your Postgres database? Navigate a website? Search your company's issue tracker? Check Slack? Each of those is a different API, a different authentication flow, a different integration to build.
+
+Building a custom integration for every tool, in every AI application, is a combinatorial explosion: N apps times M tools equals a lot of glue code.
+
+MCP solves this with a **standard protocol**.
+
+## MCP Defined
+
+**MCP** stands for **Model Context Protocol**. It's an open standard that lets any **server** expose tools (and resources and prompts) in a uniform way, so that any **client** can connect and use them.
+
+Think of it like USB: before USB, every device had a proprietary connector. USB standardized the port, so one cable works with any device. MCP does the same for AI integrations.
+
+- A **Postgres MCP server** exposes a `query` tool that runs SQL.
+- A **browser MCP server** exposes navigation tools like `goto`, `click`, `screenshot`.
+- A **Slack MCP server** exposes tools to search messages, post replies, list channels.
+
+Once a server exists, **any MCP client**—Claude Code, other AI apps, custom harnesses—can connect and use those tools. Build once, plug in everywhere.
+
+## How Installation Works (Conceptually)
+
+When you want to connect an MCP server to Claude Code, you register it—often through a command like `claude mcp add ...` or by editing a config file. The server runs as a separate process, and its tools appear in Claude's toolkit alongside the built-in ones.
+
+From Claude's perspective, calling a Postgres query tool works exactly like calling the Read tool: the model decides it needs the tool, requests a call, the server executes it, and the result comes back into context. The **same permission system** applies—MCP tools go through the same approval flow as built-in tools.
+
+<Callout kind="info">
+The sandbox environment you're using for exercises can't install real MCP servers, so this lesson stays conceptual. On your own machine, though, connecting a server is straightforward—and immediately extends what Claude can do.
+</Callout>
+
+## Trust and Security
+
+An MCP server is **code running with real access**. A database server connects to your actual database. A browser server can navigate to any URL. A Slack server posts to your real workspace.
+
+That means:
+
+- **Only install servers from sources you trust.** Malicious servers can do damage.
+- **Scope credentials as narrowly as possible.** Give a database server a read-only user, not an admin account.
+- **Remember that tool results can carry injected instructions.** If a server fetches a web page and that page contains adversarial text, it lands in Claude's context. (You'll explore prompt injection in Module 13.)
+
+MCP multiplies Claude's reach—and its attack surface. The same caution you'd apply to any third-party integration applies here.
+
+## Context Cost
+
+Every connected MCP server's **tool definitions** ride along in Claude's context—names, descriptions, parameter schemas. That's fine for two or three servers, but if you connect twenty, you're spending a significant chunk of your attention budget just on tool catalogs.
+
+Connect what you **need** for the task at hand, not everything you **can**. Tools are context, and context is finite.
+
+<Exercise id="quiz-mcp" />
+
+---
+
+**Next:** Plan mode teaches Claude to research first and present a plan for approval before changing anything—a discipline that produces better context and safer execution.

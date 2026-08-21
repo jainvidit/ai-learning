@@ -1,0 +1,69 @@
+---
+id: 01-production-prompts
+title: "Production Prompt Design"
+minutes: 15
+objectives:
+  - Distinguish one-off prompts from production prompts
+  - Structure a template with variable slots
+  - Pin an output contract
+  - Explain why prompts get versioned like code
+---
+
+## The Shift
+
+Every prompt you've written so far ran once, for you, with you watching. A production prompt runs thousands of times, on other people's inputs, with nobody watching. The bar changes: not "did it work just now?" but "will it work on the weirdest input next Tuesday?"
+
+When a prompt moves to production, it stops being a conversation starter and becomes infrastructure. It needs the same rigor you'd apply to any code that runs unattended at scale.
+
+## Template + Variables
+
+Production prompts separate the FIXED part (role, rules, format, examples) from VARIABLE slots where runtime data lands. Write slots explicitly, like `{{customer_message}}` or `{{ticket_text}}`.
+
+You met this from the outside in module 08, where system prompts wrap user input. Now you're the author. The rule is simple: instructions go in the fixed part, data goes in the slots, and never let the two blur.
+
+```
+You are a support ticket triage system. Classify each ticket
+into exactly one category: billing, bug, how-to, or other.
+
+Ticket to classify:
+{{ticket_text}}
+
+Output format: category: <category>
+```
+
+The template is reusable. The variable slot receives different data each time. The separation protects your instructions from being corrupted by the data itself — a concern we'll return to in lesson 3.
+
+## The Output Contract
+
+Downstream code parses the model's reply, so the format is law. Name the exact fields, give a filled-out example of a valid output, and say what to do in edge cases.
+
+```
+Output exactly two lines:
+category: <one of billing, bug, how-to, other>
+priority: <high or normal>
+
+Edge case: if the ticket is empty or unintelligible,
+use category: other and priority: normal
+```
+
+A missing edge-case rule is a 2 a.m. page. The model will invent something plausible, and plausible inventions break parsers.
+
+<Callout kind="tip">
+Show an example of a complete, valid output. "Here's what a correct response looks like: category: billing, priority: high" is worth three paragraphs of format instructions.
+</Callout>
+
+## Version It Like Code
+
+Prompts change behavior like code changes behavior. They get names (`support-triage-v3`), diffs, reviews, and rollbacks. You can only claim v3 beats v2 by running both on the same eval set — a discipline we'll build in lesson 4.
+
+Keep prompt text in files under version control, not pasted in app code. When a prompt breaks, you need to see the diff.
+
+<Callout kind="info">
+Production reviewers look for the same things every time: Are the variable slots clearly separated? Is there an explicit output contract? Are edge cases handled? Does the prompt have a version identifier? These aren't nice-to-haves — they're the checklist that prevents production incidents.
+</Callout>
+
+## Practice
+
+Write a production-grade template for a support-ticket triage system. The rubric below grades structure, slots, and contract — the very things production reviewers look for.
+
+<Exercise id="pg-production-template" />

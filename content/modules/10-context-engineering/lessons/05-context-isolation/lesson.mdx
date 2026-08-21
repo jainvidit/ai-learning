@@ -1,0 +1,110 @@
+---
+id: 05-context-isolation
+title: "Context Isolation with Subagents"
+minutes: 12
+objectives:
+  - Explain why searching pollutes context
+  - Describe delegate-and-summarize
+  - Know what a subagent should return (conclusions, not dumps)
+  - Connect to module 11
+---
+
+## The Problem: Searching Pollutes Context
+
+You need to find one function in your codebase. You don't know which file it's in, so you search. You read `auth.js` — not there. You read `utils.js` — not there. You read `database.js` — not there. Twenty files later, you find it in `queue.js`, lines 40-60.
+
+The answer: one paragraph. The cost: twenty files in context, forever.
+
+In a single session, all twenty files stay in context until you compact or reset. Your attention budget is torched. The model's next answer has to wade through nineteen irrelevant files to use the one that mattered.
+
+This is context pollution at scale.
+
+## The Pattern: Context Isolation via Subagents
+
+**Spawn a subagent** with its own empty context. It does the messy exploration — reads twenty files, greps fifty functions, chases ten dead ends. It returns only its **conclusion**: "The retry logic is in queue.js lines 40-60; it doubles backoffMs per attempt."
+
+The twenty files die with the subagent. The main session's context pays for one paragraph.
+
+**This is context isolation.** Quarantine the pollution in a disposable context and import only the distilled result.
+
+## The Delegation Contract
+
+Good delegation is a clear question plus an instruction to return conclusions, not transcripts.
+
+**Good prompt for a subagent:**
+
+> Find where the retry logic is implemented in this codebase. Return: the file path, the line range, and a one-sentence summary of how it works. Do not paste full file contents.
+
+**Bad prompt:**
+
+> Search for retry logic and tell me everything you find.
+
+The bad prompt invites a dump: "I read auth.js (here's the full file), then utils.js (here's that one too), then..." — pouring the pollution straight into the context you were protecting.
+
+**What a subagent should return:**
+
+- The answer (the file, the function, the decision)
+- Key file paths and line ranges
+- Only load-bearing snippets (the critical three lines, not the whole function)
+
+**What it should NOT return:**
+
+- Full text of every file it examined
+- Its complete turn-by-turn transcript
+- Speculative tangents
+
+Think of it as a research assistant's report, not their notebook.
+
+## When NOT to Delegate
+
+Delegation has overhead: spawning the subagent, briefing it, waiting for the result. It's justified when the exploration would be **broad** (many files, many searches, uncertain paths).
+
+**Worth delegating:**
+
+- "Sweep the whole repo to find where errors are logged"
+- "Survey how three different modules handle validation"
+- "Hunt for all usages of a deprecated function across many directories"
+
+**Not worth delegating:**
+
+- "Read one specific 20-line file you already know the path of" — just read it. The pollution is 20 lines.
+- "What does this error message mean?" — if you can answer from memory or one doc, answer it.
+
+The breakeven is qualitative: if the search would pull more than ~200 lines of irrelevant context into your session, isolate it.
+
+<Exercise id="quiz-isolation" />
+
+## Meta-Example: This Course Was Planned This Way
+
+This app was itself planned by agents using context isolation. Here's how:
+
+1. **The planner agent** (coordinator) had a design question: "What structure does the existing codebase use for exercises?"
+
+2. **It spawned an explorer subagent** with the question: "Read the exercise schemas and example lessons. Return: the four exercise types, their required fields, and how exercises are anchored in MDX. One page."
+
+3. **The explorer** read `src/lib/schema.ts`, grepped for exercise examples, examined `LessonRenderer.tsx`. It returned a one-page summary.
+
+4. **The planner** imported that summary (one page) into its context and continued designing. The fifteen files the explorer read never entered the planning context.
+
+This process ran in parallel across dozens of questions. Each explorer ran in its own isolated context. Only distilled conclusions merged into the plan. The planning context stayed lean enough to hold the whole design — hundreds of decisions, zero pollution.
+
+**The practices this illustrates:**
+
+- Planner agents spawned explorers and received summaries, not file dumps
+- The planning context stayed lean enough to hold the whole design
+- Parallel explorations ran in separate contexts without polluting each other
+
+The course you are taking is an artifact of context isolation at work.
+
+## Bridge to Module 11
+
+You've learned the principle: isolate messy work in a disposable context, import only conclusions.
+
+**Module 11** teaches the mechanics:
+
+- How to spawn subagents in Claude Code (the Task/Agent tool)
+- MCP (Model Context Protocol) servers for connecting external tools
+- Plan mode for architectural thinking
+- Parallel agents for concurrent exploration
+
+Context isolation is not theoretical. It's infrastructure. The next module shows you the controls.

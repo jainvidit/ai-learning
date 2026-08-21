@@ -1,0 +1,9 @@
+{
+  "name": "daily-quote",
+  "version": "1.0.0",
+  "description": "Prints an inspiring quote of the day in the terminal.",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  }
+}

@@ -1,0 +1,57 @@
+---
+id: 03-first-edit
+title: "Your First Edit"
+minutes: 14
+objectives:
+  - Direct Claude Code to make a specific small edit
+  - Verify a change by asking Claude to show the result
+  - Practice specific edit requests (what file, what change, what outcome)
+---
+
+## Level up: changing things
+
+Last lesson you made Claude read files for you — completely safe, since looking can't break anything. Now you'll CHANGE something.
+
+The exercise below uses the same sandbox style: a tiny project (this time a "team snack menu") that you've never seen. Still unbreakable — fresh copies on demand.
+
+## Anatomy of a good edit request
+
+Your prompting skills from modules 02 and 04 matter even more when directing edits. A good request names:
+
+- **WHAT** should be different (not HOW to code it — you don't need to know that)
+- **WHERE**, if you know it (which file, which line, which section)
+- What **DONE** looks like (what should the file say after the change?)
+
+Example: "In the menu, change the Friday snack from donuts to fruit, and update the note at the top to say the menu was revised."
+
+You described OUTCOMES. Claude figures out the code changes.
+
+## The Edit tool
+
+When you ask for an edit, you'll see Claude announce it: "Editing menu.md…" It reads the file FIRST (the loop again: gather context, then act), proposes the change, and makes it.
+
+## The most important habit: verify
+
+After ANY edit, ask Claude to show you the changed part. Or ask: "Read the file back — does it now say X?"
+
+Never assume. Observe. This is the trust-but-verify habit from module 03, applied to actions instead of answers.
+
+<Callout kind="tip">
+Request, then verify. This habit — checking that what you asked for actually happened — is 80% of working well with agents. Every time.
+</Callout>
+
+## Your first edits
+
+Complete the three-part task below, one change at a time. VERIFY each change before moving on.
+
+<Exercise id="tx-first-edit" />
+
+## What you just described
+
+You described OUTCOMES in plain English, and files changed. Notice what you didn't need to know: JavaScript syntax, file formats, or how to edit text in a terminal.
+
+The skill you practiced was precision of intent — what should be different, where, and what done looks like. The agent handled the rest.
+
+## Next up
+
+You just saw Claude ask permission before running things or editing. Who decides what it's allowed to do? You do. Next lesson: the permission model.

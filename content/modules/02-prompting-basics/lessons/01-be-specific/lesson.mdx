@@ -1,0 +1,59 @@
+---
+id: 01-be-specific
+title: "Be Specific"
+minutes: 12
+objectives:
+  - Explain why vague prompts get vague answers
+  - Identify the missing details in an under-specified prompt
+  - Write a prompt that states task, audience, and constraints
+---
+
+Imagine you text a friend: "get me food."
+
+What do you get? Maybe a burger, maybe pizza, maybe something you're allergic to. Now imagine instead you text: "get me a medium veggie burrito from the place on 5th, no onions." Same friend, wildly different odds of getting what you want.
+
+AI is the same — except it won't even ask follow-up questions unless you invite it to.
+
+## Why vague prompts produce generic answers
+
+Remember from the last module: the model predicts likely continuations. When your prompt is vague — like "write about dogs" — thousands of different continuations are equally plausible. The model doesn't know if you want a story, a guide, a poem, or facts. So it lands on the statistical average of all those possibilities: generic, safe, forgettable text.
+
+Specificity narrows the prediction space. Instead of thousands of likely next words, you give the model a clear target. The more you specify, the less the model has to guess.
+
+## Anatomy of a specific prompt
+
+A good prompt includes three things:
+
+1. **The task** — what you want the model to do
+2. **The audience** — who it's for
+3. **Constraints** — length, tone, what to include or avoid
+
+Here's the difference:
+
+**Vague:** "write about dogs"
+
+**Specific:** "Write 3 tips for first-time dog owners in an apartment, friendly tone, under 100 words."
+
+The second version gives the model a clear job. It knows the task (tips, not a story), the audience (first-timers in an apartment), and the constraints (3 tips, friendly, short).
+
+<Callout kind="tip">
+A good self-check: could two reasonable people read your prompt and produce very different things? If yes, it's too vague.
+</Callout>
+
+## The real cost of vagueness
+
+You don't save time with a short prompt. You spend it reading an answer you can't use, then rewriting your request anyway. Specificity up front is faster.
+
+The model is ready to give you exactly what you ask for — but you have to ask.
+
+<Exercise id="quiz-specificity" />
+
+## Your turn
+
+Now practice turning a vague prompt into a specific one. The starter prompt is too generic to be useful. Sharpen it by adding the task details, audience, and constraints that would actually get you a helpful answer.
+
+<Exercise id="pg-sharpen-prompt" />
+
+## What's next
+
+Specificity is the first habit of four. Next up: how to give the model the background context it needs — and why a simple role can reshape the entire answer.

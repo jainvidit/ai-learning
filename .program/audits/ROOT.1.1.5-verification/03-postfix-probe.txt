@@ -1,0 +1,12 @@
+plain [1,2]                => HASHED 49a64717d5d4cb19
+plain [1,2,3]              => HASHED a615eeaee21de517
+subclass Array 1,2,3       => THREW TypeError: computeItemRevision: value at (root) is outside the CP-05 hash-input domain: non-plain array — Array.isArray accepts it, but it is a class instance (Boss). Hashable conte
+symbol-keyed array [1,2]   => THREW TypeError: computeItemRevision: value at (root)[Symbol(boss)] is outside the CP-05 hash-input domain: symbol-keyed property on an array (an array's hashable content is its index slo
+array + Date expando       => THREW TypeError: computeItemRevision: value at createdAt is outside the CP-05 hash-input domain: non-index enumerable own property "createdAt" on an array (an array's hashable content is 
+array + function expando   => THREW TypeError: computeItemRevision: value at verify is outside the CP-05 hash-input domain: non-index enumerable own property "verify" on an array (an array's hashable content is its in
+array + self-ref expando   => THREW TypeError: computeItemRevision: value at self is outside the CP-05 hash-input domain: non-index enumerable own property "self" on an array (an array's hashable content is its index 
+array + string expando     => THREW TypeError: computeItemRevision: value at tag is outside the CP-05 hash-input domain: non-index enumerable own property "tag" on an array (an array's hashable content is its index sl
+array + NON-enum expando   => HASHED 49a64717d5d4cb19
+array proto set to null    => THREW TypeError: computeItemRevision: value at (root) is outside the CP-05 hash-input domain: non-plain array — Array.isArray accepts it, but its prototype is null (a reassignment acciden
+Object.create(Array.proto) => THREW TypeError: computeItemRevision: value at (root) is outside the CP-05 hash-input domain: class instance (Array). Hashable content is the JSON data model (null, booleans, finite numbe
+EXIT_CODE=0 (probe script; per-case results inline above)

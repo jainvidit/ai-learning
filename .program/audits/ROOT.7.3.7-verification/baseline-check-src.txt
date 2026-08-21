@@ -1,0 +1,43 @@
+==========================================
+ADR-0025 Baseline Check Against src/
+Date: 2026-07-27T23:00:12-04:00
+Commit: 4e50d6c27c11f10bdca00e06919703c9432f11e5
+==========================================
+
+=== CHECK 1: instanceof LocalDriver/CloudDriver/ExecutionDriver ===
+No matches (exit 1)
+
+=== CHECK 2: Quoted driver literals ===
+No matches (exit 1)
+
+=== CHECK 3a: .kind field access ===
+No matches (exit 1)
+
+=== CHECK 3b: driverKind variable ===
+No matches (exit 1)
+
+=== CHECK 4: constructor.name ===
+No matches (exit 1)
+
+=== CHECK 5: in operator duck-typing ===
+No matches (exit 1)
+
+=== CHECK 6: config.executionMode ===
+No matches (exit 1)
+
+=== CHECK 7: process.env.EXECUTION_DRIVER ===
+No matches (exit 1)
+
+=== CHECK 8: switch on .name ===
+No matches (exit 1)
+
+=== CHECK 9: conditional import() ===
+No matches (exit 1)
+
+=== CHECK 10: driver.type field ===
+No matches (exit 1)
+
+==========================================
+BASELINE RESULT: All checks returned no matches
+Status: PASS
+==========================================

@@ -1,0 +1,32 @@
+[
+  {
+    "type": "playground",
+    "id": "pg-needle-clean",
+    "title": "Experiment, Run 1: Clean Context",
+    "instructions": "First, the control run. You need one fact: when did Meridian Loom's CFO start? Here is the ONLY relevant sentence from a company memo: 'our CFO Priya Raghavan started with us on March 4, 2019, after nine years at Hollis & Grange.' Write a prompt that gives the model JUST this sentence (you may quote it) and asks for the CFO's name and exact start date. Keep the context minimal and the question unambiguous. Note how effortlessly the model answers — this is your baseline for Run 2.",
+    "starterPrompt": "",
+    "maxTokens": 512,
+    "rubric": [
+      { "id": "minimal-context", "description": "The prompt provides only the relevant sentence (or a close paraphrase) as context, without pasting large amounts of unrelated text", "weight": 40 },
+      { "id": "clear-question", "description": "The prompt asks a specific, unambiguous question: the CFO's name and exact start date", "weight": 35 },
+      { "id": "correct-answer", "description": "The model output correctly states Priya Raghavan and March 4, 2019 — evidence the clean context worked", "weight": 25 }
+    ],
+    "passingScore": 70
+  },
+  {
+    "type": "playground",
+    "id": "pg-needle-haystack",
+    "title": "Experiment, Run 2: The Haystack",
+    "instructions": "Now the real test. Below is the FULL 600-word memo. Your task: write a prompt that includes the ENTIRE memo verbatim but still reliably extracts the CFO's start date. Use isolation techniques: state the question BEFORE the document, direct the model's attention ('the answer is in the paragraph about personnel'), wrap the memo in XML tags, ask for a supporting quote, and repeat the question after the document. A lazy 'here's a memo, when did the CFO start?' may work sometimes — your job is to engineer a prompt that works EVERY time. Paste this memo into your prompt:\n\n---BEGIN MEMO---\nINTERNAL MEMO — Meridian Loom Industries — Q3 Operations Review — distribution: all staff\n\nTeam, as we close out the third quarter I want to recap where we stand and what comes next. Revenue for Q3 landed at $18.4 million, up 6 percent from Q2 and 11 percent year over year, driven largely by the Fairbanks contract that closed on July 17. Gross margin held at 41 percent despite the freight surcharges introduced in June, and our operating cash position remains comfortable at $9.2 million.\n\nOn the personnel front, we welcomed 14 new hires this quarter. Marcus Bell joined as VP of Sales on August 4, bringing twelve years of experience from Callowfield Group, where he most recently ran the Midwest region. Our engineering organization grew by six, including two senior hires on the reliability team. Departures were limited to three, all voluntary, and exit interviews surfaced no systemic concerns. As many of you know, our leadership bench has deep roots: our CEO Dana Whitfield founded the company in 2011, our CTO Tomás Ibarra came aboard in the autumn of 2015, and our CFO Priya Raghavan started with us on March 4, 2019, after nine years at Hollis & Grange. Longevity in leadership is one of our quiet advantages, and I would put our finance and engineering leadership up against any competitor in the sector.\n\nOperationally, the Dayton facility completed its retrofit on September 9, two weeks ahead of schedule and $340,000 under budget. Line 3 throughput is up 22 percent since the new tensioning system came online, and defect rates have fallen to 0.8 percent, the lowest in company history. The Portland warehouse consolidation remains on track for a November 30 completion, and we expect it to reduce annual logistics spend by roughly $1.1 million beginning in fiscal 2020. Procurement renegotiated our aluminum supply agreement in August, locking in pricing through next June, which should insulate us from the commodity volatility our competitors are currently absorbing.\n\nLooking ahead to Q4, there are three priorities. First, the Halverson renewal: the contract expires December 15, and Marcus's team is targeting a signed extension by Thanksgiving. Second, the launch of the LoomTrack customer portal, currently in beta with eleven accounts; general availability is planned for October 28, and support staffing plans are already in place. Third, our annual planning cycle kicks off October 6, and department heads should have preliminary budgets submitted by October 20. I would also remind everyone that open enrollment for benefits runs November 1 through November 15, and that the holiday schedule will be published by the end of October.\n\nA few smaller notes. The quarterly all-hands is set for October 9 at 10 a.m. in the Dayton atrium, with a livestream for remote staff. Congratulations to the reliability team, whose uptime work earned us the Sector Excellence Award at the September industry conference in Denver. And a reminder that expense reports for Q3 must be submitted by October 10 to be reflected in this quarter's books.\n\nThank you all for a strong quarter. The fundamentals of this business are sound, the pipeline is healthy, and the team we have assembled is the best in our industry. Let's finish the year the way we started it: focused, disciplined, and ahead of schedule.\n\n— R. Okafor, Chief Operating Officer\n---END MEMO---",
+    "starterPrompt": "",
+    "maxTokens": 1024,
+    "rubric": [
+      { "id": "full-memo", "description": "The prompt includes the complete memo text (not a trimmed version) — the point is to handle noisy context, not avoid it", "weight": 15 },
+      { "id": "attention-direction", "description": "The prompt actively directs attention: names what to look for (CFO start date) before the document and/or points to the relevant section", "weight": 25 },
+      { "id": "structure", "description": "The prompt separates instructions from document with clear delimiters or XML tags, with the question at the edge(s) rather than buried mid-document", "weight": 25 },
+      { "id": "citation", "description": "The prompt requires the model to quote the supporting sentence from the memo as evidence", "weight": 20 },
+      { "id": "correct-answer", "description": "The model output states March 4, 2019 for Priya Raghavan, with the supporting quote", "weight": 15 }
+    ],
+    "passingScore": 75
+  }
+]

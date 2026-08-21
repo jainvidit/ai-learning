@@ -1,0 +1,15 @@
+[
+  {
+    "type": "terminal",
+    "id": "tx-resume-session",
+    "title": "Two sessions, one memory",
+    "instructions": "The sandbox holds two planning files for a small office party. This exercise has two rounds — the point is what happens BETWEEN them.\n\nRound 1: send ONE well-phrased request: have Claude add a '## Status' line at the top of guestlist.md saying how many guests are confirmed versus undecided (the file marks each guest), and show you the result. Use the formula: specific verb, named target, constraint, done-check.\n\nRound 2: make sure the 'Continue session' box below the input is CHECKED (it becomes available after round 1), then send only: 'Now do the same for menu.md.' Watch Claude apply the same treatment — a Status line counting confirmed vs undecided dishes — without you re-explaining anything. That's session memory at work.\n\nOptional round 3: UNCHECK Continue session (or hit Reset sandbox) and try 'Now do the same for menu.md' as the FIRST message of a fresh session — watch Claude have no idea what 'the same' means. Feel the difference.",
+    "sandboxTemplate": "m07-resume",
+    "allowedTools": "Read,Edit",
+    "maxTurns": 8,
+    "suggestedPrompts": [
+      "At the top of guestlist.md, add a '## Status' line saying how many guests are confirmed and how many are undecided, based on the markers in the file. Change nothing else, then show me the updated file.",
+      "Now do the same for menu.md."
+    ]
+  }
+]

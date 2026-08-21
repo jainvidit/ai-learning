@@ -1,0 +1,27 @@
+---
+id: 03-teach-it-a-skill
+title: "Stage 3: Teach It a Skill"
+minutes: 15
+objectives:
+  - Package a procedure as a discoverable skill file
+  - Write a skill description that earns its context cost
+  - Separate always-loaded memory (CLAUDE.md) from on-demand procedure (skills)
+---
+
+## A repeatable procedure appears
+
+The app works; now imagine the team convention for writing a journal entry: text trimmed, meaningful (not empty), verified by running the suite afterward. Where does a PROCEDURE live? Not CLAUDE.md — that's the always-loaded index (module 10). Procedures are skills (module 09): a description loaded always, a body loaded on demand.
+
+## Anatomy refresher
+
+A skill lives at `.claude/skills/<name>/SKILL.md`: frontmatter-style header carrying `name` and `description` (the description is the advertisement — specific enough that Claude knows WHEN to reach for it), then the body: numbered steps Claude follows when invoked.
+
+## This stage's skill
+
+`journal-entry`: steps for adding a well-formed entry — validate the text is non-empty and trimmed, call `add`, confirm via `list` or `search`, run the test suite to prove nothing broke. You're writing instructions for a future Claude who hasn't read this conversation (module 11's blank-slate lesson, applied to files).
+
+<Callout kind="info">
+Every skill you've seen this app use — and module 09's whole lesson — was this exact file format. You're now on the authoring side of one more of the app's own mechanisms.
+</Callout>
+
+<Exercise id="challenge-skill" />

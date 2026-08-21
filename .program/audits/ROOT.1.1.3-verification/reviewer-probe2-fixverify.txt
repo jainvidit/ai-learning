@@ -1,0 +1,11 @@
+fx1 empty strings | THREW Error | Invalid migration entry in a.json: itemId: itemId must be a nonempty string, fromRevision: fromRevision must be exactly 16 lowercase hex characters, toRevision: toRevision must be exactly 16 lowercase hex characters, note: note must be a nonempty string, toRevision: fromRevision and toRevision must differ (a self-link migrates nothing)
+fx2 non-hex/wrong-length | THREW Error | Invalid migration entry in b.json: fromRevision: fromRevision must be exactly 16 lowercase hex characters, toRevision: toRevision must be exactly 16 lowercase hex characters
+fx3 self-link | THREW Error | Invalid migration entry in c.json: toRevision: fromRevision and toRevision must differ (a self-link migrates nothing)
+fx4 conflicting duplicate across files | THREW Error | Conflicting migration entries for {itemId: x, fromRevision: aaaa111122223333}: d1.json -> bbbb000000000001, d2.json -> cccc000000000002. Each {itemId, fromRevision} pair must resolve to exactly one toRevision.
+fx5 extra key | RETURNED [{"itemId":"x","fromRevision":"aaaa111122223333","toRevision":"bbbb000000000001","note":"n"}]
+fx6 null entry | THREW Error | Invalid migration entry in f.json: <entry>: Invalid input: expected object, received null
+fx7 empty array | RETURNED []
+fx8 same pair diff note across files | THREW Error | Duplicate migration entry for {itemId: x, fromRevision: aaaa111122223333}: h1.json -> bbbb000000000001, h2.json -> bbbb000000000001. Each {itemId, fromRevision} pair must resolve to exactly one toRevision.
+fx9 non-string note | THREW Error | Invalid migration entry in i.json: note: Invalid input: expected string, received number
+fx10 nested array | THREW Error | Invalid migration entry in j.json: <entry>: Invalid input: expected object, received array
+EXIT_CODE=0

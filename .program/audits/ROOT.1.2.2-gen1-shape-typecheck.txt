@@ -1,0 +1,46 @@
+ROOT.1.2.2 gen1 (hardened rework) - empirical verification of .program/interfaces/beat-model.md
+Agent: implementer-ROOT.1.2.2-gen1   Date: 2026-07-25
+Method: the doc's single ```typescript block was extracted MECHANICALLY (regex, no hand-copy)
+from .program/interfaces/beat-model.md, appended with 7 conformance assertions, and compiled
+under --strict. This proves the doc's declared shape is well-formed TypeScript and that its
+normative claims (closed type set, required completion, optional persistent) hold as written.
+The doc declares a contract; no shipped source file was touched.
+
+Tool: tsc 5.9.3  (C:\Users\jainv\workplace\ai-learning-app\node_modules\.bin\tsc)
+Config: worktree tsconfig.beatcheck.json  {strict:true, target:es2022, types:[], skipLibCheck:true}
+  (types:[] required: ambient @types/mdx pulls an unrelated 'Cannot find namespace JSX' error
+   into any bare-file compile; it is not a finding about this doc.)
+
+COMMAND: tsc -p tsconfig.beatcheck.json
+RESULT : exit 0, zero diagnostics.
+
+Assertions compiled (3 are @ts-expect-error NEGATIVE controls -- tsc fails the build if the
+expected error does NOT occur, so these are real tests, not comments):
+  A1 PASS  Beat with persistent ABSENT compiles          -> persistent is genuinely optional
+  A2 PASS  {type:"terminal", persistent:true} compiles   -> REQ-CP-02 scenario 3 expressible
+  A3 PASS  all six ADR-0005 types are BeatType members
+  A4 PASS  all three predicates are CompletionPredicate members
+  A5 PASS  (@ts-expect-error) BeatType = "recap" IS an error -> ADR-0005 closed set holds;
+           recap is a convention over prose, not a type
+  A6 PASS  (@ts-expect-error) Beat without completion IS an error -> completion is REQUIRED
+  A7 PASS  (@ts-expect-error) CompletionPredicate = "complete" IS an error -> the field is a
+           predicate vocabulary, not a runtime completion-state vocabulary (BLOCKER fix,
+           enforced by the type and not only by prose)
+
+LIVENESS / anti-vacuity check (guards against "@ts-expect-error passes because nothing ran"):
+COMMAND: tsc --noEmit --strict --target es2022 --types --skipLibCheck sanity.ts
+  (sanity.ts = same extracted block + an UNSUPPRESSED  const bad: BeatType = "recap";)
+RESULT : sanity.ts(48,7): error TS2322: Type '"recap"' is not assignable to type 'BeatType'.
+  -> the harness does reject a bad value, so exit 0 above is a real pass.
+
+SCOPE NOTE - what a typecheck CANNOT prove, and how it was verified instead:
+The predicate x type mapping, the beatId S1-S4/I1-I4 stability rules, the persistent-required
+rule, and the portal-slot invariants are compiler-enforced CONVENTIONS and prose obligations.
+They are not expressible in the declared TypeScript shape (the doc says so explicitly) and are
+therefore verified by direct inspection against REQ-CP-02 scenarios 1-3, REQ-LX-02, REQ-LX-03,
+REQ-TX-01/TX-02 and ADR-0005 -- see the verification block in
+.program/ledger/items/ROOT.1.2.2.md. Claiming empirical proof for them would be false.
+
+Scratch files used for this check live in the agent worktree only (beat-model-typecheck.ts,
+sanity.ts, mkcheck.py, mkevidence.py, tsconfig.beatcheck.json) and are NOT part of the
+deliverable -- integrator should not merge them. Only .program/interfaces/beat-model.md ships.

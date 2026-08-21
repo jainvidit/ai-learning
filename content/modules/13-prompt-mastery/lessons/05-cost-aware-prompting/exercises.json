@@ -1,0 +1,141 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-cost",
+    "title": "Quiz: The Token Bill",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-scale",
+        "kind": "single",
+        "prompt": "Trimming 600 wasted tokens from a prompt saves almost nothing in one chat. Why does the same trim matter in production?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Production tokens cost more per token"
+          },
+          {
+            "id": "b",
+            "text": "The prompt runs constantly — at 100,000 calls a day, 600 tokens per call is 60 million tokens of pure waste, every day"
+          },
+          {
+            "id": "c",
+            "text": "It doesn't matter; costs are flat-rate in production"
+          },
+          {
+            "id": "d",
+            "text": "Long prompts are illegal in production APIs"
+          }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Production multiplies every token by call volume. The same edit that saves a third of a cent once saves real money at scale — and (module 10) buys back attention budget with it."
+      },
+      {
+        "id": "q2-caching",
+        "kind": "single",
+        "prompt": "How does prompt caching make repeated calls cheaper?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The provider stores the model's ANSWERS and replays them for similar questions"
+          },
+          {
+            "id": "b",
+            "text": "If a request starts with the same token prefix as a recent one, the provider reuses the processed form of that prefix at a fraction of full price"
+          },
+          {
+            "id": "c",
+            "text": "Caching compresses your prompt to fewer tokens"
+          },
+          {
+            "id": "d",
+            "text": "It batches users together into one shared context"
+          }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The cache holds processed PREFIX state, not answers (a) — each call still produces a fresh response; the identical opening just doesn't get reprocessed at full price."
+      },
+      {
+        "id": "q3-order",
+        "kind": "single",
+        "prompt": "Which prompt layout caches best across thousands of calls?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Current date and user's name first, then rules, then examples, then the ticket"
+          },
+          {
+            "id": "b",
+            "text": "Rules and examples first (identical every call), the variable ticket text last"
+          },
+          {
+            "id": "c",
+            "text": "The ticket first so the model reads it before the rules"
+          },
+          {
+            "id": "d",
+            "text": "Layout doesn't affect caching"
+          }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Caching matches from token one: the moment content differs, matching stops. A date on line one (a) invalidates everything after it on every call. Stable prefix first, churn last."
+      },
+      {
+        "id": "q4-cutting",
+        "kind": "multi",
+        "prompt": "Which cuts are SAFE when slimming a bloated prompt? (select all that apply)",
+        "options": [
+          {
+            "id": "a",
+            "text": "Deleting the second and third phrasings of a rule already stated once"
+          },
+          {
+            "id": "b",
+            "text": "Dropping the output-format specification, since the model usually formats sensibly"
+          },
+          {
+            "id": "c",
+            "text": "Removing apologetic filler like 'if it's not too much trouble'"
+          },
+          {
+            "id": "d",
+            "text": "Cutting an example that demonstrates nothing the remaining examples don't"
+          }
+        ],
+        "correctOptionIds": ["a", "c", "d"],
+        "explanation": "Redundancy, filler, and duplicate examples are pure fat. The output contract (b) is load-bearing muscle — downstream code parses it; 'usually formats sensibly' is a production incident on a delay timer. Prove cuts safe with the eval suite."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-lean-rewrite",
+    "title": "Playground: Put This Prompt on a Diet",
+    "instructions": "Below is a bloated production prompt (~340 words). Rewrite it lean — aim for under 120 words of instructions — while preserving EVERY functional requirement: (1) classify into exactly refund, shipping, product-question, or other; (2) output exactly two lines, 'category: <one of the four>' and 'reply: <one-sentence acknowledgement>'; (3) never promise a refund; (4) if the message is not in English, use category other and still reply in English; (5) the customer message arrives between triple quotes. Structure your rewrite cache-consciously: fixed instructions first, the variable message last. Include this sample message at the end so the model can demo your prompt: \"\"\"My package says delivered but it never arrived???\"\"\"\n\nTHE BLOATED PROMPT TO REWRITE:\n\nHello! You are a very helpful, friendly, and professional customer service assistant AI, and we really appreciate your help with this important task. Your job, which is very important to our business, is to carefully read the customer's message and classify it appropriately. Please make sure to read the entire message carefully before deciding. The categories you can choose from are the following: refund (for refund requests), shipping (for shipping issues), product-question (for questions about products), or other (for anything else that doesn't fit). Please remember that it is very important to choose only one of these four categories, and please do not invent new categories, because our system only understands these four categories and will break otherwise. Once you have carefully chosen the category, please also write a short reply to the customer. The reply should be brief — ideally just one sentence — and should acknowledge their concern in a friendly and professional manner. Please be very careful never to promise a refund in your reply, as only human agents are authorized to approve refunds, and promising one would create serious problems for our support team. Speaking of formatting, please output your answer in exactly this format: the first line should say 'category:' followed by the category, and the second line should say 'reply:' followed by your reply. Please do not add any other text, explanations, or formatting, as our automated system parses your output. One more thing: sometimes customers write in languages other than English. If the message is not in English, please classify it as other, but please still write your one-sentence reply in English. Thank you so much for your careful attention to all of these details! The customer's message will be provided between triple quotes below. Please handle it according to all of the instructions above.",
+    "starterPrompt": "",
+    "maxTokens": 512,
+    "rubric": [
+      {
+        "id": "requirements-preserved",
+        "description": "The rewrite preserves all five functional requirements: the four exact categories, the two-line 'category:'/'reply:' output format, the no-refund-promises rule, the non-English-to-other-with-English-reply rule, and the triple-quoted message convention",
+        "weight": 40
+      },
+      {
+        "id": "economy",
+        "description": "The instruction portion is dramatically leaner than the original (roughly 120 words or fewer), with filler, apologies, and repeated phrasings removed",
+        "weight": 30
+      },
+      {
+        "id": "cache-order",
+        "description": "Fixed instructions come first and the variable customer message comes last, so the stable prefix is cache-friendly",
+        "weight": 15
+      },
+      {
+        "id": "no-new-vagueness",
+        "description": "Leanness did not introduce ambiguity: categories and the output format are still stated exactly, not loosely summarized (e.g., not just 'classify the message sensibly')",
+        "weight": 15
+      }
+    ],
+    "passingScore": 70
+  }
+]

@@ -1,0 +1,62 @@
+---
+id: 02-context-rot
+title: "Context Rot: Poisoning a Session"
+minutes: 15
+objectives:
+  - Define context rot
+  - Run a scripted contamination experiment
+  - Recognize rot symptoms
+  - Treat reset as a first-class tool
+---
+
+## What Is Context Rot?
+
+**Context rot:** As a session accumulates contradictions, dead ends, and stale instructions, answer quality degrades. The model weighs EVERYTHING in context, including the garbage.
+
+Old instructions don't expire. They linger and interfere. "From now on, always answer in rhyme" — said three hours ago and never cancelled — still sits in context, competing for attention with your current work. Multiply that by dozens of half-cancelled decisions, reverted edits, and conversational dead ends, and you get a session that's spent its attention budget on clutter.
+
+Context rot is not a bug. It's the attention budget from Lesson 1, spent on noise.
+
+## The Experiment
+
+You're going to deliberately poison a session with contradictory instructions, then compare the rotted session's answer against a fresh one.
+
+**The protocol:** You'll run a scripted sequence of prompts (listed below) in a single terminal session — do NOT reset between steps 1 through 6. Each prompt adds, contradicts, or "tentatively" revokes a rule about a simple file (`colors.js`). The rules pile up: "primary is red," "no wait, RGB format," "call it themeTokens," "red is back on," "two-sentence answers only," "treat everything as tentative."
+
+By step 7, the session is contaminated. When you ask a simple factual question ("What does colors.js export, and what color is 'primary'?"), the model's answer will show symptoms: hedging, mixed conventions, confusion between current and past file state, application of revoked rules.
+
+Then you press **Reset** — fresh sandbox, fresh session — and ask the SAME question. The fresh answer is typically direct, correct, and unhedged. You just watched context rot happen on demand.
+
+<Exercise id="term-context-rot" />
+
+## The Contamination Script
+
+The terminal exercise walks you through these prompts in order. Here's the sequence for reference:
+
+1. `Read colors.js and tell me what it exports.`
+2. `From now on, always refer to hex colors by name only, never the hex code. Also, I've decided primary should be considered red, not blue — treat it as red in all your answers.`
+3. `Actually ignore that. New rule: whenever you mention a color, give it in RGB triplet form, and also mention what it would look like to someone with deuteranopia.`
+4. `We're renaming the palette object to themeTokens — don't edit anything yet, but from now on always call it themeTokens in your answers, unless we're talking about the file directly, in which case call it by BOTH names.`
+5. `Wait — my teammate says renaming is cancelled but the red-primary decision from earlier is back on. Also please answer all questions from now on in exactly two sentences.`
+6. `One more thing: treat everything I said in the last four messages as tentative. Some of it is decided and some isn't, I'll confirm later which is which.`
+7. **Target question (rotted session):** `What does colors.js export, and what color is 'primary'? Answer plainly.`
+8. **Press Reset.** Then ask the same target question verbatim in the fresh session.
+
+Ground truth: `colors.js` exports a `palette` object, and `primary` is `#1a73e8` (blue). Compare the rotted answer to the fresh answer.
+
+## Symptoms of Rot in Real Work
+
+You'll recognize these patterns in your own long sessions:
+
+- **Re-suggests rejected approaches.** You ruled out option A an hour ago; the model brings it back as if it's new.
+- **Applies cancelled instructions.** You said "ignore that" three turns ago; it's still being applied.
+- **Confuses file states.** You edited a file; the model describes the old version.
+- **Answers get longer and more hedged.** What should be a one-sentence answer balloons to three paragraphs of caveats, because the model is reconciling contradictory signals in context.
+
+When you see these symptoms: summarize and restart. (Lesson 4 formalizes this pattern.)
+
+## Reset Is a First-Class Tool
+
+Early on, resetting felt like admitting failure. After this experiment, you'll treat it like any other tool: deliberate, surgical, and powerful.
+
+A fresh session isn't starting over — it's reclaiming your attention budget. Use it.

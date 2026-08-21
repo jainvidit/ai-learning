@@ -1,0 +1,23 @@
+[
+  {
+    "type": "challenge",
+    "id": "challenge-lean-claudemd",
+    "title": "Challenge: Put CLAUDE.md on a Diet",
+    "instructions": "This project's CLAUDE.md is ~150 lines of inlined API docs, style guide, and changelog — a context tax on every future session. Direct Claude Code to restructure it using progressive disclosure: (1) move the API reference, style guide, and changelog into separate files under docs/ (e.g., docs/api.md, docs/style.md, docs/changelog.md), preserving their content; (2) rewrite CLAUDE.md as a lean index — at most ~30 lines — with the project one-liner, the test command, and pointers to each docs file; (3) don't lose information, relocate it. Then click Verify.",
+    "sandboxTemplate": "m10-bloated-claudemd",
+    "allowedTools": "Read,Glob,Grep,Edit,Write,Bash(node *)",
+    "maxTurns": 15,
+    "verifierId": "m10-lean-claudemd",
+    "criteria": [
+      "CLAUDE.md exists and is at most 40 lines",
+      "CLAUDE.md links to at least 2 files under docs/",
+      "docs/ contains at least 2 markdown files with the relocated content",
+      "CLAUDE.md reads as a concise index pointing to detail files, not inlining them"
+    ],
+    "hints": [
+      "Tell Claude the target structure explicitly: 'CLAUDE.md ≤30 lines with relative links like docs/api.md'.",
+      "Ask Claude to verify its own work: 'count the lines in CLAUDE.md and list the files in docs/'.",
+      "If content went missing, ask Claude to diff what the old sections covered against the new docs files."
+    ]
+  }
+]

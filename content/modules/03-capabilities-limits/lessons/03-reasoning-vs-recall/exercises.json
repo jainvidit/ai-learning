@@ -1,0 +1,61 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-reason-recall",
+    "title": "Check: reasoning vs recall",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "Which task relies mostly on RECALL?",
+        "options": [
+          { "id": "a", "text": "Computing the total cost of 17 items with different prices and a 12% discount" },
+          { "id": "b", "text": "Explaining what photosynthesis is" },
+          { "id": "c", "text": "Working out a fair chore schedule for 5 roommates with conflicting constraints" },
+          { "id": "d", "text": "Counting how many times the letter 'e' appears in a paragraph" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Photosynthesis explanations appear countless times in training text — prediction alone nails it. The other three require constructing an answer specific to your inputs (arithmetic, constraint-juggling, counting), which is reasoning, where step-by-step errors creep in."
+      },
+      {
+        "id": "q2",
+        "kind": "single",
+        "prompt": "Why are multi-step math problems harder for a next-word predictor than famous historical facts?",
+        "options": [
+          { "id": "a", "text": "Math was excluded from the training data" },
+          { "id": "b", "text": "The specific answer isn't in training text — it must be constructed step by step, and each step can slip" },
+          { "id": "c", "text": "Models dislike numbers" },
+          { "id": "d", "text": "Historical facts are simpler than all math" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Your particular numbers never appeared in training, so prediction can't just retrieve the answer — it must derive it, and every intermediate step is a chance for error. Math is well represented in training (a); this is about construction vs retrieval, not difficulty of the subject (d)."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "The model gives you a wrong total in a budget calculation. What kind of failure is this, and what helps?",
+        "options": [
+          { "id": "a", "text": "A recall failure — provide the correct fact in your prompt" },
+          { "id": "b", "text": "A reasoning failure — ask it to show its work step by step and check the steps" },
+          { "id": "c", "text": "A knowledge-cutoff problem — paste in a newer article" },
+          { "id": "d", "text": "Random bad luck — just rerun until the total looks right" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Wrong totals are the signature of reasoning slips. Asking for step-by-step work both improves accuracy and lets YOU spot exactly where it slipped. It's not a missing fact (a) or stale knowledge (c), and rerunning blind (d) leaves you unable to tell a right answer from a lucky-looking wrong one."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-steps",
+    "title": "Make it show its work",
+    "instructions": "Give the model a small reasoning problem and force step-by-step work. Write a prompt that (1) poses a multi-step word problem you invent (e.g. splitting a dinner bill unevenly, comparing two phone plans over a year, or days between two dates — include real numbers), (2) explicitly asks the model to solve it step by step, showing each intermediate calculation before the final answer, and (3) asks it to state the final answer on its own labeled last line (e.g. 'Final answer: ...') so it's easy to check.",
+    "rubric": [
+      { "id": "problem", "description": "The prompt contains a concrete multi-step problem with specific numbers.", "weight": 35 },
+      { "id": "steps", "description": "The prompt explicitly requests step-by-step working with intermediate calculations shown.", "weight": 40 },
+      { "id": "final-line", "description": "The prompt asks for the final answer on a clearly labeled final line.", "weight": 25 }
+    ],
+    "passingScore": 70
+  }
+]

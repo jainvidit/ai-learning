@@ -1,0 +1,6 @@
+{
+  "name": "tiny-quotes",
+  "version": "1.0.0",
+  "description": "A tiny CLI that prints an inspiring quote about persistence",
+  "main": "index.js"
+}

@@ -1,0 +1,129 @@
+---
+id: 04-constrain-output
+title: "Constraining Output: JSON & Lists"
+minutes: 13
+objectives:
+  - Explain when exact output shapes matter (reuse by tools, spreadsheets, other prompts)
+  - Introduce JSON from zero as labeled data
+  - Write a prompt that yields ONLY a strict JSON object or strict list
+---
+
+Sometimes the reader of the model's output isn't you — it's a spreadsheet, an app, or your NEXT prompt.
+
+And that changes everything.
+
+When a human reads an answer, friendly wrappers like "Sure! Here's what I found..." are fine. But when the next step is to paste the output into a spreadsheet or feed it to another tool, those wrappers BREAK things. You need output a machine can read: predictable, clean, no surprises.
+
+## Enter JSON: labeled data
+
+There's a standard way to write labeled data that computers can read easily. It's called **JSON** (pronounced "JAY-sawn"), and you don't need to be a programmer to understand it.
+
+Here's a tiny example:
+
+```json
+{ "name": "Maple Cafe", "rating": 4, "good_for": ["coffee", "wifi"] }
+```
+
+Let's read it aloud in plain language:
+- Curly braces `{ }` = one item
+- Quoted names before colons = labels ("name", "rating", "good_for")
+- Values after colons = the data itself
+- Square brackets `[ ]` = a list
+- Commas separate multiple things
+
+That's it. That one line says: a place called "Maple Cafe" with a rating of 4, and it's good for coffee and wifi.
+
+JSON is just a way to organize labeled information so both humans and machines can read it reliably.
+
+## The constraint recipe
+
+When you want JSON output, follow this three-step recipe:
+
+1. **Name the exact fields and their types**: "Give me a JSON object with fields: name (text), rating (number), good_for (list of text)."
+
+2. **Show one example**: Include a sample JSON object in your prompt so the model sees the exact format you want. Few-shot prompting strikes again.
+
+3. **Say the magic sentence**: "Respond with ONLY the JSON — no introduction, no explanation, no extra text."
+
+That last sentence is critical. Without it, the model often adds friendly wrappers or trailing commentary that breaks the format.
+
+## Example: recipe data
+
+Let's say you want recipe information in a structured format. Here's a prompt that works:
+
+```
+Give me a recipe for spaghetti carbonara as a JSON object with these exact fields:
+- "name" (text)
+- "minutes" (number)
+- "difficulty" (one of: easy, medium, hard)
+- "ingredients" (list of text)
+
+Example format:
+{ "name": "Grilled Cheese", "minutes": 10, "difficulty": "easy", "ingredients": ["bread", "cheese", "butter"] }
+
+Respond with ONLY the JSON object — no introduction, no explanation, no extra text.
+If a value is unknown, use null — do not invent one.
+```
+
+The model returns:
+
+```json
+{ "name": "Spaghetti Carbonara", "minutes": 25, "difficulty": "medium", "ingredients": ["spaghetti", "eggs", "parmesan", "pancetta", "black pepper"] }
+```
+
+Clean. Predictable. Ready to paste into a spreadsheet or feed to your next prompt.
+
+## The same discipline for simple lists
+
+You don't need JSON for everything. Sometimes you just want a simple list. The same principles apply:
+
+```
+List exactly 5 beginner-friendly houseplants. Give me ONLY the list — no introduction, no explanation. Each plant name on its own line.
+```
+
+The constraints are clear:
+- Exactly 5 items
+- Only the list, no wrapper text
+- Format: one per line
+
+Constrained output isn't just for JSON. It's a mindset: define the shape, show an example, demand ONLY that shape.
+
+## Common failure modes (and fixes)
+
+Even with clear instructions, models sometimes slip:
+
+**Problem**: The model writes "Here's your JSON:" before the object.  
+**Fix**: Emphasize "ONLY the JSON" and consider adding "Start your response with the opening brace `{`."
+
+**Problem**: The model adds a comment after the JSON like "Hope that helps!"  
+**Fix**: Repeat "no extra text" and consider showing an example that ends cleanly.
+
+**Problem**: The model invents a value for a field it doesn't actually know.  
+**Fix**: Add the hallucination guard from Module 01: "If a value is unknown, use `null` — do not invent one."
+
+<Callout kind="warning">
+Constraining the SHAPE doesn't make the CONTENT true. A perfectly formatted JSON object can still contain a hallucinated rating or invented ingredient. Format validation and fact verification are two separate things.
+</Callout>
+
+## When does this matter?
+
+Use strict output formats when:
+- Another tool will consume the output (spreadsheets, apps, databases)
+- You're chaining prompts — this output becomes the next prompt's input
+- You need many responses in a consistent format for comparison or aggregation
+
+For casual reading by a human, stick with natural prose. Strict formats are a tool for reuse, not a universal rule.
+
+## Recap
+
+- **JSON** is labeled data: curly braces, quoted names, values, square brackets for lists
+- The recipe: (1) name the fields and types, (2) show one example, (3) demand ONLY that output
+- Add a rule for unknowns: use `null`, don't invent
+- Shape and truth are separate — formatted output can still be wrong content
+- Use strict formats when machines or next steps will read the output
+
+<Exercise id="quiz-json" />
+
+Now build a prompt that gets pure JSON out.
+
+<Exercise id="pg-json" />

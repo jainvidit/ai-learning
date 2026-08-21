@@ -1,0 +1,244 @@
+/**
+ * REQ-CP-03 scenario 3 probe (evidence only — not part of the app build).
+ * Asserts the extended schema ACCEPTS well-formed new-field values and REJECTS
+ * malformed ones, and that pre-extension content still parses (additivity).
+ * Run: npx tsx .program/evidence/ROOT.1.2.1/reject-probe.ts
+ */
+import {
+  ExercisesFileSchema,
+  DifficultyTierSchema,
+  PreconditionSchema,
+  HintLadderSchema,
+  TestOutProbeSchema,
+  ModuleMetaSchema,
+  LessonFrontmatterSchema,
+  QuizQuestionSchema,
+} from "../../../src/lib/schema";
+
+let pass = 0;
+let fail = 0;
+function check(name: string, ok: boolean, detail = "") {
+  if (ok) {
+    pass++;
+    console.log(`  OK   ${name}${detail ? ` — ${detail}` : ""}`);
+  } else {
+    fail++;
+    console.error(`  FAIL ${name}${detail ? ` — ${detail}` : ""}`);
+  }
+}
+function expectReject(name: string, schema: { safeParse: (v: unknown) => { success: boolean; error?: { issues: { message: string }[] } } }, value: unknown) {
+  const r = schema.safeParse(value);
+  check(name, !r.success, r.success ? "ACCEPTED (should have been rejected)" : `rejected: ${r.error!.issues[0].message}`);
+}
+function expectAccept(name: string, schema: { safeParse: (v: unknown) => { success: boolean; error?: { issues: { message: string }[] } } }, value: unknown) {
+  const r = schema.safeParse(value);
+  check(name, r.success, r.success ? "accepted" : `rejected: ${JSON.stringify(r.error!.issues[0])}`);
+}
+
+const baseQuiz = {
+  type: "quiz" as const,
+  id: "q1",
+  title: "T",
+  passingScore: 80,
+  questions: [
+    {
+      id: "q1a",
+      kind: "single" as const,
+      prompt: "p",
+      options: [
+        { id: "a", text: "A" },
+        { id: "b", text: "B" },
+      ],
+      correctOptionIds: ["a"],
+      explanation: "e",
+    },
+  ],
+};
+
+console.log("\n[1] additivity — pre-extension exercise shapes still parse");
+expectAccept("legacy quiz (no new fields)", ExercisesFileSchema, [baseQuiz]);
+expectAccept("legacy challenge (no new fields)", ExercisesFileSchema, [
+  {
+    type: "challenge",
+    id: "c1",
+    title: "T",
+    instructions: "i",
+    sandboxTemplate: "t",
+    allowedTools: "Read",
+    maxTurns: 5,
+    verifierId: "v1",
+    criteria: ["c"],
+  },
+]);
+
+console.log("\n[2] tier enum — well-formed accepted, out-of-enum rejected");
+for (const t of ["intro", "core", "stretch"]) {
+  expectAccept(`tier "${t}"`, DifficultyTierSchema, t);
+}
+expectReject('tier "expert" (out of enum)', DifficultyTierSchema, "expert");
+expectReject('tier "Core" (wrong case)', DifficultyTierSchema, "Core");
+expectReject("tier 2 (wrong type)", DifficultyTierSchema, 2);
+expectReject(
+  'exercise-level tier "hard" via full ExercisesFileSchema',
+  ExercisesFileSchema,
+  [{ ...baseQuiz, tier: "hard" }]
+);
+expectAccept('exercise-level tier "stretch" via full ExercisesFileSchema', ExercisesFileSchema, [
+  { ...baseQuiz, tier: "stretch" },
+]);
+
+console.log("\n[3] role — only \"boss\" allowed, on existing exercise types");
+expectAccept('role "boss" on a quiz', ExercisesFileSchema, [{ ...baseQuiz, role: "boss" }]);
+expectReject('role "miniboss"', ExercisesFileSchema, [{ ...baseQuiz, role: "miniboss" }]);
+expectReject('type "boss" is NOT a new exercise type', ExercisesFileSchema, [
+  { ...baseQuiz, type: "boss" },
+]);
+
+console.log("\n[4] skillIds");
+expectAccept("skillIds ['s1','s2']", ExercisesFileSchema, [{ ...baseQuiz, skillIds: ["s1", "s2"] }]);
+expectReject("skillIds [] (empty)", ExercisesFileSchema, [{ ...baseQuiz, skillIds: [] }]);
+expectReject("skillIds 's1' (not an array)", ExercisesFileSchema, [{ ...baseQuiz, skillIds: "s1" }]);
+expectReject("skillIds [3]", ExercisesFileSchema, [{ ...baseQuiz, skillIds: [3] }]);
+
+console.log("\n[5] misconception tag on a distractor (scenario 2)");
+expectAccept("distractor carries misconception", QuizQuestionSchema, {
+  ...baseQuiz.questions[0],
+  options: [
+    { id: "a", text: "A" },
+    { id: "b", text: "B", misconception: "believes-tokens-are-words" },
+  ],
+});
+expectReject("misconception '' (empty)", QuizQuestionSchema, {
+  ...baseQuiz.questions[0],
+  options: [
+    { id: "a", text: "A" },
+    { id: "b", text: "B", misconception: "" },
+  ],
+});
+expectReject("misconception 7 (wrong type)", QuizQuestionSchema, {
+  ...baseQuiz.questions[0],
+  options: [
+    { id: "a", text: "A" },
+    { id: "b", text: "B", misconception: 7 },
+  ],
+});
+
+console.log("\n[6] hint ladder rungs");
+expectAccept("rungs 1..4", HintLadderSchema, [
+  { rung: 1, text: "reflective question" },
+  { rung: 2, text: "micro-explanation" },
+  { rung: 3, text: "worked example elsewhere" },
+  { rung: 4, text: "full walkthrough" },
+]);
+expectReject("rung 5 (above ladder)", HintLadderSchema, [{ rung: 5, text: "x" }]);
+expectReject("rung 0", HintLadderSchema, [{ rung: 0, text: "x" }]);
+expectReject("duplicate rung numbers", HintLadderSchema, [
+  { rung: 1, text: "x" },
+  { rung: 1, text: "y" },
+]);
+expectReject("rung text '' (empty)", HintLadderSchema, [{ rung: 1, text: "" }]);
+
+console.log("\n[7] requires-preconditions (WA-05 form)");
+expectAccept('"artifact:claude-md:healthy"', PreconditionSchema, "artifact:claude-md:healthy");
+expectReject('"artifact:claude-md" (missing state)', PreconditionSchema, "artifact:claude-md");
+expectReject('"healthy" (bare word)', PreconditionSchema, "healthy");
+expectReject('"Artifact:claude-md:healthy" (wrong case)', PreconditionSchema, "Artifact:claude-md:healthy");
+expectAccept("requires[] on an exercise", ExercisesFileSchema, [
+  { ...baseQuiz, requires: ["artifact:claude-md:healthy"] },
+]);
+expectReject("malformed requires[] on an exercise", ExercisesFileSchema, [
+  { ...baseQuiz, requires: ["claude-md healthy"] },
+]);
+
+console.log("\n[8] artifact/verifier declaration");
+expectAccept("produces[] well-formed", ExercisesFileSchema, [
+  {
+    ...baseQuiz,
+    produces: [
+      {
+        id: "claude-md",
+        kind: "doc",
+        title: "Your CLAUDE.md",
+        paths: ["CLAUDE.md"],
+        verifierId: "claude-md-healthy",
+        benefit: "Claude remembers your project conventions.",
+      },
+    ],
+  },
+]);
+expectReject("produces[] with kind 'markdown' (out of enum)", ExercisesFileSchema, [
+  {
+    ...baseQuiz,
+    produces: [{ id: "a", kind: "markdown", title: "t", paths: ["p"], verifierId: "v" }],
+  },
+]);
+expectReject("produces[] with paths [] (empty)", ExercisesFileSchema, [
+  { ...baseQuiz, produces: [{ id: "a", kind: "doc", title: "t", paths: [], verifierId: "v" }] },
+]);
+expectReject("produces[] missing verifierId", ExercisesFileSchema, [
+  { ...baseQuiz, produces: [{ id: "a", kind: "doc", title: "t", paths: ["p"] }] },
+]);
+
+console.log("\n[9] test-out probe declarations (BT-02 scenario 4)");
+expectAccept("boss-equivalent probe with different fixture", TestOutProbeSchema, {
+  id: "p1",
+  kind: "boss-equivalent",
+  sourceExerciseId: "boss-1",
+  fixture: "fixtures/testout/alt-repo",
+});
+expectReject("boss-equivalent probe WITHOUT a fixture", TestOutProbeSchema, {
+  id: "p1",
+  kind: "boss-equivalent",
+  sourceExerciseId: "boss-1",
+});
+expectReject("probe kind 'essay' (out of enum)", TestOutProbeSchema, {
+  id: "p1",
+  kind: "essay",
+  sourceExerciseId: "boss-1",
+});
+expectAccept("module.json testOut block", ModuleMetaSchema, {
+  id: "01-how-llms-work",
+  title: "T",
+  track: "fundamentals",
+  description: "d",
+  lessons: [{ id: "l1", title: "L1" }],
+  testOut: {
+    probes: [
+      { id: "p1", kind: "boss-equivalent", sourceExerciseId: "boss-1", fixture: "alt" },
+      { id: "p2", kind: "concept-quiz", sourceExerciseId: "quiz-1", lessonId: "l1" },
+    ],
+  },
+});
+expectReject("module.json testOut with zero probes", ModuleMetaSchema, {
+  id: "m",
+  title: "T",
+  track: "fundamentals",
+  description: "d",
+  lessons: [],
+  testOut: { probes: [] },
+});
+
+console.log("\n[10] per-objective skillIds on lesson frontmatter");
+expectAccept("objectiveSkills well-formed", LessonFrontmatterSchema, {
+  id: "l1",
+  title: "T",
+  minutes: 10,
+  objectives: ["Explain tokenization"],
+  objectiveSkills: [{ objective: "Explain tokenization", skillIds: ["tokenization"] }],
+});
+expectReject("objectiveSkills entry with empty skillIds", LessonFrontmatterSchema, {
+  id: "l1",
+  title: "T",
+  minutes: 10,
+  objectives: ["Explain tokenization"],
+  objectiveSkills: [{ objective: "Explain tokenization", skillIds: [] }],
+});
+expectAccept("legacy frontmatter (no new fields)", LessonFrontmatterSchema, {
+  id: "l1",
+  title: "T",
+  minutes: 10,
+  objectives: ["o"],
+});
+
+console.log(`\n${pass} passed, ${fail} failed`);
+process.exit(fail === 0 ? 0 : 1);

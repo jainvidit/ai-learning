@@ -1,0 +1,8 @@
+[] 4f53cda18c2baa0c
+Array(1) 4f53cda18c2baa0c
+Array(2) 739bac5a700cb6ab
+in-domain collision: Array(1) === [] true
+delete beats[1]: silently accepted, hash 7ea7e7c242596492 (no throw)
+explicit undefined at same index: THREW TypeError
+hole vs explicit undefined: inconsistent -- hole hashed 7ea7e7c242596492
+EXIT_CODE=0

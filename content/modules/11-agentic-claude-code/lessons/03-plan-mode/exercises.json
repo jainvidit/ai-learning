@@ -1,0 +1,62 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-plan-mode",
+    "title": "Quiz: Plan Mode",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-what",
+        "kind": "single",
+        "prompt": "What does plan mode change about how Claude Code works?",
+        "options": [
+          { "id": "a", "text": "It makes Claude respond faster by skipping analysis" },
+          { "id": "b", "text": "Claude explores read-only and must present a plan for your approval before making any changes" },
+          { "id": "c", "text": "It disables all tools including reading" },
+          { "id": "d", "text": "It automatically approves all edits" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Plan mode separates research from execution: read and think freely, change nothing, get sign-off on the approach first."
+      },
+      {
+        "id": "q2-when",
+        "kind": "single",
+        "prompt": "Which task most deserves plan mode?",
+        "options": [
+          { "id": "a", "text": "Fixing an obvious typo in a README" },
+          { "id": "b", "text": "Renaming a function used in one file" },
+          { "id": "c", "text": "Restructuring how authentication flows through a 40-file codebase you don't know well" },
+          { "id": "d", "text": "Asking what a regex does" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Plan mode earns its overhead when changes are broad, the codebase is unfamiliar, or a wrong start is expensive. Trivial edits don't need a signed plan."
+      },
+      {
+        "id": "q3-context",
+        "kind": "multi",
+        "prompt": "Beyond safety, what does plan-first working buy you? (select all that apply)",
+        "options": [
+          { "id": "a", "text": "The plan is a compact artifact — you can carry it into a fresh session and discard the messy exploration" },
+          { "id": "b", "text": "You catch a wrong approach at the cheapest possible moment: before any code changed" },
+          { "id": "c", "text": "It guarantees the plan will execute without bugs" },
+          { "id": "d", "text": "You can edit the plan to steer execution before it starts" }
+        ],
+        "correctOptionIds": ["a", "b", "d"],
+        "explanation": "A plan is both a safety gate and a context artifact — the summarize-then-restart pattern built into the workflow. No guarantee of bug-free execution, though (c)."
+      }
+    ]
+  },
+  {
+    "type": "terminal",
+    "id": "term-plan-first",
+    "title": "Terminal: Read-Only Planning",
+    "instructions": "Claude has NO write tools here — a plan-mode stance enforced by permissions. The project has a deliberately tangled utils.js where three functions duplicate date-formatting logic. Ask: 'Study this project and write a step-by-step plan to remove the duplicated date logic, without changing any files. Number the steps, list which files each touches, and flag any risks.' Review the plan like a tech lead: is the order right? Did it miss the usage in report.js? Push back with a follow-up if so — refining a plan is the point of planning.",
+    "sandboxTemplate": "m11-mini-repo",
+    "allowedTools": "Read,Glob,Grep",
+    "maxTurns": 8,
+    "suggestedPrompts": [
+      "Study this project and write a step-by-step plan to remove the duplicated date-formatting logic without changing any files. Number the steps, list which files each touches, and flag risks.",
+      "Your plan misses at least one caller. Re-check report.js and revise the plan."
+    ]
+  }
+]

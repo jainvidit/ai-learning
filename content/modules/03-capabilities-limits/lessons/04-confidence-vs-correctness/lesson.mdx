@@ -1,0 +1,64 @@
+---
+id: 04-confidence-vs-correctness
+title: "Confidence Is Not Correctness"
+minutes: 13
+objectives:
+  - Explain why fluency and confidence carry no evidence of truth
+  - Apply a stakes-based rule for when to verify AI answers
+  - Classify tasks as trust / verify / wrong-tool
+---
+
+Here's the trap: humans use confidence as a shortcut for competence.
+
+A hesitant friend gets fact-checked. A fluent, confident one doesn't. We assume that certainty signals expertise.
+
+LLMs break this heuristic completely.
+
+## Why Confident Tone Means Nothing
+
+Remember what the model does: it predicts the most likely next word, trained on mountains of internet text.
+
+That training text — articles, textbooks, explanations, forum answers — overwhelmingly *sounds sure of itself*. Confident phrasing is the most likely continuation style. It's produced the same way whether the underlying fact is right or invented.
+
+Tone is part of the prediction, not a report on internal certainty.
+
+## The Fluent Narrator
+
+Think of the model as a **fluent narrator**, not a sworn witness.
+
+Both its right answers and its wrong answers come out in the same polished voice. The sonnet about the French Revolution and the completely invented statistic? Same confident delivery.
+
+## So How Do You Operate?
+
+You need a stakes-based rule:
+
+- **Low stakes** (brainstorms, drafts, creative ideas): Just use it. If a name for your book club is wrong, who cares? Usefulness is the only test.
+- **Medium stakes** (facts you'll repeat, plans you'll follow): Verify the load-bearing facts against a real source before you act.
+- **High stakes** (medical, legal, financial, safety): AI is an assistant to a professional or primary source, never a substitute. A medication dosage? Talk to a doctor. A filing deadline? Check the government website.
+
+## Verification Moves That Work
+
+When verification matters, here's what actually helps:
+
+1. **Ask for sources, then CHECK one.** Don't just accept the citation — open it and confirm it says what the model claims.
+2. **Ask the same question in a fresh conversation.** Remember randomness from Module 01? If you get confident but *contradictory* answers, that's a red flag: the model is sampling plausible text, not retrieving a solid fact.
+3. **Paste in an authoritative document** and ask again, grounded in it. If the model's answer from memory contradicts the document you just gave it, trust the document.
+
+<Callout kind="warning">
+"It sounded really sure" is never a reason to skip checking. Certainty of tone is the cheapest thing a language model produces.
+</Callout>
+
+<Exercise id="quiz-confidence" />
+
+## The Module Wrap
+
+You've now mapped four edges:
+
+1. The **attention budget** — the context window is finite, and what you put where matters.
+2. The **knowledge cutoff** — if the answer depends on "now" and you didn't provide "now", it's a guess.
+3. **Reasoning vs recall** — construction tasks are shakier than retrieval tasks.
+4. **Confident wrongness** — fluency is not evidence.
+
+Knowing these edges is what lets you use the tool *boldly* everywhere else. You're not walking on eggshells, afraid everything is wrong. You're calibrated: you know when to trust, when to verify, and when to reach for a different tool.
+
+That's the foundation for real, confident AI use.

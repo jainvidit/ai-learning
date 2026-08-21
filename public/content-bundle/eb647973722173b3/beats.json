@@ -1,0 +1,227 @@
+{
+  "01-how-llms-work/01-what-is-an-llm": [
+    {
+      "beatId": "prose:start-with-your-phone",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:an-llm-is-that-idea-taken-to-the-extreme",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:why-does-it-feel-so-smart-then",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:try-it-yourself",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-an-llm-is-not",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:so-where-do-chatgpt-and-claude-fit-in",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:check-your-understanding",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-what-is-llm",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "01-how-llms-work/02-tokens": [
+    {
+      "beatId": "prose:the-model-doesn-t-see-what-you-see",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:chunks-not-words",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:see-it-with-your-own-eyes",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-strawberry-problem",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:tokens-are-also-the-currency",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-takeaway",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:check-your-understanding",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-tokens",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "01-how-llms-work/03-training": [
+    {
+      "beatId": "prose:where-did-all-that-knowledge-come-from",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:phase-one-pretraining-or-reading-the-world-s-biggest-library",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-raw-predictor-problem",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:phase-two-teaching-it-to-be-an-assistant",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-library-has-a-last-page",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-takeaway",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:check-your-understanding",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-training",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "01-how-llms-work/04-hallucination": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-autocomplete-that-never-says-no-idea",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-classic-traps",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-the-risk-is-highest",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:simple-defenses-you-can-use-today",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:one-important-misconception",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:see-it-for-yourself",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:playground-observe-hallucination",
+      "completion": "attempted",
+      "type": "playground"
+    },
+    {
+      "beatId": "ex:quiz-hallucination",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "prose:the-takeaway",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "01-how-llms-work/05-randomness": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:a-menu-not-a-single-answer",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-temperature-dial",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-you-want-randomness-and-when-you-don-t",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:no-dial-use-your-words",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:see-the-dice-roll",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:playground-observe-variance",
+      "completion": "attempted",
+      "type": "playground"
+    },
+    {
+      "beatId": "ex:quiz-randomness",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "prose:the-takeaway",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ]
+}

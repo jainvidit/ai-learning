@@ -1,0 +1,83 @@
+---
+id: 03-progressive-disclosure
+title: "Progressive Disclosure"
+minutes: 18
+objectives:
+  - Recognize a bloated always-loaded context
+  - Apply the index-plus-details pattern
+  - Direct Claude Code to perform the restructuring
+  - Verify leanness objectively
+---
+
+## The Pattern: Index + Details
+
+Don't load everything always. Load a small **index** always, and **details** on demand.
+
+You've already met three instances of this pattern:
+
+- **Module 9:** Skill descriptions (always loaded) vs. skill bodies (loaded only when invoked).
+- **Module 8:** RAG's library index (embeddings of summaries) vs. full documents (retrieved only when relevant).
+- **This app's architecture:** `CLAUDE.md` (always loaded) vs. `docs/*.md` files (read when needed).
+
+The principle is universal: lean always-loaded context, with pointers to detail files the model can read when a task needs them.
+
+## The Patient: A Bloated CLAUDE.md
+
+The next exercise presents a project whose `CLAUDE.md` is ~150 lines long. It inlines:
+
+- A complete API reference (every function, every parameter)
+- A full style guide (indentation, naming, commit messages, line length)
+- A detailed changelog (every version back to 0.8.0)
+
+Every session in this project — whether you're fixing a bug, writing a test, or asking a one-line question — pays for all 150 lines in its initial context budget. Almost none of it is relevant to any one task.
+
+**Symptoms:**
+
+- Slower session starts (the model reads everything before responding)
+- Distracted answers (the style guide's commit-message rules leak into code review)
+- Budget burned before work begins
+
+This is the opposite of progressive disclosure.
+
+## The Operation: Restructure
+
+The challenge exercise asks you to direct Claude Code to restructure the project:
+
+1. **Move details into `docs/` files:** `docs/api.md` (the API reference), `docs/style.md` (the style guide), `docs/changelog.md` (the changelog). Preserve the content — relocate it, don't lose it.
+
+2. **Rewrite `CLAUDE.md` as a lean index:** At most ~30 lines. Include:
+   - One-line project description
+   - How to run tests
+   - Pointers to each docs file: "See `docs/api.md` for endpoint reference," "See `docs/style.md` for code conventions"
+
+3. **Verify leanness objectively:** The challenge verifier checks that `CLAUDE.md` is ≤ 40 lines, links to ≥ 2 docs files, and that `docs/` contains ≥ 2 markdown files. A judge reads `CLAUDE.md` to confirm it reads as an index, not a manual.
+
+<Exercise id="challenge-lean-claudemd" />
+
+## The Result
+
+After restructuring, every future session starts with a 30-line index instead of a 150-line manual. When a task needs API details, the session reads `docs/api.md`. When a task needs style rules, the session reads `docs/style.md`. The model never pays for the changelog unless it's writing one.
+
+Same information. Accessible when needed. Zero cost when irrelevant.
+
+## Leanness You Can Measure
+
+The challenge verifier's criteria are:
+
+1. `CLAUDE.md` exists and is ≤ 40 lines
+2. `CLAUDE.md` links to ≥ 2 files under `docs/`
+3. `docs/` contains ≥ 2 markdown files
+4. `CLAUDE.md` reads as a concise index pointing to detail files, not inlining them
+
+These are not subjective. You can count lines, grep for `docs/*.md` links, and list directory contents. The fourth criterion (the judge check) ensures the restructuring is genuine — it's possible to pass criteria 1-3 by accident while still inlining everything.
+
+Progressive disclosure is a design decision you can verify.
+
+## The Broader Principle
+
+This isn't just about `CLAUDE.md`. Any long-lived instruction set — a project README, a team wiki, an API guide — should follow the same structure:
+
+- **Lean index:** What is this? How do I start? Where do I find X?
+- **Detail files:** Everything else, organized by concern, loaded only when needed.
+
+The index is your session's base cost. Keep it small.

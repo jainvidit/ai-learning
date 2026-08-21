@@ -1,0 +1,124 @@
+
+ RUN  v4.1.10 C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a3da94d911d4bd3fe
+
+ ✓ tests/revisions.test.ts > computeItemRevision > produces a 16-character hex hash 4ms
+ ✓ tests/revisions.test.ts > computeItemRevision > CP-05 scenario 1: content change flips the hash while ID stays fixed 1ms
+ ✓ tests/revisions.test.ts > computeItemRevision > is deterministic - recomputing over unchanged content yields identical hashes 1ms
+ ✓ tests/revisions.test.ts > computeItemRevision > is key-order independent - different key orders produce identical hashes 1ms
+ ✓ tests/revisions.test.ts > computeItemRevision > handles nested objects with key-order independence 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision > handles arrays correctly (order matters in arrays) 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision > handles null and boolean values 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision > produces different hashes for different content 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision > canonicalization: keys with undefined values are omitted (matching JSON.stringify semantics) 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: pinned in-domain hashes (pre-fix baseline) > null hashes to 74234e98afe7498f 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: pinned in-domain hashes (pre-fix baseline) > true hashes to b5bea41b6c623f7c 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: pinned in-domain hashes (pre-fix baseline) > number 42 hashes to 73475cb40a568e8d 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: pinned in-domain hashes (pre-fix baseline) > negative zero (normalizes to 0) hashes to 5feceb66ffc86f38 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: pinned in-domain hashes (pre-fix baseline) > string "hello" hashes to 5aa762ae383fbb72 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: pinned in-domain hashes (pre-fix baseline) > empty object hashes to 44136fa355b3678a 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: pinned in-domain hashes (pre-fix baseline) > empty array hashes to 4f53cda18c2baa0c 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: pinned in-domain hashes (pre-fix baseline) > nested object hashes to 90d6116c9bd77072 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: pinned in-domain hashes (pre-fix baseline) > representative compiled beat hashes to 5ac6a2295c26fb46 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: pinned in-domain hashes (pre-fix baseline) > object with an undefined-valued key hashes to 015abd7f5cc57a2d 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: pinned in-domain hashes (pre-fix baseline) > -0 hashes identically to 0 (normalization, not a separate encoding) 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > rejects top-level undefined 1ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > rejects undefined inside an array (not omittable there) 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > rejects functions 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > rejects symbols as values 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > rejects symbol-keyed properties 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > rejects BigInt 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > rejects NaN 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > rejects +Infinity 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > rejects -Infinity 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > rejects Date 1ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > rejects Map 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > rejects Set 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > rejects RegExp 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > rejects typed arrays 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > rejects non-plain class instances 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > reports a circular reference as a cycle, never a bare RangeError 1ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > reports a direct self-reference as a cycle 1ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > reports an array self-reference as a cycle 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > names a deep array path exactly (beats[3].meta.createdAt style) 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > admits repeated (shared, non-circular) references — a DAG is not a cycle 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > admits null-prototype objects as plain (Object.create(null)) 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > admits JSON.parse output verbatim (the bundle is JSON on disk) 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > does NOT call toJSON (no coercion path exists for out-of-domain values) 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > produces distinct canonical hashes for every distinct in-domain value 2ms
+ ✓ tests/revisions.test.ts > computeItemRevision: CP-05 hash-input domain enforcement (scenario 3) > keeps __proto__ as a content key distinguishable from an absent key 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > A1.1: sparse-array holes are out-of-domain (fix-verify NEW-1) > rejects new Array(1) — it no longer hash-collides with [] 1ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > A1.1: sparse-array holes are out-of-domain (fix-verify NEW-1) > rejects a deleted-index hole, naming the path of the hole 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > A1.1: sparse-array holes are out-of-domain (fix-verify NEW-1) > names the FIRST hole when several exist (leading-holes array) 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > A1.1: sparse-array holes are out-of-domain (fix-verify NEW-1) > rejects a hole created by out-of-bounds assignment (a[2] = 3 on [1]) 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > A1.1: sparse-array holes are out-of-domain (fix-verify NEW-1) > explicit undefined and a hole at the same index now behave consistently: both throw 1ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > A1.1: sparse-array holes are out-of-domain (fix-verify NEW-1) > still admits dense arrays containing explicit nulls (density check is not a value check) 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > A1.2: MAX_HASH_DEPTH = 64, explicit counter (fix-verify NEW-2) > hashes content whose deepest value sits exactly at depth 64 (in-domain boundary) 1ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > A1.2: MAX_HASH_DEPTH = 64, explicit counter (fix-verify NEW-2) > throws a TypeError naming the path at depth 65 — never a bare RangeError 2ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > A1.2: MAX_HASH_DEPTH = 64, explicit counter (fix-verify NEW-2) > counts objects and arrays together toward the same limit 1ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > A1.2: MAX_HASH_DEPTH = 64, explicit counter (fix-verify NEW-2) > replays the reviewer's ~5000-deep probe: TypeError with a path, not a stack overflow 2ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > A1.2: MAX_HASH_DEPTH = 64, explicit counter (fix-verify NEW-2) > is unaffected by width: a 10k-key object at shallow depth still hashes 24ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > A1.3: closed-world allowlist — the default-reject branch has coverage > rejects an unlisted container type (Promise) via the container default branch, with a path 1ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > A1.3: closed-world allowlist — the default-reject branch has coverage > rejects an unlisted container type (WeakMap) via the container default branch, with a path 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > A1.3: closed-world allowlist — the default-reject branch has coverage > rejects an ArrayBuffer (not a typed array, not enumerated) via the default branch 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > A1.3: closed-world allowlist — the default-reject branch has coverage > rejects boxed primitives (Object(1), a Number object) — caught by the container default 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > A1.3: closed-world allowlist — the default-reject branch has coverage > primitive-arm default: function values are rejected by the default branch, with a path 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-1: the array arm requires a PLAIN array (prototype === Array.prototype) > the plain arrays these cases collided with still hash to their measured values 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-1: the array arm requires a PLAIN array (prototype === Array.prototype) > rejects an Array SUBCLASS instance with a path — it no longer hashes as a plain array 1ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-1: the array arm requires a PLAIN array (prototype === Array.prototype) > names the nested JSON path of a subclass array, not just the root 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-1: the array arm requires a PLAIN array (prototype === Array.prototype) > two differently-tagged subclass arrays both throw instead of colliding with each other 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-1: the array arm requires a PLAIN array (prototype === Array.prototype) > rejects an array whose prototype was reassigned to null (a reassignment accident, not Object.create(null)) 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-1: the array arm requires a PLAIN array (prototype === Array.prototype) > still admits genuinely plain arrays: literals, Array.from, spread, and JSON.parse output 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-1: the array arm requires a PLAIN array (prototype === Array.prototype) > the two container arms are symmetric: a plain-object subclass is rejected the same way 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-2: the array arm rejects symbol keys and non-index enumerable own properties > rejects an own SYMBOL key on an array, naming the symbol in the path 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-2: the array arm rejects symbol keys and non-index enumerable own properties > rejects an array carrying a DATE on an expando key (previously hashed as plain [1,2]) 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-2: the array arm rejects symbol keys and non-index enumerable own properties > rejects an array carrying a FUNCTION on an expando key 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-2: the array arm rejects symbol keys and non-index enumerable own properties > rejects an array holding a reference to ITSELF on an expando key (an undetected cycle before the fix) 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-2: the array arm rejects symbol keys and non-index enumerable own properties > rejects an in-domain-valued expando too — the rule is structural, not a value check 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-2: the array arm rejects symbol keys and non-index enumerable own properties > names the nested JSON path of the offending expando key 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-2: the array arm rejects symbol keys and non-index enumerable own properties > rejects index-LOOKING keys that are not canonical index slots ("01", "1.0", "-0", "+1") 1ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-2: the array arm rejects symbol keys and non-index enumerable own properties > a numeric key past `length` extends length, so it surfaces as a HOLE, not a non-index property 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-2: the array arm rejects symbol keys and non-index enumerable own properties > rejects a numeric key beyond the array-index range (2^32-1), which does NOT extend length 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-2: the array arm rejects symbol keys and non-index enumerable own properties > does NOT reject `length` or any non-enumerable own property (matching the object arm's leniency) 0ms
+ ✓ tests/revisions.test.ts > computeItemRevision: ADR-0017 Amendment 1 (holes, depth, closed world) > GEN2-2: the array arm rejects symbol keys and non-index enumerable own properties > holes are still reported AS HOLES, not as missing index properties (A1.1 unchanged) 1ms
+ ✓ tests/revisions.test.ts > buildRevisionsMap > builds a map of id to itemRevision 1ms
+ ✓ tests/revisions.test.ts > buildRevisionsMap > throws on duplicate IDs 0ms
+ ✓ tests/revisions.test.ts > buildRevisionsMap > handles empty array 0ms
+ ✓ tests/revisions.test.ts > buildRevisionsMap > produces consistent hashes for same content 0ms
+ ✓ tests/revisions.test.ts > buildRevisionsMap > CP-05 scenario 1 via buildRevisionsMap: same item id with changed content -> map key unchanged, map value changed 1ms
+ ✓ tests/revisions.test.ts > buildRevisionsMap > round-trips an id of __proto__ without prototype-accessor loss 1ms
+ ✓ tests/revisions.test.ts > buildRevisionsMap > still throws on a duplicate __proto__ id (no silent overwrite) 0ms
+ ✓ tests/revisions.test.ts > buildRevisionsMap > propagates the domain TypeError with the offending item path 0ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > CP-05 scenario 2: loads valid migration entries 7ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > loads multiple entries from a single file (array format) exactly, in sorted order 3ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > throws on malformed JSON 4ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > throws on missing required fields 4ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > throws on wrong field types 3ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > ignores non-JSON files in the directory 4ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > returns [] for an existing but empty directory 1ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > throws when an explicitly-passed directory does not exist 1ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > tolerates an absent DEFAULT directory (returns an array) 1ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > content validation (CP-05 scenario 2: an entry must link old revision to new) > rejects empty itemId 4ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > content validation (CP-05 scenario 2: an entry must link old revision to new) > rejects empty note 3ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > content validation (CP-05 scenario 2: an entry must link old revision to new) > rejects empty fromRevision 4ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > content validation (CP-05 scenario 2: an entry must link old revision to new) > rejects empty toRevision 3ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > content validation (CP-05 scenario 2: an entry must link old revision to new) > rejects non-hex fromRevision 3ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > content validation (CP-05 scenario 2: an entry must link old revision to new) > rejects non-hex toRevision 3ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > content validation (CP-05 scenario 2: an entry must link old revision to new) > rejects too-short fromRevision 3ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > content validation (CP-05 scenario 2: an entry must link old revision to new) > rejects too-long toRevision 3ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > content validation (CP-05 scenario 2: an entry must link old revision to new) > rejects uppercase hex fromRevision 3ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > content validation (CP-05 scenario 2: an entry must link old revision to new) > rejects a self-link where fromRevision === toRevision 3ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > content validation (CP-05 scenario 2: an entry must link old revision to new) > accepts the baseline entry the rejection cases are derived from 3ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > content validation (CP-05 scenario 2: an entry must link old revision to new) > throws on conflicting duplicate {itemId, fromRevision} across two files 5ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > content validation (CP-05 scenario 2: an entry must link old revision to new) > throws on conflicting duplicate {itemId, fromRevision} within one file 2ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > content validation (CP-05 scenario 2: an entry must link old revision to new) > throws on an exact duplicate {itemId, fromRevision, toRevision} 4ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > content validation (CP-05 scenario 2: an entry must link old revision to new) > allows the same itemId with different fromRevisions (a revision chain) 2ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > content validation (CP-05 scenario 2: an entry must link old revision to new) > orders entries deterministically by (itemId, fromRevision), not by file order 5ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > content validation (CP-05 scenario 2: an entry must link old revision to new) > does not pollute Object.prototype via a __proto__ key in migration JSON 3ms
+ ✓ tests/revisions.test.ts > loadMigrationMaps > loads the in-repo content/migrations directory exactly (the shipped example is valid) 1ms
+
+ Test Files  1 passed (1)
+      Tests  114 passed (114)
+   Start at  21:53:18
+   Duration  916ms (transform 108ms, setup 0ms, import 257ms, tests 170ms, environment 0ms)
+
+EXIT_CODE=0

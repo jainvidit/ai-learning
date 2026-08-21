@@ -1,0 +1,31 @@
+---
+id: 02-green-the-tests
+title: "Stage 2: Green the Tests"
+minutes: 18
+objectives:
+  - Scaffold an implementation against a fixed test suite
+  - Keep Claude running tests as it works
+  - Hold the never-edit-the-spec line
+---
+
+## Test-first, agent-driven
+
+The suite in `tests/journal.test.js` defines add/list/search completely: what each returns, the ordering, case-insensitive search. Your job isn't to write journal.js — it's to DIRECT the writing: point Claude at the spec, demand it verify with real runs, accept nothing but exit 0.
+
+## Read the spec yourself first
+
+Two minutes reading the test file makes you a competent reviewer instead of a hopeful bystander: entries are objects with `id` and `text`; list preserves insertion order; search matches case-insensitively and returns an array. (Module 13's lesson in miniature — you can't grade what you haven't specified.)
+
+## The workflow
+
+One clear instruction beats twenty corrections: implement journal.js so the tests pass, run `node tests/journal.test.js` after each change, don't touch the tests. Sound familiar? It's stage-sized /goal phrasing from module 12.
+
+## When it fails
+
+FAIL lines name the broken case — make Claude paste the actual test output, not summarize it ("all tests appear correct" is not exit 0).
+
+<Callout kind="warning">
+If Claude proposes "fixing" a test, that's the line you hold: tests are the spec.
+</Callout>
+
+<Exercise id="challenge-green-tests" />

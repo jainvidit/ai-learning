@@ -1,0 +1,2 @@
+plain prose with no dotted tokens and no slashes at all
+second line REQ-CP-05 and ADR-0017 amendment one

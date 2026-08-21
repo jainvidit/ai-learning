@@ -1,0 +1,87 @@
+---
+id: 05-randomness
+title: Randomness & Why Answers Differ
+minutes: 8
+objectives:
+  - Explain why the same question can produce different answers each time
+  - Describe temperature as a dial between predictable and adventurous word choices
+  - Decide when randomness helps (brainstorming) and when it hurts (facts, code)
+  - Write prompts that ask for consistent, repeatable answers
+---
+
+# Randomness & Why Answers Differ
+
+Ask an AI chatbot the same question today and tomorrow, and you may get two noticeably different answers. Neither is a glitch. Neither means the model "changed its mind." A little randomness is *built in* — on purpose.
+
+Let's see where it comes from, and how to turn it up or down.
+
+## A menu, not a single answer
+
+Remember: at every step, the model is choosing the next word (technically, the next *token* — see Lesson 2). But here's the part we haven't stressed yet: it doesn't compute *one* next word. It computes a whole **menu** of candidates, each with a probability — a score for how likely that word is to come next.
+
+Say the text so far is *"The cat sat on the..."* The menu might look like:
+
+- **mat** — 60%
+- **couch** — 20%
+- **windowsill** — 10%
+- **roof** — 5%
+- ...and hundreds of longer shots
+
+Here's the surprise: the model doesn't always pick the #1 option. Instead, it *rolls weighted dice* over the menu. "mat" wins most of the time, but every so often "windowsill" gets its moment. And since each chosen word becomes part of the text that shapes the *next* menu, one different early pick can send the whole answer down a different path — like taking a different first turn out of your driveway and ending up on a completely different route.
+
+That's the whole mystery of "why did I get a different answer today?" Different dice rolls, different paths.
+
+## The temperature dial
+
+How adventurous those dice rolls are is controlled by a setting called **temperature**. Don't let the physics-y name scare you — it's just a dial from "play it safe" to "surprise me."
+
+- **Low temperature** → the model almost always picks the top choice. Answers become predictable, repeatable, and a bit plain. Ask twice, get nearly the same thing.
+- **High temperature** → lower-ranked words get picked more often. Answers become varied, creative, occasionally weird. Ask twice, get two genuinely different responses.
+
+Think of a jazz musician. Low temperature is playing the sheet music exactly as written — reliable, identical every night. High temperature is improvising around the melody — delightful, and never the same twice.
+
+<Callout kind="info">
+Most chat apps run at a moderate temperature by default — enough spice that responses feel natural and don't repeat word-for-word. You usually can't see the dial, but it's there, quietly rolling dice on every word.
+</Callout>
+
+## When you WANT randomness — and when you don't
+
+Randomness isn't a flaw to eliminate. It's a tool to match to the job.
+
+**You want it high (variety) when:**
+
+- Brainstorming names, ideas, or angles — you *want* ten different options
+- Creative writing — a poem that's identical every time is a poster, not a poem
+- Rephrasing something that sounds stale
+
+**You want it low (consistency) when:**
+
+- Asking factual questions — there's one right answer; creativity just adds ways to be wrong
+- Generating code or step-by-step instructions — "adventurous" is not a compliment for either
+- Anything you'll compare, reuse, or automate — you need the same input to give the same output
+
+## No dial? Use your words
+
+In most chat apps you can't touch the temperature setting directly. Good news: **your prompt can do the dial's job.**
+
+To push toward consistency, ask for it explicitly:
+
+> "Give the single most standard, conventional answer. Don't be creative. Format it exactly as: Name: ... / Slogan: ..."
+
+Words like *standard*, *conventional*, and *most common*, plus a strict output format, make the safe choice the plausible choice — so the dice matter less. To push the other way, invite variety: *"Give me 10 wildly different options, from safe to strange."*
+
+<Callout kind="tip">
+When answers keep wandering, add two things to your prompt: **"choose the most conventional option"** and **an exact output format**. Constraint is the beginner's temperature dial.
+</Callout>
+
+## See the dice roll
+
+Time to catch the randomness in the act — and then tame it.
+
+<Exercise id="playground-observe-variance" />
+
+<Exercise id="quiz-randomness" />
+
+## The takeaway
+
+Every answer is a chain of weighted dice rolls over a menu of likely next words. The temperature dial sets how daring the rolls are — and when you can't reach the dial, precise wording ("give the single most standard answer, in this exact format") does the same job. Match the randomness to the task: dial it up to explore, down to rely.

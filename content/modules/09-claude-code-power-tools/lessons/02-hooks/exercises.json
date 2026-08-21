@@ -1,0 +1,62 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-hooks",
+    "title": "Quiz: Hooks",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-who-runs",
+        "kind": "single",
+        "prompt": "Who executes a hook's command when its event fires?",
+        "options": [
+          { "id": "a", "text": "Claude decides whether to run it, like any instruction" },
+          { "id": "b", "text": "The Claude Code harness runs it automatically — the model has no say" },
+          { "id": "c", "text": "You are prompted to run it manually" },
+          { "id": "d", "text": "It runs on Anthropic's servers" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "That's the whole point: hooks are deterministic automation. A CLAUDE.md instruction is followed with high probability; a hook fires with certainty, every matching event."
+      },
+      {
+        "id": "q2-pick-event",
+        "kind": "single",
+        "prompt": "You want the test suite to run automatically after Claude edits any file. Which hook event and matcher?",
+        "options": [
+          { "id": "a", "text": "PreToolUse with matcher Bash" },
+          { "id": "b", "text": "PostToolUse with matcher Edit|Write" },
+          { "id": "c", "text": "Stop with no matcher" },
+          { "id": "d", "text": "SessionStart with matcher Edit" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "PostToolUse fires after a tool completes; the Edit|Write matcher scopes it to file modifications. PreToolUse would run tests before the edit — pointless here."
+      },
+      {
+        "id": "q3-vs-instruction",
+        "kind": "single",
+        "prompt": "Which task is a hook the WRONG choice for?",
+        "options": [
+          { "id": "a", "text": "Formatting code after every edit" },
+          { "id": "b", "text": "Blocking any Bash command containing 'rm -rf'" },
+          { "id": "c", "text": "Deciding whether a code change also needs a documentation update" },
+          { "id": "d", "text": "Playing a sound when Claude finishes" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Hooks are dumb and deterministic — perfect for always-do-X, wrong for judgment calls. 'Does this need a doc update?' requires understanding the change: that's an instruction for the model."
+      },
+      {
+        "id": "q4-safety",
+        "kind": "multi",
+        "prompt": "Which are true about hook safety? (select all that apply)",
+        "options": [
+          { "id": "a", "text": "Hooks run arbitrary shell commands with your user's permissions" },
+          { "id": "b", "text": "You should review hooks configured in a repository you just cloned" },
+          { "id": "c", "text": "Hooks can only run read-only commands" },
+          { "id": "d", "text": "A PreToolUse hook can block a dangerous tool call before it happens" }
+        ],
+        "correctOptionIds": ["a", "b", "d"],
+        "explanation": "Hooks are real shell commands — powerful for guardrails (d) and equally powerful for mischief, so audit configs you didn't write. Nothing restricts them to read-only."
+      }
+    ]
+  }
+]

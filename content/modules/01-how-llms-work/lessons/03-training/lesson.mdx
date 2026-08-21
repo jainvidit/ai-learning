@@ -1,0 +1,74 @@
+---
+id: 03-training
+title: "Training: How It Learned"
+minutes: 10
+objectives:
+  - Describe pretraining as next-word practice on a giant library of text
+  - Understand the guess-check-adjust loop that sets the model's internal dials
+  - Explain why a raw predictor needs finetuning and human feedback to become a helpful assistant
+  - See why every model has a knowledge cutoff — and what that means for you
+---
+
+## Where did all that "knowledge" come from?
+
+By now you know the trick: an LLM predicts the next token, and doing that extremely well requires soaking up an enormous amount about language and the world. But *how* does a program soak anything up? Nobody sat down and typed facts into it.
+
+The answer is training, and it happens in two big phases. Phase one builds a brilliant predictor. Phase two turns that predictor into a helpful assistant. Let's take them in order.
+
+## Phase one: pretraining, or reading the world's biggest library
+
+Imagine a library so vast it holds a huge slice of everything humans have written — books, websites, articles, code, recipes, forum arguments about the best pizza topping. **Pretraining** is the process of practicing one game against that entire library, billions upon billions of times.
+
+The game works like flashcards:
+
+1. **Guess.** Take a snippet of real text from the library, hide the next word, and make the model guess it. *"The doctor washed her ___"* — the model guesses.
+2. **Check.** Reveal the real next word. Was the guess right? How confident was the model in the right answer?
+3. **Adjust.** Nudge the model's internal dials — billions of tiny numbered knobs — so that next time, in a situation like this one, the correct word gets a slightly higher probability.
+
+One round of this teaches the model almost nothing. But repeat it billions of times, across the whole library, and something remarkable happens: to keep winning the guessing game, the dials gradually organize themselves around grammar, facts, styles, and reasoning patterns. Nobody programs in "Paris is the capital of France" — the model just keeps getting that flashcard wrong until its dials shift enough to get it right.
+
+<Callout kind="info">
+This is why we say the model's knowledge is *patterns*, not a database. Training doesn't store sentences — it adjusts dials. What's left afterward is more like the intuition you'd have after reading a million books than like the books themselves.
+</Callout>
+
+## The raw predictor problem
+
+Here's the twist: after all that pretraining, you don't have a helpful assistant. You have something stranger — a pure text continuer.
+
+Ask a raw pretrained model *"How do I bake bread?"* and it might respond with... more questions. Why? Because on the internet, a question is often followed by other questions ("How long does it take? Do I need a stand mixer?") — that's a perfectly likely continuation! Or it might imitate a forum user with terrible advice, because the library contained plenty of terrible advice too.
+
+The raw model is like a brilliant actor who has read everything ever written but has been given no role to play. It can imitate *anyone* — a helpful expert, an internet troll, a spam bot — because it learned from all of them. It has no built-in reason to be helpful, truthful, or safe. It just continues text.
+
+## Phase two: teaching it to be an assistant
+
+So there's a second phase of training, with two main ingredients.
+
+**Finetuning** is additional training on a much smaller, carefully chosen set of examples: high-quality conversations where a question gets a helpful, honest, well-organized answer. If pretraining was reading the whole library, finetuning is an apprenticeship — studying thousands of examples of *the specific job* we want done. The actor finally gets a role: "you are a helpful assistant."
+
+**Learning from human feedback** (you may see the acronym **RLHF** — reinforcement learning from human feedback) adds the polish. The model produces several possible answers to a prompt, and human reviewers rank them: this one is helpful, that one is rude, this one is subtly wrong. Think of it as thumbs-up / thumbs-down at massive scale. The model's dials get nudged toward the kinds of answers people rate highly — clearer, safer, more honest about uncertainty.
+
+<Callout kind="tip">
+Putting it together: **pretraining gives the model its abilities; finetuning and human feedback give it its behavior.** When Claude or ChatGPT politely declines a harmful request or admits it isn't sure about something, that's phase two at work — that behavior is not something next-word prediction produces on its own.
+</Callout>
+
+## The library has a last page
+
+One consequence of this whole process is so important it deserves its own section.
+
+Training happens *once*, on a library that was collected up to a certain date, and then it stops. The dials are frozen. Everything the model knows comes from that snapshot — which means every model has a **knowledge cutoff**: a date after which it simply knows nothing.
+
+It's not that the model is being coy about recent events. The library it learned from has a last page, and nothing after that page exists for the model at all. Ask about last month's news and a well-trained model should say it doesn't know — but as we'll see in the next lesson, models sometimes *guess* instead, and that's where trouble starts.
+
+<Callout kind="warning">
+Practical rule: never rely on a bare LLM for anything recent — news, prices, today's weather, the latest version of an app. Some AI products bolt on live web search to work around this, but the model itself is always answering from its frozen snapshot. Knowing a model's cutoff helps you know when to double-check.
+</Callout>
+
+## The takeaway
+
+Training an LLM is a two-act story. Act one: play the next-word guessing game against a giant library billions of times — guess, check, adjust — until knowledge emerges in the dials. Act two: use curated examples and human thumbs-up/thumbs-down to shape that raw predictor into a helpful, safe assistant. And because the library was frozen on a certain date, the model's knowledge ends there too.
+
+Next up: what happens when the predictor confidently fills in a gap it doesn't actually know — the famous phenomenon of AI making things up.
+
+## Check your understanding
+
+<Exercise id="quiz-training" />

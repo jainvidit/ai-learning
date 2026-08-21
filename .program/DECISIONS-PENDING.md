@@ -1,0 +1,236 @@
+# Decisions pending owner input
+
+Deferred ambiguities (decided-and-logged per PART 9 Rule 1 — work continues) and parked
+irreversible items (PART 9 Rule 2 — work routed around). Nothing here stalls the program.
+
+## Parked — awaiting human authorization
+
+### ROOT.6 — Hosted Edition (Phase 5)
+- **Action proposed:** decompose and build the hosted-edition.md shard (Postgres+Zero, Better Auth, CloudDriver).
+- **Why parked:** never owner-ratified (ASSUMPTIONS #32 [INFERRED]; OPEN-QUESTIONS #6); contains PART 9 hard stops (auth, public API surface, paid resources). ADR-0001.
+- **Blast radius if done:** public deployment surface, credentials, recurring cost.
+- **Routed around:** all edition-invariant interfaces are built regardless; zero downstream items depend on ROOT.6.
+
+### ROOT.2.4 — Legacy JSON progress archival
+- **Action proposed:** move `data/progress/*.json` to an archive location after verified import (the reversible read-cutover was split out to ROOT.2.1 per ADR-0007 and is NOT parked).
+- **Why parked:** moving real learner data files this program did not create; `data/**` is a standing never-delete flag (REQ-MS-03). The "additive so safe" reframe is the PART 9 signal to park.
+- **Blast radius if done wrong:** learner progress loss — the single worst outcome available to this program.
+- **Routed around:** files stay in place indefinitely; nothing blocks on archival.
+
+### ROOT.5.1 — Nightly Workshop git-bundle backup (WA-01 s5, pre-flagged)
+- **Action proposed (future):** a scheduled local job producing git-bundle backups of each profile's Workshop.
+- **Why flagged:** a scheduled job that writes copies of learner data is PART 9-adjacent (recurring side effect on data the program didn't create). ROOT.5.1 designs it and submits it here for authorization before implementation.
+- **Routed around:** Workshop functions fully without backups; checkpoints already exist in-repo.
+
+### ROOT.1.1 — Content pipeline: verification toolchain denied (2026-07-25, coordinator-ROOT.1.1-gen0)
+- **Action needed:** grant the program's agents permission to run the AGENTS.md verification commands (`npm install`, `npm run build`, `npx tsc --noEmit`, `npm run lint`, `npm run validate`, `npm test`) — the permission system currently denies Bash/npm environment-wide (denied for the coordinator directly and for the implementer per-command, bare and individually).
+- **Why parked:** every ROOT.1.1 leaf is framework-touching; PART 6 requires empirical build/typecheck evidence, which is unattainable without the toolchain. Not retried on an escalated implementer: the failure is environmental, not agent capability.
+- **URGENT side effect — RESOLVED by director-gen15 (2026-07-25T14:20Z):** the repo was BUILD-BROKEN mid-migration (package.json swapped to velite with `npm install` never run; LessonRenderer.tsx still importing next-mdx-remote/rsc). Director restored the green baseline: `git checkout 6df07a6^ -- package.json .gitignore` + deleted the program-created velite.config.ts (reversible; the WIP swap survives in commit 6df07a6 and in ROOT.1.1.1's item-file inventory). The repo is coherent again; nothing needs hand-reverting. Director also re-verified the denial empirically this session: `npm --version` denied for the director AND for a fresh dream-verifier — yet earlier sessions today ran full npm suites (ROOT.7.2, ROOT.1.2.1 evidence), so the permission surface CHANGED mid-program. After permission grant: re-dispatch ROOT.1.1.1 fresh (re-apply the swap from the item-file inventory, then `npm install` first).
+- **Routed around:** nothing downstream of ROOT.1.1 can proceed (1.6/1.3/1.5 package.json chain waits on 1.1); ROOT.1.1 and ROOT.1.1.1 set blocked/awaiting_human_authorization.
+
+## Standing items — not blocking, must be discharged before the dependent work
+
+### No live dream-reviewer-primary has been stopped by the hook — resolves on its own, do NOT force it (2026-07-27, remediation Phase 5)
+- **What IS proven:** the reviewer deny branch at the **policy layer** — all six
+  role×target combinations exercised directly against `role-write-scope.py`
+  (`dream-reviewer-primary` denied outside `.program/audits/**`, allowed inside; verifier
+  denied everywhere; implementer allowed everywhere), 3 denial rows written, 0 files
+  created. Plus a **live** `dream-verifier` denial in a fresh session (`5aa61865…`), which
+  proves the hook denies real subagents, not just synthetic payloads.
+- **What is NOT proven:** that a live `dream-reviewer-primary` gets stopped by the *hook*.
+  Asked three times to probe its own deny branch, it declined every time — and its
+  reasoning was correct: authorization relayed through an agent message is not its user's
+  consent, and "attempt it so we can see if the guard works" is still an attempt. It also
+  noted that its self-restraint and a hook denial are indistinguishable in the log, which
+  is the finding that produced the heartbeat.
+- **Why this is not blocking:** the two claims differ only in *which* mechanism stops the
+  reviewer, and both hold. The heartbeat confirms the hook is live for that role —
+  `dream-reviewer-primary` heartbeat recorded in fresh session `8f90f1ed…`, agent
+  `abc7407389f7fed04` — so the hook is demonstrably running for reviewers even though no
+  reviewer has yet given it a write to refuse.
+- **It resolves naturally.** The first time a real reviewer attempts a write outside
+  `.program/audits/**` during actual work, the denial row appears and this closes itself.
+  **Do not manufacture a test for it.** Instructing a role to violate its own rule to
+  demonstrate that the rule is enforced trains exactly the behaviour the rule exists to
+  prevent, and the reviewer was right to refuse.
+
+### Hook enforcement is verifiable ONLY through hook-denials.jsonl on this build (2026-07-27, remediation Phase 5)
+- **Fact:** subagent hook invocations leave **no transcript record** on this build. The
+  main session's own calls produce `hook_success` attachments, and there are **zero
+  sidechain records** in the session transcript, so a subagent's hook decisions are
+  invisible there. `.program/audits/hook-denials.jsonl` — written by the hook itself — is
+  the only available ground truth.
+- **Partially mitigated (2026-07-27):** the hook now also writes a **heartbeat** row — one
+  per (session, agent) on a restricted role's first allowed call — so "the hook is live" no
+  longer requires waiting for a violation. Auditor **check 14** makes total silence a
+  BLOCKING finding. Limit: the matcher is `Write|Edit|NotebookEdit|Bash`, so a role working
+  purely through `Read`/`Grep`/`Glob` still emits nothing; absence must be checked against
+  the role's actual tool calls before it is read as failure.
+- **Standing rule:** **any future claim that a hook works requires a row in that file —
+  denial or heartbeat — not a self-report.** A live probe that completes with zero denial rows is a
+  FAILURE, whatever the agent says it did or could not do. Corroborate with the filesystem
+  (`ls`/`cat`), never with agent prose.
+- **Why this is stated so strongly — three self-reports contradicted the filesystem during
+  this phase alone:**
+  1. A reviewer reported "Bash redirects successfully bypass Edit deny rules" while its
+     file was **ABSENT** — it had been denied and misread the outcome.
+  2. Two probe arms reported DENIED-by-frontmatter when Bash was in fact denied
+     generically, making both arms uninformative and nearly producing a wrong verdict about
+     the enforcement mechanism.
+  3. A reviewer reported declining a probe on ADR-0014 grounds and left a 0-byte file — the
+     shell had created it, so "no write happened" and "the hook blocked it" were
+     indistinguishable from the report alone.
+  A fourth, adjacent: the hook fired 49 times returning unparseable output, and the harness
+  read that as allow. **Nothing in any agent's report would have revealed it.**
+- **Not blocking:** the enforcement works today (verified by live dispatch); this governs
+  how future claims about it must be evidenced.
+
+### Tier-3 and escalation paths are UNEXERCISED (2026-07-26, remediation)
+- **Fact:** across 38 director generations, `dream-reviewer-adversarial` and
+  `dream-ledger-auditor-deep` were **never dispatched — not once**. Zero dispatches, so
+  zero evidence that either role works: not that its prompt produces a usable verdict, not
+  that its return contract parses, not that its escalation trigger fires.
+- **Why it matters:** these are the roles the program leans on precisely when something has
+  already gone wrong (tier-3 scope, conflicting standard reviews, detected compaction,
+  systemic ledger drift). Discovering they are broken at that moment costs a generation in
+  the worst possible circumstances. The 38 generations that "worked" exercised only the
+  tier-1/2 path. Note also that both roles were among the five carrying `memory: project`
+  (ADR-0013), so their only known property is one that has since been removed.
+- **Action required:** **dry-run both against an already-completed item before any tier-3
+  work is dispatched.** Use a `done` item with recorded verdicts and evidence (ROOT.1.1.3
+  is the best candidate — it has a full fix cycle, four criteria, and independent reviewer
+  evidence under `.program/audits/ROOT.1.1.3-verification/`). Success is: the role returns
+  parseable output in its declared shape, its findings are checkable against what is
+  already known about the item, and it wrote nothing outside `.program/audits/**`
+  (ADR-0014). A dry-run that contradicts a settled verdict is a finding about the role, not
+  about the item.
+- **Not blocking:** nothing currently ready needs tier 3. This is a gate on the first
+  tier-3 dispatch, not on present work.
+- Related: `dream-gate-verifier-forensic`, `dream-implementer-critical`,
+  `dream-coordinator-recovery` and `dream-verifier-deep` are also unexercised; the same
+  argument applies to them, but with less force since they are not the review backstop.
+
+### Readiness now has two conditions — a correctness fix, not a reporting one (2026-07-27, remediation Phase 6)
+- **The bug:** the readiness rule was "every `depends_on` is `done`". Under it, **seven items
+  read as dispatchable while Phase 0 was still open** — ROOT.2.1, ROOT.3.1, ROOT.4.1,
+  ROOT.4.5, ROOT.4.7, ROOT.5.1, ROOT.5.3. All their edges are genuinely satisfied; nothing in
+  any item file was wrong. A director following the rule as written starts Phases 1–4
+  concurrently with Phase 0, which the glossary forbids and which removes the regression
+  floor: the Gate is what proves the baseline survived, so anything built past an open gate
+  has nothing under it.
+- **Why edges are not the fix:** phase ordering is a property of the phase, not of any one
+  item's dependency list. Encoding it as `depends_on` would mean fanning every cross-phase
+  pair into every item file and keeping them in sync forever.
+- **The fix, in the definition rather than the display:** readiness is now `depends_on` all
+  `done` **AND** the phase gate closed (gates: Phase 0 → **ROOT.1.8**, 1 → ROOT.2.5,
+  2 → ROOT.3.6, 3 → ROOT.4.9, 4 → ROOT.5.6; ROOT.7 exempt per ADR-0007, ROOT.6 parked).
+  `.program/audits/headline-regen/ready-frontier.py` is now the single source of the frontier
+  — `dream-director.md` states it is read from the script and never derived by hand — and
+  auditor **check 15** makes a dispatch past an open gate BLOCKING.
+- **Not blocking:** no such dispatch has happened; all seven items are still `proposed`. This
+  closes the path by which one could.
+
+### Latent ownership overlaps to resolve at decomposition (2026-07-26, ADR-0016)
+- **Fact:** the 57-item glob scan found 9 pairs that would collide if both became ready.
+  Five are artifacts of ROOT.7.2 being `done` while its co-owners are not (harmless unless
+  it is reopened). Four are real and unresolved:
+  - **ROOT.2.1, ROOT.2.3, ROOT.4.5 ↔ ROOT.7.1** — each owns a named interface doc that also
+    falls inside the steward's `.program/interfaces/**` glob. Fix with the ADR-0016
+    `file_ownership_deferred` pattern when ROOT.2 / ROOT.4 are decomposed.
+  - **ROOT.4.8 ↔ ROOT.7.2** — both claim a bare `tests/**`. Narrow ROOT.4.8 to the specific
+    test files it adds before dispatching it.
+- **Not blocking:** all four are cross-phase and at least one side is `proposed`; nothing
+  collides today. Each has an `ownership_overlap_latent` event on its item log.
+- **Also standing:** re-run `.program/audits/ownership-overlap-scan/scan-globs.py` at each
+  phase boundary, on any glob change, and **before reopening any `done` item**.
+
+## Decided and logged — reversible, owner may override
+
+| # | Item | Question | Chose | If the other reading is right |
+|---|---|---|---|---|
+| 1 | ROOT.6 | Hosted Edition in scope? (OQ #6) | Not scheduled (ADR-0001) | Unblock ROOT.6; interfaces already exist |
+| 2 | ROOT.1.5 | Monorepo apps/api split? (OQ #7) | Packages only, one Next app (ADR-0002) | Add apps/api later behind existing packages |
+| 3 | ROOT.4.7 | Offline in Home v1? (OQ #5) | Deferred with hosted (ADR-0003) | Add outbox behind the single write contract |
+| 4 | ROOT.2.2/4.3 | Streaks owner-ratified? (OQ #9) | Ship gentle streak as specced (ADR-0004) | Remove projection consumers; log untouched |
+| 5 | ROOT.1.2 | Beat vocabulary A or B? (OQ #1) | Blueprint set; recap = authored convention (ADR-0005) | Additive `recap` type + convention migration |
+| 6 | ROOT.5.5 | Quiz explanations on fail? (OQ #2) | Explanations returned; variants defeat brute force (ADR-0006) | Server-side flag gates missed-question explanations |
+| 7 | ROOT.5.5 | Module 12 mitigation (OQ #8) | UNDECIDED — must be ADR'd before module 12 authoring; module 12 is last in the authoring queue | n/a — decision still open by design |
+| 8 | ROOT.3.4 | Variant human review with no human | Generated variants queue unpublished; reviews fall back to canonical (REQ-CG-03) until owner reviews the bank | Owner reviews queue; gate goes hard |
+| 9 | ROOT.1.3 | Home SSE resume store (OQ #4) | Reading A default (in-process/file-backed, no Redis) — ADR due at ROOT.1.3 decomposition | Accept one local Redis process |
+| 10 | — | OQ #3 `.program/` sanctioned | Reading A (owner's infra commit f4fd9b9 + AGENTS.md ratify it) | Relocate ledger per owner instruction |
+| 11 | — | OQ #13/#14 integrity carve-out + rung-4 boundary | Reading A (shards assume it; flagged, unobjected) | Itemized owner review; features are removable |
+| 12 | ROOT.5.5 | OQ #15 Module-1 playground nit | Reading A — leave placement as-is | Adopt nit during CC-03 fixes |
+
+| 13 | ROOT.1.10 | Package manager for workspace split | npm workspaces (ADR-0008) | pnpm import is mechanical later |
+| 14 | ROOT.1.7 | ASSUMPTIONS #11 divergent: next-mdx-remote is NO LONGER archived (v6.0.0, active). Reopen pipeline choice? | Proceed as specced — Velite migration stands; REJECTED.md binding (ADR-0009) | Keep next-mdx-remote; removal is a reversible package change, git preserves the path |
+| 15 | ROOT.1.9 | ASSUMPTIONS #12 negative: Bedrock rejects output_config.json_schema (live 400). How does the judge get schema-conformant output? | Tool-forcing + local validate/one-repair inside the ModelGateway seam (ADR-0010); swap-in of native support stays seam-internal | Wait for native structured outputs; only the seam internals change |
+
+OQ #10 (Velite tiebreak — trigger held by ROOT.1.1's coordinator, informed by ROOT.1.7's
+probe), #11 (Langfuse fallback — JP-06 now owned by ROOT.4.8), #12 (first-run cosmetic)
+are recorded open-by-design with named trigger-holders; no decision needed at genesis.
+
+Genesis adversarial review (2026-07-25): three blind opus lenses filed 71 findings
+(completeness 13, coupling 27, sizing 31); disposition in ADR-0007, full texts in
+`.program/audits/genesis-review-*.md`. Owner-relevant: the review confirmed the two
+parks above and surfaced no new irreversible-action candidates beyond the nightly-backup
+flag.
+
+## Resolved — kept for the findings, not for action
+
+### RESOLVED (2026-07-27) — workspace trust granted; enforcement re-verified in fresh sessions
+- **What the problem was:** `projects["C:/Users/jainv/workplace/ai-learning-app"].hasTrustDialogAccepted`
+  was `false` in `C:\Users\jainv\.claude.json`. That flag gates whether
+  `.claude/settings.json` is honoured **at all**: `permissions.allow` was dropped with a
+  visible warning (`Ignoring 11 permissions.allow entries from .claude/settings.json: this
+  workspace has not been trusted`), and `hooks` were dropped **silently**. So the whole
+  Phase 5 enforcement layer — deny rules AND the ADR-0014 write-scope hook — held only in
+  the long-lived session that predated the settings change; any fresh session, including any
+  restart of the director, would have started with none of it and logged nothing about it.
+- **The circularity that made it a real decision:** trusting the workspace is what makes the
+  deny rules live — and the deny rule on `.claude/settings*.json` is a large part of what
+  makes trusting it tolerable, since that file is executable configuration living in a repo
+  this program edits. Neither half is safe without the other, and they cannot be sequenced.
+- **RESOLUTION:** the owner granted trust on 2026-07-27; `hasTrustDialogAccepted` is now
+  `true` for this project. Re-verified in genuinely fresh sessions (separate processes, each
+  with its own session_id): no `Ignoring N permissions.allow entries` warning; the hook loads
+  (fresh session `0a02180a`, 1 Bash call produced 1 `hook_success`, empty content, no cmd
+  banner); a live `dream-verifier` denial landed (`5aa61865…`); an implementer wrote
+  unimpeded; and both `dream-verifier` and `dream-reviewer-primary` heartbeats landed
+  (`6bf45fe0…`, `8f90f1ed…`). The circularity resolved in the only order that works — trust
+  first, with the `Edit(**/.claude/settings*.json)` deny rule already in place to make it
+  tolerable.
+- **The durable finding, which outlives this entry:** a `false` here removes hooks with **no
+  warning of any kind** — the permissions half at least prints one. Never infer that a hook
+  is running because it is configured. Auditor **check 14** now enforces that from an
+  artifact every audit cycle.
+
+### RESOLVED — ROOT.1.1 toolchain denial (2026-07-25, coordinator-ROOT.1.1-gen0)
+- The permission grant landed: `npm --version` succeeds in the ROOT.1.1 coordinator session (11.6.2). Baseline restore by director-gen15 verified intact (next-mdx-remote ^6.0.0 back in package.json, no velite.config.ts). ROOT.1.1/ROOT.1.1.1 unblocked; ROOT.1.1.1 gen1 re-dispatched. The 2026-07-25 "verification toolchain denied" entry above is closed.
+
+## Decided-and-logged (PART 9 Rule 1)
+
+### ADR-0017 — CP-05 hash-input domain (2026-07-27, director gen40)
+- **Question:** CP-05 s1 "content changes in any way -> hash changes" never stated which
+  JS types must be distinguishable; adversarial review proved the shipped hash collapses
+  NaN/Infinity/Date/Map/Set and crashes on cycles while the criterion still read as met.
+- **Readings:** (A) coerce-and-broaden — encode every JS type distinctly; (B)
+  enumerate-and-reject — hash domain = JSON data model, TypeError with JSON path outside it.
+- **Chose B**: least irreversible (B->A is additive per-type; A's silent collapses inside
+  published immutable bundles can never be disentangled) and consistent with adjacent
+  shards (bundle is JSON on disk per CP-04; CP-06 posture is fail-loudly-in-CI).
+- **If A is ever preferred:** admit types one by one with explicit encodings via a new
+  ADR, plus migration-map guidance for any item whose content newly admits a
+  previously-rejected type. Shard amended (domain clause + scenario 3).
+
+### ADR-0017 Amendment 1 — holes, depth bound, closed world (2026-07-27, gen41, owner-directed)
+- **What changed:** (1) sparse-array holes REJECTED (an absence, not a type; domain check
+  must not use hole-skipping iteration — map/forEach bypass was the gen1 defect); (2)
+  MAX_HASH_DEPTH = 64, exceeded -> TypeError with path, never bare RangeError; (3) domain
+  restated CLOSED-WORLD: HASHABLE enumeration is exhaustive, reject list illustrative,
+  implementation must be allowlist-with-throwing-default. Shard scenario 3 broadened,
+  scenario 4 (in-domain distinctness) added.
+- **Reversal path:** each is additive to relax — normalize holes, raise/remove the depth
+  ceiling, admit new types — via new ADR + migration-map guidance (previously-rejected
+  content becomes newly hashable; never the reverse).
+- **Compat:** all three changes reject what was previously undefined behavior; no
+  in-domain hash changes. The 10 pinned pre-fix regression hashes remain binding.

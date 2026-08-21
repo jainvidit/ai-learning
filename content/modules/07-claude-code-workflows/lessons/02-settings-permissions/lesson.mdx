@@ -1,0 +1,86 @@
+---
+id: 02-settings-permissions
+title: "Permissions on Paper: settings.json"
+minutes: 13
+objectives:
+  - Explain where permission rules live - .claude/settings.json inside the project
+  - Read allow and deny rules and predict what happens for a given action
+  - Explain the three outcomes - pre-approved, blocked, ask-first
+---
+
+Remember module 05, lesson 04? Claude asked permission before acting, and this app pre-approved a narrow set of actions per exercise.
+
+Where do such standing decisions LIVE?
+
+## The permission file
+
+In a file: **`.claude/settings.json`**, inside a hidden `.claude` folder at the top of the project.
+
+(JSON — text with labels. Curly braces group things, quoted names label them, square brackets hold lists. You can read it.)
+
+## Anatomy of a permission rule
+
+Here's a small example:
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(node *)"
+    ],
+    "deny": [
+      "Bash(rm *)",
+      "WebFetch"
+    ]
+  }
+}
+```
+
+Read one rule aloud: `"Bash(node *)"` means "running node commands — any of them (the `*` is a wildcard meaning 'anything here') — is pre-approved."
+
+## The three outcomes
+
+For any action Claude wants to take:
+
+1. **Matches an allow rule** → happens without asking
+2. **Matches a deny rule** → refused, full stop. Claude can't even ask.
+3. **Matches neither** → the familiar ask-first prompt. YOU decide.
+
+Think of it like the contractor from module 05 now has a signed work order:
+
+- Measuring and node-running: pre-approved
+- Demolition: explicitly forbidden
+- Everything else: "check with the owner first"
+
+<Callout kind="info">
+Deny beats allow: if an action somehow matches both lists, the deny wins. Safety rules outrank convenience rules.
+</Callout>
+
+## Why files instead of clicking
+
+Why write the rules in a file instead of clicking "allow" every time?
+
+Three reasons:
+
+1. **Shared with the project** — everyone who opens it gets the same guardrails
+2. **Reviewable** — you can READ the policy before trusting it
+3. **Editable** — loosen or tighten deliberately, not in the heat of a session
+
+<Exercise id="quiz-settings" />
+
+## Read a real one
+
+Time to see this in practice.
+
+<Exercise id="tx-read-settings" />
+
+## You just read a security policy
+
+That's a sentence you couldn't have said two modules ago.
+
+<Callout kind="tip">
+On any real project you join, this file is worth reading FIRST: it tells you what the project's owners trust an agent to do.
+</Callout>

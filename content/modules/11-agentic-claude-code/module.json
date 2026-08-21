@@ -1,0 +1,12 @@
+{
+  "id": "11-agentic-claude-code",
+  "title": "Agentic Claude Code",
+  "track": "claude-code",
+  "description": "Put context isolation to work. Delegate searches to subagents, connect Claude to the outside world with MCP servers, use plan mode to think before touching code, and run parallel agents in git worktrees without them stepping on each other.",
+  "lessons": [
+    { "id": "01-subagents", "title": "Subagents: Delegate the Mess" },
+    { "id": "02-mcp-servers", "title": "MCP: Plugging In the World" },
+    { "id": "03-plan-mode", "title": "Plan Mode: Think First" },
+    { "id": "04-parallel-agents-worktrees", "title": "Parallel Agents & Worktrees" }
+  ]
+}

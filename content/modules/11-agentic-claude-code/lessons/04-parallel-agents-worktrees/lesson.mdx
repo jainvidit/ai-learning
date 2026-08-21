@@ -1,0 +1,74 @@
+---
+id: 04-parallel-agents-worktrees
+title: "Parallel Agents & Worktrees"
+minutes: 12
+objectives:
+  - Explain why parallel agents collide when working in the same directory
+  - Describe git worktrees as multiple checkouts sharing one repository
+  - Outline a fan-out workflow for parallelizing independent tasks
+  - Recognize that merge and review remain human-led steps
+---
+
+## Scaling Up
+
+You've learned to work with one agent on one task. That's powerful, but it's not the ceiling.
+
+Real leverage comes from **multiple agents working simultaneously** on independent tasks. Imagine three agents: one refactoring the API layer, one updating UI components, one expanding test coverage—all at the same time.
+
+But there's a problem: if they all work in the **same directory**, they'll overwrite each other's edits. Agent A's half-finished changes contaminate Agent B's test runs. Agent C commits, and suddenly the other two are working on stale files. The working directory is **shared mutable state**, and parallelism without isolation is chaos.
+
+That's where **git worktrees** come in.
+
+## Worktrees: Isolation for the Filesystem
+
+A **git worktree** is an additional working directory for the same repository. You get multiple checkouts—each on its own branch, each with its own files—all backed by the same shared Git history.
+
+The command looks like this:
+
+```bash
+git worktree add ../feature-x branch-x
+```
+
+This creates a new directory `../feature-x` checked out to `branch-x`. It's a full working tree: you can edit files, run tests, make commits—completely independently of your main checkout.
+
+Each agent gets its own worktree. They can work simultaneously without stepping on each other, just like subagents get their own isolated contexts. **Worktrees are isolation for the filesystem**; subagent contexts are isolation for attention.
+
+<Callout kind="info">
+When you're done with a worktree, you remove it with `git worktree remove <path>`. The branch and commits stay in the repo; only the working directory goes away.
+</Callout>
+
+## The Fan-Out Pattern
+
+Here's how parallel work scales:
+
+1. **Split the work into independent chunks.** Each chunk should touch different files, or at least minimize overlap. Independence is the hard part—two agents editing the same file reconverge as merge conflicts.
+2. **Spawn one agent per worktree.** Each gets its own directory and its own branch.
+3. **Let them work.** They read, edit, test, commit—independently and simultaneously.
+4. **You review and merge.** When they finish, you review each branch (just like you'd review any PR), resolve any conflicts, and merge.
+
+The bottleneck shifts from execution to **review**. Parallelism multiplies output—and multiplies the review load too.
+
+## The Human Role
+
+Parallel agents don't eliminate your judgment; they **concentrate** it.
+
+You still:
+
+- **Design the split.** Bad task boundaries create merge pain. Good boundaries let agents work independently.
+- **Review each branch.** Three agents produce three branches. You review all three.
+- **Resolve conflicts.** If agents overlapped despite your best split, conflicts still need human resolution.
+- **Maintain quality control.** Faster output doesn't mean better output. Each branch still has to meet your standards.
+
+Parallelism is a **leverage multiplier**, not autopilot. Module 12 will push autonomy further—goals, remote execution, scheduled agents—but merge and quality gates stay with you.
+
+## Honest Limits
+
+This lesson is conceptual because the sandbox environments you've been using are single-directory and can't demonstrate real git worktrees. On your own machine, though, tools and harnesses—including Claude Code's own worktree isolation for subagents—make parallel workflows routine.
+
+The principle is what matters: **parallelism needs isolation**, and worktrees provide it at the filesystem level, just as subagent contexts provide it at the attention level.
+
+<Exercise id="quiz-worktrees" />
+
+---
+
+**Next:** Module 12 takes autonomy to the next level—goals, remote execution, and agents that work while you're offline.

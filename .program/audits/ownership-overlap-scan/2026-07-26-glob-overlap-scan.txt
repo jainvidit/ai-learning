@@ -1,0 +1,64 @@
+items loaded: 57
+
+==============================================================================
+A. BOTH CURRENTLY ACTIVE — live collision risk now  (0 pairs)
+==============================================================================
+
+==============================================================================
+B. BOTH CURRENTLY ACTIVE — parent/child or already serialized (benign)  (4 pairs)
+==============================================================================
+
+ROOT (in_progress)  <->  ROOT.7.1 (in_progress)  [parent/child]
+    .program/**   ~   .program/interfaces/**      witness: .program/interfaces/x  (constructed witness)
+
+ROOT.1 (in_progress)  <->  ROOT.1.1 (in_progress)  [parent/child]
+    package.json   ~   package.json
+    velite.config.*   ~   velite.config.*
+    src/lib/content.ts   ~   src/lib/content.ts
+
+ROOT.1 (in_progress)  <->  ROOT.1.1.4 (in_progress)  [parent/child]
+    package.json   ~   package.json
+
+ROOT.1.1 (in_progress)  <->  ROOT.1.1.4 (in_progress)  [parent/child]
+    package.json   ~   package.json
+
+==============================================================================
+C. LATENT — would collide if both became ready; NOT serialized, NOT nested  (9 pairs)
+==============================================================================
+
+ROOT.1 (in_progress)  <->  ROOT.7.2 (done)  [UNSERIALIZED]
+    package.json   ~   package.json
+
+ROOT.1.1 (in_progress)  <->  ROOT.7.2 (done)  [UNSERIALIZED]
+    package.json   ~   package.json
+
+ROOT.1.1.4 (in_progress)  <->  ROOT.7.2 (done)  [UNSERIALIZED]
+    tests/bundle.test.ts   ~   tests/**
+    package.json   ~   package.json
+
+ROOT.1.10 (proposed)  <->  ROOT.7.2 (done)  [UNSERIALIZED]
+    package.json   ~   package.json
+    package-lock.json   ~   package-lock.json
+
+ROOT.1.5 (proposed)  <->  ROOT.7.2 (done)  [UNSERIALIZED]
+    package.json   ~   package.json
+
+ROOT.2.1 (proposed)  <->  ROOT.7.1 (in_progress)  [UNSERIALIZED]
+    .program/interfaces/learning-events.md   ~   .program/interfaces/**
+
+ROOT.2.3 (proposed)  <->  ROOT.7.1 (in_progress)  [UNSERIALIZED]
+    .program/interfaces/judge-verdict.md   ~   .program/interfaces/**
+
+ROOT.4.5 (proposed)  <->  ROOT.7.1 (in_progress)  [UNSERIALIZED]
+    .program/interfaces/termevent-protocol.md   ~   .program/interfaces/**
+
+ROOT.4.8 (proposed)  <->  ROOT.7.2 (done)  [UNSERIALIZED]
+    tests/**   ~   tests/**
+
+==============================================================================
+SUMMARY
+==============================================================================
+pairs sharing at least one path: 151
+  live + unserialized (must fix): 0
+  latent + unserialized (report): 9
+  benign (parent/child or serialized): 142

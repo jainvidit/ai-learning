@@ -1,0 +1,118 @@
+---
+id: 01-tag-manager-code
+title: "Tag Manager Code with AI"
+minutes: 14
+objectives:
+  - Use AI to write custom JavaScript for Google Tag Manager
+  - Generate data layer transformation code
+  - Create event tracking snippets
+  - Identify when AI-generated tags need manual review
+---
+
+## Your New Tag-Writing Partner
+
+You're staring at a Google Tag Manager custom variable that needs to extract a product ID from a URL like `example.com/product?id=SKU-1234&variant=blue`. You could write the regex yourself, handle the edge cases, test it... or you could describe what you need to an AI and have working code in 30 seconds.
+
+**AI is like having a senior engineer sitting next to you** who can write the boilerplate code instantly while you focus on the business logic and testing. It won't replace your judgment about *what* to track, but it'll save hours on *how* to track it.
+
+## What Tag Managers Need from AI
+
+Tag management platforms like Google Tag Manager, Adobe Launch, and Tealium run on JavaScript. You're constantly writing:
+
+- **Custom variables** that extract values from URLs, cookies, or the page
+- **Data layer transformations** that reshape raw data into the format your analytics tool expects
+- **Event listeners** that fire tags when users click buttons, submit forms, or scroll
+- **Custom HTML tags** that inject tracking pixels or third-party scripts
+
+These aren't complex algorithms — they're **repetitive patterns** you've written dozens of times. AI excels here.
+
+## The Workflow: Describe, Generate, Test
+
+<Callout kind="info">
+The magic isn't in blindly trusting AI output. It's in describing what you need clearly, then verifying it works in GTM preview mode before publishing.
+</Callout>
+
+Here's the loop:
+
+1. **Describe the task** - "Write a GTM custom JavaScript variable that extracts the product SKU from a URL query parameter called 'id', returning null if the parameter doesn't exist."
+
+2. **Review the code** - Does it handle edge cases? (no query string, empty value, multiple products). Does it use the correct GTM API ({{Page URL}} variable, not window.location directly)?
+
+3. **Test in preview mode** - Fire up GTM's preview, navigate through your site, check the variable's value in different scenarios.
+
+4. **Deploy** - Only after you've confirmed it works.
+
+## Real Example: Product ID Extractor
+
+**Your prompt:**
+> "Write a Google Tag Manager custom JavaScript variable that extracts a product ID from the URL query parameter 'product_id'. It should:
+> - Return the value of the product_id parameter
+> - Return null if the parameter doesn't exist
+> - Handle URLs with multiple parameters
+> - Work even if there's a URL fragment (#section) after the query string"
+
+**What AI gives you:**
+```javascript
+function() {
+  var url = {{Page URL}}; // GTM built-in variable
+  var params = new URLSearchParams(url.split('?')[1]?.split('#')[0]);
+  return params.get('product_id') || null;
+}
+```
+
+**Why this is good:**
+- Uses GTM's `{{Page URL}}` variable (proper API)
+- Handles missing query string with optional chaining (`?.`)
+- Strips URL fragment before parsing
+- Returns null explicitly (GTM-friendly)
+
+**What you still verify:**
+- Test on `/product` (no query string) → should return null
+- Test on `/product?product_id=ABC123` → should return "ABC123"
+- Test on `/product?other=xyz&product_id=SKU-999#reviews` → should return "SKU-999"
+
+## Common Pitfalls to Watch For
+
+Even good AI can make mistakes with tag manager code. Always check for:
+
+**1. Using browser APIs instead of GTM variables**
+
+Bad: `window.location.href` (raw JavaScript)
+Good: `{{Page URL}}` (GTM variable that respects privacy settings)
+
+**2. Not handling null/undefined**
+
+Bad: `url.split('?')[1].split('&')` (crashes if no query string)
+Good: `url.split('?')[1]?.split('&')` or explicit null check
+
+**3. Forgetting GTM context**
+
+In a GTM custom JavaScript variable, you're writing a `function()` that returns a value. AI sometimes generates standalone code that needs wrapping.
+
+**4. Overly complex solutions**
+
+If AI gives you 50 lines for a simple task, ask it to simplify. "Make this more concise while handling the same edge cases."
+
+## When to Ask AI vs When to Debug Yourself
+
+**Great for AI:**
+- Writing new variables from scratch ("extract X from Y")
+- Converting between formats ("turn this cookie value into a JSON object")
+- Generating event listeners ("fire when user clicks any 'Add to Cart' button")
+
+**Do it yourself:**
+- Understanding *why* a tag isn't firing (preview mode + your domain knowledge)
+- Deciding *what* to track (business requirements, not code)
+- Debugging GTM-specific issues (container conflicts, trigger priorities)
+
+AI writes code. You make decisions.
+
+## Your Turn: Write a Custom Variable
+
+<Exercise id="quiz-gtm-concepts" />
+
+<Exercise id="pg-product-id-extractor" />
+
+---
+
+**Next:** In the next lesson, you'll use AI to debug broken tracking implementations — because writing code is one thing, fixing bugs is another.

@@ -1,0 +1,115 @@
+---
+id: 03-step-by-step
+title: "Think Step by Step"
+minutes: 13
+objectives:
+  - Explain why writing out intermediate steps improves accuracy
+  - Prompt for step-by-step reasoning with a separated final answer
+  - Use the visible steps to catch and correct errors
+---
+
+Back in Module 02, you learned how to iterate on answers that aren't quite right. Here's why the model's FIRST answer to a tricky question is often wrong: it tried to jump straight to the conclusion.
+
+## The stepping-stone effect
+
+Remember from Module 01: the model produces one token at a time, and each token can only build on what's already written. If the final answer appears immediately in the first sentence, there's nothing supporting it — it's a blind leap.
+
+Writing intermediate steps first gives later tokens solid ground to stand on. Each conclusion rests on visible reasoning rather than thin air.
+
+Think of it like crossing a river. You can try to leap the whole span in one jump (risky), or you can place stepping stones and walk across confidently. Intermediate steps are those stones.
+
+## The technique: ask for it
+
+The simplest version is literal: "Think through this step by step before answering."
+
+That's often enough. The model will show its work, then give the final answer.
+
+For extra clarity, combine this with the XML structure you just learned:
+
+```
+Show your reasoning in <thinking> tags, then give the final answer in <answer> tags.
+```
+
+Now the steps are labeled and separated. The structure makes it easy to find exactly what you need — the final answer is always in the `<answer>` section.
+
+## Example: a tricky calculation
+
+Here's a prompt without step-by-step reasoning:
+
+```
+A gym membership costs $60/month with a $100 joining fee.
+Another gym costs $70/month with no joining fee.
+Which is cheaper over a year?
+```
+
+The model might jump to an answer: "The second one is cheaper." But wait — is that true? Over 12 months, the first gym costs $100 + ($60 × 12) = $820. The second costs $70 × 12 = $840. The first one is actually cheaper.
+
+Without steps, the model guessed wrong.
+
+Now try this version:
+
+```
+A gym membership costs $60/month with a $100 joining fee.
+Another gym costs $70/month with no joining fee.
+Which is cheaper over a year?
+
+Show your reasoning in <thinking> tags, then give the final answer in <answer> tags.
+```
+
+With this structure, the model writes something like:
+
+```
+<thinking>
+First gym: $100 joining fee + $60/month for 12 months = $100 + $720 = $820
+Second gym: $70/month for 12 months = $840
+$820 < $840, so the first gym is cheaper.
+</thinking>
+
+<answer>
+The first gym is cheaper. It costs $820 for the year compared to $840 for the second gym.
+</answer>
+```
+
+Each step is visible. The math is shown. The final answer is clearly separated and correct.
+
+## Second benefit: auditability
+
+Visible reasoning doesn't just improve accuracy — it lets YOU catch errors.
+
+If the model makes a mistake, you can see exactly which step went wrong and give surgical feedback:
+
+> "Step 3 assumes the discount applies twice — it only applies once. Redo from step 3."
+
+That's precise iteration, not vague "try again" requests. You learned iteration in Module 02; visible steps make iteration far more effective.
+
+## When to use step-by-step reasoning
+
+This technique shines on:
+
+- **Math and calculations**: budgets, pricing comparisons, anything with numbers
+- **Planning**: scheduling tasks around constraints, comparing options with multiple factors
+- **Multi-step logic**: "If A, and if B depends on A, then what?"
+
+Skip it for:
+
+- **Simple recall**: "What year was the treaty signed?" Either the model knows it or it doesn't; steps won't help.
+- **Creative writing**: a haiku doesn't need derivation — steps just add clutter.
+
+Use step-by-step thinking when the answer is CONSTRUCTED from reasoning, not recalled or invented.
+
+<Callout kind="info">
+Newer models can sometimes reason internally on their own — you might hear this called "extended thinking" or similar features. You'll explore that properly in a later module. Explicitly requesting visible steps still helps when you want to SEE and AUDIT the reasoning, which is half the value.
+</Callout>
+
+## Recap
+
+- Ask the model to "think step by step" before answering
+- Use `<thinking>` and `<answer>` tags to separate reasoning from the final result
+- Visible steps make answers more accurate AND let you spot and fix errors surgically
+- Use it for constructed answers (math, planning, logic), not recall or creativity
+
+<Exercise id="quiz-steps" />
+
+Now combine lessons 02 and 03 in a single prompt.
+
+<Exercise id="pg-think-steps" />

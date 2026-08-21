@@ -1,0 +1,13 @@
+{
+  "id": "08-how-ai-systems-are-built",
+  "title": "How AI Products Are Built",
+  "track": "fundamentals",
+  "description": "Pull back the curtain on AI products. You'll see how apps talk to models through APIs, read a real slice of this app's own source code, learn how tool use turns a text predictor into an agent, build intuition for RAG and embeddings, weigh fine-tuning against prompting, and understand what tokens actually cost.",
+  "lessons": [
+    { "id": "01-apis-and-system-prompts", "title": "APIs & System Prompts: A Peek at This App" },
+    { "id": "02-tool-use-agent-loop", "title": "Tool Use & the Agent Loop" },
+    { "id": "03-rag-and-embeddings", "title": "RAG & Embeddings: The Library Index" },
+    { "id": "04-fine-tuning-vs-prompting", "title": "Fine-Tuning vs Prompting" },
+    { "id": "05-tokens-and-cost", "title": "Tokens, Pricing & Cost" }
+  ]
+}

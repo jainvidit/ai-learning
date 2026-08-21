@@ -1,0 +1,47 @@
+---
+id: 02-prompt-chaining
+title: "Prompt Chaining: Big Jobs in Small Steps"
+minutes: 14
+objectives:
+  - Explain why one giant prompt often loses to a chain of focused ones
+  - Split a big task into steps where each output feeds the next input
+  - Shape a step's output for clean machine-style handoff
+---
+
+Picture this failure: "Read these 20 survey responses, find the themes, pick the top three, and write an executive summary with recommendations." One prompt, four jobs. The model juggles them all at once and does each a bit worse.
+
+## The relay race
+
+**Prompt chaining** breaks the big task into steps and runs them as separate prompts, where the OUTPUT of one step becomes the INPUT of the next.
+
+Think of it as a relay race: each runner runs one short leg at full speed and hands over a clean baton. The baton is the output; a fumbled handoff loses the race.
+
+## Why chaining wins
+
+Each prompt has ONE job — specificity from module 02 at work. You can INSPECT the baton between legs: catch a wrong theme at step 1 before it poisons steps 2 and 3. And you can rerun just the failed leg instead of the whole race.
+
+## The handoff rule
+
+A step's output must be shaped for the NEXT prompt, not for a human. This is module 04's constraining lesson doing its real job: strict list or JSON, exact fields, no preamble — because the next prompt will contain it verbatim, pasted inside an XML tag like `<step1_output>`.
+
+### Survey chain example
+
+**Step 1**: Survey responses in → JSON list of themes with counts out.
+
+**Step 2**: Themes in (inside `<themes>` tag) → top three with one-line justification out.
+
+**Step 3**: Top three in → 150-word executive summary out.
+
+Each step knows exactly what it receives and what it must produce. Clean batons, focused legs.
+
+<Callout kind="tip">
+A good chain step passes the sticky-note test: you can describe its job in one sentence and its output shape in another. If you can't, split it again.
+</Callout>
+
+<Callout kind="info">
+When NOT to chain: simple tasks. Every handoff adds work, and a task one good prompt handles shouldn't become three.
+</Callout>
+
+<Exercise id="quiz-chaining" />
+
+<Exercise id="pg-chain" />

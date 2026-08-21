@@ -1,0 +1,34 @@
+---
+id: 01-claudemd-first
+title: "Stage 1: CLAUDE.md First"
+minutes: 12
+objectives:
+  - Write a lean, accurate CLAUDE.md for a near-empty repo
+  - Choose what belongs in always-loaded memory vs what doesn't (yet)
+---
+
+## The project
+
+Meet `journal` — a tiny CLI journal app that doesn't exist yet. The repo has a bare package.json, a stub README, and a test file that IS the spec: `tests/journal.test.js` expects a `journal.js` exporting `add`, `list`, and `search`. Five stages from here to done.
+
+## Why memory first
+
+Module 07 taught you: CLAUDE.md loads into every future session. Writing it FIRST means every subsequent stage starts oriented — the cheapest context engineering you'll ever do. Writing it LEAN (module 10) means it stays an index, not a tax.
+
+## What goes in, at this stage
+
+What the project is (one or two lines), the command that matters (`node tests/journal.test.js`), and the conventions visible in the repo (CommonJS; tests are the spec — fix code, never tests). What stays OUT: API documentation for functions that don't exist, aspirational roadmaps, anything you'd have to update in an hour. Under ~40 lines, comfortably.
+
+## How you build it
+
+Direct Claude Code: have it read the repo (the test file especially) and draft CLAUDE.md, then trim its draft — models pad; you cut.
+
+<Callout kind="tip">
+"read tests/journal.test.js first, then write CLAUDE.md" beats "write a CLAUDE.md" — grounding before generation.
+</Callout>
+
+## The stakes
+
+Stage 5 re-grades this exact file after everything changes. Write something worth maintaining.
+
+<Exercise id="challenge-claudemd" />

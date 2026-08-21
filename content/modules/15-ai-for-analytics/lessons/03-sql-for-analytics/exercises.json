@@ -1,0 +1,140 @@
+[
+  {
+    "type": "playground",
+    "id": "pg-retention-query",
+    "title": "Calculate 7-Day User Retention",
+    "instructions": "You need to calculate 7-day user retention for a mobile app's GA4 data exported to BigQuery.\n\n**Business question:** Of the users who first opened the app between March 1-7, 2024, what percentage returned and opened the app again between March 8-14, 2024?\n\n**Technical details:**\n- Table: `myproject.analytics_123456.events_*`\n- Event to track: `first_open` (first visit) and `app_open` or `session_start` (return visit)\n- User identifier: `user_pseudo_id`\n- Date range: March 1-14, 2024 (events_20240301 to events_20240314)\n\n**Your task:** Write a prompt for AI that will generate a BigQuery SQL query to calculate this 7-day retention rate.\n\nYour prompt should result in a query that:\n1. Identifies users who had their first_open event between March 1-7\n2. Checks if those same users had any app_open or session_start event between March 8-14\n3. Calculates the retention percentage (returned users / total new users * 100)\n4. Uses the correct date filtering with _TABLE_SUFFIX\n5. Groups/aggregates appropriately to get a single retention rate percentage\n\n**Expected output:** A single row showing the retention rate (e.g., 23.5% or 0.235)",
+    "starterPrompt": "",
+    "rubric": [
+      {
+        "id": "date-logic",
+        "description": "Specifies the two date ranges clearly: March 1-7 for new users (first_open), March 8-14 for return visits, using appropriate date filtering",
+        "weight": 30
+      },
+      {
+        "id": "user-matching",
+        "description": "Requests matching users across the two periods using user_pseudo_id to track individuals, not just counting total events",
+        "weight": 25
+      },
+      {
+        "id": "retention-calc",
+        "description": "Asks for retention calculation as a percentage (returned users divided by new users, times 100) or clearly specifies how to compute the rate",
+        "weight": 25
+      },
+      {
+        "id": "table-syntax",
+        "description": "Includes correct BigQuery table reference with wildcard (events_*) and _TABLE_SUFFIX filtering, or specifies the date range clearly enough for AI to use proper syntax",
+        "weight": 20
+      }
+    ],
+    "passingScore": 70
+  },
+  {
+    "type": "quiz",
+    "id": "quiz-bigquery-concepts",
+    "title": "Check: BigQuery and GA4 SQL",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "You want to get the page URL from a GA4 page_view event in BigQuery. AI writes `event_params.page_location` directly in the SELECT. What's the problem?",
+        "options": [
+          {
+            "id": "a",
+            "text": "page_location is stored in event_params.value, not directly in event_params"
+          },
+          {
+            "id": "b",
+            "text": "event_params is an array that must be unnested with a subquery or UNNEST() to access individual parameters"
+          },
+          {
+            "id": "c",
+            "text": "page_location is a reserved keyword in BigQuery and must be escaped with backticks"
+          },
+          {
+            "id": "d",
+            "text": "The correct syntax is event_params['page_location'] in BigQuery"
+          }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Option B is correct. In GA4's BigQuery schema, event_params is an ARRAY of STRUCT records, not a simple object. To access a specific parameter like page_location, you must unnest the array and filter by the 'key' field. The correct syntax is: `(SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'page_location')`. Option A is misleading — while 'value' is involved, the main issue is the array structure. Options C and D are incorrect syntax for BigQuery."
+      },
+      {
+        "id": "q2",
+        "kind": "single",
+        "prompt": "You're writing a query that scans all of 2023 GA4 data (`events_*` without date filters). How should you test it before running on the full dataset?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Add LIMIT 1000 at the end — BigQuery will still scan all data but only return 1000 rows"
+          },
+          {
+            "id": "b",
+            "text": "Test on a single day first (events_20230315) to verify the logic, then expand to the full date range once confirmed"
+          },
+          {
+            "id": "c",
+            "text": "Run the full query — BigQuery automatically optimizes and won't charge for unnecessary scans"
+          },
+          {
+            "id": "d",
+            "text": "Use SELECT * to see all columns first, then narrow down to specific fields"
+          }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Option B is correct. Testing on a single day (a specific table like events_20230315) scans orders of magnitude less data than events_*, letting you verify your query logic cheaply before scaling up. Option A is wrong — LIMIT doesn't reduce bytes scanned; BigQuery still reads the full dataset to find those 1000 rows. Option C is wrong — BigQuery charges by bytes scanned; scanning unnecessary data costs money. Option D is the opposite of what you should do — SELECT * scans every column, maximizing cost."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "AI generates a query that uses `event_timestamp` directly in a WHERE clause: `WHERE event_timestamp > '2024-03-01'`. What needs to be fixed?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Nothing — that syntax is correct for filtering by timestamp in BigQuery"
+          },
+          {
+            "id": "b",
+            "text": "event_timestamp is stored as microseconds since epoch (integer), not a date string. Use TIMESTAMP_MICROS() to convert it, or filter using event_date instead"
+          },
+          {
+            "id": "c",
+            "text": "The comparison operator should be >= not > for date ranges"
+          },
+          {
+            "id": "d",
+            "text": "Timestamps must use UNIX_TIMESTAMP() function in BigQuery, not direct comparison"
+          }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Option B is correct. GA4's event_timestamp is stored as an integer representing microseconds since the Unix epoch, not a human-readable date. Comparing it to a string like '2024-03-01' won't work. You need to either convert the timestamp using TIMESTAMP_MICROS(event_timestamp) or filter using event_date (which is stored as an integer in YYYYMMDD format). Option A is wrong — the syntax will cause a type mismatch error. Option C is about semantics, not the actual bug. Option D suggests a non-existent function for this purpose."
+      },
+      {
+        "id": "q4",
+        "kind": "single",
+        "prompt": "When prompting AI to write GA4 BigQuery SQL, which information is most critical to include?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The exact BigQuery UI button clicks needed to run the query"
+          },
+          {
+            "id": "b",
+            "text": "The table name with project/dataset, date range, metric to calculate, and any filter conditions"
+          },
+          {
+            "id": "c",
+            "text": "A description of what the dashboard visualization should look like"
+          },
+          {
+            "id": "d",
+            "text": "The number of rows you expect in the result set"
+          }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Option B is correct. For AI to write a working query, it needs: (1) the full table path (`project.dataset.events_*`), (2) the date range (via _TABLE_SUFFIX or specific dates), (3) what you're calculating/selecting, and (4) any WHERE conditions. These are the SQL building blocks. Option A is about UI, not SQL. Option C describes output format, not query logic. Option D might be useful for validation but isn't required for writing the query."
+      }
+    ]
+  }
+]

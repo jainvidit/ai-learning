@@ -1,0 +1,161 @@
+---
+id: 03-sql-for-analytics
+title: "SQL for Analytics"
+minutes: 14
+objectives:
+  - Write SQL queries for GA4 BigQuery exports using AI assistance
+  - Generate common analytics queries (funnels, retention, attribution)
+  - Optimize slow-running queries
+  - Validate query logic before running on production data
+---
+
+## When Spreadsheets Aren't Enough
+
+GA4's interface can answer "How many users visited last week?" But try asking "What percentage of users who viewed a product page in their first session returned within 7 days and completed a purchase?" — you need SQL.
+
+**BigQuery exports** of GA4 data give you raw event-level data: every page view, every button click, every purchase, timestamped and attributed to a user. It's powerful. It's also overwhelming — the schema has nested arrays, repeated fields, and cryptic column names like `event_params.key` and `user_pseudo_id`.
+
+AI can write these queries faster than you can look up the schema documentation.
+
+## The GA4 BigQuery Schema (In 60 Seconds)
+
+Every GA4 event becomes a row in BigQuery with this structure:
+
+```sql
+SELECT
+  event_date,           -- YYYYMMDD format (20240315)
+  event_timestamp,      -- Microseconds since epoch
+  event_name,           -- 'page_view', 'purchase', 'add_to_cart', etc.
+  user_pseudo_id,       -- Anonymous user identifier
+  event_params,         -- ARRAY of key-value pairs (nested!)
+  user_properties,      -- ARRAY of user attributes
+  ecommerce            -- Nested transaction data
+FROM `project.dataset.events_*`
+WHERE _TABLE_SUFFIX BETWEEN '20240301' AND '20240331'
+```
+
+**The tricky part:** `event_params` is an array. To get the page_location from a page_view event, you need to unnest it:
+
+```sql
+SELECT
+  (SELECT value.string_value
+   FROM UNNEST(event_params)
+   WHERE key = 'page_location') AS page_url
+FROM `project.dataset.events_20240315`
+WHERE event_name = 'page_view'
+```
+
+**This is where AI shines** — you describe what you want ("get the page URL from page_view events") and it handles the unnesting syntax.
+
+## Common Analytics Queries (and How to Prompt for Them)
+
+### 1. Event Counts by Day
+
+**What you want:** Daily counts of a specific event
+
+**Your prompt:**
+> "Write a BigQuery SQL query that counts 'add_to_cart' events per day for March 2024, using the GA4 events table `myproject.analytics.events_*`. Group by date and order newest first."
+
+**What AI generates:**
+```sql
+SELECT
+  event_date,
+  COUNT(*) AS add_to_cart_events
+FROM `myproject.analytics.events_*`
+WHERE _TABLE_SUFFIX BETWEEN '20240301' AND '20240331'
+  AND event_name = 'add_to_cart'
+GROUP BY event_date
+ORDER BY event_date DESC
+```
+
+### 2. User Retention (7-Day)
+
+**What you want:** What % of users from Week 1 came back in Week 2?
+
+**Your prompt:**
+> "Write a GA4 BigQuery query to calculate 7-day user retention. For users who first visited between March 1-7, 2024, what percentage returned between March 8-14? Use user_pseudo_id to identify users and event_date for the date ranges."
+
+AI will write the logic with CTEs (Common Table Expressions) to:
+1. Find first visit dates
+2. Check for return visits 7 days later
+3. Calculate percentage
+
+<Callout kind="info">
+For complex queries like retention, funnels, or attribution, describe the business logic clearly. AI needs to know what "retention" means in your context (days? weeks? any event or a specific one?).
+</Callout>
+
+### 3. Conversion Funnel
+
+**What you want:** How many users moved from Step A → B → C?
+
+**Your prompt:**
+> "Write a BigQuery query for a 3-step funnel: page_view → add_to_cart → purchase. Count distinct users at each step and calculate drop-off rates. Use GA4 events from March 2024, events table: `myproject.analytics.events_*`."
+
+AI will generate a query with:
+- COUNT(DISTINCT user_pseudo_id) for each event
+- Self-joins or window functions to track progression
+- Drop-off calculations (Step 1 - Step 2) / Step 1
+
+## The Prompt Engineering Pattern
+
+For analytics SQL, your prompts should include:
+
+1. **The data source** - Table name, date range
+2. **The metric** - What you're counting/calculating
+3. **The grouping** - By date? By user? By product?
+4. **The filters** - Any WHERE conditions
+5. **The output format** - Columns, sorting, limit
+
+**Example:**
+> "Query the GA4 BigQuery export `myproject.analytics.events_*` for March 2024. Calculate the total purchase revenue (sum of ecommerce.purchase_revenue) grouped by traffic source (traffic_source.source). Filter to only completed purchases (event_name = 'purchase'). Order by revenue descending, limit to top 10 sources."
+
+This gives AI everything it needs to write a working query.
+
+## Testing Before You Run
+
+BigQuery charges by bytes scanned. A poorly-written query on a year of GA4 data can cost real money.
+
+**Always test on a small sample first:**
+
+```sql
+-- Your full query here
+LIMIT 1000  -- Add this to test logic on small dataset
+```
+
+Or use a single day:
+
+```sql
+FROM `project.dataset.events_20240315`  -- One day instead of events_*
+```
+
+Once the logic is correct and results look right, expand to the full date range.
+
+<Callout kind="warning">
+AI doesn't know your BigQuery costs. It will write `SELECT *` or scan entire tables if you don't specify dates. Always include date ranges in your prompts.
+</Callout>
+
+## When AI Gets It Wrong (and How to Fix It)
+
+Common mistakes AI makes with GA4 BigQuery:
+
+**1. Forgetting to unnest event_params**
+
+If AI writes `event_params.page_location` directly, remind it: "event_params is an array that needs to be unnested with a subquery."
+
+**2. Using wrong data types**
+
+GA4 stores timestamps as integers (microseconds). If AI treats them as dates without conversion, add: "Convert event_timestamp to a readable date using TIMESTAMP_MICROS()."
+
+**3. Not handling nulls**
+
+BigQuery returns NULL for missing values. If you're calculating percentages, remind AI: "Use COALESCE() or IFNULL() to handle cases where events don't exist."
+
+## Your Turn: Write Retention SQL
+
+<Exercise id="pg-retention-query" />
+
+<Exercise id="quiz-bigquery-concepts" />
+
+---
+
+**Next:** In the next lesson, you'll use AI to generate measurement plans and documentation — turning vague requirements into clear tracking specifications.

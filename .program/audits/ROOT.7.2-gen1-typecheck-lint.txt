@@ -1,0 +1,53 @@
+=== npx tsc --noEmit (worktree, gen1) ===
+TSC_EXIT=0
+
+=== npm run lint (worktree, gen1) ===
+LINT FAILS, but every problem is in a PRE-EXISTING file outside this item's file_ownership:
+  src/components/nav/ThemeToggle.tsx        (react-hooks/set-state-in-effect x2)
+  sandbox/templates/demo-fix-greet/greet.js (seeded-bug fixture)
+  sandbox/templates/demo-fix-greet/test.js  (seeded-bug fixture)
+  .program/audits/probe-bedrock-basic.ts             (ROOT.1.7 probe artifact)
+  .program/audits/probe-bedrock-structured-outputs.ts (ROOT.1.7 probe artifact)
+None of ROOT.7.2's files (tests/**, vitest.config.ts, playwright.config.ts,
+scripts/run-e2e-with-server.sh, package.json, AGENTS.md, .gitignore) produce a lint problem.
+This is a pre-existing baseline failure, reported not fixed (out of scope / not owned).
+
+
+> ai-learning-app@0.1.0 lint
+> eslint
+
+
+C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-a66e241ac72f6bf50\.program\audits\probe-bedrock-basic.ts
+  31:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-a66e241ac72f6bf50\.program\audits\probe-bedrock-structured-outputs.ts
+  71:16  warning  'e' is defined but never used             @typescript-eslint/no-unused-vars
+  75:19  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-a66e241ac72f6bf50\sandbox\templates\demo-fix-greet\greet.js
+  2:16  warning  'name' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-a66e241ac72f6bf50\sandbox\templates\demo-fix-greet\test.js
+  1:19  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-a66e241ac72f6bf50\src\components\nav\ThemeToggle.tsx
+  20:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-a66e241ac72f6bf50\src\components\nav\ThemeToggle.tsx:20:5
+  18 |   useEffect(() => {
+  19 |     const stored = (localStorage.getItem("theme") as Theme) ?? "system";
+> 20 |     setTheme(stored);
+     |     ^^^^^^^^ Avoid calling setState() directly within an effect
+  21 |     applyTheme(stored);
+  22 |     const mq = window.matchMedia("(prefers-color-scheme: dark)");
+  23 |     const onChange = () => {  react-hooks/set-state-in-effect
+
+✖ 6 problems (4 errors, 2 warnings)
+
+LINT_EXIT=1

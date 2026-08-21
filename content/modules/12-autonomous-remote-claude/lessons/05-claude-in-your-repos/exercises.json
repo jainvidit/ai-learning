@@ -1,0 +1,49 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-ecosystem",
+    "title": "Quiz: Repos & the Ecosystem",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-mention",
+        "kind": "single",
+        "prompt": "What happens when you comment '@claude fix the failing date test' on a GitHub issue (with the integration installed)?",
+        "options": [
+          { "id": "a", "text": "Claude replies with advice but cannot touch code" },
+          { "id": "b", "text": "A Claude session runs inside GitHub Actions: it clones the repo, works on a branch, and pushes commits or opens a PR for review" },
+          { "id": "c", "text": "Claude edits the default branch directly with no review step" },
+          { "id": "d", "text": "It opens Claude Code on your laptop" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The mention triggers a real working session in CI. Crucially the output is a branch/PR — reviewable, revertable — not silent direct pushes to main (c)."
+      },
+      {
+        "id": "q2-building-block",
+        "kind": "single",
+        "prompt": "Why does the lesson call headless claude -p 'the building block' of all these integrations?",
+        "options": [
+          { "id": "a", "text": "Because -p makes the model smarter" },
+          { "id": "b", "text": "Because every integration — Actions, schedulers, this very app's terminal — is ultimately a script invoking Claude non-interactively with a prompt, scoped tools, and captured output" },
+          { "id": "c", "text": "Because headless mode is the only free tier" },
+          { "id": "d", "text": "Because -p disables permissions, which automation requires" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "One primitive, many costumes: prompt in, permitted tools, output back. Permissions still apply fully (d is exactly wrong — automation makes scoped permissions MORE important, not less)."
+      },
+      {
+        "id": "q3-openclaw",
+        "kind": "single",
+        "prompt": "Which statement about OpenClaw is accurate?",
+        "options": [
+          { "id": "a", "text": "It is Anthropic's official mobile client for Claude Code" },
+          { "id": "b", "text": "It is a third-party multi-channel agent gateway — a persistent agent reachable through chat channels, configured with persona files like SOUL.md, IDENTITY.md, and HEARTBEAT.md — and not an Anthropic product" },
+          { "id": "c", "text": "It is a Claude model variant fine-tuned for messaging apps" },
+          { "id": "d", "text": "It is the protocol underlying MCP" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "OpenClaw sits in the third-party ecosystem built ON the building block: a standing agent with file-based persona and schedule config. Because it isn't Anthropic's, its security and trust model is yours to vet before granting credentials."
+      }
+    ]
+  }
+]

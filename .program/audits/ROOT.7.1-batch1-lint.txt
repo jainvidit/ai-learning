@@ -1,0 +1,105 @@
+ROOT.7.1 steward batch 1 -- lint scope fix (field_request 2026-07-25T15:30:00Z, from
+coordinator-ROOT.1.1-gen0, "verification-surface steward" half).
+
+Run 2026-07-25 by implementer-ROOT.7.1-batch1 (dream-implementer-hardened) in git worktree
+C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-aba62312f179e2f56.
+eslint v9.39.5 (main checkout node_modules), eslint-config-next 16.2.11.
+
+REQUEST
+  `npm run lint` in the shared checkout lints .claude/** agent worktrees, because
+  eslint.config.mjs carries no ignore for .claude/**. Whole-repo lint is therefore
+  unusable as a verification baseline. Suggested additive ignore. Independently reported
+  three times: ROOT.1.1.1 item file (two verification notes, one naming a dispatched
+  dream-verifier that returned inconclusive for exactly this reason), and by ROOT.1.1.2 /
+  ROOT.1.2.1 / ROOT.1.2 / ROOT.7.2 in prose. No ledger item claims eslint.config.mjs in
+  file_ownership -- ROOT.1.1.1 explicitly refers it to "whoever owns eslint.config.mjs".
+
+CHANGE (additive; one entry appended to the existing globalIgnores array)
+  eslint.config.mjs, inside the existing `globalIgnores([...])` call:
+    + ".claude/**",
+  plus a comment recording why. NOTHING ELSE TOUCHED: the four pre-existing entries
+  (".next/**", "out/**", "build/**", "next-env.d.ts"), both `eslint-config-next` spreads,
+  and the export are byte-identical. No rule added, removed, or reconfigured, so no file's
+  lint VERDICT changes -- only which files are traversed.
+
+--------------------------------------------------------------------------------
+EVIDENCE 1 -- BEFORE/AFTER traversal scope, measured against the SHARED CHECKOUT
+--------------------------------------------------------------------------------
+Method: a throwaway probe (`scope-probe.mjs`, deleted after capture) enumerated every
+file under `C:\Users\jainv\workplace\ai-learning-app\.claude` with a lintable extension
+(.ts/.tsx/.js/.jsx/.mjs/.cjs), excluding node_modules, then asked the eslint API
+`isPathIgnored()` for each -- once with main's committed config (BEFORE) and once with the
+same config plus `ignores: [".claude/**"]` (AFTER). `isPathIgnored` is the exact predicate
+the CLI uses to decide traversal, so this measures the scope difference without needing to
+lint 1383 files twice.
+
+  candidate files under .claude (excl. node_modules): 1383
+  BEFORE (main's committed eslint.config.mjs) -> would lint 1383 of 1383
+  AFTER  (+ globalIgnores '.claude/**')        -> would lint    0 of 1383
+
+  control src/** BEFORE -> would lint 38 of 38
+  control src/** AFTER  -> would lint 38 of 38     <-- app source scope UNCHANGED
+
+  (Total file count under .claude including node_modules is 84838 -- that is the size of
+  the sibling worktrees' installed dependency trees, already ignored by other means; the
+  1383 figure is the honest lintable-source count.)
+
+Spot check of representative paths (same probe, isPathIgnored):
+  BEFORE: ignored=false .claude/worktrees/agent-a03dab8f1eeaa9953/next.config.ts
+  BEFORE: ignored=false .claude/worktrees/agent-a03dab8f1eeaa9953/eslint.config.mjs
+  BEFORE: ignored=false .claude/worktrees/agent-a03dab8f1eeaa9953/.program/audits/probe-bedrock-basic.ts
+  BEFORE: ignored=false src/lib/beats.ts        src/proxy.ts        eslint.config.mjs
+  AFTER : ignored=true  (all three .claude paths)
+  AFTER : ignored=false src/lib/beats.ts        src/proxy.ts        eslint.config.mjs
+
+--------------------------------------------------------------------------------
+EVIDENCE 2 -- sentinel test: a real `eslint` CLI run stops descending into .claude
+--------------------------------------------------------------------------------
+Two deliberately-lint-dirty sentinel files were created at
+`<worktree>/.claude/worktrees/probe-sentinel/` (bad.ts: `export const sentinel: any = 1;`
+-> no-explicit-any; bad2.mjs: unused var), then `eslint --format json` was run at the
+worktree root and the machine-readable result counted.
+
+  BEFORE the config change: files_linted=55, and BOTH sentinels appear in the results with
+    1 message each:
+      ...\.claude\worktrees\probe-sentinel\bad.ts   msgs=1
+      ...\.claude\worktrees\probe-sentinel\bad2.mjs msgs=1
+  AFTER  the config change: files_linted=53, sentinel_files_linted=0
+
+  Delta is exactly the 2 sentinel files -- no app file left or entered the run.
+  Sentinels and probe scripts were deleted after capture; `.claude/` in the worktree is
+  back to settings.json + settings.local.json only.
+
+--------------------------------------------------------------------------------
+EVIDENCE 3 -- post-fix `npm run lint`, and what is NOT mine to fix
+--------------------------------------------------------------------------------
+`npm run lint` (i.e. `eslint`) at the worktree root after the change:
+
+  EXIT=1
+  6 problems (4 errors, 2 warnings) over 5 files:
+    .program/audits/probe-bedrock-basic.ts                 1 (no-explicit-any)
+    .program/audits/probe-bedrock-structured-outputs.ts     2 (no-unused-vars, no-explicit-any)
+    sandbox/templates/demo-fix-greet/greet.js               1 (no-unused-vars)
+    sandbox/templates/demo-fix-greet/test.js                1 (no-require-imports)
+    src/components/nav/ThemeToggle.tsx                      1 (react-hooks/set-state-in-effect)
+  Occurrences of any OTHER agent worktree path in the output: 0
+  (grep for 'worktrees/agent-a0...' in the captured output -> 0 hits; the only worktree
+  path present is this agent's own checkout root, which is where the repo itself lives.)
+
+EXIT 1 IS PRE-EXISTING BASELINE AND EXPLICITLY NOT THIS BATCH'S TO FIX. The same
+`6 problems (4 errors, 2 warnings)` over the same 5 files and same 5 rules is recorded
+independently in .program/audits/ROOT.7.2-gen1-typecheck-lint.txt (worktree
+agent-a66e241ac72f6bf50, which predates Velite and still had next-mdx-remote) and again in
+ROOT.1.1.1's own gen0 and gen1 evidence -- now four independent worktrees, four identical
+sets. None of the 5 files is owned by ROOT.7.1 (its file_ownership is src/lib/schema.ts,
+.program/interfaces/**, package.json, package-lock.json). The field request asked for the
+SCOPE fix only, and the request text itself says lint "may still fail on pre-existing repo
+lint errors -- that is NOT yours to fix".
+
+RESULT: the scope defect is fixed and measured. `npm run lint` is now usable as a
+verification baseline: its output is 6 known problems in 5 known files rather than that set
+plus an unbounded number from every sibling agent worktree. A future Gate can treat any
+DEVIATION from the 5-file/6-problem set as signal.
+
+CHANGED PATH: eslint.config.mjs   (edited in worktree agent-aba62312f179e2f56; the
+integrator must carry it to main -- this steward runs no git.)

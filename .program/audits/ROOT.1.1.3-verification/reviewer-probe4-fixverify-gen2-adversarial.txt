@@ -1,0 +1,22 @@
+gen2 fix-verify PROBE 4: adversarial pass on the new code. Run 2026-07-27.
+
+plain [1]: RETURNED "080a9ed428559ef6"
+[1] with an own expando key foo: RETURNED "080a9ed428559ef6" (expando silently ignored,
+  matching JSON semantics -- noted, not a collision between distinct in-domain values)
+[1] with a symbol-keyed prop: RETURNED "080a9ed428559ef6" (the array arm skips the
+  symbol-key rejection that the object arm performs; same JSON posture)
+Array subclass holding [1]: RETURNED "080a9ed428559ef6" (admitted via Array-isArray)
+Proxy with lying has-trap (reports no holes) over a holey array: THREW TypeError at [1]:
+  undefined -- the hole read back as undefined and was still rejected. Fail-closed.
+Proxy with denying has-trap over a DENSE array: THREW TypeError at [0]: array hole --
+  over-rejection only. Fail-closed.
+array index getter returning undefined: THREW TypeError at [0]: undefined
+object getter flipping defined-then-undefined between the filter read and the map read:
+  THREW TypeError at k: undefined (the double-read degrades to rejection, not silence)
+[1] with length set to 1000000: THREW TypeError at [1]: array hole
+[1] with own non-index key "01": RETURNED same as [1] (ignored, JSON semantics)
+object with key "0" mapping to 1 vs array [1]: distinct hashes (7adc61a4b6a44039 vs 080a9ed428559ef6)
+JSON-parsed object with a proto-named key vs without: distinct hashes (0c4b7a2b4e04ba30 vs 7e8059f495589fcd)
+
+RESULT: hole detection is fail-closed under Proxy lies and getter races. No implicit
+admission path found that produces a collision between distinct in-domain values.

@@ -1,0 +1,43 @@
+ROOT.1.2.1 gen2 review-fix evidence (implementer-ROOT.1.2.1-gen2, critical variant)
+Worktree: C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-a88c42047b991b9c3
+Baseline: worktree schema.ts byte-identical to main (md5 22e58c595a7a8551a85dcbaf010c9526)
+
+FIX 1 (name collision): ExerciseAuthoringExtensionsSchema field `requires` renamed to
+`preconditions` (array of PreconditionSchema). CurriculumEntrySchema.requires untouched
+(still z.array(z.string())). Comment updated to explain the naming.
+
+FIX 2 (over-constraint, REQ-BT-02): TestOutProbeSchema.sourceExerciseId now
+z.string().min(1).optional(); added second .refine mirroring the fixture refine:
+  kind === "boss-equivalent" => sourceExerciseId required, message:
+  'test-out probe of kind "boss-equivalent" must declare a sourceExerciseId (the boss
+   exercise whose verifier/rubric it reuses)'
+
+git diff --stat (worktree vs HEAD): src/lib/schema.ts | 20 +++++++++++++++-----  (ONLY file)
+content/ zero edits (git status clean outside src/lib/schema.ts).
+
+VERIFICATION (all run in worktree):
+  npm run validate  -> exit 0 ("All content valid.", 14 modules, 5/5 Module 1 lessons)
+  npx tsc --noEmit  -> exit 0 (run again after probe deletion: exit 0)
+  npx tsx tmp-gen2-probe.mts -> exit 0, 10 passed / 0 failed (probe deleted after run)
+
+PROBE RESULTS (verbatim):
+PASS preconditions (new name) valid value ACCEPTED
+PASS preconditions malformed value REJECTED
+PASS OLD name `requires` on exercise: parse SUCCEEDS | unknown key STRIPPED from output (default zod object behavior)
+INFO  old-name shape through ExercisesFileSchema: parses (unknown key ignored)
+PASS curriculum-level requires still ACCEPTED (untouched)
+PASS boss-equivalent WITHOUT sourceExerciseId REJECTED | ["test-out probe of kind \"boss-equivalent\" must declare a sourceExerciseId (the boss exercise whose verifier/rubric it reuses)"]
+PASS boss-equivalent WITH sourceExerciseId+fixture ACCEPTED
+PASS boss-equivalent WITHOUT fixture still REJECTED (old refine intact)
+PASS concept-quiz WITHOUT sourceExerciseId ACCEPTED
+PASS hands-on WITHOUT sourceExerciseId ACCEPTED
+PASS empty-string sourceExerciseId REJECTED (min(1) preserved)
+RESULT 10 passed / 0 failed
+
+NOTE for reviewers: with default (non-strict) zod objects, an exercise authored with the
+OLD field name `requires` parses with the unknown key silently STRIPPED — it does not
+error. No authored content uses the old name (content/ validates unchanged and grep
+shows no consumer references), so this is recorded as observed behavior, not a defect.
+
+INTEGRATION NOTE: gen2 edits live in worktree agent-a88c42047b991b9c3 ONLY; main's
+src/lib/schema.ts still holds the gen1 artifact. Integrator must take the worktree file.

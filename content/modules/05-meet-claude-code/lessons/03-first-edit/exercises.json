@@ -1,0 +1,16 @@
+[
+  {
+    "type": "terminal",
+    "id": "tx-first-edit",
+    "title": "Change the snack menu",
+    "instructions": "The sandbox has a small 'team snack menu' project. Direct Claude to make these three changes — one request at a time, and VERIFY each before moving on:\n\n1. In menu.md, change Friday's snack from 'donuts' to 'fresh fruit'.\n2. In menu.md, add a new line at the bottom: 'Allergy note: always include a nut-free option.'\n3. In banner.js, the welcome message says 'SNACK MENU v1' — have Claude update it to 'SNACK MENU v2', then ask Claude to run it to prove the new banner prints.\n\nAfter each change, ask Claude to show you the updated lines. Done means: you've seen all three changes with your own eyes in Claude's output.",
+    "sandboxTemplate": "m05-first-edit",
+    "allowedTools": "Read,Edit,Bash(node *)",
+    "maxTurns": 12,
+    "suggestedPrompts": [
+      "In menu.md, change Friday's snack from donuts to fresh fruit, then show me the updated Friday line.",
+      "Add this line to the bottom of menu.md: Allergy note: always include a nut-free option. Show me the end of the file after.",
+      "In banner.js, change the message SNACK MENU v1 to SNACK MENU v2, then run it with node to show me the new banner."
+    ]
+  }
+]

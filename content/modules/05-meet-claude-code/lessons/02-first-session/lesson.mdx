@@ -1,0 +1,49 @@
+---
+id: 02-first-session
+title: "Your First Session"
+minutes: 14
+objectives:
+  - Use the embedded terminal to give Claude Code a goal
+  - Watch the loop gather context (reading files) and report back
+  - Ask follow-up questions about an unfamiliar folder
+---
+
+## Time to drive
+
+Below you'll find a real terminal connected to a sandbox folder containing a tiny project someone else wrote — a "recipe costs" calculator for a cafe. Your job is NOT to understand the files yourself. It's to make Claude understand them FOR you.
+
+Here's what's in the sandbox (roughly): a note file and two small JavaScript files. JavaScript is a language of instructions for the computer. You will never need to read it unaided — that's what Claude is for.
+
+<Callout kind="info">
+Remember: the sandbox is a disposable copy. Nothing you do here can break anything. If you want a fresh start, just reset the exercise.
+</Callout>
+
+## How to drive
+
+Type a plain-English request in the terminal below and press Enter. Or click one of the suggested prompts to start.
+
+Watch what happens. You'll SEE Claude announce its reads before it answers: "Reading recipes.js" or "Reading README.md" — that's step 2 of the agent loop, live. It gathers context first, then answers from the actual files.
+
+<Callout kind="tip">
+Ask like you'd ask a colleague standing at the filing cabinet: "What's in this project?" or "Which recipe is most expensive to make?" Give goals, not commands. Claude figures out which files to read and what to look for.
+</Callout>
+
+## Your first exploration
+
+Complete the three tasks below by asking Claude in plain English. If an answer seems vague, push back: "Check the file again and show me the exact line."
+
+<Exercise id="tx-first-session" />
+
+## What you just did
+
+You delegated reading. Claude answered from the actual files in front of it — not from training memory (remember the cutoff lesson from module 03: context beats recall).
+
+Notice what you didn't need to know: which files existed, what language they were in, or how to open them. You stated what you wanted to find out, and the loop handled the rest.
+
+<Callout kind="info">
+If Claude's answer ever looks off, ask it to double-check the file. Agents can misread too — but the loop makes correction cheap. Just ask again.
+</Callout>
+
+## Next up
+
+You've driven the read side of the loop. Next lesson: your first edit — actually changing something.

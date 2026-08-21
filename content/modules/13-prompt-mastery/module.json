@@ -1,0 +1,13 @@
+{
+  "id": "13-prompt-mastery",
+  "title": "Prompt Engineering Mastery",
+  "track": "prompting",
+  "description": "Prompts as production software. Design templated, versioned prompts; write rubrics an automated judge can actually grade (and have YOUR rubric graded by a meta-rubric); spot prompt injection hiding in real-looking text; run systematic evals instead of vibes; and cut a bloated prompt's cost without cutting its requirements.",
+  "lessons": [
+    { "id": "01-production-prompts", "title": "Production Prompt Design" },
+    { "id": "02-writing-rubrics", "title": "Writing Gradeable Rubrics" },
+    { "id": "03-prompt-injection", "title": "Prompt Injection Awareness" },
+    { "id": "04-systematic-evals", "title": "Systematic Evals & Iteration" },
+    { "id": "05-cost-aware-prompting", "title": "Cost-Aware Prompting" }
+  ]
+}

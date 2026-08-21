@@ -1,0 +1,103 @@
+
+> ai-learning-app@0.1.0 verify:e2e
+> bash scripts/run-e2e-with-server.sh
+
+[verify:e2e] No production build found (.next/BUILD_ID missing) — building first...
+
+> ai-learning-app@0.1.0 build
+> next build
+
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of C:\Users\jainv\workplace\ai-learning-app\package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-a66e241ac72f6bf50\package-lock.json
+
+⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+▲ Next.js 16.2.11 (Turbopack)
+
+  Creating an optimized production build ...
+Turbopack build encountered 1 warnings:
+./.claude/worktrees/agent-a66e241ac72f6bf50/next.config.ts
+Encountered unexpected file in NFT list
+A file was traced that indicates that the whole project was traced unintentionally. Somewhere in the import trace below, there are:
+- filesystem operations (like path.join, path.resolve or fs.readFile), or
+- very dynamic requires (like require('./' + foo)).
+To resolve this, you can
+- remove them if possible, or
+- only use them in development, or
+- make sure they are statically scoped to some subfolder: path.join(process.cwd(), 'data', bar), or
+- add ignore comments: path.join(/*turbopackIgnore: true*/ process.cwd(), bar)
+
+Import trace:
+  App Route:
+    ./.claude/worktrees/agent-a66e241ac72f6bf50/next.config.ts
+    ./.claude/worktrees/agent-a66e241ac72f6bf50/src/lib/claudeSpawn.ts
+    ./.claude/worktrees/agent-a66e241ac72f6bf50/src/app/api/claude-code/exec/route.ts
+
+
+✓ Compiled successfully in 6.0s
+  Running TypeScript ...
+  Finished TypeScript in 7.2s ...
+  Collecting page data using 15 workers ...
+  Generating static pages using 15 workers (0/14) ...
+  Generating static pages using 15 workers (3/14) 
+  Generating static pages using 15 workers (6/14) 
+  Generating static pages using 15 workers (10/14) 
+✓ Generating static pages using 15 workers (14/14) in 586ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ƒ /_not-found
+├ ƒ /api/challenge/verify
+├ ƒ /api/claude-code/exec
+├ ƒ /api/claude-code/reset
+├ ƒ /api/playground/run
+├ ƒ /api/playground/score
+├ ƒ /api/profiles
+├ ƒ /api/profiles/[id]
+├ ƒ /api/profiles/switch
+├ ƒ /api/progress
+├ ƒ /api/quiz/submit
+├ ƒ /learn/[moduleId]
+├ ƒ /learn/[moduleId]/[lessonId]
+└ ƒ /profiles
+
+
+ƒ Proxy (Middleware)
+
+ƒ  (Dynamic)  server-rendered on demand
+
+[verify:e2e] Running Playwright e2e suite — Playwright owns the production server on port 3001.
+[WebServer] 
+[WebServer] > ai-learning-app@0.1.0 e2e:server
+[WebServer] > next start -H 127.0.0.1 -p 3001
+[WebServer] 
+[WebServer] ▲ Next.js 16.2.11
+[WebServer] - Local:         http://127.0.0.1:3001
+[WebServer] - Network:       http://127.0.0.1:3001
+[WebServer] ✓ Ready in 379ms
+[WebServer] ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+[WebServer]  We detected multiple lockfiles and selected the directory of C:\Users\jainv\workplace\ai-learning-app\package-lock.json as the root directory.
+[WebServer]  To silence this warning, set `outputFileTracingRoot` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+[WebServer]    See https://nextjs.org/docs/app/api-reference/config/next-config-js/output#caveats for more information.
+[WebServer]  Detected additional lockfiles: 
+[WebServer]    * C:\Users\jainv\workplace\ai-learning-app\.claude\worktrees\agent-a66e241ac72f6bf50\package-lock.json
+[WebServer] 
+
+Running 3 tests using 1 worker
+
+  ✓  1 [chromium] › tests\e2e\seed.spec.ts:4:7 › Verification surface seed e2e › should load the home page (1.1s)
+  ✓  2 [chromium] › tests\e2e\seed.spec.ts:14:7 › Verification surface seed e2e › should have working navigation (355ms)
+  ✓  3 [chromium] › tests\e2e\seed.spec.ts:22:7 › Verification surface seed e2e › should render without console errors (811ms)
+
+  3 passed (6.4s)
+[verify:e2e] e2e suite complete; Playwright has stopped the production server.
+EXIT_CODE=0

@@ -1,0 +1,62 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-isolation",
+    "title": "Quiz: Context Isolation",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-why-isolate",
+        "kind": "single",
+        "prompt": "Why is a broad codebase search a good job to delegate to a subagent?",
+        "options": [
+          { "id": "a", "text": "Subagents read files faster than the main agent" },
+          { "id": "b", "text": "The search's file-reading happens in the subagent's separate context and is discarded — only the conclusion enters the main context" },
+          { "id": "c", "text": "Subagents have bigger context windows" },
+          { "id": "d", "text": "The main agent isn't allowed to search" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "It's quarantine for context pollution: the messy exploration lives and dies in the subagent. The main session pays one paragraph of budget for an answer that cost twenty files to find."
+      },
+      {
+        "id": "q2-return-contract",
+        "kind": "single",
+        "prompt": "What should a well-briefed subagent return?",
+        "options": [
+          { "id": "a", "text": "The full text of every file it examined, for transparency" },
+          { "id": "b", "text": "Its complete turn-by-turn transcript" },
+          { "id": "c", "text": "A concise conclusion: the answer, key file paths, and only load-bearing snippets" },
+          { "id": "d", "text": "Nothing — subagents work silently" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Conclusions, not dumps. Returning everything it read would pour the pollution straight into the context you were protecting."
+      },
+      {
+        "id": "q3-when-not",
+        "kind": "single",
+        "prompt": "Which task is NOT worth delegating to a subagent?",
+        "options": [
+          { "id": "a", "text": "Sweep the whole repo to find where errors are logged" },
+          { "id": "b", "text": "Read one specific 20-line file you already know the path of" },
+          { "id": "c", "text": "Survey how three different modules handle validation" },
+          { "id": "d", "text": "Hunt for all usages of a deprecated function across many directories" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Delegation has overhead and is justified when exploration would be broad. One known small file? Just read it — the pollution is 20 lines."
+      },
+      {
+        "id": "q4-meta",
+        "kind": "multi",
+        "prompt": "This app was itself planned by agents using context isolation. Which practices does that illustrate? (select all that apply)",
+        "options": [
+          { "id": "a", "text": "Planner agents spawned explorers and received summaries, not file dumps" },
+          { "id": "b", "text": "The planning context stayed lean enough to hold the whole design" },
+          { "id": "c", "text": "Every agent shared one giant common context for consistency" },
+          { "id": "d", "text": "Parallel explorations ran in separate contexts without polluting each other" }
+        ],
+        "correctOptionIds": ["a", "b", "d"],
+        "explanation": "Isolation, not sharing, is the trick (c is the anti-pattern): separate contexts explore in parallel and only distilled conclusions merge into the plan."
+      }
+    ]
+  }
+]

@@ -1,0 +1,24 @@
+200k-element array hashed in 89ms => 4b0e973ab44208c2
+deterministic=true
+key "" => THREW computeItemRevision: value at  is outside the CP-05 hash-input domain: non-index enumerable own prop
+key "length" => could not define, skipped
+key "constructor" => THREW computeItemRevision: value at constructor is outside the CP-05 hash-input domain: non-index enumerab
+key "__proto__" => THREW computeItemRevision: value at __proto__ is outside the CP-05 hash-input domain: non-index enumerable
+key "0x1" => THREW computeItemRevision: value at 0x1 is outside the CP-05 hash-input domain: non-index enumerable own p
+key "Infinity" => THREW computeItemRevision: value at Infinity is outside the CP-05 hash-input domain: non-index enumerable 
+key "NaN" => THREW computeItemRevision: value at NaN is outside the CP-05 hash-input domain: non-index enumerable own p
+realish content => 0fede410d6118811
+frozen [1,2] => 49a64717d5d4cb19
+sealed [1,2] => 49a64717d5d4cb19
+arguments => THREW computeItemRevision: value at (root)[Symbol(Symbol.iterator)] is outside the CP-05 hash-input domain: symbol-k
+EXIT_CODE=0
+NOTE: adversarial self-check (not an acceptance criterion; recorded for the reviewer).
+- PERF: a 200,000-element in-domain array hashes in 89ms. The new Object.keys(arr) pass is
+  O(n) beside the existing O(n) hole loop, so no super-linear behaviour was introduced.
+- Frozen and sealed PLAIN arrays still hash to 49a64717d5d4cb19 (== plain [1,2]): freezing
+  does not change the prototype or add own keys, so nothing was over-rejected.
+- Exotic string keys ("", constructor, __proto__, 0x1, Infinity, NaN) all reject with the
+  key named in the path. "length" cannot be redefined as enumerable, so it can never be
+  mistaken for an expando.
+- An `arguments` object is rejected via the Symbol.iterator own symbol key (Array.isArray
+  is false for it, so it would otherwise reach the container default) - either way it throws.

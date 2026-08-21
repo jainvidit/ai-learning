@@ -1,0 +1,10 @@
+
+ RUN  v4.1.10 C:/Users/jainv/workplace/ai-learning-app/.claude/worktrees/agent-a3da94d911d4bd3fe
+
+
+ Test Files  1 passed (1)
+      Tests  96 passed (96)
+   Start at  21:47:34
+   Duration  999ms (transform 114ms, setup 0ms, import 299ms, tests 172ms, environment 0ms)
+
+EXIT_CODE=0

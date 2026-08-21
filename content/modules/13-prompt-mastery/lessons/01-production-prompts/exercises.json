@@ -1,0 +1,38 @@
+[
+  {
+    "type": "playground",
+    "id": "pg-production-template",
+    "title": "Playground: A Production Triage Prompt",
+    "instructions": "You're building the prompt for an automated support-ticket triage system. It will run on every incoming ticket, unattended. Write the PRODUCTION TEMPLATE (the fixed prompt with a variable slot — use {{ticket_text}} where the ticket will be inserted). Your template must include: (1) a role/context line saying what the system is; (2) explicit classification rules — categories must be exactly billing, bug, how-to, or other, plus a priority of high or normal with at least one concrete rule for what makes a ticket high priority; (3) an exact output format the downstream code can parse (name the fields; showing one filled-out example output is the reliable way); (4) an edge-case rule for empty or unintelligible tickets; (5) the {{ticket_text}} slot clearly separated from your instructions (delimiters or XML tags). To let the model demo your template, paste one sample ticket in place of the slot at the end, e.g.: 'I was charged twice this month and support chat keeps disconnecting. Fix this today.'",
+    "starterPrompt": "",
+    "maxTokens": 1024,
+    "rubric": [
+      {
+        "id": "template-slot",
+        "description": "The prompt is written as a reusable template with an explicit variable slot (e.g., {{ticket_text}}) clearly separated from the instructions by delimiters or tags",
+        "weight": 25
+      },
+      {
+        "id": "classification-rules",
+        "description": "The prompt enumerates the exact allowed categories (billing, bug, how-to, other) and defines priority with at least one concrete high-priority rule",
+        "weight": 25
+      },
+      {
+        "id": "output-contract",
+        "description": "The prompt pins an exact, parseable output format by naming the fields and/or showing a filled-out example output",
+        "weight": 25
+      },
+      {
+        "id": "edge-case",
+        "description": "The prompt states what to output for empty or unintelligible tickets",
+        "weight": 15
+      },
+      {
+        "id": "role-context",
+        "description": "The prompt opens with a role/context line establishing what the system is and does",
+        "weight": 10
+      }
+    ],
+    "passingScore": 70
+  }
+]

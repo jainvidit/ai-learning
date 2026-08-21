@@ -1,0 +1,166 @@
+---
+id: 05-data-quality
+title: "Data Quality & Tag Audits"
+minutes: 12
+objectives:
+  - Build automated tag validation scripts
+  - Create data quality checks for analytics pipelines
+  - Audit existing tag implementations
+  - Generate test cases for tracking code
+---
+
+## When Good Tags Go Bad
+
+Your tracking worked perfectly in staging. You deployed to production. Two weeks later, someone notices: "Why is the Add to Cart conversion rate 0%?" You check — the tag's still there, GTM shows it firing... but the event name changed from `add_to_cart` to `addToCart` because a developer "cleaned up the naming convention."
+
+**Tracking breaks in production more often than you think.** A CSS class changes. A script loads out of order. Someone "optimizes" the page and removes the data layer. You need automated checks that catch these issues before they corrupt your data.
+
+## The Tag Audit Checklist
+
+When you audit a page's tracking, you're checking:
+
+1. **Tags load** - GTM container, GA4 script, third-party pixels
+2. **Data layer exists** - Initialized before any pushes
+3. **Required events fire** - Page view, user interactions
+4. **Event data is valid** - No undefined values, correct types
+5. **No JavaScript errors** - Tracking code doesn't break the page
+
+Doing this manually across 20 page types is tedious. **Automation is where AI comes in.**
+
+## Building a Tag Validator with AI
+
+**Your goal:** A Node.js script that checks if a page's tracking is working.
+
+**Your prompt to AI:**
+
+> "Write a Node.js script (validator.js) that checks an HTML file for common GA4 tracking issues. It should:
+> 
+> 1. Read the HTML file from a command-line argument
+> 2. Check if the GTM container snippet is present (look for gtm.js script)
+> 3. Verify dataLayer is initialized before any dataLayer.push() calls
+> 4. Check for common mistakes: undefined variables in pushes, missing event names
+> 5. Exit with code 0 if all checks pass, code 1 if any fail
+> 6. Print clear error messages for each issue found
+> 
+> Use Node's fs module to read the file. Don't use external dependencies like cheerio — just regex or string matching."
+
+**What AI generates:**
+A script that loads the HTML, runs regex checks, and reports issues like:
+- ❌ GTM container not found
+- ❌ dataLayer.push() called before initialization
+- ❌ Event name is undefined in push on line 47
+
+You now have a validator you can run on every page before deploy.
+
+<Callout kind="info">
+Start simple. A script that checks "GTM loads" and "no JS errors" catches 80% of issues. You can add more sophisticated checks (event schema validation, data type checking) later.
+</Callout>
+
+## Common Tag Issues to Check For
+
+**1. Missing GTM/GA4 script**
+```javascript
+// Check for: <script src="https://www.googletagmanager.com/gtm.js?id=GTM-XXXXX">
+if (!html.includes('googletagmanager.com/gtm.js')) {
+  console.error('❌ GTM container not found');
+}
+```
+
+**2. Data layer timing**
+```javascript
+// dataLayer.push() BEFORE initialization
+const pushIndex = html.indexOf('dataLayer.push');
+const initIndex = html.indexOf('dataLayer = dataLayer || []');
+if (pushIndex > -1 && (initIndex === -1 || pushIndex < initIndex)) {
+  console.error('❌ dataLayer.push() called before initialization');
+}
+```
+
+**3. Event name typos**
+If your spec says `add_to_cart` but the code has `addToCart` or `add-to-cart`, that's a silent failure. Check against a list of valid events:
+```javascript
+const validEvents = ['page_view', 'add_to_cart', 'purchase'];
+// Extract event names from dataLayer.push() calls and compare
+```
+
+**4. Undefined values in push**
+```javascript
+// Bad: dataLayer.push({ product_id: undefined })
+// Check for: undefined, null, or empty string in critical fields
+```
+
+## The AI Workflow for Validators
+
+1. **Describe the checks** - "Verify GTM loads, data layer initializes, and no undefined values are pushed"
+2. **Get the starter code** - AI writes the basic script structure
+3. **Add your specific rules** - Event names, required parameters, your GTM container ID
+4. **Test on known-bad files** - Does it catch the issues?
+5. **Test on known-good files** - Does it pass without false positives?
+
+**Iterate if needed:** "This is catching false positives when GTM loads asynchronously. Only flag if GTM script isn't in the HTML at all, not if it loads later."
+
+## Beyond HTML: Checking Live Pages
+
+The script above checks static HTML. For live pages, you need a browser automation tool like Playwright or Puppeteer:
+
+```javascript
+// AI can write this too
+const playwright = require('playwright');
+
+async function auditPage(url) {
+  const browser = await playwright.chromium.launch();
+  const page = await browser.newPage();
+  
+  // Listen for dataLayer pushes
+  await page.exposeFunction('captureDataLayer', (event) => {
+    console.log('Event fired:', event);
+  });
+  
+  await page.addInitScript(() => {
+    const original = window.dataLayer.push;
+    window.dataLayer.push = function(...args) {
+      window.captureDataLayer(args);
+      return original.apply(this, args);
+    };
+  });
+  
+  await page.goto(url);
+  // ... perform checks ...
+  await browser.close();
+}
+```
+
+This intercepts real events, checks for errors, and validates data in a running browser.
+
+## Test Scenarios AI Can Generate
+
+**Prompt:** "Generate 5 test scenarios for validating e-commerce product page tracking. For each scenario, describe the page state, the expected events, and what should be in each event's parameters."
+
+**AI output:**
+1. **Scenario:** Product page loads with item in stock
+   - Expected event: `view_item`
+   - Parameters: `item_id` (SKU), `item_name`, `price`, `in_stock: true`
+
+2. **Scenario:** Product page loads with item out of stock
+   - Expected event: `view_item`
+   - Parameters: Same as above, but `in_stock: false`
+
+3. **Scenario:** User adds item to cart
+   - Expected event: `add_to_cart`
+   - Parameters: `item_id`, `quantity`, `price`, `cart_total`
+
+AI helps you think through edge cases you might miss.
+
+## Your Turn: Build a Tag Validator
+
+<Exercise id="ch-tag-audit" />
+
+---
+
+**Congratulations!** You've completed the AI for Digital Analytics Engineers module. You now know how to use AI to:
+- Write and debug tag manager code
+- Query analytics data with SQL
+- Create measurement plans and documentation
+- Automate data quality checks
+
+These workflows will save you hours every week and make your tracking implementations more reliable and maintainable.

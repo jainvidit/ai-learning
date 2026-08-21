@@ -1,0 +1,13 @@
+{
+  "id": "10-context-engineering",
+  "title": "Context Engineering: the Expert Discipline",
+  "track": "prompting",
+  "description": "Prompting asks 'what do I say?' Context engineering asks 'what does the model see?' You'll run a needle-in-a-haystack experiment on the attention budget, contaminate a real session and watch it rot, restructure a bloated CLAUDE.md into progressive disclosure, learn compaction and the summarize-then-restart pattern, and see why subagents are context isolation at work.",
+  "lessons": [
+    { "id": "01-attention-budget", "title": "The Attention Budget" },
+    { "id": "02-context-rot", "title": "Context Rot: Poisoning a Session" },
+    { "id": "03-progressive-disclosure", "title": "Progressive Disclosure" },
+    { "id": "04-compaction-and-memory", "title": "Compaction & Memory" },
+    { "id": "05-context-isolation", "title": "Context Isolation with Subagents" }
+  ]
+}

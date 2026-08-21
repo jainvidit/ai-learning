@@ -1,0 +1,16 @@
+[
+  {
+    "type": "terminal",
+    "id": "tx-debug-ga4",
+    "title": "Fix the Broken Product Tracking",
+    "instructions": "You've inherited a product page that's supposed to track 'view_item' events to Google Analytics 4 when the page loads. The tracking isn't working.\n\n**The problem:** Open the page in a browser and check the console. You'll see a JavaScript error preventing the event from firing.\n\n**Your task:**\n1. Read the HTML file to understand the tracking setup\n2. Identify why the dataLayer.push() is failing\n3. Fix the code so the event fires without errors\n4. (Optional) Open index.html in a browser to verify the fix\n\n**Success criteria:**\n- No JavaScript errors in the console\n- The dataLayer.push() for 'view_item' executes successfully\n- The event includes the product_id and product_name\n\n**Hints:**\n- The error message will point you to the exact problem\n- This is a common initialization timing issue\n- You only need to fix 1-2 lines of code",
+    "sandboxTemplate": "m15-debug-ga4",
+    "allowedTools": "Read,Edit,Bash(python -m http.server *)",
+    "maxTurns": 8,
+    "suggestedPrompts": [
+      "What files are in this project?",
+      "Read the index.html file and explain what the tracking code is trying to do",
+      "What's causing the JavaScript error in the tracking code?"
+    ]
+  }
+]

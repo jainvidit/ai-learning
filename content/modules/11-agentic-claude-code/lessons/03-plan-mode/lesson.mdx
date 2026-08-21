@@ -1,0 +1,71 @@
+---
+id: 03-plan-mode
+title: "Plan Mode: Think First"
+minutes: 12
+objectives:
+  - Describe plan mode as read-only research producing an approvable plan before execution
+  - Identify when plan mode is worth the overhead versus when it's overkill
+  - Connect plan-first working to context benefits and safety gates
+  - Practice the read-only planning discipline in a terminal exercise
+---
+
+## The Failure Mode It Prevents
+
+Imagine asking Claude for a risky refactor: "Restructure how authentication flows through this codebase." An eager agent might start editing file 1 before it even understands file 7. By the time it realizes the auth flow spans ten files, it's already made changes that don't account for half the system.
+
+**Plan mode** prevents this. It forces Claude to **research first**, without write access. Claude reads, searches, and explores—but cannot change anything until it presents a plan and you approve it.
+
+It's a permission stance and a thinking discipline in one.
+
+## The Flow
+
+Here's how plan mode works:
+
+1. **Enter plan mode.** In the interactive CLI, you can toggle modes with Shift+Tab; in headless mode or when directing Claude, you just restrict the tools to read-only.
+2. **Claude explores read-only.** It can use Read, Grep, Glob, and other search tools, but Edit and Write are off-limits.
+3. **Claude presents a step-by-step plan.** Numbered steps, files each step touches, risks flagged, dependencies noted.
+4. **You review and decide.** Approve, adjust the plan, ask follow-up questions, or reject it entirely.
+5. **Only then does execution happen.** Once you approve, Claude gets write access back and executes the plan.
+
+The key insight: **a wrong direction is cheapest to catch before any code changes**. Reviewing a plan takes seconds; untangling a half-finished refactor takes hours.
+
+## When to Use It
+
+Plan mode earns its overhead when:
+
+- **Changes are broad** (multi-file refactors, cross-cutting concerns).
+- **The codebase is unfamiliar** (you're new to the project, or the area is poorly documented).
+- **Operations are destructive** (renaming core abstractions, reworking data flows).
+- **"Wrong start" is expensive** (client demos tomorrow, production deploy imminent).
+
+Skip plan mode for:
+
+- One-line fixes you already understand.
+- Typos in a README.
+- Adding a single config option.
+
+The heuristic: if you'd sketch the change on paper before writing code yourself, Claude should plan it first too.
+
+<Callout kind="tip">
+Even if you're not using formal plan mode, you can enforce the discipline manually: give Claude read-only tools and ask, "Write a plan without changing any files." You'll get the same benefit.
+</Callout>
+
+## The Context Connection
+
+Planning first doesn't just prevent disasters—it also produces **better context**.
+
+Remember Module 10's handoff note pattern? A plan is exactly that: a compact summary of the exploration. The **plan itself survives** in your context; the messy exploration—dozens of file reads, trial greps, dead ends—can be discarded or delegated to a subagent.
+
+When you approve a plan and move to execution, you're carrying forward a compressed artifact, not the full search transcript. That's isolation for thinking, just like subagents are isolation for breadth.
+
+## A Terminal Taste
+
+True plan mode is an interactive CLI feature, but the discipline works in any environment. The exercise below enforces read-only working through tool restrictions: Claude has no Edit or Write, so it **must** plan without changing files. You'll ask for a refactor plan, review it like a tech lead, and push back if it misses something.
+
+<Exercise id="quiz-plan-mode" />
+
+<Exercise id="term-plan-first" />
+
+---
+
+**Next:** Parallel agents and git worktrees let you scale from one task to many—without agents colliding in the same directory.

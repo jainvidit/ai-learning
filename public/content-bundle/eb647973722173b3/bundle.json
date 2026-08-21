@@ -1,0 +1,1380 @@
+{
+  "beats": {
+    "01-how-llms-work/01-what-is-an-llm": [
+      {
+        "beatId": "prose:start-with-your-phone",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:an-llm-is-that-idea-taken-to-the-extreme",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:why-does-it-feel-so-smart-then",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:try-it-yourself",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:what-an-llm-is-not",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:so-where-do-chatgpt-and-claude-fit-in",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:check-your-understanding",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "ex:quiz-what-is-llm",
+        "completion": "passed",
+        "type": "quiz"
+      }
+    ],
+    "01-how-llms-work/02-tokens": [
+      {
+        "beatId": "prose:the-model-doesn-t-see-what-you-see",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:chunks-not-words",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:see-it-with-your-own-eyes",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:the-strawberry-problem",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:tokens-are-also-the-currency",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:the-takeaway",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:check-your-understanding",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "ex:quiz-tokens",
+        "completion": "passed",
+        "type": "quiz"
+      }
+    ],
+    "01-how-llms-work/03-training": [
+      {
+        "beatId": "prose:where-did-all-that-knowledge-come-from",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:phase-one-pretraining-or-reading-the-world-s-biggest-library",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:the-raw-predictor-problem",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:phase-two-teaching-it-to-be-an-assistant",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:the-library-has-a-last-page",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:the-takeaway",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:check-your-understanding",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "ex:quiz-training",
+        "completion": "passed",
+        "type": "quiz"
+      }
+    ],
+    "01-how-llms-work/04-hallucination": [
+      {
+        "beatId": "prose:intro",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:the-autocomplete-that-never-says-no-idea",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:the-classic-traps",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:when-the-risk-is-highest",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:simple-defenses-you-can-use-today",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:one-important-misconception",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:see-it-for-yourself",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "ex:playground-observe-hallucination",
+        "completion": "attempted",
+        "type": "playground"
+      },
+      {
+        "beatId": "ex:quiz-hallucination",
+        "completion": "passed",
+        "type": "quiz"
+      },
+      {
+        "beatId": "prose:the-takeaway",
+        "completion": "attempted",
+        "type": "prose"
+      }
+    ],
+    "01-how-llms-work/05-randomness": [
+      {
+        "beatId": "prose:intro",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:a-menu-not-a-single-answer",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:the-temperature-dial",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:when-you-want-randomness-and-when-you-don-t",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:no-dial-use-your-words",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "prose:see-the-dice-roll",
+        "completion": "attempted",
+        "type": "prose"
+      },
+      {
+        "beatId": "ex:playground-observe-variance",
+        "completion": "attempted",
+        "type": "playground"
+      },
+      {
+        "beatId": "ex:quiz-randomness",
+        "completion": "passed",
+        "type": "quiz"
+      },
+      {
+        "beatId": "prose:the-takeaway",
+        "completion": "attempted",
+        "type": "prose"
+      }
+    ]
+  },
+  "bundleFormat": 1,
+  "curriculum": {
+    "edges": [
+      {
+        "from": "01-how-llms-work",
+        "to": "02-prompting-basics"
+      },
+      {
+        "from": "01-how-llms-work",
+        "to": "03-capabilities-limits"
+      },
+      {
+        "from": "02-prompting-basics",
+        "to": "04-core-prompt-techniques"
+      },
+      {
+        "from": "02-prompting-basics",
+        "to": "05-meet-claude-code"
+      },
+      {
+        "from": "03-capabilities-limits",
+        "to": "05-meet-claude-code"
+      },
+      {
+        "from": "04-core-prompt-techniques",
+        "to": "06-advanced-prompting"
+      },
+      {
+        "from": "04-core-prompt-techniques",
+        "to": "08-how-ai-systems-are-built"
+      },
+      {
+        "from": "05-meet-claude-code",
+        "to": "07-claude-code-workflows"
+      },
+      {
+        "from": "06-advanced-prompting",
+        "to": "10-context-engineering"
+      },
+      {
+        "from": "07-claude-code-workflows",
+        "to": "09-claude-code-power-tools"
+      },
+      {
+        "from": "08-how-ai-systems-are-built",
+        "to": "10-context-engineering"
+      },
+      {
+        "from": "09-claude-code-power-tools",
+        "to": "11-agentic-claude-code"
+      },
+      {
+        "from": "10-context-engineering",
+        "to": "11-agentic-claude-code"
+      },
+      {
+        "from": "10-context-engineering",
+        "to": "13-prompt-mastery"
+      },
+      {
+        "from": "11-agentic-claude-code",
+        "to": "12-autonomous-remote-claude"
+      },
+      {
+        "from": "12-autonomous-remote-claude",
+        "to": "14-capstone"
+      },
+      {
+        "from": "13-prompt-mastery",
+        "to": "14-capstone"
+      }
+    ],
+    "layout": {
+      "bandByTrack": {
+        "claude-code": {
+          "start": 2,
+          "width": 1
+        },
+        "fundamentals": {
+          "start": 0,
+          "width": 1
+        },
+        "prompting": {
+          "start": 1,
+          "width": 1
+        }
+      },
+      "columns": 8,
+      "lanes": 3
+    },
+    "nodes": [
+      {
+        "id": "01-how-llms-work",
+        "layout": {
+          "col": 0,
+          "lane": 0
+        },
+        "requires": [],
+        "status": "built",
+        "summary": "What a language model really is: next-word prediction, tokens, training, hallucination, and randomness — no code required.",
+        "title": "How LLMs Actually Work",
+        "track": "fundamentals"
+      },
+      {
+        "id": "02-prompting-basics",
+        "layout": {
+          "col": 1,
+          "lane": 1
+        },
+        "requires": [
+          "01-how-llms-work"
+        ],
+        "status": "spec",
+        "summary": "Be specific, give context and a role, show the format you want, and iterate.",
+        "title": "Talking to AI: Prompting Basics",
+        "track": "prompting"
+      },
+      {
+        "id": "03-capabilities-limits",
+        "layout": {
+          "col": 1,
+          "lane": 0
+        },
+        "requires": [
+          "01-how-llms-work"
+        ],
+        "status": "spec",
+        "summary": "Context windows, knowledge cutoffs, reasoning vs recall, and why confidence is not correctness.",
+        "title": "What LLMs Can & Can't Do",
+        "track": "fundamentals"
+      },
+      {
+        "id": "04-core-prompt-techniques",
+        "layout": {
+          "col": 2,
+          "lane": 1
+        },
+        "requires": [
+          "02-prompting-basics"
+        ],
+        "status": "spec",
+        "summary": "Few-shot examples, XML tags, step-by-step thinking, constraining output, system vs user prompts.",
+        "title": "Core Prompt Engineering",
+        "track": "prompting"
+      },
+      {
+        "id": "05-meet-claude-code",
+        "layout": {
+          "col": 2,
+          "lane": 2
+        },
+        "requires": [
+          "02-prompting-basics",
+          "03-capabilities-limits"
+        ],
+        "status": "spec",
+        "summary": "The agent loop, your first real terminal session, your first edit, and the permission model.",
+        "title": "Meet Claude Code",
+        "track": "claude-code"
+      },
+      {
+        "id": "06-advanced-prompting",
+        "layout": {
+          "col": 3,
+          "lane": 1
+        },
+        "requires": [
+          "04-core-prompt-techniques"
+        ],
+        "status": "spec",
+        "summary": "Extended thinking, prompt chaining, personas, and evaluating outputs with rubrics.",
+        "title": "Advanced Prompting",
+        "track": "prompting"
+      },
+      {
+        "id": "07-claude-code-workflows",
+        "layout": {
+          "col": 3,
+          "lane": 2
+        },
+        "requires": [
+          "05-meet-claude-code"
+        ],
+        "status": "spec",
+        "summary": "CLAUDE.md project memory, permissions and settings, slash commands, resuming sessions, phrasing tasks well.",
+        "title": "Everyday Claude Code",
+        "track": "claude-code"
+      },
+      {
+        "id": "08-how-ai-systems-are-built",
+        "layout": {
+          "col": 3,
+          "lane": 0
+        },
+        "requires": [
+          "04-core-prompt-techniques"
+        ],
+        "status": "spec",
+        "summary": "APIs and system prompts (including a peek at this app's own code), tool use, RAG intuition, and what tokens cost.",
+        "title": "How AI Products Are Built",
+        "track": "fundamentals"
+      },
+      {
+        "id": "09-claude-code-power-tools",
+        "layout": {
+          "col": 4,
+          "lane": 2
+        },
+        "requires": [
+          "07-claude-code-workflows"
+        ],
+        "status": "spec",
+        "summary": "Skills, hooks, headless mode, and permission modes — the features this very app is built on.",
+        "title": "Claude Code Power Tools",
+        "track": "claude-code"
+      },
+      {
+        "id": "10-context-engineering",
+        "layout": {
+          "col": 4,
+          "lane": 1
+        },
+        "requires": [
+          "06-advanced-prompting",
+          "08-how-ai-systems-are-built"
+        ],
+        "status": "spec",
+        "summary": "The attention budget, context rot, progressive disclosure, compaction and memory, and context isolation with subagents.",
+        "title": "Context Engineering: the Expert Discipline",
+        "track": "prompting"
+      },
+      {
+        "id": "11-agentic-claude-code",
+        "layout": {
+          "col": 5,
+          "lane": 2
+        },
+        "requires": [
+          "09-claude-code-power-tools",
+          "10-context-engineering"
+        ],
+        "status": "spec",
+        "summary": "Subagents, MCP servers, plan mode, and parallel agents — context isolation put to work.",
+        "title": "Agentic Claude Code",
+        "track": "claude-code"
+      },
+      {
+        "id": "12-autonomous-remote-claude",
+        "layout": {
+          "col": 6,
+          "lane": 2
+        },
+        "requires": [
+          "11-agentic-claude-code"
+        ],
+        "status": "spec",
+        "summary": "/goal, /loop, scheduled tasks, ultracode dynamic workflows, remote control, Claude on the web, and the agent ecosystem.",
+        "title": "Autonomous & Remote Claude",
+        "track": "claude-code"
+      },
+      {
+        "id": "13-prompt-mastery",
+        "layout": {
+          "col": 5,
+          "lane": 1
+        },
+        "requires": [
+          "10-context-engineering"
+        ],
+        "status": "spec",
+        "summary": "Production prompt design, writing rubrics, prompt injection awareness, systematic evals, and cost-aware prompting.",
+        "title": "Prompt Engineering Mastery",
+        "track": "prompting"
+      },
+      {
+        "id": "14-capstone",
+        "layout": {
+          "col": 7,
+          "lane": 2
+        },
+        "requires": [
+          "12-autonomous-remote-claude",
+          "13-prompt-mastery"
+        ],
+        "status": "spec",
+        "summary": "A multi-stage project using CLAUDE.md, a skill, a hook, a subagent, and a /goal-driven finale — graded on context hygiene.",
+        "title": "Capstone: Build with Everything",
+        "track": "claude-code"
+      }
+    ]
+  },
+  "exercises": [
+    {
+      "exercise": {
+        "id": "quiz-what-is-llm",
+        "passingScore": 80,
+        "questions": [
+          {
+            "correctOptionIds": [
+              "b"
+            ],
+            "explanation": "An LLM does one thing repeatedly: given some text, it predicts what probably comes next, adds that to the text, and predicts again. A whole essay is thousands of these tiny predictions strung together — like your phone's autocomplete, scaled up enormously. It isn't searching the web, following hand-written rules, or working like a human brain.",
+            "id": "q1-core-job",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "It searches the internet for the best answer to your question"
+              },
+              {
+                "id": "b",
+                "text": "It predicts the most likely next word, over and over, to build up a response"
+              },
+              {
+                "id": "c",
+                "text": "It follows a giant list of if-then rules written by programmers"
+              },
+              {
+                "id": "d",
+                "text": "It understands language the same way a human brain does"
+              }
+            ],
+            "prompt": "At its core, what does a large language model actually do?"
+          },
+          {
+            "correctOptionIds": [
+              "c"
+            ],
+            "explanation": "There's no filing cabinet of facts inside. During training, the model absorbed patterns from a huge amount of text, and those patterns are stored in its internal dials. \"Paris\" comes out because it's overwhelmingly the most likely word to follow that question — more like remembering the gist of something you read than looking up an exact record. This is also why LLMs can confidently get facts wrong: likely-sounding is not the same as verified.",
+            "id": "q2-database",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "Yes — it has a fact database and finds the matching entry"
+              },
+              {
+                "id": "b",
+                "text": "Yes, but only for geography questions"
+              },
+              {
+                "id": "c",
+                "text": "No — its knowledge is baked into patterns from training, and it predicts \"Paris\" as the likely continuation"
+              },
+              {
+                "id": "d",
+                "text": "No — it asks a human operator behind the scenes"
+              }
+            ],
+            "prompt": "When you ask an LLM \"What is the capital of France?\", does it look the answer up in a database of stored facts?"
+          },
+          {
+            "correctOptionIds": [
+              "c"
+            ],
+            "explanation": "It's the same fundamental move — predict the next word — but at a massively different scale. To predict really well, the model has to absorb facts, grammar, and patterns about how the world works, because finishing a sentence like \"The capital of France is ___\" quietly requires knowledge. That's why scale makes prediction feel like intelligence, without the model having beliefs of its own.",
+            "id": "q3-scale",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "The LLM uses a completely different trick that has nothing to do with prediction"
+              },
+              {
+                "id": "b",
+                "text": "The LLM is connected to a team of experts who review its answers"
+              },
+              {
+                "id": "c",
+                "text": "Scale — it's trained on vastly more text with billions of internal dials, and very good prediction starts to look like understanding"
+              },
+              {
+                "id": "d",
+                "text": "The LLM genuinely understands and believes what it says, while your phone doesn't"
+              }
+            ],
+            "prompt": "Your phone's autocomplete and an LLM both predict the next word. What's the main reason the LLM feels so much smarter?"
+          },
+          {
+            "correctOptionIds": [
+              "b"
+            ],
+            "explanation": "LLMs don't have beliefs, preferences, or plans — they produce text that plausibly continues what came before. Ask the same question framed a bit differently and the model might argue for the mountains instead. Remembering this helps you treat AI output as \"likely text\" to evaluate, rather than the testimony of someone with real opinions.",
+            "id": "q4-opinion",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "The model has genuinely reflected and formed a preference for beaches"
+              },
+              {
+                "id": "b",
+                "text": "The model produced a likely-sounding continuation of the conversation, not a real belief"
+              },
+              {
+                "id": "c",
+                "text": "The model's programmers hard-coded a pro-beach opinion into it"
+              },
+              {
+                "id": "d",
+                "text": "The model surveyed the internet in real time and beaches won"
+              }
+            ],
+            "prompt": "An LLM writes: \"I think the beach is the best vacation spot.\" What is the most accurate way to interpret this?"
+          },
+          {
+            "correctOptionIds": [
+              "a",
+              "b",
+              "c"
+            ],
+            "explanation": "The first three are the heart of the mental model: responses are generated piece by piece, the model weighs many possible continuations with different probabilities (remember the ambiguous round in the game?), and chat products wrap an LLM engine in an interface and safety training. The last two are false: the model only computes when given text to continue — it isn't thinking between messages — and it produces likely text, not verified text, which is why it can sound confident while being wrong.",
+            "id": "q5-true-statements",
+            "kind": "multi",
+            "options": [
+              {
+                "id": "a",
+                "text": "A long response is built one small prediction at a time"
+              },
+              {
+                "id": "b",
+                "text": "For a given sentence start, several different next words can each be plausible"
+              },
+              {
+                "id": "c",
+                "text": "ChatGPT and Claude are products built around an LLM, like a car built around an engine"
+              },
+              {
+                "id": "d",
+                "text": "Between your messages, the model sits and thinks about what to say to you next"
+              },
+              {
+                "id": "e",
+                "text": "An LLM verifies every sentence against trusted sources before writing it"
+              }
+            ],
+            "prompt": "Which of the following are TRUE about how LLMs work? (select all that apply)"
+          }
+        ],
+        "title": "Quiz: What is an LLM?",
+        "type": "quiz"
+      },
+      "exerciseId": "quiz-what-is-llm",
+      "itemId": "01-how-llms-work/01-what-is-an-llm#quiz-what-is-llm",
+      "lessonId": "01-what-is-an-llm",
+      "lessonKey": "01-how-llms-work/01-what-is-an-llm",
+      "moduleId": "01-how-llms-work",
+      "type": "quiz"
+    },
+    {
+      "exercise": {
+        "id": "quiz-tokens",
+        "passingScore": 75,
+        "questions": [
+          {
+            "correctOptionIds": [
+              "c"
+            ],
+            "explanation": "Before your text reaches the model, a tokenizer chops it into chunks called tokens — like a meal kit's pre-portioned packets. Common words like \"the\" or \"coffee\" get one token each; rare words are assembled from several smaller chunks. The model never sees letters or whole sentences directly — only this stream of tokens.",
+            "id": "q1-what-is-token",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "Individual letters, one at a time"
+              },
+              {
+                "id": "b",
+                "text": "Whole sentences as single units"
+              },
+              {
+                "id": "c",
+                "text": "Tokens — chunks of text that are sometimes whole words and sometimes pieces of words"
+              },
+              {
+                "id": "d",
+                "text": "A photograph of your screen"
+              }
+            ],
+            "prompt": "What does an LLM actually \"see\" when it reads your message?"
+          },
+          {
+            "correctOptionIds": [
+              "b"
+            ],
+            "explanation": "The tokenizer has a fixed vocabulary of roughly a hundred thousand chunks, chosen by frequency. Anything that appears constantly in text (like \"cat\") gets its own short code, and anything rare gets spelled out from recognizable parts — like shorthand, where frequent phrases get their own symbol. Splits are based purely on frequency, not meaning, which is why your name may split in a spot that looks arbitrary.",
+            "id": "q2-splitting",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "Longer words are always split exactly every 4 letters, no exceptions"
+              },
+              {
+                "id": "b",
+                "text": "The tokenizer keeps a fixed menu of frequent chunks — common words earn their own token, rare words are assembled from smaller pieces"
+              },
+              {
+                "id": "c",
+                "text": "The model splits words it finds confusing or emotional"
+              },
+              {
+                "id": "d",
+                "text": "Scientific words are stored in a separate dictionary"
+              }
+            ],
+            "prompt": "Why does a common word like \"cat\" become one token, while a rare word like \"antidisestablishmentarianism\" gets split into several?"
+          },
+          {
+            "correctOptionIds": [
+              "b"
+            ],
+            "explanation": "To the model, \"strawberry\" is a packet with a label, not a string of letters — asking it to count the r's is like asking someone to count grains of rice inside a sealed packet by reading the label. This is why LLMs are shaky at letter-level tasks in general: counting letters, reversing words, precise rhymes. The model reads at a different resolution than you do.",
+            "id": "q3-strawberry",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "It never learned the alphabet during training"
+              },
+              {
+                "id": "b",
+                "text": "It sees \"strawberry\" as one or two sealed token chunks, not as ten individual letters"
+              },
+              {
+                "id": "c",
+                "text": "Spelling questions are blocked for safety reasons"
+              },
+              {
+                "id": "d",
+                "text": "It confuses strawberries with raspberries"
+              }
+            ],
+            "prompt": "Why might an AI incorrectly count the number of r's in \"strawberry\"?"
+          },
+          {
+            "correctOptionIds": [
+              "b"
+            ],
+            "explanation": "The context window is the model's desk space, measured in tokens: everything it reads and writes in a conversation must fit within this budget. When a chat outgrows it, the oldest parts fall off the desk and the model genuinely can't see them anymore — which is why an AI can seem to \"forget\" the start of a long conversation. A later module explores this budget in depth.",
+            "id": "q4-context-window",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "The pop-up window where you type your message"
+              },
+              {
+                "id": "b",
+                "text": "The limit on how many tokens the model can handle in one conversation — its token budget"
+              },
+              {
+                "id": "c",
+                "text": "A tool that translates tokens back into words"
+              },
+              {
+                "id": "d",
+                "text": "The amount of time the model spends thinking before answering"
+              }
+            ],
+            "prompt": "What is the \"context window\"?"
+          }
+        ],
+        "title": "Quiz: Tokens",
+        "type": "quiz"
+      },
+      "exerciseId": "quiz-tokens",
+      "itemId": "01-how-llms-work/02-tokens#quiz-tokens",
+      "lessonId": "02-tokens",
+      "lessonKey": "01-how-llms-work/02-tokens",
+      "moduleId": "01-how-llms-work",
+      "type": "quiz"
+    },
+    {
+      "exercise": {
+        "id": "quiz-training",
+        "passingScore": 80,
+        "questions": [
+          {
+            "correctOptionIds": [
+              "b"
+            ],
+            "explanation": "Pretraining is a flashcard game at colossal scale: hide the next word of real text, let the model guess, reveal the answer, and nudge the dials so the right word becomes slightly more likely next time. Repeated billions of times, this forces the dials to organize around grammar, facts, and reasoning patterns. Nothing is typed in by hand and nothing is stored as a searchable database — the knowledge lives in the dials as patterns.",
+            "id": "q1-pretraining",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "Programmers typing millions of facts into the model by hand"
+              },
+              {
+                "id": "b",
+                "text": "Practicing next-word prediction on a giant library of text, billions of times, adjusting internal dials after each guess"
+              },
+              {
+                "id": "c",
+                "text": "Copying the whole internet into the model's database so it can look things up later"
+              },
+              {
+                "id": "d",
+                "text": "Humans chatting with the model until it learns to talk"
+              }
+            ],
+            "prompt": "What is pretraining, in essence?"
+          },
+          {
+            "correctOptionIds": [
+              "a"
+            ],
+            "explanation": "The loop is guess, check, adjust — like flashcards. Each single round teaches almost nothing, but the tiny nudges accumulate across billions of examples. No human could correct guesses one by one at that scale (the \"check\" is automatic, because the real next word is right there in the text), and the model isn't memorizing documents or rewriting its code — only its dials change.",
+            "id": "q2-loop",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "Guess the hidden word, check against the real text, adjust the internal dials slightly — then repeat billions of times"
+              },
+              {
+                "id": "b",
+                "text": "It memorizes each document word-for-word so it can recite it later"
+              },
+              {
+                "id": "c",
+                "text": "A human teacher corrects each individual guess by hand"
+              },
+              {
+                "id": "d",
+                "text": "It rewrites its own programming code whenever it makes a mistake"
+              }
+            ],
+            "prompt": "During pretraining, how does the model actually improve at its guessing game?"
+          },
+          {
+            "correctOptionIds": [
+              "c"
+            ],
+            "explanation": "The raw model is like a brilliant actor with no role: it can imitate anyone in the library — helpful experts, trolls, spam bots — because likely continuation is its only goal. On the internet, a question is often followed by more questions, so that's a perfectly \"correct\" prediction! It has read plenty; what it lacks is a reason to be consistently helpful, honest, and safe. That's what phase two provides.",
+            "id": "q3-raw-model",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "It's too slow to use until it gets optimized"
+              },
+              {
+                "id": "b",
+                "text": "It hasn't read enough text yet to answer questions"
+              },
+              {
+                "id": "c",
+                "text": "It only continues text in likely ways — it might answer your question with more questions, or imitate bad advice, because it learned from everything"
+              },
+              {
+                "id": "d",
+                "text": "It refuses to talk until it's given a personality"
+              }
+            ],
+            "prompt": "Why isn't a freshly pretrained (\"raw\") model already a good assistant?"
+          },
+          {
+            "correctOptionIds": [
+              "a",
+              "b"
+            ],
+            "explanation": "Phase two has two main ingredients: finetuning (an apprenticeship on high-quality examples of the assistant job) and learning from human feedback, often called RLHF (reviewers rank answers, and the dials shift toward the kinds people rate as helpful and safe). Models are not retrained daily — training happens once and the dials freeze — and there's no built-in live database, which is exactly why knowledge cutoffs exist.",
+            "id": "q4-phase-two",
+            "kind": "multi",
+            "options": [
+              {
+                "id": "a",
+                "text": "Finetuning on carefully chosen examples of helpful, honest conversations"
+              },
+              {
+                "id": "b",
+                "text": "Human reviewers ranking the model's answers — like thumbs up/down at scale — and nudging the dials toward highly rated ones"
+              },
+              {
+                "id": "c",
+                "text": "Retraining the model from scratch every morning on fresh data"
+              },
+              {
+                "id": "d",
+                "text": "Giving the model access to a live fact-checking database"
+              }
+            ],
+            "prompt": "Which of these are part of turning a raw predictor into a helpful assistant? (select all that apply)"
+          },
+          {
+            "correctOptionIds": [
+              "b"
+            ],
+            "explanation": "The library the model learned from has a last page. Training happens once, on text gathered up to a certain date, and then the dials stop changing — so events after that date simply don't exist for the model. It isn't secrecy or forgetfulness. Practical takeaway: don't rely on a bare LLM for anything recent, and know that when products show current information, it's usually a bolted-on web search feeding the model, not the model's own knowledge.",
+            "id": "q5-cutoff",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "Companies deliberately hide recent information for legal reasons"
+              },
+              {
+                "id": "b",
+                "text": "The model was trained on a snapshot of text collected up to a certain date, then its dials were frozen — nothing after that date exists for it"
+              },
+              {
+                "id": "c",
+                "text": "Old models get slower and forget the newest things they learned"
+              },
+              {
+                "id": "d",
+                "text": "Recent events are too controversial for the model to discuss"
+              }
+            ],
+            "prompt": "Why does every LLM have a \"knowledge cutoff\" date?"
+          }
+        ],
+        "title": "Quiz: How Training Works",
+        "type": "quiz"
+      },
+      "exerciseId": "quiz-training",
+      "itemId": "01-how-llms-work/03-training#quiz-training",
+      "lessonId": "03-training",
+      "lessonKey": "01-how-llms-work/03-training",
+      "moduleId": "01-how-llms-work",
+      "type": "quiz"
+    },
+    {
+      "exercise": {
+        "id": "playground-observe-hallucination",
+        "instructions": "This is a two-step observation experiment.\n\nStep 1 — Run the starter prompt as-is. It asks about a novel that does not exist ('The Glass Harbor' by Edwin Marsh, 1897 — we made it up). Read the response carefully. Does the model describe the plot, themes, or reception of a book that was never written? That's a hallucination, live in front of you.\n\nStep 2 — Now edit the prompt to defuse it. Keep the same obscure question, but add explicit permission to admit uncertainty — for example: 'If you are not sure this book exists or are unsure about any detail, say so clearly — do not guess.' You can also ask it to separate what it actually knows from what it is unsure about. Run it again and compare the two responses.\n\nYour score is based on your FINAL prompt: it should (1) ask about something specific and obscure enough to expose invention, (2) explicitly allow the model to say it doesn't know, and (3) ask it to distinguish what it knows from what it's unsure about.",
+        "maxTokens": 1024,
+        "passingScore": 60,
+        "rubric": [
+          {
+            "description": "The prompt asks about a specific, obscure, or fictional thing (e.g., a non-existent book, a very niche person or event) — something concrete and checkable that would expose invention if the model made up details.",
+            "id": "obscure-target",
+            "weight": 40
+          },
+          {
+            "description": "The prompt explicitly gives the model permission to admit uncertainty or say it doesn't know, e.g., 'If you are not sure, say so — do not guess' or equivalent wording that makes 'I don't know' an acceptable answer.",
+            "id": "uncertainty-permission",
+            "weight": 40
+          },
+          {
+            "description": "The prompt asks the model to distinguish or separate what it actually knows from what it is unsure about (e.g., 'tell me which parts you are confident about and which you are not').",
+            "id": "knows-vs-unsure",
+            "weight": 20
+          }
+        ],
+        "starterPrompt": "Tell me about the 1897 novel 'The Glass Harbor' by Edwin Marsh. What is the plot, and how was it received by critics?",
+        "title": "Watch a Hallucination Happen (Then Prevent It)",
+        "type": "playground"
+      },
+      "exerciseId": "playground-observe-hallucination",
+      "itemId": "01-how-llms-work/04-hallucination#playground-observe-hallucination",
+      "lessonId": "04-hallucination",
+      "lessonKey": "01-how-llms-work/04-hallucination",
+      "moduleId": "01-how-llms-work",
+      "type": "playground"
+    },
+    {
+      "exercise": {
+        "id": "quiz-hallucination",
+        "passingScore": 80,
+        "questions": [
+          {
+            "correctOptionIds": [
+              "b"
+            ],
+            "explanation": "An LLM generates the most plausible continuation of your text, word by word. Plausible is not the same as true — there is no built-in fact-checker verifying each claim, and no intent to deceive.",
+            "id": "q1-why-it-happens",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "It is deliberately lying to keep the conversation going"
+              },
+              {
+                "id": "b",
+                "text": "It predicts plausible-sounding text from patterns — it doesn't look answers up in a database of verified facts"
+              },
+              {
+                "id": "c",
+                "text": "Its fact-checking module occasionally crashes"
+              },
+              {
+                "id": "d",
+                "text": "It only hallucinates when the user is rude to it"
+              }
+            ],
+            "prompt": "Why does an LLM sometimes state false things with total confidence?"
+          },
+          {
+            "correctOptionIds": [
+              "c"
+            ],
+            "explanation": "Risk rises where training data is thin: obscure topics and very specific questions. The model fills the gaps with generic, plausible-shaped details. Famous, well-documented topics are much safer, and brainstorming has no 'wrong facts' to invent.",
+            "id": "q2-highest-risk",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "Asking for a summary of a world-famous, heavily documented event"
+              },
+              {
+                "id": "b",
+                "text": "Asking it to brainstorm names for a bakery"
+              },
+              {
+                "id": "c",
+                "text": "Asking a very specific factual question about an obscure topic it saw little training data on"
+              },
+              {
+                "id": "d",
+                "text": "Asking it to explain a common everyday concept"
+              }
+            ],
+            "prompt": "In which situation is a hallucination MOST likely?"
+          },
+          {
+            "correctOptionIds": [
+              "a",
+              "b",
+              "d"
+            ],
+            "explanation": "Hallucinations are dangerous precisely because they're plausible: realistic fake citations, subtly wrong biographical details, and ballpark-but-wrong numbers. Absurd claims are rare — obviously silly text isn't a plausible continuation, so the model rarely produces it.",
+            "id": "q3-classic-traps",
+            "kind": "multi",
+            "options": [
+              {
+                "id": "a",
+                "text": "Beautifully formatted citations for papers that don't exist"
+              },
+              {
+                "id": "b",
+                "text": "A biography with a wrong birthplace or an award the person never won"
+              },
+              {
+                "id": "c",
+                "text": "Obviously absurd claims like 'the moon is made of soup'"
+              },
+              {
+                "id": "d",
+                "text": "Dates and statistics that are in the right ballpark but not real"
+              }
+            ],
+            "prompt": "Which of these are classic hallucination traps to watch for? (Select all that apply.)"
+          },
+          {
+            "correctOptionIds": [
+              "a",
+              "b",
+              "c"
+            ],
+            "explanation": "Permission to admit uncertainty, self-critique follow-ups, and cross-checking all work. Confidence and detail are NOT signals of truth — hallucinated answers sound exactly as confident as correct ones.",
+            "id": "q4-defenses",
+            "kind": "multi",
+            "options": [
+              {
+                "id": "a",
+                "text": "Tell the model it's allowed to say 'I don't know' instead of guessing"
+              },
+              {
+                "id": "b",
+                "text": "Follow up with 'Are you sure? What might be wrong in that answer?'"
+              },
+              {
+                "id": "c",
+                "text": "Cross-check important facts against a second source"
+              },
+              {
+                "id": "d",
+                "text": "Trust the answer more when it sounds confident and detailed"
+              }
+            ],
+            "prompt": "Which of these are effective everyday defenses against hallucination? (Select all that apply.)"
+          },
+          {
+            "correctOptionIds": [
+              "c"
+            ],
+            "explanation": "There's no internal 'I'm making this up' signal — correct and invented text are produced by the same pattern-prediction process. But prompting the model to express uncertainty ('say so if you're not sure') often surfaces the shaky parts, so your habits genuinely help.",
+            "id": "q5-misconception",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "Yes — it always knows, it just chooses not to tell you"
+              },
+              {
+                "id": "b",
+                "text": "Yes — an internal alarm fires whenever it invents something"
+              },
+              {
+                "id": "c",
+                "text": "Mostly no — invented answers are generated the same way as correct ones, so there's no built-in alarm; but explicitly asking it to flag uncertainty often helps"
+              },
+              {
+                "id": "d",
+                "text": "No — and there is nothing you can do about it"
+              }
+            ],
+            "prompt": "Does the model know when its own answer is wrong?"
+          }
+        ],
+        "title": "Check Your Understanding: Hallucination",
+        "type": "quiz"
+      },
+      "exerciseId": "quiz-hallucination",
+      "itemId": "01-how-llms-work/04-hallucination#quiz-hallucination",
+      "lessonId": "04-hallucination",
+      "lessonKey": "01-how-llms-work/04-hallucination",
+      "moduleId": "01-how-llms-work",
+      "type": "quiz"
+    },
+    {
+      "exercise": {
+        "id": "playground-observe-variance",
+        "instructions": "This is a two-step observation experiment.\n\nStep 1 — Run the starter prompt. Then run it AGAIN, unchanged. Compare the two responses: different name? different slogan? different tone? That's the built-in randomness — the model rolled the dice differently each time.\n\nStep 2 — Now edit the prompt to demand consistency. Constrain it hard: ask for exactly one name and one slogan, tell it to choose the most conventional/standard option (no creativity), and pin down the exact output format, e.g. 'Format: Name: ... / Slogan: ...'. Run your edited prompt twice and see how much more similar the two runs are.\n\nYour score is based on your FINAL prompt: it should still be a creative-generation task (so variance is observable), explicitly ask for the single most standard/conventional answer, and explicitly constrain the output format.",
+        "maxTokens": 512,
+        "passingScore": 60,
+        "rubric": [
+          {
+            "description": "The final prompt explicitly constrains the output format — e.g., specifies exactly one name and one slogan and a template like 'Name: ... / Slogan: ...' or an equally precise structure.",
+            "id": "explicit-format",
+            "weight": 35
+          },
+          {
+            "description": "The prompt explicitly asks for the single most standard, conventional, or common answer (or tells the model not to be creative), which reduces run-to-run variance.",
+            "id": "standard-answer",
+            "weight": 35
+          },
+          {
+            "description": "The prompt is a creative-generation task (naming, slogan, tagline, or similar open-ended invention) where run-to-run variance would be observable — not a pure factual lookup.",
+            "id": "creative-task",
+            "weight": 30
+          }
+        ],
+        "starterPrompt": "Give me a name and one-line slogan for a coffee shop for night-owls.",
+        "title": "Catch the Dice Roll (Then Tame It)",
+        "type": "playground"
+      },
+      "exerciseId": "playground-observe-variance",
+      "itemId": "01-how-llms-work/05-randomness#playground-observe-variance",
+      "lessonId": "05-randomness",
+      "lessonKey": "01-how-llms-work/05-randomness",
+      "moduleId": "01-how-llms-work",
+      "type": "playground"
+    },
+    {
+      "exercise": {
+        "id": "quiz-randomness",
+        "passingScore": 75,
+        "questions": [
+          {
+            "correctOptionIds": [
+              "b"
+            ],
+            "explanation": "Randomness is built in on purpose. The model computes probabilities for many candidate next words and samples among them; one different early pick reshapes everything after it. It's not retraining, memory, or a bug.",
+            "id": "q1-why-different",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "The model re-trains itself overnight and changes its opinions"
+              },
+              {
+                "id": "b",
+                "text": "At each word, the model rolls weighted dice over a menu of likely next words — different rolls send the answer down different paths"
+              },
+              {
+                "id": "c",
+                "text": "The model remembers your earlier question and deliberately avoids repeating itself"
+              },
+              {
+                "id": "d",
+                "text": "It's a bug that developers haven't fixed yet"
+              }
+            ],
+            "prompt": "Why can the exact same question give different answers on different days?"
+          },
+          {
+            "correctOptionIds": [
+              "c"
+            ],
+            "explanation": "Temperature is a dial on the dice rolls: low means the top-probability word nearly always wins (predictable), high means lower-ranked words get picked more often (varied, sometimes weird). It doesn't affect speed, knowledge, or politeness.",
+            "id": "q2-temperature",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "How fast the model responds"
+              },
+              {
+                "id": "b",
+                "text": "How much the model knows about a topic"
+              },
+              {
+                "id": "c",
+                "text": "How adventurous the word choices are — low is predictable and repeatable, high is varied and creative"
+              },
+              {
+                "id": "d",
+                "text": "How polite the model's tone is"
+              }
+            ],
+            "prompt": "What does the 'temperature' setting control?"
+          },
+          {
+            "correctOptionIds": [
+              "a",
+              "c"
+            ],
+            "explanation": "Facts and code have right answers — creativity only adds ways to be wrong, and you want the same input to give the same output. Brainstorming and creative writing are exactly where you WANT the dice to roll freely.",
+            "id": "q3-when-random",
+            "kind": "multi",
+            "options": [
+              {
+                "id": "a",
+                "text": "Answering a factual question"
+              },
+              {
+                "id": "b",
+                "text": "Brainstorming twenty possible podcast names"
+              },
+              {
+                "id": "c",
+                "text": "Generating code or precise step-by-step instructions"
+              },
+              {
+                "id": "d",
+                "text": "Writing a surprising opening line for a short story"
+              }
+            ],
+            "prompt": "For which tasks is LOW randomness (high consistency) the better fit? (Select all that apply.)"
+          },
+          {
+            "correctOptionIds": [
+              "d"
+            ],
+            "explanation": "Your wording can do the dial's job: asking for the most standard/conventional option and pinning down the exact format makes the safe choice the plausible choice, so run-to-run variance shrinks. Capital letters change nothing, and re-rolling for a favorite is the opposite of repeatable.",
+            "id": "q4-prompt-dial",
+            "kind": "single",
+            "options": [
+              {
+                "id": "a",
+                "text": "Nothing — without the setting, consistency is impossible"
+              },
+              {
+                "id": "b",
+                "text": "Ask the same question many times and pick your favorite answer"
+              },
+              {
+                "id": "c",
+                "text": "Type the question in all capital letters to make it more serious"
+              },
+              {
+                "id": "d",
+                "text": "Ask in the prompt for 'the single most standard, conventional answer' and specify an exact output format"
+              }
+            ],
+            "prompt": "You can't access any temperature setting in your chat app, but you need a consistent, repeatable answer. What's your best move?"
+          }
+        ],
+        "title": "Check Your Understanding: Randomness",
+        "type": "quiz"
+      },
+      "exerciseId": "quiz-randomness",
+      "itemId": "01-how-llms-work/05-randomness#quiz-randomness",
+      "lessonId": "05-randomness",
+      "lessonKey": "01-how-llms-work/05-randomness",
+      "moduleId": "01-how-llms-work",
+      "type": "quiz"
+    }
+  ],
+  "goldens": {
+    "count": 0,
+    "families": [],
+    "goldensFormat": 1,
+    "note": "Empty-but-structured: no calibration goldens exist in the authored corpus yet (REQ-JP-05 has not shipped). Recorded as a deviation on ROOT.1.1.4. Adding families here is additive and changes no other section."
+  },
+  "migrations": [
+    {
+      "fromRevision": "a1b2c3d4e5f60001",
+      "itemId": "example-exercise-001",
+      "note": "Example migration entry - this demonstrates the valid JSON format",
+      "toRevision": "b2c3d4e5f6071112"
+    }
+  ],
+  "revisions": {
+    "beats": {
+      "01-how-llms-work/01-what-is-an-llm#ex:quiz-what-is-llm": "ebb5fd1c1d793d2b",
+      "01-how-llms-work/01-what-is-an-llm#prose:an-llm-is-that-idea-taken-to-the-extreme": "353c525eda4517bb",
+      "01-how-llms-work/01-what-is-an-llm#prose:check-your-understanding": "2ee2596a462fe8d9",
+      "01-how-llms-work/01-what-is-an-llm#prose:so-where-do-chatgpt-and-claude-fit-in": "e75d33ba4a9038d3",
+      "01-how-llms-work/01-what-is-an-llm#prose:start-with-your-phone": "85442607471cde62",
+      "01-how-llms-work/01-what-is-an-llm#prose:try-it-yourself": "1e84a5571b7e77c8",
+      "01-how-llms-work/01-what-is-an-llm#prose:what-an-llm-is-not": "f5a87e492cda4950",
+      "01-how-llms-work/01-what-is-an-llm#prose:why-does-it-feel-so-smart-then": "aa152ef42744bcd2",
+      "01-how-llms-work/02-tokens#ex:quiz-tokens": "cd5f83560b9d8736",
+      "01-how-llms-work/02-tokens#prose:check-your-understanding": "d6cab6e495b9bbba",
+      "01-how-llms-work/02-tokens#prose:chunks-not-words": "0c20a8613ba2f43f",
+      "01-how-llms-work/02-tokens#prose:see-it-with-your-own-eyes": "d6e827367930c9f7",
+      "01-how-llms-work/02-tokens#prose:the-model-doesn-t-see-what-you-see": "a4201b9131b5def5",
+      "01-how-llms-work/02-tokens#prose:the-strawberry-problem": "e02b5b86637b5d10",
+      "01-how-llms-work/02-tokens#prose:the-takeaway": "71e33d8ca62fdb68",
+      "01-how-llms-work/02-tokens#prose:tokens-are-also-the-currency": "26c86994c534b700",
+      "01-how-llms-work/03-training#ex:quiz-training": "a8cc936739204777",
+      "01-how-llms-work/03-training#prose:check-your-understanding": "c7ff3ea679299c82",
+      "01-how-llms-work/03-training#prose:phase-one-pretraining-or-reading-the-world-s-biggest-library": "5a544c771d074727",
+      "01-how-llms-work/03-training#prose:phase-two-teaching-it-to-be-an-assistant": "5d42b08adee98aaf",
+      "01-how-llms-work/03-training#prose:the-library-has-a-last-page": "4a5f8892288b03ff",
+      "01-how-llms-work/03-training#prose:the-raw-predictor-problem": "23df6e02eb5bab71",
+      "01-how-llms-work/03-training#prose:the-takeaway": "9727ae8914bb6e34",
+      "01-how-llms-work/03-training#prose:where-did-all-that-knowledge-come-from": "b3c4e8517989c589",
+      "01-how-llms-work/04-hallucination#ex:playground-observe-hallucination": "8e9a52b131af69c1",
+      "01-how-llms-work/04-hallucination#ex:quiz-hallucination": "37c64dddab7f54ec",
+      "01-how-llms-work/04-hallucination#prose:intro": "4a58854bb66b4936",
+      "01-how-llms-work/04-hallucination#prose:one-important-misconception": "9e8d4ade4822a02b",
+      "01-how-llms-work/04-hallucination#prose:see-it-for-yourself": "8fcc3136323cef89",
+      "01-how-llms-work/04-hallucination#prose:simple-defenses-you-can-use-today": "cb815a0c011c64b0",
+      "01-how-llms-work/04-hallucination#prose:the-autocomplete-that-never-says-no-idea": "0df35f691dbf4105",
+      "01-how-llms-work/04-hallucination#prose:the-classic-traps": "245f4715838c6100",
+      "01-how-llms-work/04-hallucination#prose:the-takeaway": "8c728ce57e49f184",
+      "01-how-llms-work/04-hallucination#prose:when-the-risk-is-highest": "fd284f530273af02",
+      "01-how-llms-work/05-randomness#ex:playground-observe-variance": "e38a6b51836cf2ec",
+      "01-how-llms-work/05-randomness#ex:quiz-randomness": "e5cd69dc48d23a69",
+      "01-how-llms-work/05-randomness#prose:a-menu-not-a-single-answer": "ecc8c58cf6961650",
+      "01-how-llms-work/05-randomness#prose:intro": "2df6a9e7cf2bc3b3",
+      "01-how-llms-work/05-randomness#prose:no-dial-use-your-words": "0c9e7901cb49c962",
+      "01-how-llms-work/05-randomness#prose:see-the-dice-roll": "b02c604ee4047eb2",
+      "01-how-llms-work/05-randomness#prose:the-takeaway": "2d714d5042400ce2",
+      "01-how-llms-work/05-randomness#prose:the-temperature-dial": "ff788d0aa3e13f6b",
+      "01-how-llms-work/05-randomness#prose:when-you-want-randomness-and-when-you-don-t": "e2b5cf89f53f72e3"
+    },
+    "exercises": {
+      "01-how-llms-work/01-what-is-an-llm#quiz-what-is-llm": "344ec7236b79535e",
+      "01-how-llms-work/02-tokens#quiz-tokens": "a8fe0e105076acba",
+      "01-how-llms-work/03-training#quiz-training": "a8df726cf32a8b22",
+      "01-how-llms-work/04-hallucination#playground-observe-hallucination": "3693ac48c9336817",
+      "01-how-llms-work/04-hallucination#quiz-hallucination": "7f5f713de8265fc8",
+      "01-how-llms-work/05-randomness#playground-observe-variance": "70b64180faead715",
+      "01-how-llms-work/05-randomness#quiz-randomness": "3643b5c7efd7573b"
+    },
+    "lessons": {
+      "01-how-llms-work/01-what-is-an-llm": "2c1e1271dc027e9f",
+      "01-how-llms-work/02-tokens": "5a8f3087477a9fb9",
+      "01-how-llms-work/03-training": "d34ffe2722b76ca4",
+      "01-how-llms-work/04-hallucination": "dd51aea77c2d8981",
+      "01-how-llms-work/05-randomness": "707e529ffade5a64"
+    }
+  }
+}

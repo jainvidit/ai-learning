@@ -1,0 +1,63 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-permissions",
+    "title": "Check: the permission model",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "Why does Claude Code need a permission system at all?",
+        "options": [
+          { "id": "a", "text": "To slow it down so humans feel useful" },
+          { "id": "b", "text": "Because it takes real actions on real files — consequences require consent" },
+          { "id": "c", "text": "Because the model is malicious by default" },
+          { "id": "d", "text": "It's a legal formality with no practical effect" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "A chat model can only say things; an agent can DO things — edit files, run commands. Actions with consequences get a consent step. It's not about malice (c) — even a well-intentioned agent can misunderstand a goal, and the permission prompt is where you catch that."
+      },
+      {
+        "id": "q2",
+        "kind": "multi",
+        "prompt": "Which actions would you expect to trigger an ask-first permission prompt (rather than happen freely)? Select all that apply.",
+        "options": [
+          { "id": "a", "text": "Reading a file inside the project to understand it" },
+          { "id": "b", "text": "Editing a file to fix a bug" },
+          { "id": "c", "text": "Running a command that deletes files" },
+          { "id": "d", "text": "Listing which files exist in the project folder" },
+          { "id": "e", "text": "Running any command it hasn't been pre-approved for" }
+        ],
+        "correctOptionIds": ["b", "c", "e"],
+        "explanation": "Changes and commands (b, c, e) act on the world, so they ask first — destructive commands doubly so. Reading and listing files (a, d) just look, and looking can't break anything, so it's generally allowed inside the project."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "Claude Code asks to run a command you don't recognize. What's the right move?",
+        "options": [
+          { "id": "a", "text": "Approve — it probably knows best" },
+          { "id": "b", "text": "Always deny anything you don't recognize, permanently" },
+          { "id": "c", "text": "Ask Claude to explain in plain language what the command does and why it's needed, then decide" },
+          { "id": "d", "text": "Close the terminal and start over" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "You're allowed to interrogate before approving — 'explain what that command does and why' costs one message and Claude answers well. Blind approval (a) defeats the safety step; blanket permanent denial (b) makes the agent useless; neither builds the judgment you actually need."
+      },
+      {
+        "id": "q4",
+        "kind": "single",
+        "prompt": "What does 'allow for the whole session' mean when approving a permission request?",
+        "options": [
+          { "id": "a", "text": "Claude may do that kind of action again this session without asking each time" },
+          { "id": "b", "text": "Claude may now do anything it wants forever" },
+          { "id": "c", "text": "The action is scheduled to run repeatedly" },
+          { "id": "d", "text": "It only applies to reading files" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Session-wide approval trades some control for convenience on a SPECIFIC kind of action, for THIS session — useful when a task edits many files. It's scoped, not a forever blank check (b). Start with one-time approvals until you trust the pattern of what's being asked."
+      }
+    ]
+  }
+]

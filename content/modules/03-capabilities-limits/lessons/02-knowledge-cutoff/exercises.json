@@ -1,0 +1,50 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-cutoff",
+    "title": "Check: knowledge cutoffs",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "Why do models have a knowledge cutoff at all?",
+        "options": [
+          { "id": "a", "text": "Companies hide recent knowledge behind a paywall" },
+          { "id": "b", "text": "Training happens on a snapshot of text collected up to a date, and retraining is too expensive to do continuously" },
+          { "id": "c", "text": "Recent events are legally off-limits for AI" },
+          { "id": "d", "text": "The model forgets new information after a while" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "A model learns during training, from a fixed snapshot of text. Nothing after that snapshot exists in its learned knowledge. It's an engineering economics fact, not a paywall (a) or a legal rule (c) — and the model isn't forgetting (d); it never knew."
+      },
+      {
+        "id": "q2",
+        "kind": "multi",
+        "prompt": "Which questions are risky to ask a model WITHOUT giving it fresh information? Select all that apply.",
+        "options": [
+          { "id": "a", "text": "\"What's the current price of this phone?\"" },
+          { "id": "b", "text": "\"Why does bread rise?\"" },
+          { "id": "c", "text": "\"Who won last night's game?\"" },
+          { "id": "d", "text": "\"What's the newest version of this app and what changed?\"" },
+          { "id": "e", "text": "\"How do I convert cups to milliliters?\"" }
+        ],
+        "correctOptionIds": ["a", "c", "d"],
+        "explanation": "Prices, last night's results, and 'newest version' all depend on now — the model will either admit ignorance or, worse, guess fluently. Bread chemistry (b) and unit conversion (e) are stable knowledge that training covers well."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "You need the model's help interpreting a news story from last week. What's the reliable approach?",
+        "options": [
+          { "id": "a", "text": "Ask about it directly — models absorb news automatically" },
+          { "id": "b", "text": "Paste the article into your prompt and ask your question about the pasted text" },
+          { "id": "c", "text": "Ask the model to try really hard to remember" },
+          { "id": "d", "text": "It's impossible for a model to discuss anything after its cutoff" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The context window is your door into the model's windowless room: it uses whatever you put in front of it, even things training never saw. It can't absorb news on its own (a) or remember harder (c) — but (d) is too pessimistic: supplied context works great."
+      }
+    ]
+  }
+]

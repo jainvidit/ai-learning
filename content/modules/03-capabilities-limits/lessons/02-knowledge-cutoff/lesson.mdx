@@ -1,0 +1,55 @@
+---
+id: 02-knowledge-cutoff
+title: "The Knowledge Cutoff"
+minutes: 11
+objectives:
+  - Explain what a knowledge cutoff is and why it exists
+  - Identify questions a model can't answer from training alone
+  - Know the workaround - put fresh information in the prompt yourself
+---
+
+Imagine a very well-read person who has been in a windowless room since a certain date. They're encyclopedic about everything *before* that date, but everything after? They're just guessing.
+
+That's what a **knowledge cutoff** is.
+
+## Why It Exists
+
+Remember from Module 01: the model learned during training, from a huge snapshot of internet text collected up to a certain point in time. That cutoff date is the model's **knowledge cutoff**.
+
+Training is enormously expensive — millions of dollars and months of compute time. Models aren't continuously retrained every day with fresh news. The snapshot freezes, and the model's learned knowledge freezes with it.
+
+## The Danger Zone
+
+Here's the tricky part: the model often won't say "I don't know that yet."
+
+Asked about events after its cutoff — last night's game, this quarter's phone prices, who won yesterday's election — it may hallucinate plausible-sounding answers. Remember hallucination from Module 01? Now you know one of its biggest triggers: prediction tries to fill the gap with likely-looking text, and there's nothing in training to stop it from making things up.
+
+## What's Affected, What's Not
+
+Questions that depend on "now" are risky:
+- News, current events, sports results
+- "Latest" versions of products, apps, or frameworks
+- Current prices, office-holders, top-ten lists
+
+Stable knowledge is mostly safe:
+- History (as long as it's not *recent* history)
+- Science basics, cooking, language, math concepts
+- How-to knowledge that doesn't change often
+
+## The Workaround That Matters
+
+The context window from Lesson 01 is your door into the windowless room.
+
+Paste in the current article. Include the latest price list. Tell the model today's date. The model uses information in its context even when training never saw it.
+
+Some AI products do this automatically — they fetch a web search result and paste it into the context for you. That's the same trick, just automated.
+
+<Callout kind="warning">
+If the answer depends on "now" and you didn't provide "now", treat the answer as a guess.
+</Callout>
+
+<Exercise id="quiz-cutoff" />
+
+## Looking Forward
+
+Telling the model what it can't know is half of prompting well. You'll see this principle again and again as you learn to work with AI: the more context *you* supply, the less the model has to guess.

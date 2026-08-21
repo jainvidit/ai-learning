@@ -1,0 +1,94 @@
+---
+id: 03-rag-and-embeddings
+title: "RAG & Embeddings: The Library Index"
+minutes: 12
+objectives:
+  - Explain why models need retrieval for documents they've never seen
+  - Describe embeddings as "coordinates for meaning" where distance means difference
+  - "Walk through the RAG pipeline: chunk, embed, store, retrieve, stuff, answer"
+  - Identify RAG's failure modes and know it reduces but doesn't eliminate hallucination
+---
+
+## The Problem: Frozen Knowledge and Infinite Documents
+
+A language model's knowledge is frozen at the end of training. It has never seen your company's internal wiki, your customer support tickets, or the PDF you just uploaded. And even if it had, you can't paste your entire document library into every prompt — it won't fit the context window (remember module 03?) and would cost a fortune per call.
+
+So how do AI products answer questions about *your* documents?
+
+They don't put every document in every prompt. They use **retrieval** — like a library card index that points you to the three shelves that matter, instead of handing you every book.
+
+## The Library Analogy
+
+Imagine a library with ten thousand books. You ask, "How do I fix a leaky faucet?" 
+
+A bad system would:
+- Give you all ten thousand books (impossible to read in one sitting)
+- Or tell you "I don't know" because the librarian hasn't memorized every page
+
+A good system:
+- Searches a **card index** for books about plumbing and home repair
+- Hands you the three most relevant books
+- You read those three and get your answer
+
+**RAG — Retrieval-Augmented Generation — is the card index for AI.** It finds the few relevant passages from your documents and puts *just those* into the prompt. The model reads them and answers, grounded in your data.
+
+## Embeddings: Coordinates for Meaning
+
+How does the system know which passages are relevant? Keyword search would miss "How do I reset my password?" if the document says "password recovery steps" — zero shared words, but perfect match in *meaning*.
+
+That's where **embeddings** come in.
+
+An **embedding** is a list of numbers (often hundreds or thousands of them) that represents a piece of text. An embedding model turns "How do I reset my password?" into something like `[0.23, -0.51, 0.88, ...]`. It also turns "Password recovery steps" into a *different* list of numbers — but those two lists are **numerically close together** because the meanings are similar.
+
+Think of it as **coordinates for meaning**. Similar meanings land near each other in this number space, even if the words are completely different. Distance in this space means difference in meaning.
+
+One-sentence definition to memorize:
+
+> An embedding is a point in space where distance means difference in meaning.
+
+## The RAG Pipeline
+
+RAG has two phases: **offline (indexing)** and **online (retrieval + generation)**.
+
+### Offline: Build the Index
+
+1. **Chunk your documents.** Break them into passages (e.g., paragraphs or 500-word blocks).
+2. **Embed each chunk.** Run an embedding model on every chunk to get its coordinate vector.
+3. **Store in a vector database.** Save the chunk text and its embedding.
+
+This happens once, or whenever your documents change. It's like building the library's card index.
+
+### Online: Answer a Question
+
+1. **Embed the question.** Turn "How do I reset my password?" into a vector.
+2. **Find nearest chunks.** Search the database for the 3–5 chunk embeddings closest to the question embedding.
+3. **Stuff them into the prompt.** Build a prompt: "Here are some relevant passages: [paste the retrieved chunks]. Now answer this question: [paste the question]."
+4. **Model answers.** The model reads the retrieved passages and generates an answer, citing or paraphrasing them.
+
+The user never sees the retrieval step — they just see a cited answer. But under the hood, the system fetched exactly the passages the model needed.
+
+<Callout kind="tip">
+RAG is how products like "chat with your documents" work. You upload a PDF; the app chunks and embeds it; you ask a question; it retrieves the right passages and the model answers. The model never saw the PDF during training — it's reading it from the prompt, just-in-time.
+</Callout>
+
+## Failure Modes
+
+RAG grounds answers in your data, but it's not foolproof:
+
+1. **Retrieval misses.** The right answer exists in your documents, but the retriever fetched the wrong passages. The model never saw the answer, so it can't give it.
+2. **Stale index.** Your documents changed after you embedded them. The model is reading outdated chunks.
+3. **Model improvises.** Retrieval returned junk, or the chunks don't contain the answer. The model, instead of saying "I don't know," guesses from its training — and hallucinates.
+
+RAG **reduces** hallucination by grounding the model in retrieved facts. It does **not eliminate** it. The model can still make things up, especially if the retrieved text is ambiguous or incomplete.
+
+<Callout kind="warning">
+Always verify answers from RAG systems, especially when they cite sources. A model can confidently cite a real document but misrepresent what it says. Trust, but verify — especially for high-stakes decisions.
+</Callout>
+
+## What You've Learned
+
+Models don't know your documents. Pasting everything won't fit and costs too much. RAG solves this: chunk your docs, embed them, and at question time retrieve only the relevant passages to stuff into the prompt. Embeddings are coordinates for meaning — similar ideas land near each other even with zero shared keywords. RAG reduces hallucination but every stage can fail, so check the work.
+
+Next: another way to teach a model — fine-tuning — and when to use it instead of prompting or RAG.
+
+<Exercise id="quiz-rag" />

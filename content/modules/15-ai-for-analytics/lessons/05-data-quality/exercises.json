@@ -1,0 +1,24 @@
+[
+  {
+    "type": "challenge",
+    "id": "ch-tag-audit",
+    "title": "Build a Tag Validator Script",
+    "instructions": "You're responsible for ensuring tracking quality across your company's website. Manual checks are taking too long, so you need an automated validator.\n\n**Your task:** Create a Node.js script called `validator.js` that checks HTML files for common tracking issues.\n\n**The validator should check:**\n1. **GTM container loads** - Look for the GTM script tag with `googletagmanager.com/gtm.js`\n2. **Data layer initialization** - Verify `dataLayer = dataLayer || []` or `window.dataLayer = window.dataLayer || []` exists\n3. **No push before init** - Check that dataLayer.push() calls don't come before initialization\n4. **Event names exist** - Ensure dataLayer.push() calls have an 'event' property (not undefined)\n\n**The script should:**\n- Accept a filename as a command-line argument: `node validator.js page.html`\n- Exit with code 0 if all checks pass\n- Exit with code 1 if any check fails\n- Print clear success/failure messages\n\n**Testing your validator:**\n- Run `node validator.js page-clean.html` → should pass (exit 0)\n- Run `node validator.js page-broken.html` → should fail (exit 1) and report issues\n\n**Suggested approach:**\n1. Ask Claude to write the validator with the checks listed above\n2. Test it on both provided HTML files\n3. Refine if it misses issues or has false positives\n4. Verify it exits with the correct status codes",
+    "sandboxTemplate": "m15-tag-audit",
+    "allowedTools": "Read,Write,Bash(node *)",
+    "maxTurns": 15,
+    "verifierId": "m15-tag-audit",
+    "criteria": [
+      "validator.js exists in the sandbox",
+      "Running validator on page-clean.html exits with code 0 (passes)",
+      "Running validator on page-broken.html exits with code 1 (fails)",
+      "Validator reports at least one issue when run on broken page"
+    ],
+    "hints": [
+      "Start by asking Claude to write a basic Node.js script that reads an HTML file from process.argv[2]",
+      "You can check for text patterns using includes() or indexOf() - regex is fine but not required for this",
+      "process.exit(0) means success, process.exit(1) means failure - make sure your script exits appropriately",
+      "Test both files to make sure your validator correctly identifies the broken one"
+    ]
+  }
+]

@@ -1,0 +1,63 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-steps",
+    "title": "Check: step-by-step thinking",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "Why does asking for step-by-step reasoning improve accuracy on multi-step problems?",
+        "options": [
+          { "id": "a", "text": "It gives the model more time to think in the background" },
+          { "id": "b", "text": "Each token builds on what's already written, so written intermediate steps give the final answer solid support" },
+          { "id": "c", "text": "It activates a special math mode" },
+          { "id": "d", "text": "Longer answers are always more accurate" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The model writes one token at a time and can only lean on visible text. Steps are stepping stones: each conclusion rests on written work rather than a blind leap. There's no hidden timer (a) or math mode (c), and length only helps when it's load-bearing reasoning (d)."
+      },
+      {
+        "id": "q2",
+        "kind": "single",
+        "prompt": "Besides accuracy, what's the second big benefit of visible reasoning steps?",
+        "options": [
+          { "id": "a", "text": "You can find the exact step that went wrong and correct it surgically" },
+          { "id": "b", "text": "The answer becomes legally certified" },
+          { "id": "c", "text": "It prevents all hallucination" },
+          { "id": "d", "text": "It makes the response shorter" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Visible steps are auditable: instead of 'that's wrong, try again', you can say 'step 3 double-counts the discount — redo from there', which is exactly the targeted iteration you learned in module 02. Steps reduce some errors but certify nothing (b, c), and they make responses longer, not shorter (d)."
+      },
+      {
+        "id": "q3",
+        "kind": "multi",
+        "prompt": "Which tasks genuinely benefit from requesting step-by-step reasoning? Select all that apply.",
+        "options": [
+          { "id": "a", "text": "Comparing two job offers across salary, commute, and growth" },
+          { "id": "b", "text": "Writing a haiku about autumn" },
+          { "id": "c", "text": "Working out whether a monthly budget balances" },
+          { "id": "d", "text": "Recalling what year a famous treaty was signed" },
+          { "id": "e", "text": "Scheduling three activities around fixed constraints" }
+        ],
+        "correctOptionIds": ["a", "c", "e"],
+        "explanation": "Multi-factor comparisons, arithmetic, and constraint juggling are construction tasks — steps carry real weight. A haiku (b) needs no derivation, and a treaty date (d) is pure recall: the model either knows it or hallucinates it, and steps won't change which."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-think-steps",
+    "title": "Reasoning with tagged steps",
+    "instructions": "Combine lesson 02 and this lesson. Pose a decision problem with real numbers — e.g. compare two gym memberships (one has a joining fee and lower monthly cost, the other no fee but higher monthly) over 12 months, or a similar two-option cost comparison you invent. Your prompt must (1) state the problem with concrete numbers for both options, (2) instruct the model to reason step by step INSIDE <thinking> tags before answering, (3) instruct it to put only the final recommendation in <answer> tags, and (4) require the <thinking> section to show the yearly cost calculation for each option separately.",
+    "rubric": [
+      { "id": "problem", "description": "The prompt poses a two-option decision problem with concrete numbers for each option.", "weight": 30 },
+      { "id": "thinking-tag", "description": "The prompt instructs the model to reason step by step inside <thinking> tags.", "weight": 25 },
+      { "id": "answer-tag", "description": "The prompt instructs the model to put only the final recommendation in <answer> tags.", "weight": 20 },
+      { "id": "per-option", "description": "The prompt requires the reasoning to compute each option's total separately before comparing.", "weight": 25 }
+    ],
+    "passingScore": 70
+  }
+]

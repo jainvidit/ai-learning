@@ -1,0 +1,74 @@
+---
+id: 02-hooks
+title: "Hooks: Automation on Events"
+minutes: 12
+objectives:
+  - Define what hooks are and why they exist
+  - Name key hook events (PreToolUse, PostToolUse, Stop)
+  - Understand that hooks run deterministically in the harness, not by the model's goodwill
+  - Read and interpret a hooks configuration
+---
+
+## The Reliability Gap
+
+You can write in CLAUDE.md: "Please always run the formatter after editing." Claude will usually comply — the instruction is clear, and models are good at following clear instructions.
+
+But "usually" isn't "always." An instruction is a request. The model can forget, can judge that a particular edit doesn't need formatting, or can be distracted by a more urgent part of the task. For most workflows, 95% compliance is fine.
+
+But what if you need 100%? What if an unformatted file breaks CI, or an unvalidated config crashes the app? For those cases, asking politely is not enough.
+
+**Hooks close the gap.** The Claude Code harness runs your shell command on an event, every time, with no model judgment involved.
+
+## Hook Events
+
+Hooks attach to events in the agent's lifecycle:
+
+- **PreToolUse**: fires before a tool runs. Can block dangerous commands (e.g., a guard that refuses any `rm -rf`).
+- **PostToolUse**: fires after a tool completes successfully. Perfect for formatting after edits or running tests after code changes.
+- **Stop**: fires when Claude finishes responding (before control returns to you). Run a final check, save a summary, play a notification sound.
+- Others exist (SessionStart, etc.), but these three handle most use cases.
+
+You can narrow which tools trigger a hook with **matchers**. A PostToolUse hook with matcher `Edit|Write` fires only after file modifications, not after Read or Bash.
+
+## Configuration Walkthrough
+
+Hooks live in `.claude/settings.json`. Here's a complete example:
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [{ "type": "command", "command": "npx prettier --write ." }]
+      }
+    ]
+  }
+}
+```
+
+This configuration means: every time Claude edits or writes a file, the harness automatically runs `npx prettier --write .` after the tool completes. Claude doesn't decide whether to format; the harness just does it.
+
+You can stack multiple hooks on the same event, and they run in the order listed.
+
+## Prompts vs Hooks: The Decision Rule
+
+- **If it must happen EVERY time X occurs** → hook.
+- **If it needs judgment** → instruction in CLAUDE.md or the prompt.
+
+Hooks are dumb and deterministic — perfect for "always format after edit," wrong for "decide whether this change needs a documentation update."
+
+Examples:
+
+- Format after edit → hook.
+- Run tests after code change → hook (if you want it automatic).
+- Block any Bash command containing `rm -rf` → PreToolUse hook.
+- Decide whether to write a test → instruction (requires understanding the change).
+
+## Safety Note
+
+Hooks execute arbitrary shell commands with your user's permissions. They are powerful tools for guardrails and automation, and equally powerful for mischief.
+
+**Always review hooks configured in a repository you didn't write.** A malicious or buggy hook can delete files, exfiltrate data, or run up a cloud bill. Treat hooks configuration with the same scrutiny you'd give a shell script you're about to run.
+
+<Exercise id="quiz-hooks" />

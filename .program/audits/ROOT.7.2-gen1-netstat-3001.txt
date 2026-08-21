@@ -1,0 +1,16 @@
+=== netstat -ano | grep :3001 (LISTENING filter) ===
+listening_match_exit=1 (1 = NO listener on 3001 -> PASS)
+
+=== full netstat -ano | grep :3001 ===
+(any remaining lines are TIME_WAIT client sockets from the finished test run, not listeners)
+
+=== stray next/node server processes ===
+node.exe                     26232 Console                    1     31,176 K
+node.exe                     11200 Console                    1     33,368 K
+node.exe                     20972 Console                    1    320,828 K
+node.exe                     35500 Console                    1    155,072 K
+node.exe                      9308 Console                    1     56,008 K
+node.exe                     22972 Console                    1     90,072 K
+
+=== port 3000 untouched (CONSTRAINTS #17) ===
+  TCP    127.0.0.1:3000         0.0.0.0:0              LISTENING       20972

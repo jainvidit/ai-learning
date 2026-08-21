@@ -1,0 +1,62 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-xml",
+    "title": "Check: XML structure",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "What problem do XML tags solve in a prompt?",
+        "options": [
+          { "id": "a", "text": "They make the prompt run faster" },
+          { "id": "b", "text": "They mark clear boundaries so the model can't confuse your instructions with the material you pasted in" },
+          { "id": "c", "text": "They are required syntax — untagged prompts are rejected" },
+          { "id": "d", "text": "They encrypt sensitive sections" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Tags are labeled envelopes: the model treats them as strong section boundaries, so it stops rewriting your instructions when you meant it to rewrite your email. They're optional (c), have no speed effect (a), and hide nothing (d)."
+      },
+      {
+        "id": "q2",
+        "kind": "single",
+        "prompt": "Which prompt uses tags correctly?",
+        "options": [
+          { "id": "a", "text": "<email>Rewrite this politely</email> followed by the pasted email with no tag" },
+          { "id": "b", "text": "<instructions>Rewrite the text in <email> to be politer.</instructions> then <email>...pasted email...</email>" },
+          { "id": "c", "text": "<email>...pasted email... (no closing tag, instructions mixed inside)" },
+          { "id": "d", "text": "Wrapping every individual sentence of the prompt in its own tag" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Option b labels each section by its content, closes every tag, and cross-references the <email> section by name from the instructions. (a) puts the instruction in the email envelope, (c) never closes the envelope, and (d) is noise — tag SECTIONS, not sentences."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "You're asking for a summary of meeting notes and also including two example summaries you like. What's the best tag layout?",
+        "options": [
+          { "id": "a", "text": "No tags — short prompts don't need them" },
+          { "id": "b", "text": "<instructions>, <notes> for the pasted notes, and <examples> containing the two samples" },
+          { "id": "c", "text": "One giant <everything> tag around the whole prompt" },
+          { "id": "d", "text": "<a>, <b>, <c> — the names don't matter" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Three kinds of content, three labeled envelopes. One tag around everything (c) draws no boundaries at all. And while tags don't have reserved names, DESCRIPTIVE names (b) beat meaningless ones (d) — the name itself tells the model what the section is."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-xml",
+    "title": "Tag a messy prompt",
+    "instructions": "You need the model to turn rough interview notes into three polished FAQ entries. Write a prompt with clear XML structure: (1) an <instructions> section stating the task and the output format (question line + 2–3 sentence answer), (2) a <notes> section containing invented rough notes (5+ lines of fragmented notes about, say, a community garden's rules), (3) an <example> section with ONE example FAQ entry in your desired format, and (4) inside <instructions>, refer to the other sections by their tag names (e.g. 'using the material in <notes>, matching the format shown in <example>'). Every tag must be properly opened and closed.",
+    "rubric": [
+      { "id": "sections", "description": "The prompt contains distinct <instructions>, <notes>, and <example> tagged sections, all properly opened and closed.", "weight": 35 },
+      { "id": "content", "description": "The <notes> section contains multi-line rough material and the <example> section shows one complete FAQ entry.", "weight": 25 },
+      { "id": "cross-ref", "description": "The instructions refer to at least one other section by its tag name.", "weight": 25 },
+      { "id": "format", "description": "The instructions specify the FAQ output format (question + short answer, three entries).", "weight": 15 }
+    ],
+    "passingScore": 70
+  }
+]

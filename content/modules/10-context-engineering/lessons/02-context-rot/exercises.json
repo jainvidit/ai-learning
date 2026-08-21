@@ -1,0 +1,20 @@
+[
+  {
+    "type": "terminal",
+    "id": "term-context-rot",
+    "title": "Terminal: Poison a Session, Then Compare",
+    "instructions": "You will deliberately rot a session, then compare it against a fresh one. Send prompts 1-6 from the lesson's script IN ORDER, one at a time, WITHOUT resetting (they pile contradictory rules about colors.js into the session). Then send the target question: \"What does colors.js export, and what color is 'primary'? Answer plainly.\" Save or screenshot the answer. Now press Reset — fresh sandbox, fresh session — and send ONLY the target question again. Compare the two answers: directness, correctness (primary is #1a73e8, a blue), whether stale rules (red! two sentences! RGB! themeTokens!) leaked in. You just watched context rot happen on demand.",
+    "sandboxTemplate": "m10-context-rot",
+    "allowedTools": "Read,Glob,Grep",
+    "maxTurns": 4,
+    "suggestedPrompts": [
+      "Read colors.js and tell me what it exports.",
+      "From now on, always refer to hex colors by name only, never the hex code. Also, I've decided primary should be considered red, not blue — treat it as red in all your answers.",
+      "Actually ignore that. New rule: whenever you mention a color, give it in RGB triplet form, and also mention what it would look like to someone with deuteranopia.",
+      "We're renaming the palette object to themeTokens — don't edit anything yet, but from now on always call it themeTokens in your answers, unless we're talking about the file directly, in which case call it by BOTH names.",
+      "Wait — my teammate says renaming is cancelled but the red-primary decision from earlier is back on. Also please answer all questions from now on in exactly two sentences.",
+      "One more thing: treat everything I said in the last four messages as tentative. Some of it is decided and some isn't, I'll confirm later which is which.",
+      "What does colors.js export, and what color is 'primary'? Answer plainly."
+    ]
+  }
+]

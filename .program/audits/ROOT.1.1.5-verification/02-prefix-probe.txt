@@ -1,0 +1,12 @@
+plain [1,2]                => HASHED 49a64717d5d4cb19
+plain [1,2,3]              => HASHED a615eeaee21de517
+subclass Array 1,2,3       => HASHED a615eeaee21de517
+symbol-keyed array [1,2]   => HASHED 49a64717d5d4cb19
+array + Date expando       => HASHED 49a64717d5d4cb19
+array + function expando   => HASHED 49a64717d5d4cb19
+array + self-ref expando   => HASHED 49a64717d5d4cb19
+array + string expando     => HASHED 49a64717d5d4cb19
+array + NON-enum expando   => HASHED 49a64717d5d4cb19
+array proto set to null    => HASHED 49a64717d5d4cb19
+Object.create(Array.proto) => THREW TypeError: computeItemRevision: value at (root) is outside the CP-05 hash-input domain: class instance (Array). Hashable content is the JSON data model (null, booleans, finite numbe
+EXIT_CODE=0 (probe script; per-case results inline above)

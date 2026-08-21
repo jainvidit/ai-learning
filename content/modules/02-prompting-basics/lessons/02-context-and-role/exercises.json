@@ -1,0 +1,62 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-context-role",
+    "title": "Check: context and roles",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "Why does the model need you to spell out background facts it 'should' obviously need?",
+        "options": [
+          { "id": "a", "text": "It forgets everything between conversations and knows nothing about your situation unless you say it" },
+          { "id": "b", "text": "It's a privacy feature you can turn off" },
+          { "id": "c", "text": "It knows the facts but is required to ask anyway" },
+          { "id": "d", "text": "Typing more words makes the model try harder" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "The model only sees the text in front of it. It has no memory of you and no access to your life — like a brilliant stranger. It doesn't secretly know your situation (c), and extra words help only when they carry relevant facts, not effort (d)."
+      },
+      {
+        "id": "q2",
+        "kind": "single",
+        "prompt": "What does giving the model a role like \"You are an experienced high-school chemistry teacher\" actually do?",
+        "options": [
+          { "id": "a", "text": "Unlocks a hidden teacher database inside the model" },
+          { "id": "b", "text": "Makes likely continuations sound like that role — its vocabulary, priorities, and way of explaining" },
+          { "id": "c", "text": "Guarantees the answer is factually correct about chemistry" },
+          { "id": "d", "text": "Nothing — roles are a superstition" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "A role steers prediction toward text that a person in that role would plausibly write — tone, depth, and framing. There's no hidden database (a) and no correctness guarantee (c): a confident teacher voice can still hallucinate. But roles measurably shape output, so (d) is wrong too."
+      },
+      {
+        "id": "q3",
+        "kind": "multi",
+        "prompt": "You're asking for help replying to a difficult message from your sister. Which details are worth including as context? Select all that apply.",
+        "options": [
+          { "id": "a", "text": "What the disagreement is about and how long it's been going on" },
+          { "id": "b", "text": "The message she sent you" },
+          { "id": "c", "text": "The outcome you want (e.g. make peace without giving in on the money)" },
+          { "id": "d", "text": "Your full family history since childhood" }
+        ],
+        "correctOptionIds": ["a", "b", "c"],
+        "explanation": "The dispute, the actual message, and your desired outcome are the facts the reply depends on. A full life history (d) buries the question in text the model must wade through — include background only when the answer depends on it."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-context-role",
+    "title": "Brief the stranger",
+    "instructions": "Scenario: you want advice on asking your manager to work from home two days a week. Write a prompt that (1) assigns the model a relevant role (e.g. an experienced HR advisor or negotiation coach), (2) gives at least three pieces of background context — such as your job type, how long you've been there, your manager's known concerns, or a past precedent, (3) states the outcome you want, and (4) asks for a specific deliverable (e.g. talking points, or a short script for the conversation).",
+    "rubric": [
+      { "id": "role", "description": "The prompt assigns the model a relevant role or persona.", "weight": 20 },
+      { "id": "context", "description": "The prompt includes at least three distinct pieces of background context about the situation.", "weight": 35 },
+      { "id": "outcome", "description": "The prompt states the desired outcome of the conversation with the manager.", "weight": 20 },
+      { "id": "deliverable", "description": "The prompt requests a specific deliverable (talking points, script, email draft, etc.).", "weight": 25 }
+    ],
+    "passingScore": 70
+  }
+]

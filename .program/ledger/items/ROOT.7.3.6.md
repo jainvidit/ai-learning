@@ -1,0 +1,60 @@
+---
+id: ROOT.7.3.6
+parent: ROOT.7.3
+type: Decision
+title: Enumerate REQ-LX-07 s3 "any beat entering view" — beat entry-mode domain (ADR-0024)
+ledger_depth: 3
+status: changes_requested
+owner_agent: UNASSIGNED — gen1 fix dispatch is a gen44 action (dream-implementer-standard)
+spawned_at: 2026-07-28T00:50:00Z
+generation: 1
+review_findings_gen0: "request_changes/high — full text .program/audits/ROOT.7.3.6-review.md. BLOCKING: F1 exhaustiveness (in-lesson header resume chip + header exercise chips per REQ-LX-04 line 49; Verify deep-link per REQ-TX-02 s3; route-change return REQ-TX-01 s1 unclassified); F2 default self-contradictory (line 72 'NOT bound' vs line 78 'default is to emit' — pick fail-closed per ADR-0017 with emit-anyway non-normative, or fail-open with the closed-world claim deleted + checkable call-site enumeration procedure); F3 multiplicity undefined (refresh = mode 4 AND 7; smooth-scroll transited beats undefined across motion preferences); F4 either/or checks unfalsifiable (mode 7, mode 1 duplicates, persistent re-entry) — need policy-independent assertions with ROOT.2.1 idempotency explicitly out of scope. MAJOR: F5 ADDITIVITY VIOLATED — original s3 sentence removed/reworded in place; restore verbatim + append Domain clause in the ADR-0026 form; F6 citation drift in persistent-beat section (substance correct) — quote-anchored citations per beat-model line 348."
+spec_refs:
+  - .program/spec/lesson-experience.md#req-lx-07
+acceptance_criteria:
+  - ADR-0024 ratified — beat entry modes enumerated closed-world (e.g. scroll, jump, resume, restore) with the s3 obligation testable per mode; additive relaxation path
+  - lesson-experience.md amended additively so s3 quantifies over the enumerated modes
+  - Consistency with beat-model.md persistent-beat ruling (steward NARROW ratification) recorded
+depends_on: []
+blocks: [ROOT.4.2]
+children: []
+file_ownership: [".program/decisions/ADR-0024.md", ".program/spec/lesson-experience.md"]
+review: {tier: 1, required_lenses: [spec-conformance], verdicts: []}
+verification:
+  - criterion: "ADR-0024 ratified — beat entry modes enumerated closed-world (e.g. scroll, jump, resume, restore) with the s3 obligation testable per mode; additive relaxation path"
+    method: "ADR-0024 written following ADR-0017 pattern: enumerated 7 beat entry modes (scroll entry, rail jump, resume, initial load, Continue, keyboard nav, state restore) closed-world with testable s3 obligation per mode, decidable default (emit event) for unenumerated, additive relaxation path via future ADRs"
+    evidence: ".program/decisions/ADR-0024.md"
+  - criterion: "lesson-experience.md amended additively so s3 quantifies over the enumerated modes"
+    method: "REQ-LX-07 s3 amended additively to reference ADR-0024 enumeration, replaced 'any beat entering view' with 'any beat entering view via one of the enumerated modes (scroll entry, rail jump navigation, resume from stored position, initial page load, Continue button navigation, keyboard navigation, or state restore after page refresh — enumerated closed-world in ADR-0024)', stated decidable default and exhaustiveness"
+    evidence: ".program/spec/lesson-experience.md line 93 (s3 amended)"
+  - criterion: "Consistency with beat-model.md persistent-beat ruling (steward NARROW ratification) recorded"
+    method: "ADR-0024 includes dedicated section 'Consistency with beat-model.md persistent-beat ruling' citing ROOT.7.1 2026-07-25 ratification (beat-model.md lines 169-255). Confirms no entry mode contradicts the ruling: persistent beats apply uniformly to all seven modes; stay-mounted obligation is lifecycle, not entry; portal moves are not entry modes. Citations: REQ-LX-03 s1, beat-model lines 160-163, 189. No contradiction found."
+    evidence: ".program/decisions/ADR-0024.md section 'Consistency with beat-model.md persistent-beat ruling'"
+artifacts: [".program/decisions/ADR-0024.md"]
+resume_hint: "Scheduled by ADR-0018. Must be done before ROOT.4.2 (BeatRenderer) dispatches (Phase 3). Pattern: ADR-0017. Survey row: lesson-experience REQ-LX-07 s3."
+---
+
+## Work Log
+
+### Reading Phase (2026-07-28 ~01:00Z)
+
+Read lesson-experience.md in full — REQ-LX-07 s3: "Given any beat entering view, when telemetry is checked, then a beat_viewed event was recorded."
+
+Identified beat entry modes from the full spec corpus:
+1. **Scroll entry (REQ-LX-01)** — user scrolls naturally and a beat crosses 50% viewport threshold; also covers dwell-based frontier advancement (2s @ 50%).
+2. **Rail jump navigation (REQ-LX-04 s4)** — user clicks rail node to jump directly to a beat.
+3. **Resume from stored position (REQ-LX-07 s2)** — navigation completes to exact stored beatId from dashboard chip.
+4. **Initial page load** — lesson page opens; first beat(s) mount and enter viewport on render.
+5. **Continue button navigation (REQ-LX-01 s3)** — smooth-scroll + focus move to next beat.
+6. **Keyboard navigation (REQ-LX-04)** — j/k and Alt+↑/↓ beat nav (suppressed inside terminal/playground inputs).
+7. **State restore after page refresh** — beat already in viewport when page reloads (hydration).
+
+Read beat-model.md persistent-beat ruling (lines 169–255) — the steward's NARROW ratification. Key: the persistent requirement applies ONLY to beats with genuine session identity (terminal sessions, agent runs, session-backed SSE widgets) — NOT to playground beats whose SSE transport is request-scoped. The ruling explicitly states the compiler must read the `persistent` flag, never re-derive from `type`. Persistent beats stay mounted across beat transitions (REQ-LX-03), never `display:none`, never collapsed to zero height. The "any beat entering view" domain includes persistent beats viewed while already mounted AND non-persistent beats mounting/entering normally.
+
+Read frontend-platform.md — found reduced-motion preference (REQ-FP-03): "Given prefers-reduced-motion, when any navigation or celebration triggers motion, then instant jumps replace animations; no duration, no animation-fill-mode." Rail jump and keyboard nav use instant jumps under reduced motion, not smooth scroll. This does NOT create a new entry mode (the beat still enters view), but it does affect the mechanism.
+
+Read CONSTRAINTS.md and REJECTED.md — no contradictions. REJECTED.md line 57 confirms viewport/scroll gating was rejected; completion gates lesson status, not viewport. Line 59 confirms dwell-analytics-justified gates were rejected.
+
+ADR-0017 pattern: enumerate domain closed-world; testable per-mode obligations; decidable default for unenumerated; additive relaxation path.
+
+Precedents: ADR-0019 (SSE endpoints), ADR-0028 (delete verbs) — both enumerate closed-world and provide grep/test procedures per item.

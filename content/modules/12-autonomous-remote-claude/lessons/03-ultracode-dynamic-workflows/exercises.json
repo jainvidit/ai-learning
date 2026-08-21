@@ -1,0 +1,49 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-ultracode",
+    "title": "Quiz: Ultracode & Workflows",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-what",
+        "kind": "single",
+        "prompt": "What changes when you invoke ultracode (the keyword, or /effort ultracode)?",
+        "options": [
+          { "id": "a", "text": "Claude switches to a bigger model with a larger context window" },
+          { "id": "b", "text": "Claude writes a JS orchestration script that spawns and coordinates subagents, instead of doing the whole task turn by turn in the conversation" },
+          { "id": "c", "text": "Claude skips the permission system for speed" },
+          { "id": "d", "text": "Claude answers with more detailed prose" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Ultracode is a strategy shift, not a model swap: the task becomes a program. The script fans out subagents (up to ~1000 per workflow, ~16 concurrent), handles retries, and reports conclusions."
+      },
+      {
+        "id": "q2-why-script",
+        "kind": "single",
+        "prompt": "Why is a script coordinating 300 subagents better than the main session dispatching them from chat?",
+        "options": [
+          { "id": "a", "text": "Scripts run subagents on faster hardware" },
+          { "id": "b", "text": "The plan — queues, progress, retries — lives in code costing zero attention, and the context receives only conclusions; chat-based dispatch would drown the session in status updates" },
+          { "id": "c", "text": "Subagents refuse instructions that come from chat" },
+          { "id": "d", "text": "It avoids paying for the subagents' tokens" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Module 10's lesson, compounded: every dispatch and status line in chat spends attention budget. In a script, coordination state is just variables — and only the final summary enters context."
+      },
+      {
+        "id": "q3-decision",
+        "kind": "multi",
+        "prompt": "Which matches are right, per the lesson's decision table? (select all that apply)",
+        "options": [
+          { "id": "a", "text": "Reusable on-demand procedure → skill" },
+          { "id": "b", "text": "One messy search, details kept out of context → subagent" },
+          { "id": "c", "text": "Long-lived agents in distinct roles collaborating → agent team" },
+          { "id": "d", "text": "Any task with more than one step → ultracode workflow" }
+        ],
+        "correctOptionIds": ["a", "b", "c"],
+        "explanation": "Workflows earn their machinery at coordination scale — fan-out, batching, retries. A three-step task (d) needs no orchestration script; reaching for one is overhead, not leverage."
+      }
+    ]
+  }
+]

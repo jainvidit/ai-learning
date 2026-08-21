@@ -1,0 +1,64 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-system",
+    "title": "Check: system vs user prompts",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "What is a system prompt?",
+        "options": [
+          { "id": "a", "text": "The first message you type in any conversation" },
+          { "id": "b", "text": "Standing instructions given to the model before the conversation starts, shaping how it handles every message" },
+          { "id": "c", "text": "An error message from the operating system" },
+          { "id": "d", "text": "A prompt written by another AI" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The system prompt is the employee handbook: identity, standing rules, and conventions set before any user message arrives. Your first typed message is still a user prompt (a) — the system prompt was already there, usually invisible to you."
+      },
+      {
+        "id": "q2",
+        "kind": "multi",
+        "prompt": "Which instructions belong in the SYSTEM prompt rather than a user message? Select all that apply.",
+        "options": [
+          { "id": "a", "text": "\"You are a friendly cooking assistant for beginners\"" },
+          { "id": "b", "text": "\"Always give metric measurements alongside imperial ones\"" },
+          { "id": "c", "text": "\"Here's tonight's fridge contents: eggs, spinach, rice\"" },
+          { "id": "d", "text": "\"Never suggest recipes containing peanuts\"" },
+          { "id": "e", "text": "\"Make this one vegetarian\"" }
+        ],
+        "correctOptionIds": ["a", "b", "d"],
+        "explanation": "Identity (a), standing conventions (b), and permanent safety rules (d) apply to every request — handbook material. Tonight's fridge contents (c) and a one-off tweak (e) are this-request details: classic user-prompt content."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "A chatbot for a bank always refuses to discuss other banks and signs every message 'Your Trusty Bank Assistant'. Where does this behavior most likely come from?",
+        "options": [
+          { "id": "a", "text": "The model was specially trained only on that bank's documents" },
+          { "id": "b", "text": "The app's system prompt sets those standing rules for every conversation" },
+          { "id": "c", "text": "Coincidence — the model just tends to act that way" },
+          { "id": "d", "text": "Users voted on the personality" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Consistent per-product personality and rules are the fingerprint of a system prompt — the same base model powers wildly different products because each wraps it in different standing instructions. Full retraining (a) is rarely how personality gets set; it's the handbook, not the hiring."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-system",
+    "title": "Write the handbook",
+    "instructions": "Write a SYSTEM prompt (just the standing instructions — no specific request) for an assistant that helps a small bakery answer customer emails. It must (1) define the assistant's identity and voice (e.g. warm, homey, brief), (2) set at least two standing rules that apply to every email (e.g. always thank the customer; never promise custom orders without saying the owner will confirm), (3) define a standard output convention (e.g. greeting line, body under 120 words, sign-off as 'The Rosewood Bakery Team'), and (4) include one boundary — something the assistant must never do (e.g. never share the recipe secrets, never discuss competitor bakeries). Write ONLY the system prompt, as if it will be installed for thousands of future emails. When you run it, the model has been asked to demonstrate how it would reply to a sample complaint email under your rules.",
+    "systemPrompt": "The user is composing a SYSTEM PROMPT for a bakery email assistant, as a prompting exercise. Treat their entire message as that system prompt. Adopt it, then demonstrate it by replying to this sample customer email under those rules: 'Hi, I ordered a dozen lemon tarts for Saturday and they arrived crushed. I'm really disappointed — this was for my mother's birthday. What can you do?' If their system prompt is missing rules, follow only what it actually says.",
+    "rubric": [
+      { "id": "identity", "description": "The system prompt defines the assistant's identity and voice.", "weight": 25 },
+      { "id": "rules", "description": "The system prompt sets at least two standing rules that apply to every email.", "weight": 30 },
+      { "id": "convention", "description": "The system prompt defines an output convention (structure, length, or sign-off).", "weight": 25 },
+      { "id": "boundary", "description": "The system prompt includes at least one thing the assistant must never do.", "weight": 20 }
+    ],
+    "passingScore": 70
+  }
+]

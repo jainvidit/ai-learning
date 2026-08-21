@@ -1,0 +1,72 @@
+---
+id: 01-subagents
+title: "Subagents: Delegate the Mess"
+minutes: 14
+objectives:
+  - Recognize the Agent/Task tool as part of Claude's toolkit
+  - Write a clear delegation brief with question, scope, and return contract
+  - Identify tasks worth delegating versus tasks better handled directly
+  - Observe context isolation in action through a delegated search
+---
+
+## From Principle to Tool
+
+In Module 10, you learned WHY context isolation matters: it keeps Claude's attention focused on what's essential, not buried under dumps from exploratory searches. Now you'll see the machinery that delivers it.
+
+In Claude Code, delegation isn't abstract—it's a **tool call**. Just like Claude has Read, Bash, and Edit tools, it also has an **Agent** (or **Task**) tool. When Claude uses this tool, it spawns a completely separate Claude session with its own empty context. That subagent executes the task defined in a brief, and when it's done, only its final conclusion returns to the main session—no intermediate file reads, no search noise, just the answer.
+
+This is isolation for breadth. The subagent does the messy exploration; the main agent gets a compact summary.
+
+## What a Good Brief Looks Like
+
+A subagent starts with zero context. It hasn't seen your conversation, doesn't know what you're working on, and can't ask clarifying questions mid-flight. Everything it needs must be in the **delegation brief**.
+
+A good brief has three parts:
+
+1. **The question**: What exactly are you asking the subagent to find or investigate?
+2. **The scope**: Where should it look, and what should it skip?
+3. **The return contract**: What format should the answer take—and critically, what should it NOT include?
+
+Here's a comparison:
+
+**Bad brief:** "Look around the repo and tell me everything interesting."
+
+- No question, no scope, no return contract. The subagent will read files at random and paste whatever it finds.
+
+**Good brief:** "Find where user authentication is implemented. Search `src/` (skip tests). Return the key file paths and a one-paragraph summary of the flow—do not paste whole files."
+
+- Clear question (auth implementation)
+- Bounded scope (src/, not tests)
+- Return contract that forbids dumps (paths + paragraph, no file contents)
+
+The return contract is the anti-pollution fence. Without it, the subagent will import exactly the noise you delegated to avoid.
+
+## When Claude Delegates on Its Own
+
+For broad searches or surveys, Claude Code often reaches for the Agent tool unprompted. You'll see a badge appear in the tool list, then a pause while the subagent works, then a compact answer.
+
+You can also steer delegation explicitly: "Use a subagent to find all the places we log errors" or "Delegate a sweep of the API layer to map how validation works." Directing the tool is part of prompting effectively.
+
+<Callout kind="tip">
+If you notice Claude reading dozens of files during a search, try asking: "Can you delegate that sweep to a subagent instead?" It's a way to enforce your own isolation discipline.
+</Callout>
+
+## Costs and Limits
+
+Delegation isn't free. A subagent is a **full model session**: it costs tokens, takes time, and runs independently. It can't ask you questions, can't see your conversation history, and starts completely fresh every time.
+
+Use delegation when the task has **breadth**—sweeping a directory, surveying multiple services, exploring several hypotheses in parallel. Don't delegate a single small file you already know the path to. For that, just reading it directly is cheaper and faster.
+
+The isolation overhead pays for itself when it keeps your main context clean.
+
+<Exercise id="quiz-subagents" />
+
+## See It in Action
+
+The terminal exercise below gives you a real sandbox with Claude Code running inside. You'll ask Claude to delegate a search and watch the Agent tool appear, then observe how little of the exploration pollutes your main session.
+
+<Exercise id="term-delegate-search" />
+
+---
+
+**Next:** MCP servers extend Claude's reach beyond the filesystem—connecting to databases, browsers, and any tool that speaks the Model Context Protocol.

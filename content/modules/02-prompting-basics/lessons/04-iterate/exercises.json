@@ -1,0 +1,62 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-iterate",
+    "title": "Check: iterating",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "The answer you got was decent but too formal. What's the most effective follow-up?",
+        "options": [
+          { "id": "a", "text": "\"Try again.\"" },
+          { "id": "b", "text": "\"That's wrong.\"" },
+          { "id": "c", "text": "\"Keep the structure and the second point, but rewrite it in a casual, friendly voice — like a message to a coworker you like.\"" },
+          { "id": "d", "text": "Repeat your original prompt with more exclamation marks" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Option c names what to keep AND what to change, with a concrete target for the new tone. \"Try again\" (a) and \"that's wrong\" (b) add zero information, so the model just re-rolls — you learned in module 01 that reruns vary randomly, not intelligently."
+      },
+      {
+        "id": "q2",
+        "kind": "single",
+        "prompt": "Why can a follow-up message be much shorter than your first prompt?",
+        "options": [
+          { "id": "a", "text": "The model gets smarter as the conversation goes on" },
+          { "id": "b", "text": "Everything already said in the conversation is still in front of the model, so follow-ups build on it" },
+          { "id": "c", "text": "Short messages are processed faster and more accurately" },
+          { "id": "d", "text": "It can't — every message must repeat the full request" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The whole conversation so far is the model's working context, so \"make the middle section shorter\" is fully understandable. The model isn't getting smarter (a) — it just has more of your intent in view. Speed (c) is irrelevant to quality here."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "You've corrected the model four times and it keeps drifting back to the same mistakes. Best move?",
+        "options": [
+          { "id": "a", "text": "Keep correcting — the fifth time is the charm" },
+          { "id": "b", "text": "Start a fresh conversation with a new prompt that includes everything you learned to specify" },
+          { "id": "c", "text": "Conclude the task is impossible for AI" },
+          { "id": "d", "text": "Ask the model why it is being difficult" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "A long conversation full of wrong turns keeps steering predictions back toward those wrong turns. A fresh start with an upgraded prompt — specific, with context and format baked in — usually beats a fifth correction (a). The failure taught you the spec; use it."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-iterate",
+    "title": "Fix the draft with targeted feedback",
+    "instructions": "Imagine you asked for a short bio for your neighborhood book-club page and got this draft:\n\n\"Jordan Lee is a dynamic, passionate, results-oriented individual who loves leveraging literature to synergize community engagement. With a plethora of books under their belt, Jordan is a true bibliophile extraordinaire.\"\n\nIt's buzzword soup. Write ONE follow-up message that iterates on it. Your message must (1) name at least one thing to keep (e.g. the length, mentioning community), (2) name at least two specific problems to fix (e.g. buzzwords like 'synergize', the boastful tone), (3) give a concrete direction for the rewrite (target tone, audience, or an example phrase), and (4) state the length you want.",
+    "rubric": [
+      { "id": "keep", "description": "The message names at least one specific thing from the draft to keep.", "weight": 20 },
+      { "id": "problems", "description": "The message identifies at least two specific problems with the draft (naming words or qualities, not just 'make it better').", "weight": 35 },
+      { "id": "direction", "description": "The message gives a concrete direction for the rewrite: a target tone, audience, or example phrasing.", "weight": 30 },
+      { "id": "length", "description": "The message states a desired length.", "weight": 15 }
+    ],
+    "passingScore": 70
+  }
+]

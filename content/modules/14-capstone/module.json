@@ -1,0 +1,13 @@
+{
+  "id": "14-capstone",
+  "title": "Capstone: Build with Everything",
+  "track": "claude-code",
+  "description": "One project, five stages, everything you've learned. You'll take a bare repo to a working CLI journal app: write its CLAUDE.md, scaffold code until the tests go green, teach it a skill, wire a hook, and finish with a goal-driven feature — graded at the end on whether your context hygiene survived the whole build.",
+  "lessons": [
+    { "id": "01-claudemd-first", "title": "Stage 1: CLAUDE.md First" },
+    { "id": "02-green-the-tests", "title": "Stage 2: Green the Tests" },
+    { "id": "03-teach-it-a-skill", "title": "Stage 3: Teach It a Skill" },
+    { "id": "04-wire-a-hook", "title": "Stage 4: Wire a Hook" },
+    { "id": "05-goal-finale", "title": "Stage 5: The Goal-Driven Finale" }
+  ]
+}

@@ -1,0 +1,43 @@
+---
+id: 04-remote-claude
+title: "Remote Claude: Three Tiers"
+minutes: 10
+objectives:
+  - Name the three tiers of remote Claude and where each runs
+  - State what code each tier can see and how results are delivered
+  - Explain what --resume carries across contexts
+---
+
+## Tier 1: local CLI
+
+Everything so far: `claude` in your terminal, working on YOUR files, with your permission settings. Full power, zero distance — you must be at the machine.
+
+## Tier 2: Claude Code on the web
+
+Sessions run on Anthropic's cloud infrastructure against a FRESH CLONE of your connected repo — not your working tree. Start a task from a browser tab, close the laptop, come back to a proposed change. The fresh-clone detail matters: uncommitted local changes don't exist there; work lands as branches/PRs, not edits to your disk.
+
+This is what makes machine-off execution possible — and why you can't ask the web tier to "fix that typo I just made but haven't committed."
+
+## Tier 3: Remote Control
+
+`/remote-control` in a LOCAL session generates a pairing QR code / link; from a browser or your phone you attach to that very session — same working tree, same context, your machine does the work while you steer from the sofa or the train. Distance for your hands, not for the session.
+
+The session stays local; only your input and the display travel over the wire.
+
+## The connective tissue: `--resume`
+
+Sessions are addressable and portable (module 09 taught local resume). In current versions you can resume across surfaces — pick up in the CLI a session you started elsewhere. The session (context, decisions, progress) is the durable thing; the surface is just a window onto it.
+
+This is why module 10's context hygiene matters: you resume the rot along with the progress.
+
+## Choosing
+
+- **Local** for your uncommitted mess and full tooling
+- **Web** for fire-and-forget tasks on committed code
+- **Remote control** for "my machine, my session, but I'm not at the desk"
+
+<Callout kind="info">
+This lesson is conceptual — practice happens on your own machine and account, not in this app's sandboxed terminal.
+</Callout>
+
+<Exercise id="quiz-remote-tiers" />

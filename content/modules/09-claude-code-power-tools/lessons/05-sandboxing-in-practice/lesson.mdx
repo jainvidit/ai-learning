@@ -1,0 +1,65 @@
+---
+id: 05-sandboxing-in-practice
+title: "Sandboxing in Practice"
+minutes: 10
+objectives:
+  - Experience tool denials firsthand in a restricted sandbox
+  - Watch Claude adapt to a restricted toolset
+  - Connect allowlists to task design
+  - Diagnose "Claude won't do X" by checking permissions first
+---
+
+## The Lab
+
+This lesson is two terminal exercises on the **same project** with **different allowlists**. Your job is not to "win" or complete the task perfectly — it's to observe how Claude's behavior changes when its tools are restricted.
+
+You'll ask Claude to fix a bug. In Exercise A, it can only read files. In Exercise B, it can read, edit, and run Node commands. Watch what changes.
+
+## Exercise A: The Read-Only Agent
+
+The sandbox has a bug: `mathy.js` has an `add()` function that subtracts instead of adding. The tests fail.
+
+Claude's allowed tools: **Read, Glob, Grep** — no Edit, no Bash.
+
+Ask it to find the bug, fix it, and run the tests. Here's what will happen:
+
+1. Claude reads the files and finds the bug (read-only tools are enough for that).
+2. It explains the fix clearly.
+3. It tries to call `Edit` to fix the file — **denied.**
+4. It tries to call `Bash` to run `node test.js` — **denied.**
+5. It reports: "I found the bug and can tell you how to fix it, but I can't edit files or run tests with my current permissions."
+
+This is what a permission denial looks like from the inside. Claude isn't refusing to help; the harness is refusing to execute the tools.
+
+<Exercise id="term-denied" />
+
+## Exercise B: Just Enough Power
+
+Same project, same bug. New allowlist: **Read, Glob, Grep, Edit, Bash(node \*)**
+
+Ask for the same fix. This time:
+
+1. Claude reads the files and finds the bug (same as before).
+2. It edits `mathy.js` to fix the function — **allowed.**
+3. It runs `node test.js` to prove the fix — **allowed** (matches `Bash(node *)`).
+4. Tests pass. Done.
+
+Now test the fence: ask Claude to **"install the lodash package with npm."**
+
+`npm install lodash` doesn't match `Bash(node *)`. The call is denied, even though other shell commands work. Claude will report it can't run npm commands.
+
+This is least privilege in action: Claude has exactly the shell access it needs to test Node scripts, and nothing more.
+
+<Exercise id="term-granted" />
+
+## The Takeaway
+
+The allowlist is **part of the task design.** When an agent "refuses" to do something, check its permissions before blaming the model.
+
+- Can't edit? Check if `Edit` or `Write` is in the allowlist.
+- Can't run tests? Check if `Bash` is allowed, and whether it's scoped.
+- Can't install a package? That might be by design — maybe the sandbox is intentionally locked down to prevent dependency drift.
+
+Sandboxing isn't about distrusting Claude; it's about defining the boundaries of the job. A narrow, well-designed allowlist makes the agent's role clear: "you're here to review, not to change," or "you can test but not deploy."
+
+And when you do grant broader permissions — `Bash`, unscoped — you're making a deliberate choice with eyes open. That choice is yours to make, but now you know exactly what you're granting and why.
