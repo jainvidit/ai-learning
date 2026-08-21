@@ -5,17 +5,36 @@ import { APIProfileStorage, APIProgressStorage } from "./api-storage";
 let browserProfileStorage: IProfileStorage | null = null;
 let browserProgressStorage: IProgressStorage | null = null;
 
-function getStorageMode(): "api" | "browser" {
-  // Server-side: always use API
-  if (typeof window === "undefined") return "api";
+// MongoDB storage (server-side only)
+let mongoProfileStorage: IProfileStorage | null = null;
+let mongoProgressStorage: IProgressStorage | null = null;
 
-  // Browser: check env var or default to "browser"
+function getStorageMode(): "browser" | "mongodb" | "api" {
+  // Server-side logic
+  if (typeof window === "undefined") {
+    // On Vercel: use MongoDB if URI is set
+    if (process.env.MONGODB_URI) {
+      return "mongodb";
+    }
+    // Local dev: fall back to API
+    return "api";
+  }
+
+  // Browser: use browser storage by default
   const mode = process.env.NEXT_PUBLIC_STORAGE_MODE || "browser";
-  return mode as "api" | "browser";
+  return mode as "browser" | "api";
 }
 
 export function getProfileStorage(): IProfileStorage {
   const mode = getStorageMode();
+
+  if (mode === "mongodb") {
+    if (!mongoProfileStorage) {
+      const { MongoDBProfileStorage } = require("./mongodb-storage");
+      mongoProfileStorage = new MongoDBProfileStorage();
+    }
+    return mongoProfileStorage;
+  }
 
   if (mode === "api") {
     return new APIProfileStorage();
@@ -31,6 +50,14 @@ export function getProfileStorage(): IProfileStorage {
 
 export function getProgressStorage(): IProgressStorage {
   const mode = getStorageMode();
+
+  if (mode === "mongodb") {
+    if (!mongoProgressStorage) {
+      const { MongoDBProgressStorage } = require("./mongodb-storage");
+      mongoProgressStorage = new MongoDBProgressStorage();
+    }
+    return mongoProgressStorage;
+  }
 
   if (mode === "api") {
     return new APIProgressStorage();
