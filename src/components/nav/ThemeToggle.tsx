@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { ThemePreference } from "@/lib/schema";
 
-type Theme = "light" | "dark" | "system";
+type Theme = ThemePreference;
 
 function applyTheme(theme: Theme) {
   const prefersDark = window.matchMedia(
@@ -12,13 +13,26 @@ function applyTheme(theme: Theme) {
   document.documentElement.classList.toggle("dark", dark);
 }
 
-export default function ThemeToggle() {
+export default function ThemeToggle({
+  profileId,
+  profileTheme,
+}: {
+  /** Active profile's id, so a change can be persisted server-side. Absent when no profile is picked yet. */
+  profileId?: string;
+  /** Active profile's persisted theme, if any — takes precedence over the localStorage cache. */
+  profileTheme?: ThemePreference;
+}) {
   const [theme, setTheme] = useState<Theme>("system");
 
   useEffect(() => {
-    const stored = (localStorage.getItem("theme") as Theme) ?? "system";
+    // The profile's persisted choice (if set) is the source of truth; the
+    // localStorage value is just a fast, pre-hydration cache (see layout.tsx).
+    const stored =
+      profileTheme ?? (localStorage.getItem("theme") as Theme) ?? "system";
     setTheme(stored);
     applyTheme(stored);
+    localStorage.setItem("theme", stored);
+
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
     const onChange = () => {
       if ((localStorage.getItem("theme") ?? "system") === "system") {
@@ -27,12 +41,24 @@ export default function ThemeToggle() {
     };
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
-  }, []);
+    // profileId intentionally omitted: switching profiles re-mounts Sidebar
+    // (and this component) via the server, so a fresh profileTheme prop
+    // already triggers this effect.
+  }, [profileTheme]);
 
   function select(next: Theme) {
     setTheme(next);
     localStorage.setItem("theme", next);
     applyTheme(next);
+    if (profileId) {
+      fetch(`/api/profiles/${profileId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ theme: next }),
+      }).catch(() => {
+        // Best-effort persistence; the local choice already applied above.
+      });
+    }
   }
 
   const options: { value: Theme; label: string; title: string }[] = [

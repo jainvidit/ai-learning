@@ -382,12 +382,17 @@ export function emptyProgress(): ProgressStore {
 
 // ---------- Profiles ----------
 
+export const ThemePreferenceSchema = z.enum(["light", "dark", "system"]);
+export type ThemePreference = z.infer<typeof ThemePreferenceSchema>;
+
 export interface Profile {
   id: string;
   name: string;
   avatarColor: string;
   createdAt: string;
   lastActiveAt: string;
+  /** Persisted UI theme choice. Absent means "system" (never set). */
+  theme?: ThemePreference;
 }
 
 export interface ProfileRegistry {

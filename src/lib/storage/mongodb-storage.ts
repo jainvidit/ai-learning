@@ -1,17 +1,8 @@
-import crypto from "node:crypto";
 import { MongoClient, Db, Collection } from "mongodb";
-import type { Profile, ProfileRegistry, ProgressStore } from "@/lib/schema";
+import type { Profile, ProfileRegistry, ProgressStore, ThemePreference } from "@/lib/schema";
 import type { IProfileStorage, IProgressStorage } from "./interfaces";
 import { emptyProgress } from "@/lib/schema";
-
-const AVATAR_COLORS = [
-  "#6366f1",
-  "#10b981",
-  "#f59e0b",
-  "#ef4444",
-  "#8b5cf6",
-  "#06b6d4",
-];
+import { buildNewProfile, createWriteQueue } from "./shared";
 
 let mongoClient: MongoClient | null = null;
 let db: Db | null = null;
@@ -55,16 +46,7 @@ export class MongoDBProfileStorage implements IProfileStorage {
   async createProfile(name: string): Promise<Profile> {
     const collection = await this.getProfiles();
     const registry = await this.loadRegistry();
-
-    const profile: Profile = {
-      id: crypto.randomUUID().slice(0, 8),
-      name: name.trim().slice(0, 40),
-      avatarColor:
-        AVATAR_COLORS[registry.profiles.length % AVATAR_COLORS.length],
-      createdAt: new Date().toISOString(),
-      lastActiveAt: new Date().toISOString(),
-    };
-
+    const profile = buildNewProfile(name, registry.profiles.length);
     await collection.insertOne(profile);
     return profile;
   }
@@ -85,6 +67,11 @@ export class MongoDBProfileStorage implements IProfileStorage {
     );
   }
 
+  async setProfileTheme(id: string, theme: ThemePreference): Promise<void> {
+    const collection = await this.getProfiles();
+    await collection.updateOne({ id }, { $set: { theme } });
+  }
+
   async deleteProfile(id: string): Promise<void> {
     const collection = await this.getProfiles();
     await collection.deleteOne({ id });
@@ -99,7 +86,7 @@ export class MongoDBProfileStorage implements IProfileStorage {
 type ProgressDoc = ProgressStore & { profileId: string };
 
 export class MongoDBProgressStorage implements IProgressStorage {
-  private writeLock: Promise<void> = Promise.resolve();
+  private readonly enqueue = createWriteQueue();
 
   private async getProgressCollection(): Promise<Collection<ProgressDoc>> {
     const database = await getDatabase();
@@ -143,16 +130,11 @@ export class MongoDBProgressStorage implements IProgressStorage {
     profileId: string,
     mutate: (store: ProgressStore) => void
   ): Promise<ProgressStore> {
-    const result = this.writeLock.then(async () => {
+    return this.enqueue(async () => {
       const store = await this.loadProgress(profileId);
       mutate(store);
       await this.save(profileId, store);
       return store;
     });
-    this.writeLock = result.then(
-      () => undefined,
-      () => undefined
-    );
-    return result;
   }
 }

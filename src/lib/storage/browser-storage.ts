@@ -1,20 +1,12 @@
 "use client";
 
-import crypto from "node:crypto";
-import type { Profile, ProfileRegistry, ProgressStore } from "@/lib/schema";
+import type { Profile, ProfileRegistry, ProgressStore, ThemePreference } from "@/lib/schema";
 import type { IProfileStorage, IProgressStorage } from "./interfaces";
 import { emptyProgress } from "@/lib/schema";
+import { buildNewProfile, createWriteQueue } from "./shared";
 
 const PROFILES_KEY = "ai-learning:profiles";
 const PROGRESS_KEY = "ai-learning:progress";
-const AVATAR_COLORS = [
-  "#6366f1",
-  "#10b981",
-  "#f59e0b",
-  "#ef4444",
-  "#8b5cf6",
-  "#06b6d4",
-];
 
 export class BrowserProfileStorage implements IProfileStorage {
   async loadRegistry(): Promise<ProfileRegistry> {
@@ -37,14 +29,7 @@ export class BrowserProfileStorage implements IProfileStorage {
 
   async createProfile(name: string): Promise<Profile> {
     const registry = await this.loadRegistry();
-    const profile: Profile = {
-      id: crypto.randomUUID().slice(0, 8),
-      name: name.trim().slice(0, 40),
-      avatarColor:
-        AVATAR_COLORS[registry.profiles.length % AVATAR_COLORS.length],
-      createdAt: new Date().toISOString(),
-      lastActiveAt: new Date().toISOString(),
-    };
+    const profile = buildNewProfile(name, registry.profiles.length);
     registry.profiles.push(profile);
     await this.saveRegistry(registry);
     return profile;
@@ -60,6 +45,15 @@ export class BrowserProfileStorage implements IProfileStorage {
     const profile = registry.profiles.find((p) => p.id === id);
     if (profile) {
       profile.lastActiveAt = new Date().toISOString();
+      await this.saveRegistry(registry);
+    }
+  }
+
+  async setProfileTheme(id: string, theme: ThemePreference): Promise<void> {
+    const registry = await this.loadRegistry();
+    const profile = registry.profiles.find((p) => p.id === id);
+    if (profile) {
+      profile.theme = theme;
       await this.saveRegistry(registry);
     }
   }
@@ -90,7 +84,7 @@ export class BrowserProfileStorage implements IProfileStorage {
 }
 
 export class BrowserProgressStorage implements IProgressStorage {
-  private writeLock: Promise<void> = Promise.resolve();
+  private readonly enqueue = createWriteQueue();
 
   private progressKey(profileId: string): string {
     return `${PROGRESS_KEY}:${profileId}`;
@@ -121,16 +115,11 @@ export class BrowserProgressStorage implements IProgressStorage {
     profileId: string,
     mutate: (store: ProgressStore) => void
   ): Promise<ProgressStore> {
-    const result = this.writeLock.then(async () => {
+    return this.enqueue(async () => {
       const store = await this.loadProgress(profileId);
       mutate(store);
       await this.save(profileId, store);
       return store;
     });
-    this.writeLock = result.then(
-      () => undefined,
-      () => undefined
-    );
-    return result;
   }
 }

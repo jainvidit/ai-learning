@@ -1,4 +1,4 @@
-import type { Profile, ProfileRegistry, ProgressStore } from "@/lib/schema";
+import type { Profile, ProfileRegistry, ProgressStore, ThemePreference } from "@/lib/schema";
 
 export interface IProfileStorage {
   loadRegistry(): Promise<ProfileRegistry>;
@@ -6,6 +6,7 @@ export interface IProfileStorage {
   getProfile(id: string): Promise<Profile | undefined>;
   touchProfile(id: string): Promise<void>;
   deleteProfile(id: string): Promise<void>;
+  setProfileTheme(id: string, theme: ThemePreference): Promise<void>;
 }
 
 export interface IProgressStorage {

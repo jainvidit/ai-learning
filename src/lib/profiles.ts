@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { getProfileStorage } from "@/lib/storage";
-import type { Profile, ProfileRegistry } from "./schema";
+import type { Profile, ProfileRegistry, ThemePreference } from "./schema";
 
 export const PROFILE_COOKIE = "profileId";
 
@@ -20,6 +20,13 @@ export async function getProfile(id: string): Promise<Profile | undefined> {
 
 export async function touchProfile(id: string): Promise<void> {
   return storage.touchProfile(id);
+}
+
+export async function setProfileTheme(
+  id: string,
+  theme: ThemePreference
+): Promise<void> {
+  return storage.setProfileTheme(id, theme);
 }
 
 export async function deleteProfile(id: string): Promise<void> {
