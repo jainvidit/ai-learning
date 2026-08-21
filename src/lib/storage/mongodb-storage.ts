@@ -19,9 +19,9 @@ let db: Db | null = null;
 async function getDatabase(): Promise<Db> {
   if (db) return db;
 
-  const uri = process.env.MONGODB_URI;
+  const uri = process.env.MONGO_DB_MONGODB_URI;
   if (!uri) {
-    throw new Error("MONGODB_URI environment variable not set");
+    throw new Error("MONGO_DB_MONGODB_URI environment variable not set");
   }
 
   if (!mongoClient) {

@@ -12,8 +12,8 @@ let mongoProgressStorage: IProgressStorage | null = null;
 function getStorageMode(): "browser" | "mongodb" | "api" {
   // Server-side logic
   if (typeof window === "undefined") {
-    // On Vercel: use MongoDB if URI is set
-    if (process.env.MONGODB_URI) {
+    // On Vercel: use MongoDB if URI is set (Vercel's env var name)
+    if (process.env.MONGO_DB_MONGODB_URI) {
       return "mongodb";
     }
     // Local dev: fall back to API
