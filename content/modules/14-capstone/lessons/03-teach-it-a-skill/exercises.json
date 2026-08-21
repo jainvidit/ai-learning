@@ -1,0 +1,21 @@
+[
+  {
+    "type": "challenge",
+    "id": "challenge-skill",
+    "title": "Challenge: The journal-entry Skill",
+    "instructions": "Have Claude Code create .claude/skills/journal-entry/SKILL.md. It needs (1) a frontmatter-style header with a name (journal-entry) and a one-to-two-sentence description that says when to use it (adding a new entry to the journal correctly); (2) a body of numbered step instructions: validate the entry text (non-empty, trimmed), add it via the add function, confirm it appears (list or search), and run node tests/journal.test.js to confirm nothing broke. Keep it tight — a skill is a procedure card, not an essay. Click Verify when the file reads like something a fresh Claude session could follow without any other context.",
+    "sandboxTemplate": "m14-capstone",
+    "allowedTools": "Read,Glob,Grep,Write,Edit",
+    "maxTurns": 10,
+    "verifierId": "m14-skill",
+    "criteria": [
+      ".claude/skills/journal-entry/SKILL.md exists",
+      "The file is a valid skill: frontmatter-style name and description, followed by step instructions a fresh session could follow"
+    ],
+    "hints": [
+      "Give Claude the exact path: .claude/skills/journal-entry/SKILL.md — the directory name and the frontmatter name should match.",
+      "The description is what makes the skill discoverable: 'Use when adding a new entry to the journal' beats 'a helpful skill'.",
+      "Structure: --- name/description block ---, then 4-5 numbered steps: validate text, call add, confirm with list/search, run the test suite."
+    ]
+  }
+]

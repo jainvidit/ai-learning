@@ -1,0 +1,13 @@
+{
+  "id": "12-autonomous-remote-claude",
+  "title": "Autonomous & Remote Claude",
+  "track": "claude-code",
+  "description": "Claude that keeps going without you. Drive a session with /goal until a judge model says the condition is met, poll with /loop and compare scheduled tasks to cloud routines, let ultracode write orchestration scripts that coordinate hundreds of subagents, reach your sessions from anywhere with three tiers of remote Claude, and survey the ecosystem from GitHub @claude to third-party agent gateways.",
+  "lessons": [
+    { "id": "01-goal-driven-sessions", "title": "Goal-Driven Sessions: /goal" },
+    { "id": "02-loop-and-schedules", "title": "/loop & Scheduled Tasks" },
+    { "id": "03-ultracode-dynamic-workflows", "title": "Ultracode & Dynamic Workflows" },
+    { "id": "04-remote-claude", "title": "Remote Claude: Three Tiers" },
+    { "id": "05-claude-in-your-repos", "title": "Claude in Your Repos & the Ecosystem" }
+  ]
+}

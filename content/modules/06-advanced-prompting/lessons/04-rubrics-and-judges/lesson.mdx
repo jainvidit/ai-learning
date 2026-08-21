@@ -1,0 +1,57 @@
+---
+id: 04-rubrics-and-judges
+title: "Rubrics & Judges: How This App Grades You"
+minutes: 14
+objectives:
+  - Explain the LLM-as-judge pattern in plain language
+  - Explain how this app's playgrounds have graded you since module 02
+  - Write observable rubric criteria and sensible weights
+  - Write a prompt that deliberately satisfies every criterion of a given rubric
+---
+
+Time to pull back the curtain. Every playground exercise since module 02 ended with a graded checklist. Who graded you? Not a human — another AI. Meet your teacher.
+
+## The rubric
+
+A **rubric** is a list of **criteria**, each with a **weight**. Weights sum to 100 — it's the grading sheet a teacher fills in.
+
+Here's a real rubric from this module (lesson 03's persona exercise). You were graded on exactly this:
+
+| Criterion | Description | Weight |
+|-----------|-------------|--------|
+| expertise | The persona defines specific expertise: domain, depth, and a specialty | 25 |
+| audience | The persona defines the audience it is speaking to | 25 |
+| constraints | The persona sets at least two standing behavioral constraints | 30 |
+| boundary | The persona includes at least one boundary where it defers or declines | 20 |
+
+## The LLM-as-judge pattern
+
+The app hands a second model your prompt, the rubric, and instructions to return met/not-met per criterion with feedback. A judge with a grading sheet — the same trick that grades essays, code reviews, and quality checks across the AI industry.
+
+## Observable criteria
+
+The key design rule: judges are only reliable when criteria are OBSERVABLE — checkable by pointing at the text. "The prompt names a specific audience" is checkable. "The prompt is good" is a vibe.
+
+Notice every rubric in this app judges your PROMPT text, never the model's reply. The reply varies run to run; your prompt is the stable evidence.
+
+## Weights are priorities
+
+The core skill weighs most, and the passing score is set so you can miss the lowest-weight criterion and still pass. Deliberate design, not accident.
+
+## Rubric-aware prompting
+
+Flip it around: when you know the grading sheet, satisfy it explicitly, criterion by criterion. This is also how experts work with AI — state your own success criteria IN the prompt and ask the model to check its answer against them before finishing.
+
+<Callout kind="info">
+Judges aren't perfect — they're models too, and can misread. That's why good rubrics stick to observable criteria and why real systems spot-check the judge. Module 13 goes deep on writing evaluation rubrics for production.
+</Callout>
+
+<Exercise id="quiz-rubrics" />
+
+<Exercise id="pg-beat-rubric" />
+
+## What you've learned
+
+This module gave you four advanced techniques: extended thinking (the whiteboard hour), prompt chaining (relay races with clean batons), full personas (character sheets, not costumes), and rubric-aware prompting (grade sheet in hand).
+
+The prompting track continues in module 10 (context engineering). Module 13 is where you'll design rubrics and evals yourself.

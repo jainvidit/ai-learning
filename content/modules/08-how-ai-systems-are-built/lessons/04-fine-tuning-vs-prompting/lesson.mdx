@@ -1,0 +1,102 @@
+---
+id: 04-fine-tuning-vs-prompting
+title: "Fine-Tuning vs Prompting"
+minutes: 9
+objectives:
+  - Define fine-tuning and explain what it changes in the model
+  - "Follow the decision ladder: prompt → few-shot → RAG → fine-tune"
+  - Identify when fine-tuning is the wrong tool (especially for changing facts)
+  - Choose the right approach for a given problem
+---
+
+## What Is Fine-Tuning?
+
+You've learned that **prompting** changes what goes into the context — system instructions, few-shot examples, retrieved documents. The model itself stays the same; only the input changes.
+
+**Fine-tuning** is different. It **continues training** an existing model on your own examples, so the model's internal **weights** shift. You're teaching the model new patterns by adjusting the numbers inside it.
+
+Think of it this way:
+- **Prompting** is handing the model a cheat sheet before every question.
+- **Fine-tuning** is drilling the model on practice tests until it internalizes the patterns.
+
+Fine-tuning changes **behavior, style, and format** reliably. It's much weaker at adding **facts** — facts belong in RAG, not weights.
+
+<Callout kind="warning">
+Fine-tuning for knowledge is like tattooing your calendar on your arm. It's permanent, hard to update, and quickly stale. Use RAG for anything that changes.
+</Callout>
+
+## The Ladder: When to Climb Each Rung
+
+When you want to change model behavior, try techniques in this order. Each rung costs roughly **10x the previous** in time, money, and complexity:
+
+### 1. Better Prompt (minutes, free)
+
+Start here. Write a clearer system prompt. Add specific instructions. Define the role. Modules 02–04 taught you this — and you got production-grade behavior from it. The judge that graded you? Pure prompting, no fine-tuning.
+
+**Try this first, always.** Most problems die here.
+
+### 2. Few-Shot Examples (minutes)
+
+If the prompt alone isn't enough, add 2–5 examples of the exact input-output pattern you want. Show, don't just tell. This is still prompting — you're just making the cheat sheet better.
+
+### 3. RAG (days to set up, cheap per call)
+
+If the model needs access to changing knowledge (your docs, your catalog, your support history), build a retrieval index. Chunk, embed, store. At call time, retrieve and stuff the prompt.
+
+RAG is for **facts you can't bake into the model**. It updates instantly when your documents change.
+
+### 4. Fine-Tuning (weeks, ongoing retraining cost)
+
+Only climb to this rung when the first three can't solve it. Fine-tuning requires:
+
+- **A training dataset** of hundreds or thousands of labeled examples
+- **Evaluation** to measure improvement
+- **Retraining** every time the base model upgrades (and they upgrade often)
+- **Weeks of iteration** to get it right
+
+Fine-tuning makes sense when you need:
+- **Locked output formats** at massive scale, where every prompt token counts
+- **Consistent brand voice** that prompting can't reliably hold
+- **Latency/cost savings** by replacing a large prompted model with a smaller fine-tuned one
+
+But for most teams, **most of the time, the ladder stops at rung 2 or 3**.
+
+## When Fine-Tuning Is Wrong
+
+Here's a quick test: if the answer is "it depends on this week's data," **don't fine-tune.**
+
+### Example: Product Catalog
+
+Your company's product catalog changes every week. You want the AI to answer customer questions about it.
+
+- ❌ **Fine-tune the model on the catalog every week.** Expensive, slow, and you're always a week behind.
+- ✅ **RAG: index the catalog and retrieve relevant entries per question.** Update the index in seconds when the catalog changes.
+
+Fine-tuning bakes knowledge into weights. Weights are the wrong place for anything that changes. Facts belong in retrieval.
+
+### Example: Tone Is Inconsistent
+
+A teammate says, "Our AI's tone is all over the place. Let's fine-tune!"
+
+- ❌ **Jump to fine-tuning** without trying cheaper options.
+- ✅ **Climb the ladder**: improve the system prompt ("You are professional, concise, and warm — never sarcastic or robotic"). Add 2–3 few-shot examples of the desired tone. Test.
+
+Tone is often fixable with **prompting alone** — the same techniques you practiced in modules 02–04. Fine-tuning is a last resort, not a first move.
+
+## When Fine-Tuning Wins
+
+Fine-tuning genuinely shines for:
+
+1. **Strict output formats across millions of calls.** You need JSON with a specific schema, every time, and you're making so many calls that shaving 50 tokens off the system prompt saves thousands of dollars.
+2. **Brand voice that prompting can't lock down.** You've tried better prompts and few-shot examples, and the model still drifts. Fine-tuning on hundreds of on-brand examples can internalize the style.
+3. **Model compression.** You're using a big, expensive model and discover that a smaller, cheaper one — fine-tuned on your task — performs just as well. Latency and cost both drop.
+
+If your problem is **not** one of these, the answer is probably not fine-tuning.
+
+## What You've Learned
+
+Fine-tuning changes the model's weights; prompting changes the input. Fine-tuning is powerful for behavior and style but expensive and slow to iterate. Follow the ladder: better prompt → few-shot → RAG → fine-tune, in that order. Each rung costs 10x the last. Most teams never need the top rung. Facts belong in RAG, not weights — anything that changes weekly is the wrong fit for fine-tuning.
+
+You've now seen the four core techniques every AI product uses: **prompting, tool use, RAG, and fine-tuning**. Next, the last missing piece: cost.
+
+<Exercise id="quiz-finetune" />

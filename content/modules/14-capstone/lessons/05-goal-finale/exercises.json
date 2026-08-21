@@ -1,0 +1,22 @@
+[
+  {
+    "type": "challenge",
+    "id": "challenge-final",
+    "title": "Challenge: Delete, All Green, Memory Intact",
+    "instructions": "The finale, driven /goal-style. Give Claude Code ONE instruction with all four parts — for example: 'Add a delete(id) function to journal.js that removes the entry with that id (list and search must no longer return it), export it, and ADD at least one test case for it to tests/journal.test.js without modifying or removing any existing case. Keep going until node tests/journal.test.js exits 0 with every case printing PASS. If you are not done in 12 turns, stop and report.' Then review: existing cases untouched, new case meaningful. Finally, check CLAUDE.md — after all five stages, is it still lean and still true? If anything it says is now wrong (like an outdated function list), have Claude fix it WITHOUT bloating it. Verify checks the tests, the delete function, and your CLAUDE.md hygiene.",
+    "sandboxTemplate": "m14-capstone",
+    "allowedTools": "Read,Glob,Grep,Write,Edit,Bash(node *)",
+    "maxTurns": 15,
+    "verifierId": "m14-final",
+    "criteria": [
+      "node tests/journal.test.js exits with code 0 (all cases PASS, including at least one for delete)",
+      "journal.js contains a delete function",
+      "CLAUDE.md is still lean and still accurate after all five stages of changes"
+    ],
+    "hints": [
+      "Use the four-part goal instruction from the lesson verbatim — it contains the end state, check, constraints, and bound.",
+      "The new test case should prove removal: add an entry, delete it by id, then check list()/search() no longer returns it.",
+      "Before clicking Verify, ask Claude: 'Read CLAUDE.md — is every statement in it still true? Fix only what's wrong; do not add new sections.'"
+    ]
+  }
+]

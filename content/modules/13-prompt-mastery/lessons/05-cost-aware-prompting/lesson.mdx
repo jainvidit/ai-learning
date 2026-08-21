@@ -1,0 +1,70 @@
+---
+id: 05-cost-aware-prompting
+title: "Cost-Aware Prompting"
+minutes: 14
+objectives:
+  - Connect prompt length to real money at production scale
+  - Explain caching intuition (stable prefix cheap, churning prefix expensive)
+  - Cut a bloated prompt without dropping requirements
+---
+
+## Tokens Are the Bill
+
+Module 08 taught the meter: you pay per token, in AND out. A one-off chat doesn't care. A production prompt (lesson 1) running 100,000 times a day multiplies every token by 100,000.
+
+800 wasted tokens becomes 80 million wasted tokens daily. At scale, leanness is an engineering requirement, not a style preference.
+
+## Where Bloat Hides
+
+Look for:
+
+- **Apologetic filler** — "Please, if you don't mind..." adds nothing but cost
+- **The same rule stated three ways** — say it once, precisely
+- **Examples that demonstrate nothing new** — if example 3 shows the same pattern as examples 1 and 2, it's waste
+- **Boilerplate from a 'great prompts' listicle** — pasted advice someone else's problem, not yours
+- **Instructions for situations that can't occur** — "If the input is a JPEG image..." in a prompt that only ever receives text
+
+Each survived because nobody was paying per copy. At production scale, every unnecessary word is visible in the bill.
+
+## Caching Intuition
+
+Providers can CACHE the processed form of a prompt's beginning. If today's request starts with the same tokens as the last one, that prefix is nearly free instead of full price.
+
+The design rule falls out immediately: **FIXED CONTENT FIRST, VARIABLES LAST**.
+
+A timestamp or user name at the TOP of the prompt breaks the match at token ten and the whole prefix reprocesses at full price.
+
+```
+❌ BAD (cache breaks immediately):
+Request at: 2024-07-31 14:22:03
+User: dana@example.com
+
+You are a support triage system. [rules...]
+Ticket: {{ticket_text}}
+
+✅ GOOD (stable prefix caches):
+You are a support triage system. [rules...]
+
+User: dana@example.com
+Ticket: {{ticket_text}}
+```
+
+Module 10's reason to be lean was attention budget. The accountant's reason to be lean is cache alignment.
+
+<Callout kind="tip">
+Caching benefits compound over thousands of calls. A well-ordered prompt with a 400-token stable prefix turns 400 full-price tokens into 400 cache-hit tokens per call. At 100,000 calls, that's 40 million tokens hitting cache instead of reprocessing at full rate.
+</Callout>
+
+## Leanness ≠ Omission
+
+Cutting a requirement isn't optimization, it's breakage. The eval suite (lesson 4) is what proves your lean rewrite still passes.
+
+Say once, precisely, what you used to say three times, vaguely. Remove filler. Remove redundancy. Keep every requirement.
+
+## Practice
+
+First, quiz on the economics and caching mechanics. Then, an exercise: a genuinely bloated triage prompt to slim down. Every requirement must survive the diet.
+
+<Exercise id="quiz-cost" />
+
+<Exercise id="pg-lean-rewrite" />

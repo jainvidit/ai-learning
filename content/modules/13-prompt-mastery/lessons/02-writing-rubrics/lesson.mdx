@@ -1,0 +1,63 @@
+---
+id: 02-writing-rubrics
+title: "Writing Gradeable Rubrics"
+minutes: 16
+objectives:
+  - State what makes a criterion gradeable by an automated judge
+  - Write a complete rubric (criteria + weights summing to 100)
+  - Recognize vague, compound, and unverifiable criteria as defects
+---
+
+## The Reveal
+
+Every playground in this app graded your prompt with a rubric and an LLM judge. Module 06 introduced the idea; module 08 showed the machinery. Today you switch chairs: YOU write the rubric, and a judge — armed with a meta-rubric — grades your rubric.
+
+Rubric-writing is prompt engineering. The judge is a model, and your criteria are its instructions.
+
+## What Makes a Criterion Gradeable
+
+Three properties make a criterion gradeable:
+
+1. **INDEPENDENTLY CHECKABLE** — A judge can decide it by looking at the submission alone, yes or no. "Names a specific audience" works; "the reply will feel friendly" requires guessing about effects the judge cannot observe.
+
+2. **CONCRETE** — Observable words, counts, and structures, not quality adjectives. "Under 120 words" works; "good", "clear", "appropriate" are vague value judgments that different judges interpret differently.
+
+3. **SINGLE** — One thing per criterion. "Has a role AND examples AND a format" is three criteria wearing one weight. A submission with two of three gets... what, exactly? Split it into three weighted criteria and the math works out.
+
+<Callout kind="warning">
+The most common rubric defect: compound criteria joined with "and". Each "and" hides an ambiguity about partial credit. A judge cannot score what you haven't separated.
+</Callout>
+
+## Weights Are the Design
+
+Weights encode what matters. They must sum to exactly 100 — this app's schema enforces it, and so does today's judge.
+
+Weight the core skill highest. Set the passing bar so missing only the lowest-weight criterion still passes. If your passing score is 70 and the smallest weight is 10, a submission can lose that one criterion and still succeed. That's by design: low weight means "nice to have", high weight means "essential".
+
+## Worked Example
+
+Bad rubric for a summary task:
+
+- Summary is good (50)
+- Style is nice (30)
+- No problems (20)
+
+Every criterion is vague ("good", "nice"), unverifiable (what makes a summary "good"?), or compound ("no problems" bundles every possible error into one check).
+
+Fixed rubric:
+
+- Is 3 sentences or fewer (30)
+- Names the main decision from the source (40)
+- Contains no information absent from the source (30)
+
+Every criterion is a yes/no a stranger could check. The weights say "naming the decision matters most, staying faithful to the source matters equally, and brevity is a constraint but not the point."
+
+## The Exercise
+
+Write a rubric for a fixed grading scenario. Your SUBMISSION is the rubric itself; the meta-rubric grades it. This is the same trick the app has used on you all along — now you can build it.
+
+<Callout kind="info">
+When you submit, the model will reflect your rubric back to you as a clean table, then note how it would apply each criterion. It's not rewriting or improving your rubric — it's mirroring exactly what you wrote. The meta-rubric grades that mirrored structure for the properties that make criteria gradeable.
+</Callout>
+
+<Exercise id="pg-write-rubric" />

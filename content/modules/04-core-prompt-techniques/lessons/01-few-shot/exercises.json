@@ -1,0 +1,62 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-few-shot",
+    "title": "Check: few-shot prompting",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "Why do a few worked examples often beat a paragraph describing what you want?",
+        "options": [
+          { "id": "a", "text": "Examples make the prompt longer, and longer is better" },
+          { "id": "b", "text": "The model is a pattern continuer — a demonstrated pattern constrains the output more tightly than a description" },
+          { "id": "c", "text": "Descriptions are ignored by the model" },
+          { "id": "d", "text": "Examples turn off the model's randomness" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "A demonstrated input→output pattern is the strongest possible signal to a next-word predictor: continuing the pattern is the most likely thing to do. Descriptions still work (c is wrong), length alone is irrelevant (a), and randomness isn't disabled (d) — it's just channeled."
+      },
+      {
+        "id": "q2",
+        "kind": "multi",
+        "prompt": "Which are real few-shot mistakes to avoid? Select all that apply.",
+        "options": [
+          { "id": "a", "text": "Examples that each use a slightly different format" },
+          { "id": "b", "text": "Examples that are all nearly identical, covering no variety" },
+          { "id": "c", "text": "An example containing the exact sloppy habit you don't want copied" },
+          { "id": "d", "text": "Using only two or three examples instead of ten" }
+        ],
+        "correctOptionIds": ["a", "b", "c"],
+        "explanation": "Inconsistent formats blur the pattern, identical examples teach nothing about range, and the model faithfully copies flaws — it can't tell your mistakes from your intentions. Two or three GOOD examples (d) is not a mistake; it's usually the sweet spot."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "You want short, warm replies to customer reviews, but the model keeps writing stiff corporate ones. Which fix uses few-shot prompting?",
+        "options": [
+          { "id": "a", "text": "Add \"be warm!\" in capital letters" },
+          { "id": "b", "text": "Include two example reviews each followed by the kind of warm, short reply you want, then the new review" },
+          { "id": "c", "text": "Ask the model to imagine being warm before answering" },
+          { "id": "d", "text": "Rerun the prompt until a warm one appears" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Tone is exactly what examples teach best — 'warm' means something specific once it's demonstrated twice. Shouting an adjective (a) or asking for imagination (c) leaves 'warm' undefined, and rerolling (d) is gambling, not prompting."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-few-shot",
+    "title": "Build a few-shot prompt",
+    "instructions": "Create a few-shot prompt that turns plain product review text into a one-line label of the form 'MOOD — five-word summary' (e.g. 'HAPPY — loves the battery life'). Your prompt must (1) contain at least two complete examples, each showing an input review and its labeled output, (2) use the exact same output format in every example, (3) include one example with a NEGATIVE or MIXED review so the pattern covers more than happy cases, and (4) end with a new, unlabeled review for the model to complete. Keep instructions minimal — let the examples do the teaching.",
+    "rubric": [
+      { "id": "two-examples", "description": "The prompt contains at least two complete input→output example pairs.", "weight": 30 },
+      { "id": "consistent", "description": "All examples use the same output format ('MOOD — short summary').", "weight": 25 },
+      { "id": "variety", "description": "At least one example covers a negative or mixed review.", "weight": 20 },
+      { "id": "final-input", "description": "The prompt ends with a new unlabeled review for the model to label.", "weight": 25 }
+    ],
+    "passingScore": 70
+  }
+]

@@ -1,0 +1,110 @@
+---
+id: 02-tool-use-agent-loop
+title: "Tool Use & the Agent Loop"
+minutes: 10
+objectives:
+  - Explain why a bare LLM can only emit text and cannot act on the world
+  - Describe what a tool definition is and how the model requests tool calls
+  - Trace one full iteration of the agent loop from think to act to observe
+  - Recognize the agent loop in products you know, including Claude Code
+---
+
+## A Bare LLM Can Only Emit Text
+
+You've learned that a language model predicts the next token. It reads input, generates output, and stops. That's all it can do.
+
+It **cannot**:
+
+- Check today's weather
+- Read a file from your computer
+- Send an email
+- Search the web
+- Run code
+
+So how does any AI product *do* anything? How does an AI assistant book a flight, or answer a question by looking up your company's internal wiki, or — if you've used Claude Code — read and edit files on your behalf?
+
+Answer: **the app around the model does it.** The model only asks; the app executes.
+
+## Tools Are Offers
+
+When the app sends a request to the model, it can include a list of **tools** — functions the model can call. Each tool has a name, a description, and a parameter schema. For example:
+
+```json
+{
+  "name": "get_weather",
+  "description": "Fetches current weather for a given city",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "city": { "type": "string", "description": "City name" }
+    },
+    "required": ["city"]
+  }
+}
+```
+
+The model reads this tool definition along with the user's request. If the user asks "What's the weather in Delhi?", the model can reply not with prose but with a **structured tool call request**:
+
+```json
+{
+  "name": "get_weather",
+  "input": { "city": "Delhi" }
+}
+```
+
+The model itself **never runs this function.** It only says, "here's what I would like to call." The app receives that request, executes the function (making an actual HTTP call to a weather API), and sends the result back to the model.
+
+## The Agent Loop
+
+Here's the full cycle, step by step:
+
+1. **App frames the task.** The user's request plus the tool definitions go into the API call.
+2. **Model proposes a tool call.** Instead of answering in prose, the model returns a structured request: "call `get_weather` with `city: 'Delhi'`".
+3. **App executes the tool.** The app runs the actual function — fetching data, reading a file, whatever the tool does — and collects the result.
+4. **Result goes back into context.** The app appends the tool result as a new message in the conversation and calls the model again.
+5. **Model thinks again.** It reads the tool result and decides: call another tool, or answer the user in plain text.
+
+The loop repeats — think → act → observe → think — until the model produces a final text answer instead of another tool call. That's when the app shows the response to the user.
+
+This cycle is called the **agent loop**. The model is the **agent** because it decides which actions to take; the app is the **executor** because it actually performs them.
+
+<Callout kind="info">
+The model never executes anything. Only the app runs code. That's why **permissioning and safety live in the app layer** — the model can only ask, and the app can say no.
+</Callout>
+
+## The Model Proposes, the App Disposes
+
+Because the app is in full control of execution, it can:
+
+- **Ask the user for permission** before running a command (Claude Code does this)
+- **Refuse a tool call** that violates policy
+- **Validate inputs** before calling the real function
+- **Retry or log** every call
+
+The model is the brain; the app is the hands. The brain can be brilliant or confused, but it's never holding the steering wheel — the app is.
+
+## You've Seen This Before
+
+If you've done module 05 or 07 — the Claude Code track — you watched this loop in action. When you asked Claude Code to "find all TypeScript files," you saw tool names scroll by in the terminal:
+
+- `Glob(pattern: "**/*.ts")`
+- `Read(file_path: "src/app.ts")`
+- `Edit(...)`
+
+Each of those was a tool call. Claude (the model) requested them; the harness (the app) executed them and fed the results back. You were watching the agent loop run live.
+
+Even if you haven't touched Claude Code yet, you've used products built on this loop:
+
+- **ChatGPT with browsing** — the model requests `search(query)`, the app hits Bing, the result comes back, the model summarizes it.
+- **AI assistants that "check your calendar"** — the model calls `list_events(date)`, the app queries Google Calendar, the model reads the result.
+- **This app's terminal exercises** — if your curriculum included them, you were inside a sandboxed agent loop where Claude had tools like Read and Bash.
+
+The pattern is everywhere. One loop, infinite products.
+
+## What You've Learned
+
+A language model can only generate text. To **do** things, the app offers it tools. The model requests a call; the app executes it and returns the result; the model thinks again. This cycle — the agent loop — is how every AI product acts on the world. The model proposes, the app disposes.
+
+Next: how products handle knowledge the model wasn't trained on.
+
+<Exercise id="quiz-agent-loop" />

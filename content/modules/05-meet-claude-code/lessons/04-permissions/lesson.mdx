@@ -1,0 +1,68 @@
+---
+id: 04-permissions
+title: "Who's in Charge: Permissions"
+minutes: 10
+objectives:
+  - Explain why an acting AI needs a permission system
+  - Describe what Claude Code does freely, asks about, and won't do
+  - Recognize permission prompts and respond deliberately
+---
+
+## An AI with hands needs a leash
+
+Think back to lessons 02 and 03. Claude read files freely, but edits and commands worked because this app pre-approved a narrow set of actions for each exercise. In real-world use, YOU hold that approval power.
+
+An AI that can take real actions — editing files, running commands — needs a permission system. You control the leash.
+
+## The three tiers
+
+Here's what Claude Code does freely, what it asks about, and what it won't do:
+
+### Reading (allowed by default)
+Looking at files inside your project folder is generally allowed. Reading can't break anything — it's just looking.
+
+### Acting (asks first)
+Editing files or running commands triggers a permission prompt. Claude shows you EXACTLY what it wants to do and waits for your yes or no.
+
+### Out of bounds (blocked)
+Files outside the project, or commands that could cause harm, are heavily guarded or blocked entirely by default.
+
+## A helpful analogy
+
+Think of a contractor working in your house:
+
+- Walking around and measuring? Fine — looking is harmless.
+- Knocking a hole in the wall? They show you the plan and you sign off first.
+- Your neighbor's house? Never, no matter how helpfully they ask.
+
+## When Claude asks: your choices
+
+When a permission prompt appears, you have three choices:
+
+1. **Allow once** — just this action, this time
+2. **Allow for the session** — don't ask again for this KIND of action during this session (convenience)
+3. **Deny** — block it
+
+Start cautious. As trust grows, you can loosen permissions. Real Claude Code also lets you pre-approve specific narrow actions in a config file — exactly what this app does per exercise. You'll configure that yourself in a later module.
+
+<Callout kind="warning">
+The permission prompt is the ONE moment you're the safety system. Read what it says it will do. Approving without reading is how surprises happen.
+</Callout>
+
+<Callout kind="info">
+Why be so careful when the sandbox is disposable? Because habits transfer. Practice the read-then-approve reflex here, where mistakes are free, and you'll have it when it matters.
+</Callout>
+
+## What if you don't recognize a command?
+
+Claude Code asks to run something you don't understand? Ask back: "Explain in plain language what that command does and why you need it."
+
+Claude will answer. Then you decide. You're allowed to interrogate before approving — that's the whole point of the prompt.
+
+## Check your understanding
+
+<Exercise id="quiz-permissions" />
+
+## Next up
+
+One last piece: putting it all together. Next lesson is a challenge — a real bug, a real test, and you'll direct Claude to fix it end-to-end.

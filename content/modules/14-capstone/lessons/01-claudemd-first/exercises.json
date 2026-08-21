@@ -1,0 +1,21 @@
+[
+  {
+    "type": "challenge",
+    "id": "challenge-claudemd",
+    "title": "Challenge: Write CLAUDE.md",
+    "instructions": "Use Claude Code to create this repo's CLAUDE.md. It must say what the project is (a CLI journal app, CommonJS, no dependencies), how to run the tests (node tests/journal.test.js), and the working conventions (tests are the spec — never edit them to make them pass; keep journal.js the single source file for now). Keep it under ~40 lines: an index, not an encyclopedia. Have Claude read the repo — especially the test file — before writing, then review the draft and cut anything you'd have to update within the hour. Click Verify when it reads true and lean.",
+    "sandboxTemplate": "m14-capstone",
+    "allowedTools": "Read,Glob,Grep,Write,Edit",
+    "maxTurns": 10,
+    "verifierId": "m14-claudemd",
+    "criteria": [
+      "CLAUDE.md exists",
+      "CLAUDE.md is concise and useful: what the project is, its commands, its conventions — under roughly 40 lines"
+    ],
+    "hints": [
+      "Ask Claude to read tests/journal.test.js and package.json first — the conventions (CommonJS, test command, expected exports) are all visible there.",
+      "If the draft is long, tell Claude the target: 'cut this to under 25 lines: one-liner, test command, three conventions'.",
+      "Three sections is plenty: What this is / Commands / Conventions. No API docs — the API doesn't exist yet."
+    ]
+  }
+]

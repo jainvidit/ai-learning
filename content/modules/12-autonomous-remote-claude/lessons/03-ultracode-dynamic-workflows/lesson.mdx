@@ -1,0 +1,48 @@
+---
+id: 03-ultracode-dynamic-workflows
+title: "Ultracode & Dynamic Workflows"
+minutes: 12
+objectives:
+  - Describe ultracode mode and how it differs from in-conversation task execution
+  - Explain why the orchestration script holds the plan while context holds conclusions
+  - Choose among workflows, subagents, skills, and agent teams for different coordination needs
+---
+
+## The ceiling
+
+Module 11's subagents fan out a handful of searches. Now imagine 300 files each needing the same analysis. Spawning them by hand from chat means the plan — who's done, who failed, what's next — lives in the conversation. Hundreds of status updates later, the attention budget is gone and the orchestrator forgets who it sent where.
+
+## Ultracode
+
+Include the keyword `ultracode` in your request (or set `/effort ultracode`) and Claude changes strategy: instead of doing the work in-conversation, it WRITES A PROGRAM — a JS orchestration script that spawns and coordinates subagents (up to 1000 in a workflow, roughly 16 running concurrently in current versions), collects their results, retries failures, and reports back once.
+
+This is the shift from conversation-driven to program-driven coordination.
+
+## The pivotal move: plan lives in code, not context
+
+The script is the plan — loops, queues, retry logic, progress state all live in a file, costing zero attention. The main context receives only CONCLUSIONS: "294 of 300 analyzed, 6 failed, results in results.json."
+
+This is module 10's context isolation compounded: subagents isolate the exploration; the script isolates the coordination. The fan-out can scale to hundreds of agents because the status churn never enters your session.
+
+## Dynamic, not canned
+
+The script is written fresh for YOUR task — Claude decides the fan-out shape, the batching, the checks. A workflow is disposable orchestration code; you can read it, and you should skim it before a big run the way you'd skim a plan in plan mode (module 11).
+
+It's code, but it's generative code — tailored, not templated.
+
+## The decision table
+
+| You need… | Reach for |
+|---|---|
+| A reusable procedure or reference Claude should load on demand | Skill (module 09) |
+| One messy exploration whose details shouldn't enter your context | Subagent (module 11) |
+| Large fan-out with coordination — many subagents, batching, retries, progress | Ultracode workflow script |
+| Ongoing collaboration between long-lived agents with different roles | Agent team |
+
+Workflows earn their machinery at coordination scale — fan-out, batching, retries. A three-step task needs no orchestration script; reaching for one is overhead, not leverage.
+
+<Callout kind="info">
+**Honest note:** the sandbox can't demonstrate a 300-agent fan-out; this lesson is conceptual. The instinct to build — "should this be a conversation or a program?" — is the takeaway.
+</Callout>
+
+<Exercise id="quiz-ultracode" />

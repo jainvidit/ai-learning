@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Button, Card, Spinner } from "@/components/ui";
 import type { ChallengeExercise } from "@/lib/schema";
+import { LESSON_COMPLETE_EVENT } from "@/components/lesson/NextLessonBar";
 
 interface CriterionResult {
   description: string;
@@ -55,7 +56,11 @@ export default function Challenge({
             : "Verification failed. Please try again."
         );
       }
-      setResult((await res.json()) as VerifyResponse);
+      const data = (await res.json()) as VerifyResponse;
+      setResult(data);
+      if (data.lessonCompleted) {
+        window.dispatchEvent(new Event(LESSON_COMPLETE_EVENT));
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Verification failed.");
     } finally {

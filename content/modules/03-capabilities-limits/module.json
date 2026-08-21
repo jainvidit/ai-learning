@@ -1,0 +1,12 @@
+{
+  "id": "03-capabilities-limits",
+  "title": "What LLMs Can & Can't Do",
+  "track": "fundamentals",
+  "description": "Build an honest map of AI's edges: how much it can pay attention to at once, why it doesn't know last month's news, when it's reasoning versus reciting, and why a confident answer can still be flat wrong. You'll leave knowing which jobs to trust it with — and which to double-check.",
+  "lessons": [
+    { "id": "01-context-windows", "title": "The Context Window: An Attention Budget" },
+    { "id": "02-knowledge-cutoff", "title": "The Knowledge Cutoff" },
+    { "id": "03-reasoning-vs-recall", "title": "Reasoning vs Recall" },
+    { "id": "04-confidence-vs-correctness", "title": "Confidence Is Not Correctness" }
+  ]
+}

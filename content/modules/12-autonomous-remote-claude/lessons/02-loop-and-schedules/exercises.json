@@ -1,0 +1,49 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-loop-schedules",
+    "title": "Quiz: /loop & Schedules",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-loop",
+        "kind": "single",
+        "prompt": "What does /loop 10m <prompt> do?",
+        "options": [
+          { "id": "a", "text": "Schedules a cloud job that runs every 10 minutes forever" },
+          { "id": "b", "text": "Re-runs the prompt every 10 minutes inside your current open session, sharing its context, until the session ends" },
+          { "id": "c", "text": "Makes Claude think for 10 minutes before answering" },
+          { "id": "d", "text": "Retries a failed command 10 times" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "/loop is in-session polling: same session, same context, on an interval — it dies with the session. A persistent cloud job (a) is what /schedule routines are for."
+      },
+      {
+        "id": "q2-machine-off",
+        "kind": "single",
+        "prompt": "You want a nightly dependency-update check to run while your laptop is closed and in a bag. Which tool?",
+        "options": [
+          { "id": "a", "text": "/loop 24h in a session you leave open" },
+          { "id": "b", "text": "A desktop scheduled task" },
+          { "id": "c", "text": "A Cloud Routine via /schedule — it runs in Anthropic's cloud, machine off" },
+          { "id": "d", "text": "None — recurring AI tasks require a running machine" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Only the cloud tier survives your machine sleeping. /loop needs the session open; a desktop scheduled task needs the machine awake at trigger time."
+      },
+      {
+        "id": "q3-match",
+        "kind": "multi",
+        "prompt": "Which pairings of job and tool are sensible? (select all that apply)",
+        "options": [
+          { "id": "a", "text": "Watch a deploy for the next 30 minutes while you keep working → /loop in your open session" },
+          { "id": "b", "text": "Summarize new GitHub issues every morning at 9, laptop possibly off → Cloud Routine" },
+          { "id": "c", "text": "Re-run local tests against your uncommitted working tree every hour while you're at your desk → desktop scheduled task" },
+          { "id": "d", "text": "A permanent monitor → one /loop session you promise never to close" }
+        ],
+        "correctOptionIds": ["a", "b", "c"],
+        "explanation": "Match distance to duration: in-session for the next hour, local schedules for local state, cloud for machine-off recurrence. An immortal /loop session (d) is a rot farm with a single point of failure: you."
+      }
+    ]
+  }
+]

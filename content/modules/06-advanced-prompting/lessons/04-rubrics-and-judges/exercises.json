@@ -1,0 +1,75 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-rubrics",
+    "title": "Check: rubrics and LLM-as-judge",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "What is the LLM-as-judge pattern?",
+        "options": [
+          { "id": "a", "text": "A model that settles legal disputes" },
+          { "id": "b", "text": "Using a model, given a rubric of criteria, to grade a piece of text and report which criteria are met" },
+          { "id": "c", "text": "Two models debating until one wins" },
+          { "id": "d", "text": "A human judge assisted by autocomplete" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "It's a judge with a grading sheet: text in, rubric in, met/not-met per criterion out — the pattern behind this app's playground feedback and countless real-world quality checks. No courtroom (a), no debate (c), no human in the loop for each grade (d)."
+      },
+      {
+        "id": "q2",
+        "kind": "single",
+        "prompt": "Which rubric criterion is well-written for an LLM judge?",
+        "options": [
+          { "id": "a", "text": "\"The prompt is high quality\"" },
+          { "id": "b", "text": "\"The prompt feels professional\"" },
+          { "id": "c", "text": "\"The prompt names a specific audience for the output\"" },
+          { "id": "d", "text": "\"The model's answer will probably be good\"" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "A good criterion is observable — you can point at the words that satisfy it. 'Names a specific audience' is checkable by reading; 'high quality' (a) and 'feels professional' (b) are vibes the judge must guess at, and (d) judges a future output instead of the text in hand."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "In this app's playgrounds, what does the judge actually grade?",
+        "options": [
+          { "id": "a", "text": "The model's reply to your prompt" },
+          { "id": "b", "text": "Your PROMPT text — the reply is shown as evidence, but the rubric judges what you wrote" },
+          { "id": "c", "text": "How fast you typed" },
+          { "id": "d", "text": "Whether you used the suggested wording" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The skill being taught is prompt-writing, and the reply varies run to run even for the same prompt — so your prompt is the stable evidence, and every criterion is checkable from it alone. That's why criteria read like 'the prompt includes...' rather than 'the answer is...' (a)."
+      },
+      {
+        "id": "q4",
+        "kind": "single",
+        "prompt": "A rubric gives 'names the audience' weight 30 and 'sets a length limit' weight 10, with a passing score of 70. What does this tell you?",
+        "options": [
+          { "id": "a", "text": "The length limit is three times harder to achieve" },
+          { "id": "b", "text": "Naming the audience is the higher priority, and you can miss the length limit and still pass" },
+          { "id": "c", "text": "You must satisfy both criteria to pass" },
+          { "id": "d", "text": "Weights are decorative and don't affect the score" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Weights encode priorities — the core skill weighs most — and the passing score is deliberately set below 100 so missing the lowest-weight criterion isn't fatal (c). Weight measures importance to the grade, not difficulty (a), and your score is literally the sum of the weights you earned (d)."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-beat-rubric",
+    "title": "Grade sheet in hand",
+    "instructions": "You've seen the machinery — now use it deliberately. Below is the EXACT rubric that will grade you (yes, really — this is the real one). Write a prompt asking the model to draft a short announcement for a community library launching a free 'seed library' (borrow vegetable seeds in spring, return saved seeds in autumn). Satisfy every criterion explicitly:\n\n- audience (weight 25): the prompt names a specific audience for the announcement (e.g. local families new to gardening).\n- format (weight 25): the prompt specifies the output format AND a length limit (e.g. a friendly noticeboard poster under 120 words with a headline).\n- facts (weight 30): the prompt supplies at least three concrete facts the announcement must include (invent them: launch date, how borrowing works, where to sign up).\n- self-check (weight 20): the prompt lists its own requirements and asks the model to check the draft against them before finishing.\n\nPassing is 70 — but you have the grade sheet, so aim for 100.",
+    "rubric": [
+      { "id": "audience", "description": "The prompt names a specific audience for the announcement.", "weight": 25 },
+      { "id": "format", "description": "The prompt specifies the output format and a length limit.", "weight": 25 },
+      { "id": "facts", "description": "The prompt supplies at least three concrete facts the announcement must include.", "weight": 30 },
+      { "id": "self-check", "description": "The prompt asks the model to check its draft against the stated requirements before finishing.", "weight": 20 }
+    ],
+    "passingScore": 70
+  }
+]

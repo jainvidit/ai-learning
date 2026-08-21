@@ -1,0 +1,12 @@
+{
+  "id": "07-claude-code-workflows",
+  "title": "Everyday Claude Code",
+  "track": "claude-code",
+  "description": "Turn one-off sessions into a daily workflow: give every project a memory with CLAUDE.md, read and reason about the permission rules in settings.json, learn the slash commands that manage sessions, and master the art of resuming work and phrasing tasks so Claude nails them on the first try.",
+  "lessons": [
+    { "id": "01-claude-md", "title": "Project Memory: CLAUDE.md" },
+    { "id": "02-settings-permissions", "title": "Permissions on Paper: settings.json" },
+    { "id": "03-slash-commands", "title": "The Slash Command Tour" },
+    { "id": "04-resume-and-phrasing", "title": "Resuming Sessions & Phrasing Tasks Well" }
+  ]
+}

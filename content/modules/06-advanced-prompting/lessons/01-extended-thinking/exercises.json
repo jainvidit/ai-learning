@@ -1,0 +1,63 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-extended-thinking",
+    "title": "Check: extended thinking & effort",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "How does extended thinking differ from asking for step-by-step reasoning in the reply?",
+        "options": [
+          { "id": "a", "text": "They're the same thing with different names" },
+          { "id": "b", "text": "Extended thinking happens privately before the answer, letting the model explore and self-correct; written steps appear in the reply for YOU to audit" },
+          { "id": "c", "text": "Extended thinking is only for math problems" },
+          { "id": "d", "text": "Written steps are always better because they're visible" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Visible steps are an audit trail for you; extended thinking is a private whiteboard for the model, where it can backtrack without cluttering the answer. They serve different readers, which is why they combine well (think deeply, then summarize the reasoning) — neither is strictly better (d), and both apply far beyond math (c)."
+      },
+      {
+        "id": "q2",
+        "kind": "single",
+        "prompt": "What does a bigger thinking budget buy, and what does it cost?",
+        "options": [
+          { "id": "a", "text": "It buys more exploration and self-correction on hard problems; it costs time and money" },
+          { "id": "b", "text": "It buys access to newer training data; it costs nothing" },
+          { "id": "c", "text": "It guarantees a correct answer; it costs one retry" },
+          { "id": "d", "text": "It makes every answer longer; it costs readability" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "The budget is the whiteboard hour: more room to try approaches, catch mistakes, and reconsider — valuable exactly when the problem is hard, and paid for in wait time and compute. It doesn't add knowledge (b), guarantee correctness (c), or necessarily change the final answer's length (d) — the thinking is separate from the reply."
+      },
+      {
+        "id": "q3",
+        "kind": "multi",
+        "prompt": "Which requests genuinely deserve asking for deep, careful thinking? Select all that apply.",
+        "options": [
+          { "id": "a", "text": "Comparing two apartment leases with different fees, terms, and break clauses" },
+          { "id": "b", "text": "What's the capital of France?" },
+          { "id": "c", "text": "Planning a conference schedule where speakers have overlapping availability" },
+          { "id": "d", "text": "Rewriting one sentence to sound friendlier" },
+          { "id": "e", "text": "Finding the flaw in a budget that somehow doesn't balance" }
+        ],
+        "correctOptionIds": ["a", "c", "e"],
+        "explanation": "Multi-constraint comparisons, scheduling puzzles, and hunt-the-error tasks reward exploration and self-checking — whiteboard work. A capital city (b) is instant recall and a one-sentence rewrite (d) is hallway-level; deep thinking there just adds waiting."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-deep-thinking",
+    "title": "Aim the whiteboard hour",
+    "instructions": "Invent a genuinely hard planning or comparison problem and write a prompt that requests deep thinking — aimed where it counts. Your prompt must (1) state a concrete problem with at least three interacting constraints or factors (real numbers, dates, or rules — e.g. planning a shared family visit around three people's conflicting schedules and a budget), (2) explicitly ask the model to think deeply and carefully before answering, (3) name the specific part of the problem that deserves the most careful thought (the trickiest constraint or interaction), and (4) ask for a CONCISE final answer — a short recommendation plus a brief summary of the key reasoning, not a wall of text.",
+    "rubric": [
+      { "id": "hard-problem", "description": "The prompt states a concrete problem with at least three interacting constraints or factors.", "weight": 30 },
+      { "id": "request-thinking", "description": "The prompt explicitly asks the model to think deeply/carefully before answering.", "weight": 25 },
+      { "id": "aim-thinking", "description": "The prompt names the specific part of the problem that deserves the most careful thought.", "weight": 25 },
+      { "id": "concise-answer", "description": "The prompt asks for a concise final answer with a brief reasoning summary.", "weight": 20 }
+    ],
+    "passingScore": 70
+  }
+]

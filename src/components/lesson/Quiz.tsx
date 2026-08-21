@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button, Card, Spinner } from "@/components/ui";
+import { LESSON_COMPLETE_EVENT } from "@/components/lesson/NextLessonBar";
 
 /** Quiz question with answers/explanations stripped (safe for the client). */
 export interface ClientQuizQuestion {
@@ -91,7 +92,11 @@ export default function Quiz({
             : "Something went wrong submitting the quiz. Please try again."
         );
       }
-      setResult((await res.json()) as SubmitResponse);
+      const data = (await res.json()) as SubmitResponse;
+      setResult(data);
+      if (data.lessonCompleted) {
+        window.dispatchEvent(new Event(LESSON_COMPLETE_EVENT));
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Submission failed.");
     } finally {

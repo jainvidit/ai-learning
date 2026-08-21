@@ -1,0 +1,2656 @@
+{
+  "01-how-llms-work/01-what-is-an-llm": [
+    {
+      "beatId": "prose:start-with-your-phone",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:an-llm-is-that-idea-taken-to-the-extreme",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:why-does-it-feel-so-smart-then",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:try-it-yourself",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-an-llm-is-not",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:so-where-do-chatgpt-and-claude-fit-in",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:check-your-understanding",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-what-is-llm",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "01-how-llms-work/02-tokens": [
+    {
+      "beatId": "prose:the-model-doesn-t-see-what-you-see",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:chunks-not-words",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:see-it-with-your-own-eyes",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-strawberry-problem",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:tokens-are-also-the-currency",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-takeaway",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:check-your-understanding",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-tokens",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "01-how-llms-work/03-training": [
+    {
+      "beatId": "prose:where-did-all-that-knowledge-come-from",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:phase-one-pretraining-or-reading-the-world-s-biggest-library",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-raw-predictor-problem",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:phase-two-teaching-it-to-be-an-assistant",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-library-has-a-last-page",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-takeaway",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:check-your-understanding",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-training",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "01-how-llms-work/04-hallucination": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-autocomplete-that-never-says-no-idea",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-classic-traps",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-the-risk-is-highest",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:simple-defenses-you-can-use-today",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:one-important-misconception",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:see-it-for-yourself",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:playground-observe-hallucination",
+      "completion": "attempted",
+      "type": "playground"
+    },
+    {
+      "beatId": "ex:quiz-hallucination",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "prose:the-takeaway",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "01-how-llms-work/05-randomness": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:a-menu-not-a-single-answer",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-temperature-dial",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-you-want-randomness-and-when-you-don-t",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:no-dial-use-your-words",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:see-the-dice-roll",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:playground-observe-variance",
+      "completion": "attempted",
+      "type": "playground"
+    },
+    {
+      "beatId": "ex:quiz-randomness",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "prose:the-takeaway",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "02-prompting-basics/01-be-specific": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:why-vague-prompts-produce-generic-answers",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:anatomy-of-a-specific-prompt",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-real-cost-of-vagueness",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-specificity",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "prose:your-turn",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:pg-sharpen-prompt",
+      "completion": "attempted",
+      "type": "playground"
+    },
+    {
+      "beatId": "prose:what-s-next",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "02-prompting-basics/02-context-and-role": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:context-the-background-the-answer-depends-on",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-context-to-include",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:roles-a-shortcut-to-a-bundle-of-context",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-context-role",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "prose:your-turn",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:pg-context-role",
+      "completion": "attempted",
+      "type": "playground"
+    },
+    {
+      "beatId": "prose:what-s-next",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "02-prompting-basics/03-show-the-format": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:three-levers-length-structure-style",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-strongest-move-show-an-example",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:before-and-after",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-format",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "prose:your-turn",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:pg-format",
+      "completion": "attempted",
+      "type": "playground"
+    },
+    {
+      "beatId": "prose:what-s-next",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "02-prompting-basics/04-iterate": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:bad-iteration-hoping-for-better-luck",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:good-iteration-targeted-feedback",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-conversation-is-your-context",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-to-start-over-instead",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-iterate",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "prose:your-turn",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:pg-iterate",
+      "completion": "attempted",
+      "type": "playground"
+    },
+    {
+      "beatId": "prose:you-ve-got-the-four-habits",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "03-capabilities-limits/01-context-windows": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-context-window",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:an-attention-budget",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-context-window",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "ex:pg-attention-budget",
+      "completion": "attempted",
+      "type": "playground"
+    },
+    {
+      "beatId": "prose:looking-ahead",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "03-capabilities-limits/02-knowledge-cutoff": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:why-it-exists",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-danger-zone",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-s-affected-what-s-not",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-workaround-that-matters",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-cutoff",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "prose:looking-forward",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "03-capabilities-limits/03-reasoning-vs-recall": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:recall-when-prediction-is-the-answer",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:reasoning-when-the-answer-must-be-constructed",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-musician-analogy",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:different-failures",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-lever-step-by-step",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-reason-recall",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "ex:pg-steps",
+      "completion": "attempted",
+      "type": "playground"
+    },
+    {
+      "beatId": "prose:the-takeaway",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "03-capabilities-limits/04-confidence-vs-correctness": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:why-confident-tone-means-nothing",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-fluent-narrator",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:so-how-do-you-operate",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:verification-moves-that-work",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-confidence",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "prose:the-module-wrap",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "04-core-prompt-techniques/01-few-shot": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:few-shot-prompting-let-examples-teach",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-examples-teach-better-than-words",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:rules-for-good-shots",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:worked-example-customer-feedback-labels",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-few-shot",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "ex:pg-few-shot",
+      "completion": "attempted",
+      "type": "playground"
+    }
+  ],
+  "04-core-prompt-techniques/02-xml-structure": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:xml-tags-labeled-envelopes-for-your-content",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:why-it-works",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-classic-layout",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:power-move-cross-references",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:quick-rules",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-xml",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "ex:pg-xml",
+      "completion": "attempted",
+      "type": "playground"
+    }
+  ],
+  "04-core-prompt-techniques/03-step-by-step": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-stepping-stone-effect",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-technique-ask-for-it",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:example-a-tricky-calculation",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:second-benefit-auditability",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-to-use-step-by-step-reasoning",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:recap",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-steps",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "ex:pg-think-steps",
+      "completion": "attempted",
+      "type": "playground"
+    }
+  ],
+  "04-core-prompt-techniques/04-constrain-output": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:enter-json-labeled-data",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-constraint-recipe",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:example-recipe-data",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-same-discipline-for-simple-lists",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:common-failure-modes-and-fixes",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-does-this-matter",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:recap",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-json",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "ex:pg-json",
+      "completion": "attempted",
+      "type": "playground"
+    }
+  ],
+  "04-core-prompt-techniques/05-system-vs-user": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-employee-handbook",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-goes-where",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:why-it-matters-even-if-you-re-not-building-apps",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-hierarchy-system-prompts-carry-more-weight",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:example-a-support-bot-system-prompt",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:recap-the-two-layer-structure",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-system",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "ex:pg-system",
+      "completion": "attempted",
+      "type": "playground"
+    },
+    {
+      "beatId": "prose:module-wrap-up",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "05-meet-claude-code/01-what-is-claude-code": [
+    {
+      "beatId": "prose:from-talking-to-acting",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:a-helpful-analogy",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-terminal-your-window-into-the-agent",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-agent-loop",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-three-core-actions",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:check-your-understanding",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-agent-loop",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "prose:next-up",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "05-meet-claude-code/02-first-session": [
+    {
+      "beatId": "prose:time-to-drive",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:how-to-drive",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:your-first-exploration",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:tx-first-session",
+      "completion": "attempted",
+      "persistent": true,
+      "type": "terminal"
+    },
+    {
+      "beatId": "prose:what-you-just-did",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:next-up",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "05-meet-claude-code/03-first-edit": [
+    {
+      "beatId": "prose:level-up-changing-things",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:anatomy-of-a-good-edit-request",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-edit-tool",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-most-important-habit-verify",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:your-first-edits",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:tx-first-edit",
+      "completion": "attempted",
+      "persistent": true,
+      "type": "terminal"
+    },
+    {
+      "beatId": "prose:what-you-just-described",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:next-up",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "05-meet-claude-code/04-permissions": [
+    {
+      "beatId": "prose:an-ai-with-hands-needs-a-leash",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-three-tiers",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:a-helpful-analogy",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-claude-asks-your-choices",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-if-you-don-t-recognize-a-command",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:check-your-understanding",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-permissions",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "prose:next-up",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "05-meet-claude-code/05-fix-the-bug": [
+    {
+      "beatId": "prose:everything-combined",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-s-in-the-sandbox",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:your-strategy",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:your-challenge",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:ch-fix-greet",
+      "completion": "verified",
+      "type": "challenge"
+    },
+    {
+      "beatId": "prose:what-just-happened-in-loop-terms",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:module-complete",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "06-advanced-prompting/01-extended-thinking": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-whiteboard-hour-analogy",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:thinking-budgets",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-extended-thinking",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "ex:pg-deep-thinking",
+      "completion": "attempted",
+      "type": "playground"
+    }
+  ],
+  "06-advanced-prompting/02-prompt-chaining": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-relay-race",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:why-chaining-wins",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-handoff-rule",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-chaining",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "ex:pg-chain",
+      "completion": "attempted",
+      "type": "playground"
+    }
+  ],
+  "06-advanced-prompting/03-personas-in-depth": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-four-parts",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:where-personas-live",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-honest-limit",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-personas",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "ex:pg-persona",
+      "completion": "attempted",
+      "type": "playground"
+    }
+  ],
+  "06-advanced-prompting/04-rubrics-and-judges": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-rubric",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-llm-as-judge-pattern",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:observable-criteria",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:weights-are-priorities",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:rubric-aware-prompting",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-rubrics",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "ex:pg-beat-rubric",
+      "completion": "attempted",
+      "type": "playground"
+    },
+    {
+      "beatId": "prose:what-you-ve-learned",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "07-claude-code-workflows/01-claude-md": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-project-briefing-note",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-belongs-in-claude-md",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-does-not-belong",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:you-won-t-write-it-claude-will",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:coaching-for-the-challenge",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:ch-write-claudemd",
+      "completion": "verified",
+      "type": "challenge"
+    },
+    {
+      "beatId": "prose:the-payoff",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "07-claude-code-workflows/02-settings-permissions": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-permission-file",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:anatomy-of-a-permission-rule",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-three-outcomes",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:why-files-instead-of-clicking",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-settings",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "prose:read-a-real-one",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:tx-read-settings",
+      "completion": "attempted",
+      "persistent": true,
+      "type": "terminal"
+    },
+    {
+      "beatId": "prose:you-just-read-a-security-policy",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "07-claude-code-workflows/03-slash-commands": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-distinction",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-everyday-four",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-slash",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "07-claude-code-workflows/04-resume-and-phrasing": [
+    {
+      "beatId": "prose:intro",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:why-continuing-matters",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:task-phrasing-the-formula",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:connection-to-prompting",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:tx-resume-session",
+      "completion": "attempted",
+      "persistent": true,
+      "type": "terminal"
+    },
+    {
+      "beatId": "prose:when-to-continue-when-to-clear",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:module-wrap-up",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "08-how-ai-systems-are-built/01-apis-and-system-prompts": [
+    {
+      "beatId": "prose:every-ai-product-is-a-wrapper",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:anatomy-of-a-request",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:you-are-inside-an-ai-product-right-now",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:why-the-system-prompt-matters-commercially",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:reliability-tricks-in-real-code",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-you-ve-learned",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-apis",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "ex:pg-system-prompt",
+      "completion": "attempted",
+      "type": "playground"
+    }
+  ],
+  "08-how-ai-systems-are-built/02-tool-use-agent-loop": [
+    {
+      "beatId": "prose:a-bare-llm-can-only-emit-text",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:tools-are-offers",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-agent-loop",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-model-proposes-the-app-disposes",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:you-ve-seen-this-before",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-you-ve-learned",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-agent-loop",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "08-how-ai-systems-are-built/03-rag-and-embeddings": [
+    {
+      "beatId": "prose:the-problem-frozen-knowledge-and-infinite-documents",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-library-analogy",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:embeddings-coordinates-for-meaning",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-rag-pipeline",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:failure-modes",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-you-ve-learned",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-rag",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "08-how-ai-systems-are-built/04-fine-tuning-vs-prompting": [
+    {
+      "beatId": "prose:what-is-fine-tuning",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-ladder-when-to-climb-each-rung",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-fine-tuning-is-wrong",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-fine-tuning-wins",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-you-ve-learned",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-finetune",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "08-how-ai-systems-are-built/05-tokens-and-cost": [
+    {
+      "beatId": "prose:tokens-redux",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-pricing-table",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:worked-example-a-support-bot",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:why-output-costs-more",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:where-money-leaks",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:cost-intuition-context-intuition",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-you-ve-learned",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-cost",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "09-claude-code-power-tools/01-skills": [
+    {
+      "beatId": "prose:the-problem-skills-solve",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-a-skill-is",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:anatomy-a-complete-example",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-to-make-a-skill-vs-claude-md",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:this-course-uses-skills-style-documentation-too",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-skills",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "prose:try-it-yourself",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:term-inspect-skill",
+      "completion": "attempted",
+      "persistent": true,
+      "type": "terminal"
+    }
+  ],
+  "09-claude-code-power-tools/02-hooks": [
+    {
+      "beatId": "prose:the-reliability-gap",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:hook-events",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:configuration-walkthrough",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:prompts-vs-hooks-the-decision-rule",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:safety-note",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-hooks",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "09-claude-code-power-tools/03-headless-mode": [
+    {
+      "beatId": "prose:the-reveal",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:claude-p-the-headless-building-block",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:this-app-s-pipeline-step-by-step",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:why-this-matters-beyond-this-app",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:session-resume-context-across-calls",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-headless",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "prose:watch-the-machinery",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:term-headless-observe",
+      "completion": "attempted",
+      "persistent": true,
+      "type": "terminal"
+    }
+  ],
+  "09-claude-code-power-tools/04-permission-modes": [
+    {
+      "beatId": "prose:recap-and-deepen",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-grammar",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:permission-modes",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:least-privilege-as-a-design-skill",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-a-denial-looks-like",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-permissions",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "09-claude-code-power-tools/05-sandboxing-in-practice": [
+    {
+      "beatId": "prose:the-lab",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:exercise-a-the-read-only-agent",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:term-denied",
+      "completion": "attempted",
+      "persistent": true,
+      "type": "terminal"
+    },
+    {
+      "beatId": "prose:exercise-b-just-enough-power",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:term-granted",
+      "completion": "attempted",
+      "persistent": true,
+      "type": "terminal"
+    },
+    {
+      "beatId": "prose:the-takeaway",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "10-context-engineering/01-attention-budget": [
+    {
+      "beatId": "prose:reframe-what-the-model-sees",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-experiment",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:pg-needle-clean",
+      "completion": "attempted",
+      "type": "playground"
+    },
+    {
+      "beatId": "ex:pg-needle-haystack",
+      "completion": "attempted",
+      "type": "playground"
+    },
+    {
+      "beatId": "prose:isolation-techniques-codified",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-takeaway",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "10-context-engineering/02-context-rot": [
+    {
+      "beatId": "prose:what-is-context-rot",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-experiment",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:term-context-rot",
+      "completion": "attempted",
+      "persistent": true,
+      "type": "terminal"
+    },
+    {
+      "beatId": "prose:the-contamination-script",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:symptoms-of-rot-in-real-work",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:reset-is-a-first-class-tool",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "10-context-engineering/03-progressive-disclosure": [
+    {
+      "beatId": "prose:the-pattern-index-details",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-patient-a-bloated-claude-md",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-operation-restructure",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:challenge-lean-claudemd",
+      "completion": "verified",
+      "type": "challenge"
+    },
+    {
+      "beatId": "prose:the-result",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:leanness-you-can-measure",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-broader-principle",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "10-context-engineering/04-compaction-and-memory": [
+    {
+      "beatId": "prose:the-wall",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:summarize-then-restart-the-expert-version",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-compaction",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "ex:term-handoff",
+      "completion": "attempted",
+      "persistent": true,
+      "type": "terminal"
+    },
+    {
+      "beatId": "prose:memory-hierarchy",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:compaction-is-lossy-by-design",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-to-compact",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-takeaway",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "10-context-engineering/05-context-isolation": [
+    {
+      "beatId": "prose:the-problem-searching-pollutes-context",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-pattern-context-isolation-via-subagents",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-delegation-contract",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-not-to-delegate",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-isolation",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "prose:meta-example-this-course-was-planned-this-way",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:bridge-to-module-11",
+      "completion": "attempted",
+      "type": "prose"
+    }
+  ],
+  "11-agentic-claude-code/01-subagents": [
+    {
+      "beatId": "prose:from-principle-to-tool",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-a-good-brief-looks-like",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-claude-delegates-on-its-own",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:costs-and-limits",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-subagents",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "prose:see-it-in-action",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:term-delegate-search",
+      "completion": "attempted",
+      "persistent": true,
+      "type": "terminal"
+    }
+  ],
+  "11-agentic-claude-code/02-mcp-servers": [
+    {
+      "beatId": "prose:the-gap",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:mcp-defined",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:how-installation-works-conceptually",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:trust-and-security",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:context-cost",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-mcp",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "11-agentic-claude-code/03-plan-mode": [
+    {
+      "beatId": "prose:the-failure-mode-it-prevents",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-flow",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-to-use-it",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-context-connection",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:a-terminal-taste",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-plan-mode",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "ex:term-plan-first",
+      "completion": "attempted",
+      "persistent": true,
+      "type": "terminal"
+    }
+  ],
+  "11-agentic-claude-code/04-parallel-agents-worktrees": [
+    {
+      "beatId": "prose:scaling-up",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:worktrees-isolation-for-the-filesystem",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-fan-out-pattern",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-human-role",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:honest-limits",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-worktrees",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "12-autonomous-remote-claude/01-goal-driven-sessions": [
+    {
+      "beatId": "prose:the-handoff",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:why-a-judge-not-the-worker",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:anatomy-of-a-measurable-condition",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:vs-stop-hooks",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:do-it-for-real",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:term-goal-session",
+      "completion": "attempted",
+      "persistent": true,
+      "type": "terminal"
+    },
+    {
+      "beatId": "ex:challenge-goal-tests",
+      "completion": "verified",
+      "type": "challenge"
+    }
+  ],
+  "12-autonomous-remote-claude/02-loop-and-schedules": [
+    {
+      "beatId": "prose:recurrence-three-ways",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:loop-interval-prompt-in-session-polling",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:desktop-scheduled-tasks",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:cloud-routines-schedule",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-comparison-table",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-loop-schedules",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "12-autonomous-remote-claude/03-ultracode-dynamic-workflows": [
+    {
+      "beatId": "prose:the-ceiling",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:ultracode",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-pivotal-move-plan-lives-in-code-not-context",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:dynamic-not-canned",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-decision-table",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-ultracode",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "12-autonomous-remote-claude/04-remote-claude": [
+    {
+      "beatId": "prose:tier-1-local-cli",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:tier-2-claude-code-on-the-web",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:tier-3-remote-control",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-connective-tissue-resume",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:choosing",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-remote-tiers",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "12-autonomous-remote-claude/05-claude-in-your-repos": [
+    {
+      "beatId": "prose:claude-where-the-work-already-lives",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:automatic-pr-review",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-building-block-under-everything-claude-p",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-third-party-ecosystem",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:closing-the-module",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-ecosystem",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "13-prompt-mastery/01-production-prompts": [
+    {
+      "beatId": "prose:the-shift",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:template-variables",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-output-contract",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:version-it-like-code",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:practice",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:pg-production-template",
+      "completion": "attempted",
+      "type": "playground"
+    }
+  ],
+  "13-prompt-mastery/02-writing-rubrics": [
+    {
+      "beatId": "prose:the-reveal",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-makes-a-criterion-gradeable",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:weights-are-the-design",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:worked-example",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-exercise",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:pg-write-rubric",
+      "completion": "attempted",
+      "type": "playground"
+    }
+  ],
+  "13-prompt-mastery/03-prompt-injection": [
+    {
+      "beatId": "prose:the-attack",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:where-it-hides",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-it-looks-like",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:mitigations-layered-none-perfect",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:train-the-eye",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-spot-injection",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "13-prompt-mastery/04-systematic-evals": [
+    {
+      "beatId": "prose:vibes-don-t-scale",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-eval-loop",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:one-change-at-a-time",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:regressions-are-the-point",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:don-t-overfit",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-evals",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "13-prompt-mastery/05-cost-aware-prompting": [
+    {
+      "beatId": "prose:tokens-are-the-bill",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:where-bloat-hides",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:caching-intuition",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:leanness-omission",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:practice",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-cost",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "ex:pg-lean-rewrite",
+      "completion": "attempted",
+      "type": "playground"
+    }
+  ],
+  "14-capstone/01-claudemd-first": [
+    {
+      "beatId": "prose:the-project",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:why-memory-first",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-goes-in-at-this-stage",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:how-you-build-it",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-stakes",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:challenge-claudemd",
+      "completion": "verified",
+      "type": "challenge"
+    }
+  ],
+  "14-capstone/02-green-the-tests": [
+    {
+      "beatId": "prose:test-first-agent-driven",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:read-the-spec-yourself-first",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-workflow",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-it-fails",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:challenge-green-tests",
+      "completion": "verified",
+      "type": "challenge"
+    }
+  ],
+  "14-capstone/03-teach-it-a-skill": [
+    {
+      "beatId": "prose:a-repeatable-procedure-appears",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:anatomy-refresher",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:this-stage-s-skill",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:challenge-skill",
+      "completion": "verified",
+      "type": "challenge"
+    }
+  ],
+  "14-capstone/04-wire-a-hook": [
+    {
+      "beatId": "prose:instructions-ask-hooks-enforce",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:where-hooks-live",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:this-stage-s-hook",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:json-discipline",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:challenge-hook",
+      "completion": "verified",
+      "type": "challenge"
+    }
+  ],
+  "14-capstone/05-goal-finale": [
+    {
+      "beatId": "prose:the-finale-s-shape",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:extending-a-spec-honestly",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-hygiene-grade",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:graduation",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:challenge-final",
+      "completion": "verified",
+      "type": "challenge"
+    }
+  ],
+  "15-ai-for-analytics/01-tag-manager-code": [
+    {
+      "beatId": "prose:your-new-tag-writing-partner",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-tag-managers-need-from-ai",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-workflow-describe-generate-test",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:real-example-product-id-extractor",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:common-pitfalls-to-watch-for",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-to-ask-ai-vs-when-to-debug-yourself",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:your-turn-write-a-custom-variable",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:quiz-gtm-concepts",
+      "completion": "passed",
+      "type": "quiz"
+    },
+    {
+      "beatId": "ex:pg-product-id-extractor",
+      "completion": "attempted",
+      "type": "playground"
+    }
+  ],
+  "15-ai-for-analytics/02-debugging-tracking": [
+    {
+      "beatId": "prose:when-tags-go-wrong",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-debugging-loop-a-systematic-approach",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:reading-console-errors-and-what-they-mean",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:describing-bugs-to-ai-the-checklist",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-quick-wins-common-fixes",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:ai-s-role-pattern-recognition-not-mind-reading",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:your-turn-debug-a-broken-tag",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:tx-debug-ga4",
+      "completion": "attempted",
+      "persistent": true,
+      "type": "terminal"
+    }
+  ],
+  "15-ai-for-analytics/03-sql-for-analytics": [
+    {
+      "beatId": "prose:when-spreadsheets-aren-t-enough",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-ga4-bigquery-schema-in-60-seconds",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:common-analytics-queries-and-how-to-prompt-for-them",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-prompt-engineering-pattern",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:testing-before-you-run",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:when-ai-gets-it-wrong-and-how-to-fix-it",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:your-turn-write-retention-sql",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:pg-retention-query",
+      "completion": "attempted",
+      "type": "playground"
+    },
+    {
+      "beatId": "ex:quiz-bigquery-concepts",
+      "completion": "passed",
+      "type": "quiz"
+    }
+  ],
+  "15-ai-for-analytics/04-measurement-plans": [
+    {
+      "beatId": "prose:the-handoff-problem",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:what-goes-in-a-measurement-plan",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:from-slack-message-to-spec-with-ai",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-data-dictionary-your-schema-source-of-truth",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:documentation-that-survives-handoffs",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:keeping-docs-updated-the-hard-part",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:your-turn-generate-a-measurement-plan",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:pg-measurement-plan",
+      "completion": "attempted",
+      "type": "playground"
+    }
+  ],
+  "15-ai-for-analytics/05-data-quality": [
+    {
+      "beatId": "prose:when-good-tags-go-bad",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-tag-audit-checklist",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:building-a-tag-validator-with-ai",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:common-tag-issues-to-check-for",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:the-ai-workflow-for-validators",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:beyond-html-checking-live-pages",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:test-scenarios-ai-can-generate",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "prose:your-turn-build-a-tag-validator",
+      "completion": "attempted",
+      "type": "prose"
+    },
+    {
+      "beatId": "ex:ch-tag-audit",
+      "completion": "verified",
+      "type": "challenge"
+    }
+  ]
+}

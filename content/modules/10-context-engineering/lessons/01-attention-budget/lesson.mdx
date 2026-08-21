@@ -1,0 +1,73 @@
+---
+id: 01-attention-budget
+title: "The Attention Budget"
+minutes: 18
+objectives:
+  - State the attention-budget principle
+  - Predict how distractor text degrades recall
+  - Run a controlled clean-vs-stuffed comparison
+  - Write prompts that isolate relevant context
+---
+
+## Reframe: What the Model Sees
+
+Modules 2 through 6 taught you what to SAY in a prompt. Experts obsess over what the model SEES.
+
+The context window is not a bucket you fill — it's a budget you spend. Every token in context competes for the model's attention with every other token. When you paste a 10,000-word document and ask about one sentence buried in the middle, you're not just asking the model to read more — you're asking it to wade through 9,950 words of distraction to find the 50 that matter.
+
+Research and practice consistently show: the same question gets worse answers when the relevant fact is buried in irrelevant text. This is the **needle-in-a-haystack** effect. Long context windows (200k+ tokens) are not free real estate — they're expensive leases you pay with attention.
+
+## The Experiment
+
+You'll run the same question twice against the same buried fact. The only difference: how much distraction surrounds it.
+
+**The setup:** A 600-word company memo. Somewhere in the middle, one sentence states when the CFO started. That sentence is surrounded by other dates, other names, other roles — numeric and semantic distractors designed to snag a skimming model's attention.
+
+**Run 1 (clean context):** You extract ONLY the relevant sentence and hand it to the model. No clutter. Notice how effortlessly the model answers — this is your baseline.
+
+**Run 2 (the haystack):** You paste the FULL memo and ask the same question. The model has to find the needle. This is where engineering matters.
+
+<Exercise id="pg-needle-clean" />
+
+<Exercise id="pg-needle-haystack" />
+
+## Isolation Techniques Codified
+
+When you compared the two runs, you discovered the gap between "it's in there somewhere" and "here is exactly what matters." The techniques that close that gap are the foundation of context engineering:
+
+### Extract-then-ask
+
+Pull the relevant lines out yourself when you can. If you know which paragraph contains the answer, quote ONLY that paragraph in your prompt. This is the clean-context pattern from Run 1 — trivial when the fact is obvious to you, but it sets the ceiling for how well the model can answer.
+
+### Direct attention before reading
+
+Tell the model what to look for BEFORE it reads the document. "The answer is in the section about personnel" or "Focus on dates in March 2019" primes the model's attention. Structure like this:
+
+```
+I need the CFO's start date from the memo below.
+Look for it in the personnel paragraph.
+
+<memo>
+[full document here]
+</memo>
+
+When did the CFO start?
+```
+
+Instructions at the **edges** (start and end), never buried mid-document.
+
+### Demand citation
+
+Forcing the model to quote the supporting sentence makes it re-find the fact rather than hallucinating or guessing from a half-remembered skim. "Answer the question and quote the exact sentence from the memo that supports your answer."
+
+### Put the question at both edges
+
+Ask once before the document (to prime attention) and once after (to ensure the question is the last thing the model reads). Repetition is not redundancy — it's reinforcement.
+
+## The Takeaway
+
+Same fact. Same model. Different answers.
+
+The difference was engineering what the model sees and where its attention goes. You didn't change the information — you changed its **signal-to-noise ratio**.
+
+If a 600-word memo measurably degrades performance, imagine a 100,000-token session filled with dead ends, contradictions, and stale instructions. That's the next lesson: context rot.

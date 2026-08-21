@@ -1,0 +1,63 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-json",
+    "title": "Check: constraining output",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "When does forcing output into strict JSON matter most?",
+        "options": [
+          { "id": "a", "text": "When a human will casually read the answer once" },
+          { "id": "b", "text": "When something other than a human — a spreadsheet, app, or your next prompt — will consume the output" },
+          { "id": "c", "text": "Always — prose answers are wrong" },
+          { "id": "d", "text": "Never — JSON is only for programmers" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Machines and downstream steps need predictable shapes; a friendly 'Sure! Here's...' wrapper breaks them. For a human skim (a), prose is fine — strictness is a tool for reuse, not a universal rule (c). And JSON is just labeled text anyone can read (d)."
+      },
+      {
+        "id": "q2",
+        "kind": "multi",
+        "prompt": "Which elements belong in a reliable JSON-constraining prompt? Select all that apply.",
+        "options": [
+          { "id": "a", "text": "The exact field names and what type each holds" },
+          { "id": "b", "text": "One example object in the desired shape" },
+          { "id": "c", "text": "An instruction to respond with ONLY the JSON, no extra text" },
+          { "id": "d", "text": "An instruction to add helpful commentary after the JSON" },
+          { "id": "e", "text": "A rule for unknown values (e.g. use null, don't invent)" }
+        ],
+        "correctOptionIds": ["a", "b", "c", "e"],
+        "explanation": "Named fields, a demonstrated example, the only-the-JSON sentence, and an unknowns rule are the four pillars — the last one is your hallucination guard. Commentary after the JSON (d) is exactly the wrapper text you're trying to eliminate."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "The model returned perfect JSON, but one field contains a fact you suspect it made up. What's true?",
+        "options": [
+          { "id": "a", "text": "Valid JSON format means the contents were verified" },
+          { "id": "b", "text": "Formatting constrains the shape, not the truth — the content can still be hallucinated" },
+          { "id": "c", "text": "JSON output disables hallucination" },
+          { "id": "d", "text": "The model would have used null if it weren't sure" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Shape and truth are independent: the model fills required fields with the most plausible-looking values, real or not. Format validity verifies nothing (a, c), and it only uses null for unknowns if you TOLD it to — and even then, verify anything load-bearing (d)."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-json",
+    "title": "Get pure JSON out",
+    "instructions": "You're building a recipe collection and need structured data. Write a prompt that asks the model to describe one dinner recipe as a single JSON object. Your prompt must (1) specify the exact fields: \"name\" (text), \"minutes\" (number), \"difficulty\" (one of: easy, medium, hard), \"ingredients\" (list of text), (2) include one complete example JSON object for a DIFFERENT recipe so the shape is demonstrated, (3) instruct the model to respond with ONLY the JSON object — no introduction or commentary, and (4) include a rule for missing information (use null rather than inventing a value).",
+    "rubric": [
+      { "id": "fields", "description": "The prompt names the exact fields (name, minutes, difficulty, ingredients) with their types or allowed values.", "weight": 30 },
+      { "id": "example", "description": "The prompt includes one complete example JSON object demonstrating the shape.", "weight": 25 },
+      { "id": "only-json", "description": "The prompt explicitly demands ONLY the JSON with no surrounding text.", "weight": 25 },
+      { "id": "null-rule", "description": "The prompt tells the model to use null for unknown values instead of inventing them.", "weight": 20 }
+    ],
+    "passingScore": 70
+  }
+]

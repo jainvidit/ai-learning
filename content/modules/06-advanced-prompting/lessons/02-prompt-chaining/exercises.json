@@ -1,0 +1,62 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-chaining",
+    "title": "Check: prompt chaining",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "What is prompt chaining?",
+        "options": [
+          { "id": "a", "text": "Sending the same prompt repeatedly until the answer improves" },
+          { "id": "b", "text": "Breaking a big task into separate prompts, where each step's output becomes the next step's input" },
+          { "id": "c", "text": "Writing one very long prompt with every instruction chained together" },
+          { "id": "d", "text": "Linking several AI products in one browser window" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "A chain is a relay race: focused legs, clean baton handoffs. Repeating one prompt (a) is rerolling, and one giant prompt (c) is exactly the juggling act chaining exists to avoid — the model does four jobs at once and each a bit worse."
+      },
+      {
+        "id": "q2",
+        "kind": "single",
+        "prompt": "Why should a chain step's output be a strict shape (exact list or JSON, no preamble)?",
+        "options": [
+          { "id": "a", "text": "Strict shapes make the model smarter" },
+          { "id": "b", "text": "The output gets pasted into the next prompt verbatim — a friendly 'Sure! Here are the themes...' wrapper pollutes the next step's input" },
+          { "id": "c", "text": "Chains only work with JSON" },
+          { "id": "d", "text": "Humans find strict shapes easier to read" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The reader of a chain step's output isn't you — it's the next prompt. A clean baton (predictable shape, no chatter) hands off perfectly; wrapper text and commentary ride along into step 2 as noise. Strict lists work as well as JSON (c), and human readability (d) is beside the point mid-chain."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "Besides focus, what's the big practical advantage of running steps separately instead of one giant prompt?",
+        "options": [
+          { "id": "a", "text": "You can inspect the output between steps and catch a mistake before it poisons everything downstream" },
+          { "id": "b", "text": "Separate prompts are always cheaper in total" },
+          { "id": "c", "text": "The model remembers each step forever" },
+          { "id": "d", "text": "Chains never produce wrong answers" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Checking the baton between legs is the superpower: a wrong theme caught after step 1 costs one rerun; the same mistake inside a giant prompt silently corrupts the summary and you may never spot where. Chains can cost more total (b) and still err (d) — they just make errors visible and cheap to fix."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-chain",
+    "title": "Design a chain",
+    "instructions": "A neighborhood association collected 15 messy free-text survey responses about improving the local park, and wants a short summary for the next meeting. Design a chain and write its first step. Submit BOTH parts in one message: (1) a <plan> section listing 2–3 numbered steps, where each step names its one job AND the exact shape of its output (the baton it hands to the next step), and (2) a complete <step1> section containing the full, runnable first prompt: it must include 4–6 invented survey responses inside an XML tag, instruct the model to extract the shaped output your plan promised (e.g. a strict JSON list of themes with counts), and demand ONLY that output with no preamble or commentary.",
+    "rubric": [
+      { "id": "plan", "description": "The prompt contains a <plan> section with 2–3 numbered steps, each stating one job and its output shape.", "weight": 25 },
+      { "id": "step1-complete", "description": "The <step1> section is a complete runnable prompt including invented survey responses inside an XML tag.", "weight": 25 },
+      { "id": "handoff-shape", "description": "Step 1's requested output is a strict machine-friendly shape (exact list or JSON with named fields) matching what the plan promised.", "weight": 30 },
+      { "id": "only-output", "description": "Step 1 demands ONLY the shaped output, with no preamble or commentary.", "weight": 20 }
+    ],
+    "passingScore": 70
+  }
+]

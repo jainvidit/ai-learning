@@ -1,0 +1,64 @@
+---
+id: 01-goal-driven-sessions
+title: "Goal-Driven Sessions: /goal"
+minutes: 16
+objectives:
+  - Explain how a /goal session works with a judge model deciding when the condition is met
+  - Write measurable goal conditions with end state, check, constraints, and turn bounds
+  - Contrast /goal with Stop hooks from module 09
+  - Drive a fix-until-green session with goal-style phrasing
+---
+
+## The handoff
+
+Until now, YOU decided when Claude was done: read the answer, send the next prompt. `/goal <condition>` flips it: you state an end condition once, and Claude keeps working across turns — editing, running, re-checking — while a small fast model acts as judge, reading the state of play each round and answering one question: is the condition met yet? When the judge says yes, the session stops.
+
+This is the shift from turn-by-turn driving to autonomous execution. You set the destination; Claude drives there while a cheap, narrow judge confirms arrival.
+
+## Why a judge, not the worker
+
+The model doing the work is motivated to declare victory; a separate cheap judge with one narrow question is harder to fool and nearly free to consult every turn. This is a callback to module 06: a rubric with exactly one criterion, applied by a second model. The worker optimizes for solving the problem; the judge optimizes for honesty about whether it's solved.
+
+## Anatomy of a measurable condition
+
+Four parts, every time:
+
+1. **ONE end state** — "all tests pass", not "the code is better"
+2. **A stated CHECK the judge can apply** — "node test.js exits 0 and prints no FAIL"
+3. **CONSTRAINTS** — "only edit calc.js, never test.js"
+4. **TURN BOUNDS** — "give up and report if not done in 12 turns"
+
+A condition missing any part invites either premature victory or an infinite loop.
+
+**Good vs bad:**
+
+| Bad (unjudgeable) | Good (measurable) |
+|---|---|
+| make the calculator good | node test.js exits 0 with no FAIL lines; only edit calc.js; stop after 12 turns |
+| fix the tests | fix calc.js so node test.js prints all PASS and exits 0; never edit test.js; stop and report blockers after 10 turns |
+| improve performance | reduce execution time of benchmark.js below 100ms; only edit optimize.js; give up after 15 turns |
+
+The difference: can a neutral model look at the state and answer "is it done?" without interpretation.
+
+## vs Stop hooks
+
+Module 09's Stop hooks also keep Claude going: a script fires when Claude tries to stop and can push it back to work. Difference in kind:
+
+- **Hook** = deterministic CODE (exit code decides)
+- **Goal** = JUDGED natural-language condition (a model decides)
+
+Hooks for checks you can script; goals for conditions you can only describe.
+
+<Callout kind="info">
+They compose: a Stop hook can enforce "tests ran at least once" while a goal judges "the refactor is complete."
+</Callout>
+
+## Do it for real
+
+This app's terminal doesn't expose the `/goal` slash command itself, but goal-style PHRASING gives you most of the behavior in any session: state the condition, the check, the constraints, and the bound in your first message, then let Claude iterate.
+
+That's what you'll practice now — followed by a challenge where a verifier (a deterministic judge!) confirms the end state.
+
+<Exercise id="term-goal-session" />
+
+<Exercise id="challenge-goal-tests" />

@@ -1,0 +1,56 @@
+---
+id: 05-fix-the-bug
+title: "Challenge: Fix the Bug"
+minutes: 18
+objectives:
+  - "Complete a full agent-loop cycle on a real bug: describe, delegate, verify"
+  - Use a test as the definition of done
+  - Pass an automated verification of the fix
+---
+
+## Everything, combined
+
+This is the milestone: everything you've learned in this module, combined into one real task.
+
+There's a tiny program with a bug, and a TEST that currently fails. You'll direct Claude to fix it. No hand-holding prompts this time — you write the goal.
+
+## What's in the sandbox
+
+- `greet.js` — a small program that builds a greeting message
+- `test.js` — a test that checks whether greet.js works correctly
+
+A **test** is a definition of done written as a program. It runs the code and checks the output. When the test prints PASS, you're done. When it prints FAIL, something's broken.
+
+This is the most specific "format of done" possible — remember the format lesson from module 02? The test IS the format.
+
+## Your strategy
+
+Here's a good opening goal (you can use this or write your own):
+
+"The test in this project fails. Find the bug, fix it, and show me the test passing."
+
+Notice what that goal does: it names the SYMPTOM (test fails) and the PROOF you want (test passes). It doesn't tell Claude HOW to fix the bug — you can't see the bug yet anyway. You describe what done looks like and let the loop work.
+
+<Callout kind="tip">
+Let Claude run the test FIRST to see the failure. That's observe-before-act — the agent loop. Claude needs to see what's wrong before it can fix it.
+</Callout>
+
+## Your challenge
+
+<Exercise id="ch-fix-greet" />
+
+## What just happened, in loop terms
+
+Let's name the steps:
+
+1. **Gather context** — Claude read greet.js and test.js to understand what was supposed to happen
+2. **Act** — Claude edited greet.js to fix the bug
+3. **Observe** — Claude ran the test and saw PASS (or FAIL, and looped again)
+
+That's software work now. You described the problem, Claude found and fixed it, and you verified the result. The loop handled the rest.
+
+## Module complete
+
+You've driven your first session, made your first edit, understood the permission gate, and shipped a real fix. Module 07 will make this an everyday workflow: project memory, custom settings, slash commands, and working on your own projects.
+
+You're ready to use Claude Code.

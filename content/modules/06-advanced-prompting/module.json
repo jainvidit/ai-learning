@@ -1,0 +1,12 @@
+{
+  "id": "06-advanced-prompting",
+  "title": "Advanced Prompting",
+  "track": "prompting",
+  "description": "Push past the core techniques: learn when a quick answer will do and when to ask the model to think deeply, break big jobs into chained prompts that hand off cleanly, build personas that go far beyond 'act as', and pull back the curtain on how this app has been grading your prompts since module 02 — then write rubric-aware prompts of your own.",
+  "lessons": [
+    { "id": "01-extended-thinking", "title": "Thinking Deeply: Extended Thinking & Effort" },
+    { "id": "02-prompt-chaining", "title": "Prompt Chaining: Big Jobs in Small Steps" },
+    { "id": "03-personas-in-depth", "title": "Personas in Depth" },
+    { "id": "04-rubrics-and-judges", "title": "Rubrics & Judges: How This App Grades You" }
+  ]
+}

@@ -1,0 +1,31 @@
+---
+id: 04-wire-a-hook
+title: "Stage 4: Wire a Hook"
+minutes: 14
+objectives:
+  - Configure a hook in .claude/settings.json
+  - Explain why enforcement belongs in the harness, not in instructions
+  - Keep hook commands safe and simple
+---
+
+## Instructions ask; hooks enforce
+
+CLAUDE.md says "run the tests" — Claude usually complies. A hook (module 09) removes "usually": the harness itself runs your command at fixed lifecycle points, deterministically, every time. Module 13 said a successful injection should find nothing dangerous to do; the same architecture thinking says a critical check shouldn't depend on the model remembering it.
+
+## Where hooks live
+
+`.claude/settings.json` in the project, under a `hooks` key: each entry names an event (e.g., a post-edit or stop event) and the shell command to run. Configuration, not conversation — it survives every session, resists every distraction.
+
+## This stage's hook
+
+After edits (or when Claude finishes), run the journal test suite — so a regression announces itself immediately instead of at stage 5. Hedge exact event names honestly: "in current versions" the common events include tool-call pre/post and stop; the shape (event → command) is the durable idea.
+
+## JSON discipline
+
+settings.json is parsed by the harness: trailing commas or comments break it silently. Have Claude read the file back after writing it.
+
+<Callout kind="warning">
+A hook is code that runs automatically with your permissions — keep this one to the boring, read-only-ish command it needs (`node tests/journal.test.js`), nothing more.
+</Callout>
+
+<Exercise id="challenge-hook" />

@@ -1,0 +1,123 @@
+---
+id: 02-xml-structure
+title: "Structure with XML Tags"
+minutes: 12
+objectives:
+  - Explain why labeled sections help the model parse a complex prompt
+  - Wrap instructions, context, and examples in XML tags
+  - Refer to tagged sections by name inside instructions
+---
+
+Your prompts are getting more sophisticated. You're including background context, specific instructions, pasted emails to rewrite, and few-shot examples. But when you paste everything together, a problem appears: where does the email end and the instruction begin?
+
+Sometimes the model rewrites your INSTRUCTIONS instead of the email you wanted it to rewrite. The boundaries blur. You need labeled boxes.
+
+## XML tags: labeled envelopes for your content
+
+The solution is simple: wrap each section in **XML tags**. These are just labels in angle brackets around a section of text:
+
+```
+<email>
+Dear Customer,
+We regret to inform you...
+</email>
+```
+
+An opening tag (`<email>`), the content, and a closing tag with a slash (`</email>`). You can name them anything sensible — `<instructions>`, `<context>`, `<document>`, `<notes>`, whatever fits the content.
+
+No programming knowledge required. Think of tags as labeled envelopes: you're just putting different pieces of your prompt into labeled containers so they don't get mixed up.
+
+## Why it works
+
+Language models saw enormous amounts of tagged text during training — HTML, XML, markdown code blocks — and learned to treat tags as strong section boundaries. Claude in particular is trained to respect them carefully.
+
+When you write:
+
+```
+<instructions>
+Rewrite the email below to be friendlier.
+</instructions>
+
+<email>
+Your account has been suspended.
+</email>
+```
+
+The model sees two clearly labeled boxes. It knows "Your account has been suspended" is the email to transform, not part of the instructions themselves.
+
+## The classic layout
+
+Here's a proven structure for complex prompts:
+
+```
+<instructions>
+Your task and rules go here.
+</instructions>
+
+<context>
+Background information the model needs.
+</context>
+
+<document>
+The email, notes, or text you're asking the model to work with.
+</document>
+
+<examples>
+<example>
+Input: ...
+Output: ...
+</example>
+
+<example>
+Input: ...
+Output: ...
+</example>
+</examples>
+```
+
+Name each section by its content: `<email>` for emails, `<meeting_notes>` for notes, `<code>` for code. Descriptive names help both you and the model track what's what.
+
+## Power move: cross-references
+
+Once you've tagged your sections, you can refer to them by name in your instructions:
+
+```
+<instructions>
+Rewrite the text in <email> following the tone shown in <examples>.
+Make it friendlier but keep all the details from <context>.
+</instructions>
+
+<context>
+The customer paid on time. This is an automatic notice.
+</context>
+
+<email>
+Your account has been flagged for review.
+</email>
+
+<examples>
+Before: Payment overdue.
+After: Just a friendly reminder about your payment.
+</examples>
+```
+
+The cross-references — "the text in `<email>`", "the tone shown in `<examples>`" — remove the last bit of ambiguity. The model knows exactly which piece plays which role.
+
+<Callout kind="tip">
+Any time a prompt contains pasted material longer than a couple of lines, wrap it in a tag. It's the cheapest reliability upgrade in prompting.
+</Callout>
+
+## Quick rules
+
+- **Every opening tag needs a closing tag**: `<email>` must have `</email>` (note the slash).
+- **Tag sections, not sentences**: Don't wrap every individual sentence. Tag meaningful chunks — the instructions as one section, the document as another.
+- **Descriptive names beat generic ones**: `<email>` tells the model what it contains; `<section1>` doesn't.
+- **Nesting is fine**: You can put `<example>` tags inside an `<examples>` section if it helps organize.
+
+That's it. Tags are labeled envelopes. Use them to keep your prompt organized and unambiguous.
+
+<Exercise id="quiz-xml" />
+
+Now build a tagged prompt yourself.
+
+<Exercise id="pg-xml" />

@@ -1,0 +1,13 @@
+{
+  "id": "04-core-prompt-techniques",
+  "title": "Core Prompt Engineering",
+  "track": "prompting",
+  "description": "Level up from good habits to real techniques: teach by example with few-shot prompts, organize complex prompts with XML tags, unlock reasoning with step-by-step thinking, lock outputs into exact shapes like JSON, and understand the split between system and user prompts.",
+  "lessons": [
+    { "id": "01-few-shot", "title": "Teach by Example: Few-Shot Prompting" },
+    { "id": "02-xml-structure", "title": "Structure with XML Tags" },
+    { "id": "03-step-by-step", "title": "Think Step by Step" },
+    { "id": "04-constrain-output", "title": "Constraining Output: JSON & Lists" },
+    { "id": "05-system-vs-user", "title": "System vs User Prompts" }
+  ]
+}

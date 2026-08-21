@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Page - Broken Tracking</title>
+
+  <!-- BUG #1: Missing GTM container! -->
+  <!-- The GTM script should be here but it's been removed -->
+
+  <!-- BUG #2: dataLayer.push() BEFORE initialization! -->
+  <script>
+    // This will cause an error: dataLayer is not defined yet
+    dataLayer.push({
+      event: 'page_view',
+      page_type: 'product',
+      product_id: 'BAG-9999'
+    });
+  </script>
+
+  <!-- Data Layer initialization (too late!) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+  </script>
+</head>
+<body>
+  <h1>Designer Handbag</h1>
+  <p>Luxury leather handbag with gold accents.</p>
+  <p>Price: $399.99</p>
+  <button id="addToCart">Add to Cart</button>
+
+  <script>
+    // BUG #3: Event name is undefined
+    document.getElementById('addToCart').addEventListener('click', function() {
+      dataLayer.push({
+        // Missing 'event' property!
+        product_id: 'BAG-9999',
+        product_name: 'Designer Handbag',
+        price: 399.99
+      });
+    });
+  </script>
+</body>
+</html>

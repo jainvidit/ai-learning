@@ -1,0 +1,62 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-slash",
+    "title": "Check: slash commands",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "What's the difference between a slash command and a regular prompt?",
+        "options": [
+          { "id": "a", "text": "Slash commands are prompts written more politely" },
+          { "id": "b", "text": "A prompt goes into the conversation for Claude to act on; a slash command steers the session itself — clearing it, resuming one, changing settings" },
+          { "id": "c", "text": "Slash commands are only for programmers" },
+          { "id": "d", "text": "There is no difference" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The conversation is the cargo; slash commands drive the truck. /clear, /resume, and /config manage the session around Claude rather than asking Claude to do something — the leading / is how the app tells the two apart."
+      },
+      {
+        "id": "q2",
+        "kind": "single",
+        "prompt": "You spent an hour fixing a bug, and now you're starting a completely unrelated task in the same project. What's the best first move?",
+        "options": [
+          { "id": "a", "text": "/clear — start fresh so the old task's context doesn't drag into the new one" },
+          { "id": "b", "text": "/config — change the model" },
+          { "id": "c", "text": "Keep going in the same conversation — more context is always better" },
+          { "id": "d", "text": "/help — read the manual again" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "An unrelated task deserves a clean slate: the bug hunt's long history is now noise that steers responses off course. 'More context is always better' (c) is the classic trap — RELEVANT context helps; leftover context pollutes. This is module 02's 'restart beats a fifth correction' with a button on it."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "Yesterday you and Claude got halfway through reorganizing a project. Today you want to continue exactly where you left off. Which command?",
+        "options": [
+          { "id": "a", "text": "/clear" },
+          { "id": "b", "text": "/config" },
+          { "id": "c", "text": "/resume — pick yesterday's session and continue with its full memory intact" },
+          { "id": "d", "text": "No command needed — Claude automatically remembers all past conversations" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "/resume lists past sessions and reopens the one you pick, history and all — 'the second file, like we discussed' works again. Memory across sessions is opt-in, not automatic (d): a fresh session starts blank except for CLAUDE.md, which is exactly why /resume exists."
+      },
+      {
+        "id": "q4",
+        "kind": "single",
+        "prompt": "You can't remember what commands exist or what one of them does. What do you type?",
+        "options": [
+          { "id": "a", "text": "/help" },
+          { "id": "b", "text": "/clear" },
+          { "id": "c", "text": "Nothing — guessing is faster" },
+          { "id": "d", "text": "/resume" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "/help lists every available command with what it does — it's the one command worth memorizing precisely because it makes memorizing the rest optional. /clear (b) would wipe your session, which is a rough way to look something up."
+      }
+    ]
+  }
+]

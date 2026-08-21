@@ -1,0 +1,140 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-gtm-concepts",
+    "title": "Check: Tag Manager Code Fundamentals",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "You ask AI to write a GTM custom variable that reads the page URL. The code uses `window.location.href` directly. What should you do?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Use it as-is — window.location.href is the standard way to get URLs in JavaScript"
+          },
+          {
+            "id": "b",
+            "text": "Replace it with {{Page URL}} — GTM's built-in variable respects privacy settings and tag manager configuration"
+          },
+          {
+            "id": "c",
+            "text": "Replace it with document.URL for better browser compatibility"
+          },
+          {
+            "id": "d",
+            "text": "Ask AI to add error handling around window.location.href"
+          }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Option B is correct. In Google Tag Manager, you should use `{{Page URL}}` (the built-in GTM variable) rather than raw browser APIs like `window.location.href`. The GTM variable respects consent settings, privacy configurations, and any URL transformations you've set up in the container. Option A uses raw JavaScript which bypasses GTM's privacy features. Option C (document.URL) has the same problem. Option D doesn't fix the core issue — you should use GTM's abstraction layer."
+      },
+      {
+        "id": "q2",
+        "kind": "single",
+        "prompt": "AI generates this code to extract a query parameter: `url.split('?')[1].split('&')`. You test it on a URL without a query string and GTM throws an error. What's the problem?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The split() method doesn't work in GTM's JavaScript environment"
+          },
+          {
+            "id": "b",
+            "text": "The code doesn't handle the case where there's no '?' in the URL, causing split()[1] to be undefined"
+          },
+          {
+            "id": "c",
+            "text": "GTM requires you to use URLSearchParams instead of string splitting"
+          },
+          {
+            "id": "d",
+            "text": "The ampersand (&) character needs to be URL-encoded in GTM"
+          }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Option B is correct. When a URL has no query string, `url.split('?')` returns an array with only one element (the base URL). Accessing `[1]` returns undefined, and calling `.split('&')` on undefined throws an error. You need to add a null check: `url.split('?')[1]?.split('&')` or check if the array has a second element. Option A is wrong — split() works fine in GTM. Option C is misleading — while URLSearchParams is better practice, the immediate problem is the missing null check. Option D is irrelevant to this error."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "When should you test AI-generated GTM code in preview mode BEFORE publishing to production?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Only if the code looks complicated or uses unfamiliar syntax"
+          },
+          {
+            "id": "b",
+            "text": "Only for custom HTML tags — variables and triggers are safe to publish directly"
+          },
+          {
+            "id": "c",
+            "text": "Always — preview mode is how you verify the code works across different page scenarios and edge cases"
+          },
+          {
+            "id": "d",
+            "text": "Never — AI-generated code is pre-tested, so you can deploy it immediately"
+          }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Option C is correct. You should ALWAYS test in preview mode before publishing, regardless of how simple the code looks or how confident you are. Preview mode lets you see the tag's behavior across different pages, user interactions, and edge cases (like pages without query parameters, logged-out users, or unusual URL structures). Option A is dangerous — even simple code can fail in unexpected scenarios. Option B is wrong — variables can have bugs too, especially custom JavaScript variables. Option D is reckless — AI doesn't know your specific site context or edge cases."
+      },
+      {
+        "id": "q4",
+        "kind": "single",
+        "prompt": "You ask AI to write code that fires a tag when users click any 'Add to Cart' button. AI writes a solution that's 47 lines long with complex event delegation logic. What's your best next move?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Use it — longer code means more robust handling of edge cases"
+          },
+          {
+            "id": "b",
+            "text": "Manually rewrite it yourself to be shorter"
+          },
+          {
+            "id": "c",
+            "text": "Ask AI to simplify it: 'Make this more concise while still handling clicks on all Add to Cart buttons'"
+          },
+          {
+            "id": "d",
+            "text": "Abandon AI and use GTM's built-in click trigger instead"
+          }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Option C is correct. AI often over-engineers solutions when a simpler approach would work. By asking it to simplify while preserving the core functionality, you get cleaner, more maintainable code. This iterative refinement is a key AI workflow skill. Option A assumes complexity equals quality, which is rarely true — simpler code is easier to debug and maintain. Option B wastes your time doing what AI can do faster. Option D might be valid if GTM's built-in trigger works for your case, but the question is about improving the AI output, not avoiding AI entirely."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-product-id-extractor",
+    "title": "Write a Product ID Extractor",
+    "instructions": "You're setting up e-commerce tracking for an online store. Product pages have URLs like:\n\n- `https://shop.example.com/products/shoes?product_id=SKU-9876&color=blue`\n- `https://shop.example.com/products/bags?product_id=BAG-5432&size=large#reviews`\n- `https://shop.example.com/products` (no product_id parameter)\n\n**Your task:** Write a prompt for AI that will generate a Google Tag Manager custom JavaScript variable to extract the `product_id` query parameter from the URL.\n\nYour prompt should result in code that:\n1. Returns the value of the `product_id` parameter when it exists\n2. Returns `null` when the parameter is missing (like on the /products listing page)\n3. Handles URLs with URL fragments (#reviews) after the query string\n4. Uses GTM's `{{Page URL}}` variable rather than raw JavaScript APIs\n\n**Example test cases your code should handle:**\n- `/products?product_id=ABC-123` → returns \"ABC-123\"\n- `/products?other=xyz&product_id=SKU-999#reviews` → returns \"SKU-999\"\n- `/products` → returns null\n- `/products#section` → returns null",
+    "starterPrompt": "",
+    "rubric": [
+      {
+        "id": "gtm-api",
+        "description": "Specifies using GTM's {{Page URL}} variable or similar GTM-native approach, not raw browser APIs like window.location",
+        "weight": 25
+      },
+      {
+        "id": "edge-cases",
+        "description": "Explicitly requests handling edge cases: missing parameter, URL fragments (#), and multiple query parameters",
+        "weight": 30
+      },
+      {
+        "id": "return-value",
+        "description": "Specifies the return value should be the parameter value when present, or null when absent (not undefined, empty string, or error)",
+        "weight": 25
+      },
+      {
+        "id": "context",
+        "description": "Provides context that this is for Google Tag Manager custom JavaScript variable (not generic JS), which affects the code structure",
+        "weight": 20
+      }
+    ],
+    "passingScore": 70
+  }
+]

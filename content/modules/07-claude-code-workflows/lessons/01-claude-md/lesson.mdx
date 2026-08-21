@@ -1,0 +1,70 @@
+---
+id: 01-claude-md
+title: "Project Memory: CLAUDE.md"
+minutes: 16
+objectives:
+  - Explain what CLAUDE.md is and when Claude Code reads it
+  - List what belongs in a good CLAUDE.md (and what doesn't)
+  - Direct Claude to study a project and write its CLAUDE.md
+---
+
+Remember the pain point from module 05? Every session started from zero. Claude re-read the project files, re-discovered how to run things, had to be reminded of the conventions. Imagine a new coworker who forgets everything overnight.
+
+The fix real teams use: a one-page **briefing note** pinned to the project that the coworker reads first thing every morning.
+
+## The project briefing note
+
+That note is **CLAUDE.md** — a plain text file at the top of a project. Claude Code reads it automatically at the start of every session in that folder.
+
+(".md" is Markdown — the same headings-and-lists format the lessons in this app are written in. It's just text.)
+
+## What belongs in CLAUDE.md
+
+The three-part recipe:
+
+1. **What the project is** — one or two sentences. "This is a CLI tool that generates daily sales reports from a JSON file."
+
+2. **How to run and check it** — the exact commands:
+   - `node index.js` to run it
+   - `node test.js` to check it works
+
+3. **The conventions** — the house rules a newcomer would otherwise trip over:
+   - "Quotes are kept in alphabetical order by author"
+   - "Run the test before considering any change done"
+
+<Callout kind="tip">
+The test for every line: "would a capable newcomer act differently after reading this?" If not, cut it. Short beats complete — this file is read EVERY session, so every line costs attention every time.
+</Callout>
+
+## What does NOT belong
+
+- Long essays
+- Information Claude can trivially see by reading the files
+- Wish lists or roadmaps
+- Anything that changes weekly
+
+Keep it focused. Keep it short.
+
+## You won't write it — Claude will
+
+Here's the meta-move of this lesson: you won't write the file yourself. You'll direct Claude to study the project and write its own briefing note.
+
+This is real practice. It's exactly how people bootstrap CLAUDE.md on real projects. Real Claude Code even has a built-in `/init` command that does this — you're learning the manual version so you understand what's happening.
+
+## Coaching for the challenge
+
+The flow that works:
+
+1. **Ask Claude to EXPLORE first**: "Read every file, then tell me what this project is and how to run it."
+
+2. **THEN ask for the file** — and state the shape you want: "Write a concise CLAUDE.md covering what the project is, how to run and test it, and the conventions to follow. Keep it short."
+
+<Callout kind="info">
+A verifier will grade the resulting file — including an AI judge checking it reads as concise, accurate guidance. You know this pattern: it's the LLM-as-judge from the prompting track, pointed at a file.
+</Callout>
+
+<Exercise id="ch-write-claudemd" />
+
+## The payoff
+
+Open your next session in this project and the briefing note is just... known. That's project memory — and it compounds: every future session starts smart.

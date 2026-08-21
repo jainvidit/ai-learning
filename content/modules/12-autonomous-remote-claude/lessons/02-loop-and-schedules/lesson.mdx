@@ -1,0 +1,42 @@
+---
+id: 02-loop-and-schedules
+title: "/loop & Scheduled Tasks"
+minutes: 10
+objectives:
+  - Describe /loop as in-session polling
+  - Compare desktop scheduled tasks with cloud routines
+  - Choose the right recurrence tool for a given job
+---
+
+## Recurrence, three ways
+
+`/goal` repeats until DONE; sometimes you want repeats FOREVER (or on a clock): check the deploy, poll the inbox, re-run the report. Claude has three tools for that, at three distances from your chair.
+
+## `/loop [interval] [prompt]` — in-session polling
+
+Inside an open session: `/loop 5m check whether the build passed and summarize new failures`. Every interval, the prompt re-runs in THAT session, with that session's context; it lives and dies with the session. Best for: watching something for the next hour while you work.
+
+## Desktop scheduled tasks
+
+Your machine fires a schedule; each run launches a fresh headless session (module 09's `claude -p`, on a timer). Survives you closing the chat — but not you closing the laptop.
+
+## Cloud Routines (`/schedule`)
+
+Schedule and session both live in Anthropic's cloud: machine can be off, results wait for you. The trade: it runs against what the cloud can see (connected repos and integrations), not your local uncommitted mess.
+
+## The comparison table
+
+| | `/loop` | Desktop scheduled task | Cloud Routine (`/schedule`) |
+|---|---|---|---|
+| Runs where | inside your currently open session | on your machine, fresh session per run | in Anthropic's cloud |
+| Machine must be on | yes — session stays open | yes — at trigger time | no |
+| Min interval | short — minutes, while you watch | minutes | coarser — minutes to hours |
+| Triggers | fixed interval, set in-session | time schedule fired locally | time schedules (and events) managed remotely |
+
+<Callout kind="warning">
+**Context rot on a timer:** a /loop run appends to ONE session's context every tick — module 10's rot on a timer. Long-lived recurrence belongs in fresh-session tools (scheduled tasks, routines), not in one immortal chat.
+</Callout>
+
+Match distance to duration: in-session for the next hour, local schedules for local state, cloud for machine-off recurrence.
+
+<Exercise id="quiz-loop-schedules" />

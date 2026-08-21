@@ -1,0 +1,76 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-settings",
+    "title": "Check: settings.json permissions",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "Where do a project's standing permission rules for Claude Code live?",
+        "options": [
+          { "id": "a", "text": "In a file: .claude/settings.json inside the project" },
+          { "id": "b", "text": "In Claude's training data" },
+          { "id": "c", "text": "They can't be stored — you must click allow every time" },
+          { "id": "d", "text": "In CLAUDE.md" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Standing permission decisions are written down in .claude/settings.json — a readable, shareable, editable policy file in the project. CLAUDE.md (d) is the briefing note about the project itself; it gives guidance, not permissions. And per-click approval (c) is only the fallback for actions no rule covers."
+      },
+      {
+        "id": "q2",
+        "kind": "single",
+        "prompt": "A settings.json allows \"Bash(node *)\" and denies \"Bash(rm *)\". Claude wants to run a command that matches neither rule. What happens?",
+        "options": [
+          { "id": "a", "text": "It runs — anything not denied is allowed" },
+          { "id": "b", "text": "It's blocked — anything not allowed is denied" },
+          { "id": "c", "text": "You get the ask-first permission prompt and decide yourself" },
+          { "id": "d", "text": "Claude picks the closest rule and follows it" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Three outcomes, not two: allow-listed actions run freely, deny-listed actions are refused outright, and everything in between falls back to the ask-first prompt from module 05 — the human stays the decision-maker for the uncovered middle. Neither 'default open' (a) nor 'default shut' (b) is how it works."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "What does the * in a rule like \"Bash(node *)\" mean?",
+        "options": [
+          { "id": "a", "text": "The rule is important" },
+          { "id": "b", "text": "It's a wildcard: any text can appear there, so every node command matches the rule" },
+          { "id": "c", "text": "The rule is disabled" },
+          { "id": "d", "text": "Only commands exactly named 'node *' match" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The star means 'anything here' — node index.js, node test.js, any node command all match. That's the power and the caution of wildcards: one short rule pre-approves a whole family of actions, so read what family it is before trusting it."
+      },
+      {
+        "id": "q4",
+        "kind": "single",
+        "prompt": "Why keep permission rules in a file instead of clicking 'allow' each time?",
+        "options": [
+          { "id": "a", "text": "Files make Claude run faster" },
+          { "id": "b", "text": "The policy becomes readable, shared with everyone using the project, and deliberately editable — instead of decisions made one click at a time mid-session" },
+          { "id": "c", "text": "Clicking allow is being removed" },
+          { "id": "d", "text": "Files allow Claude to change its own permissions" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "A written policy can be read before trusting it, travels with the project, and gets changed thoughtfully rather than in the heat of a session. Ask-first prompts still exist for the uncovered middle (c) — and no, the point is that YOU write the policy, not the agent (d)."
+      }
+    ]
+  },
+  {
+    "type": "terminal",
+    "id": "tx-read-settings",
+    "title": "Read the security policy",
+    "instructions": "This sandbox project ships with a real .claude/settings.json. Use Claude to interrogate the policy — complete all three tasks:\n\n1. Ask Claude to read .claude/settings.json and explain each rule in plain language: what's pre-approved, what's forbidden.\n2. Ask: 'According to these settings, what would happen if you tried to run the report script with node? What about a command that deletes files? What about installing new software?' — make Claude name which of the three outcomes (allowed / denied / ask-first) each case hits.\n3. Ask Claude whether anything in this policy seems risky or surprisingly broad, and why.\n\nNote: in this exercise Claude can only READ — so it must answer from the file, not by trying things.",
+    "sandboxTemplate": "m07-settings",
+    "allowedTools": "Read,Glob,Grep",
+    "maxTurns": 10,
+    "suggestedPrompts": [
+      "Read .claude/settings.json and explain every rule in plain language: what is pre-approved, and what is forbidden?",
+      "Under these settings, what happens for: running the report with node? deleting a file? installing new software? Name allowed, denied, or ask-first for each.",
+      "Is anything in this policy risky or surprisingly broad? Explain why."
+    ]
+  }
+]

@@ -109,3 +109,18 @@ export async function judgeFile(
   }
   return judgeCriterion(content.slice(0, JUDGE_MAX_CHARS), criterion);
 }
+
+/**
+ * List files in a directory relative to the sandbox. Returns empty array
+ * if the directory doesn't exist or escapes the sandbox.
+ */
+export function listFiles(dir: string, rel: string): string[] {
+  const p = safeResolve(dir, rel);
+  if (p === null) return [];
+  try {
+    if (!fs.existsSync(p) || !fs.statSync(p).isDirectory()) return [];
+    return fs.readdirSync(p);
+  } catch {
+    return [];
+  }
+}

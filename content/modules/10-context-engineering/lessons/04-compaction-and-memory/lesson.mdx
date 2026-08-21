@@ -1,0 +1,79 @@
+---
+id: 04-compaction-and-memory
+title: "Compaction & Memory"
+minutes: 12
+objectives:
+  - Know why long sessions must eventually compact
+  - Apply summarize-then-restart deliberately
+  - Know what belongs in durable memory (CLAUDE.md/docs) vs session context
+---
+
+## The Wall
+
+Every session eventually hits it: the context fills with history. Edits, reads, questions, answers, dead ends — all of it accumulates in the context window until there's no room left for new work.
+
+Tools like Claude Code can **compact automatically**: summarize the conversation so far and continue on the summary. This is lossy by design — detail is discarded to reclaim budget. Interactive commands like `/clear` start fresh. In this app's terminal, **Reset** is the same move: fresh sandbox, dropped session, clean slate.
+
+Compaction is not optional. It's a fact of finite context windows.
+
+## Summarize-Then-Restart: The Expert Version
+
+Don't wait for auto-compaction to guess what matters. You know what's worth keeping; the model doesn't.
+
+**The pattern:**
+
+1. **Before resetting:** Ask the current session to write a handoff note. "Summarize: what we decided, what's done, what's next, and any gotchas — as a message to a fresh session."
+
+2. **Press Reset.** Fresh sandbox, fresh session.
+
+3. **Paste the handoff note as the first prompt.** Add: "Based on this handoff, what should we do first?"
+
+The fresh session is fully oriented — without dragging along conversational clutter, dead ends, or stale instructions. You chose what survived.
+
+<Exercise id="quiz-compaction" />
+
+<Exercise id="term-handoff" />
+
+## Memory Hierarchy
+
+Think of memory in three tiers:
+
+### Session context (working memory)
+Volatile. Budget-priced. Dies with the session. This is where the conversation lives: what you just said, what the model just read, the last five files it edited. It's fast and flexible, but it expires.
+
+### CLAUDE.md (long-term always-loaded)
+Durable. Loaded into every session. This is where **decisions** live: coding conventions, project structure, commands, pointers to detail files. Keep it lean (Lesson 3!). If CLAUDE.md is bloated, every session pays for it.
+
+### docs/ and skills (long-term on-demand)
+Durable. Loaded only when needed. This is where **detail** lives: API references, style guides, specialized workflows. The model reads them when a task requires them, not before.
+
+**The graduation rule:** If a decision is worth keeping, **move it from session to files**. The lean-CLAUDE.md-plus-docs structure from Lesson 3 is exactly where durable decisions belong.
+
+Mid-session, you and Claude settle a convention: "all dates are stored as UTC ISO strings." Don't let that decision die with the session. Add it to `CLAUDE.md` (if it's brief) or to `docs/conventions.md` (if CLAUDE.md points there). Future sessions inherit it for free.
+
+## Compaction Is Lossy by Design
+
+Summarization discards detail to reclaim budget. A 10,000-token conversation might compact to a 500-token summary. What's in those 500 tokens?
+
+- **With auto-compaction:** Whatever the model thinks is important. It might keep the wrong details or drop the critical gotcha you discovered three hours in.
+
+- **With a deliberate handoff note:** Whatever YOU think is important. Decisions, progress, next steps, warnings. You curate what survives.
+
+Compaction is not free. It's a trade: detail for headroom. The question is who makes the trade.
+
+## When to Compact
+
+You'll feel it:
+
+- Answers are getting slower (the model is re-reading thousands of tokens before responding).
+- Answers are getting vaguer (the signal-to-noise ratio has collapsed).
+- The model is re-suggesting things you rejected an hour ago (context rot from Lesson 2).
+- You're 40 turns into a debugging session and the original problem description is buried under 20 unrelated edits.
+
+When you see these symptoms: write a handoff, reset, and paste it. Don't wait for the model to auto-compact.
+
+## The Takeaway
+
+Sessions are volatile. Files are durable. Compaction is the bridge between them.
+
+When the session has done its job — explored, decided, built — **graduate the decisions to files** and **summarize the rest into a handoff note**. Then start fresh.

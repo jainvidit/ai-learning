@@ -1,0 +1,141 @@
+---
+id: 04-measurement-plans
+title: "Measurement Plans & Documentation"
+minutes: 12
+objectives:
+  - Generate tracking specifications from product requirements
+  - Create data dictionaries for analytics implementations
+  - Document tag manager setups for team handoffs
+  - Maintain consistency across implementation docs
+---
+
+## The Handoff Problem
+
+Your product manager Slacks you: "We need tracking for the new checkout flow — capture which payment method users select, whether they use a promo code, and order total. Can you set that up?"
+
+You could start tagging immediately. But then:
+- Your developer asks: "Which event name? What are the parameter names?"
+- Your analyst asks: "Will this match our existing purchase event schema?"
+- Your QA tester asks: "How do I verify it's working?"
+
+**A measurement plan answers all these questions before anyone writes code.** It's the specification that turns vague requirements into trackable events. And AI can generate the first draft in minutes.
+
+## What Goes in a Measurement Plan
+
+A complete tracking spec includes:
+
+1. **Event name** - What this fires (`checkout_payment_selected`)
+2. **Trigger** - When it fires (user clicks payment method radio button)
+3. **Parameters** - What data it sends (payment_method, promo_code_used, order_value)
+4. **Example values** - What the actual data looks like
+5. **Implementation notes** - Edge cases, data sources, formatting rules
+6. **Acceptance criteria** - How QA knows it works
+
+**Without a measurement plan**, every stakeholder interprets "track payment method" differently. With one, everyone builds the same thing.
+
+## From Slack Message to Spec (with AI)
+
+**The vague requirement:**
+> "We need to track which payment methods users choose during checkout, and whether they applied a promo code. Also capture the cart value at that step."
+
+**Your prompt to AI:**
+> "Write a measurement plan for an e-commerce checkout tracking event. It should capture:
+> - Event name: checkout_payment_selected
+> - Parameters: payment_method (credit_card/paypal/apple_pay), promo_code_used (true/false), cart_value (number)
+> - Trigger: User selects a payment method on the /checkout page
+> - Include example values, implementation notes, and acceptance criteria
+> 
+> Format as a structured document with sections for event name, trigger, parameters (with descriptions and example values), implementation notes, and testing steps."
+
+**What AI generates:**
+```
+## Event: checkout_payment_selected
+
+**Trigger:** Fires when user selects a payment method on the checkout page
+
+**Parameters:**
+
+| Name | Type | Description | Example Value |
+|------|------|-------------|---------------|
+| payment_method | string | Payment method selected | "credit_card", "paypal", "apple_pay" |
+| promo_code_used | boolean | Whether a promo code was applied | true, false |
+| cart_value | number | Total cart value in USD | 149.99 |
+
+**Implementation Notes:**
+- Fire on radio button change, not on form submit
+- cart_value should be pre-tax, pre-shipping
+- If no promo code entered, send promo_code_used: false
+- payment_method values must be lowercase, underscore-separated
+
+**Acceptance Criteria:**
+- Event fires when payment method changes
+- All three parameters are present
+- cart_value matches the subtotal shown in UI
+- Event does not fire on page load (only on user interaction)
+```
+
+This is 80% done. You refine the edge cases, confirm with stakeholders, and hand it to engineering.
+
+<Callout kind="tip">
+AI-generated measurement plans are drafts, not gospel. Always review parameter names for consistency with your existing schema, and add project-specific context AI can't know.
+</Callout>
+
+## The Data Dictionary: Your Schema Source of Truth
+
+As you implement more events, you end up with dozens of parameter names. Are you using `user_id` or `userId`? `product_sku` or `item_id`? Consistency matters — especially when analysts are writing SQL queries across events.
+
+**A data dictionary documents every parameter** across all your events:
+
+| Parameter Name | Data Type | Description | Example Values | Events Using It |
+|---------------|-----------|-------------|----------------|-----------------|
+| payment_method | string | User's selected payment type | credit_card, paypal | checkout_payment_selected, purchase |
+| promo_code_used | boolean | Whether discount was applied | true, false | checkout_payment_selected, purchase |
+| product_id | string | Unique product identifier | SKU-1234 | view_item, add_to_cart, purchase |
+
+**AI can generate this from existing measurement plans:**
+
+> "Read these three measurement plan documents and create a data dictionary table with all unique parameters. Include: parameter name, data type, description, example values, and which events use each parameter. Sort alphabetically."
+
+Upload your docs, and AI extracts the schema.
+
+## Documentation That Survives Handoffs
+
+The worst documentation is the kind only the author understands. When you leave the project (or the company), can someone else maintain your tracking?
+
+**Good documentation includes:**
+- **The what** - Event fires on checkout page when user selects payment method
+- **The where** - GTM Tag ID: GT-12345, Trigger: Payment Selection Click
+- **The why** - Needed for payment method conversion funnel analysis
+- **The how** - Reads payment_method from data-payment-type attribute on radio button
+- **The gotchas** - Apple Pay option only shows on Safari; handle gracefully if element missing
+
+AI can help structure this if you give it the raw info:
+
+> "Convert these notes into a handoff document for a GTM tag:
+> - Tag fires when user clicks payment method radio button
+> - GTM Tag ID: GT-12345
+> - Trigger: CSS selector .payment-option:checked
+> - Reads data-payment-type attribute for the payment_method value
+> - Apple Pay only shows on Safari, so check if element exists before reading
+> - This powers the 'Payment Methods Breakdown' report in GA4
+> 
+> Format as a technical handoff doc with sections for Overview, Implementation Details, Edge Cases, and Related Reports."
+
+## Keeping Docs Updated (The Hard Part)
+
+Measurement plans have a problem: they go stale. You implement the event, ship it, move on. Six months later, someone asks "Does checkout_payment_selected include Google Pay?" and your doc says nothing about it (because it was added later).
+
+**AI can help audit drift:**
+1. Export your current GTM container as JSON
+2. Prompt: "Compare this measurement plan to the actual GTM tag config. List any mismatches."
+3. Update the plan to match reality
+
+This won't catch everything (AI can't see backend validation or data pipeline transformations), but it catches obvious drift.
+
+## Your Turn: Generate a Measurement Plan
+
+<Exercise id="pg-measurement-plan" />
+
+---
+
+**Next:** In the final lesson, you'll build automated tag validators that check for common implementation mistakes before they reach production.

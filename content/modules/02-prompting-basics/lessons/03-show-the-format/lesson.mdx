@@ -1,0 +1,67 @@
+---
+id: 03-show-the-format
+title: "Show the Format You Want"
+minutes: 12
+objectives:
+  - Explain why describing or demonstrating a format beats hoping for one
+  - Specify output length, structure, and style in a prompt
+  - Include a small example of the desired output shape
+---
+
+Imagine ordering a cake and saying "something nice." You might get a beautiful three-tier wedding cake when you needed cupcakes for six people. Or the other way around.
+
+Formats are like showing the baker a photo. The model happily produces essays when you wanted a table — unless you say so.
+
+## Three levers: length, structure, style
+
+You control the shape of the answer with three things:
+
+**Length:** "under 100 words," "exactly 5 bullets," "one paragraph"
+
+**Structure:** "a table with columns X/Y/Z," "numbered steps," "subject line + 3 short paragraphs"
+
+**Style:** "plain language, no jargon," "formal," "like a friendly text message"
+
+Here's the same request with and without format instructions:
+
+**No format:** "Help me pack for a trip."
+
+**With format:** "Give me a packing checklist grouped under Clothes / Toiletries / Documents, max 5 items per group."
+
+The first one might get you a friendly essay. The second one gets you a usable list.
+
+## The strongest move: show an example
+
+The model is a pattern continuer — you learned that in module 01. So give it a pattern to continue.
+
+Instead of describing the format in words, show a tiny example:
+
+"Format each item like: `Name — one-line why it matters`"
+
+Now the model knows exactly what shape to produce. One demonstration often beats a whole paragraph of description.
+
+<Callout kind="tip">
+If you'll reuse the output somewhere — a spreadsheet, an email, a slide — describe THAT destination. "Formatted so I can paste it into a spreadsheet" does a lot of work in one phrase.
+</Callout>
+
+## Before and after
+
+Same task, different format instructions:
+
+**Loose:** "What should I pack for a weekend trip to the mountains?"
+
+**Shaped:** "What should I pack for a weekend trip to the mountains in October? Give me a bulleted list under three headings: Clothes, Gear, and Essentials. Keep each section to 4–5 items, one line each."
+
+The second version tells the model the structure (bulleted list, three headings), the length (4–5 items per section), and the style (one line each). You get a clean, scannable list instead of a rambling paragraph.
+
+<Exercise id="quiz-format" />
+
+## Your turn
+
+Now practice designing the output yourself. You'll ask for travel advice, but YOU decide what the answer should look like — the structure, the length, and the format of each piece.
+
+<Exercise id="pg-format" />
+
+## What's next
+
+You now control what the model says (specificity), what it knows (context), and what it looks like (format). Last habit: what to do when the answer still isn't quite right.

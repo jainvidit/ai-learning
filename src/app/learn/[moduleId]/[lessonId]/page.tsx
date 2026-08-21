@@ -5,10 +5,47 @@ import {
   loadModuleMeta,
   loadLesson,
   isLessonUnlocked,
+  isLessonComplete,
+  loadCurriculum,
 } from "@/lib/content";
 import { loadProgress } from "@/lib/progress";
 import { getActiveProfile } from "@/lib/profiles";
 import LessonRenderer from "@/components/lesson/LessonRenderer";
+import NextLessonBar from "@/components/lesson/NextLessonBar";
+
+/** Where "Next lesson" should point: the next lesson in this module, else the
+ * first lesson of the next built module, else nothing (nothing built yet). */
+function findNext(
+  moduleId: string,
+  lessonId: string
+): { href: string | null; label: string | null } {
+  const meta = loadModuleMeta(moduleId);
+  const idx = meta.lessons.findIndex((l) => l.id === lessonId);
+  const nextInModule = meta.lessons[idx + 1];
+  if (nextInModule) {
+    return {
+      href: `/learn/${moduleId}/${nextInModule.id}`,
+      label: nextInModule.title,
+    };
+  }
+
+  const modules = loadCurriculum().modules;
+  const modIdx = modules.findIndex((m) => m.id === moduleId);
+  const nextModule = modules
+    .slice(modIdx + 1)
+    .find((m) => m.status === "built");
+  if (!nextModule) return { href: null, label: null };
+
+  const nextMeta = loadModuleMeta(nextModule.id);
+  const firstLesson = nextMeta.lessons[0];
+  if (!firstLesson) {
+    return { href: `/learn/${nextModule.id}`, label: nextModule.title };
+  }
+  return {
+    href: `/learn/${nextModule.id}/${firstLesson.id}`,
+    label: `${nextModule.title}: ${firstLesson.title}`,
+  };
+}
 
 export default async function LessonPage({
   params,
@@ -32,6 +69,7 @@ export default async function LessonPage({
   }
 
   const { frontmatter, mdx, exercises } = loadLesson(moduleId, lessonId);
+  const { href: nextHref, label: nextLabel } = findNext(moduleId, lessonId);
 
   return (
     <article className="mx-auto max-w-3xl">
@@ -72,6 +110,12 @@ export default async function LessonPage({
           exercises={exercises}
         />
       </div>
+
+      <NextLessonBar
+        initiallyComplete={isLessonComplete(progress, moduleId, lessonId)}
+        nextHref={nextHref}
+        nextLabel={nextLabel}
+      />
     </article>
   );
 }

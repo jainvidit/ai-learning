@@ -1,0 +1,21 @@
+[
+  {
+    "type": "challenge",
+    "id": "ch-write-claudemd",
+    "title": "Write the project's briefing note",
+    "instructions": "The sandbox contains a small 'daily quote' project you've never seen. Direct Claude Code to study it and write a CLAUDE.md briefing note at the top of the project.\n\nThe file must cover three things: (1) what the project is, (2) how to run it and how to check it's working (the exact commands), and (3) the conventions a newcomer should follow — the project's own notes mention some. Keep it concise: this note gets read at the start of every future session.\n\nSuggested flow: first have Claude explore ('read every file and tell me what this project is, how to run it, and what rules it follows'), then have it write CLAUDE.md, then ask it to show you the finished file. When it looks right, hit Verify.",
+    "sandboxTemplate": "m07-claudemd",
+    "allowedTools": "Read,Glob,Grep,Edit,Bash(node *)",
+    "maxTurns": 15,
+    "verifierId": "m07-claudemd",
+    "criteria": [
+      "CLAUDE.md exists at the top of the project",
+      "CLAUDE.md reads as concise project guidance: what the project is, how to run it, and its conventions"
+    ],
+    "hints": [
+      "Start with exploration, not writing: 'Read every file in this project and summarize what it is, how to run and test it, and any house rules you find.'",
+      "The conventions aren't only in the code — check the project's notes file. Ask Claude: 'what conventions does notes.md ask contributors to follow?'",
+      "Then be explicit about the deliverable: 'Write a CLAUDE.md at the project root with three short sections: What this is, How to run and test it (exact node commands), and Conventions. Keep it under 25 lines, then show me the file.'"
+    ]
+  }
+]

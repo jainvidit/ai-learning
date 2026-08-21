@@ -1,0 +1,128 @@
+---
+id: 05-tokens-and-cost
+title: "Tokens, Pricing & Cost"
+minutes: 12
+objectives:
+  - Recall that tokens are roughly 3/4 of a word in English
+  - Read a per-million-token pricing table and compute a call's rough cost
+  - Explain why output tokens cost more than input tokens
+  - Identify where money leaks in AI products (bloated prompts, over-retrieval, long chat history)
+---
+
+## Tokens Redux
+
+Back in module 01, you learned that language models read and write **tokens** — not words, not characters, but chunks of text that average about **4 characters** or **0.75 words** in English.
+
+- "Hello" = 1 token
+- "Hello world!" = 3 tokens
+- "artificial intelligence" = 2 or 3 tokens, depending on the tokenizer
+
+Every API call is billed by:
+- **Tokens in** — everything in your prompt: system instructions, user message, retrieved documents, chat history
+- **Tokens out** — the model's response
+
+Both matter. Both cost money.
+
+## The Pricing Table
+
+Model providers price per **million tokens**, with separate rates for input and output. Output typically costs **several times more** than input (we'll see why in a moment).
+
+Here's an illustrative example (not a real price sheet — real pricing changes constantly, and every provider is different):
+
+| Model Tier | Input (per 1M tokens) | Output (per 1M tokens) |
+|------------|----------------------|------------------------|
+| Fast, small | $1 | $5 |
+| Balanced | $3 | $15 |
+| Powerful, large | $15 | $75 |
+
+The pattern: **output costs 3–5x input**. And the bigger, smarter models cost 5–15x the smaller ones.
+
+<Callout kind="info">
+These numbers are for teaching the arithmetic, not for budgeting your app. Real prices vary by provider, model, volume discounts, and region. Always check the latest pricing page for your API.
+</Callout>
+
+## Worked Example: A Support Bot
+
+Imagine a customer-support chatbot. Each call includes:
+
+- **System prompt**: 2,000 tokens (instructions, tone, guardrails)
+- **User question**: 500 tokens
+- **Retrieved context**: 4 chunks × 400 tokens = 1,600 tokens (RAG from your knowledge base)
+- **Total input**: 4,100 tokens
+- **Output** (model's answer): 300 tokens
+
+At **$3 per million input** and **$15 per million output**:
+
+- **Input cost**: 4,100 ÷ 1,000,000 × $3 = **$0.0123** (about 1.2 cents)
+- **Output cost**: 300 ÷ 1,000,000 × $15 = **$0.0045** (about 0.5 cents)
+- **Total per call**: **~1.7 cents**
+
+That sounds cheap — until you scale it:
+
+- **10,000 calls/day** = $170/day = **$5,100/month**
+- **100,000 calls/day** = **$51,000/month**
+
+Suddenly that 2,000-token system prompt is a **$24,600/month budget line** (at 100k calls/day). Every word in it costs real money, multiplied by every call.
+
+## Why Output Costs More
+
+You might wonder: why does output cost 3–5x input?
+
+It's about how the model works:
+
+- **Reading (input)** can be done in parallel. The model processes all input tokens at once in a big batch — fast and efficient.
+- **Writing (output)** is sequential. The model generates **one token at a time**, each requiring a full forward pass through the network. It predicts token 1, then uses that to predict token 2, then token 3, and so on.
+
+Generation is inherently slower and more compute-intensive. That asymmetry shows up directly in the price sheet.
+
+**Practical takeaway**: constrain response length when you can. Asking for a one-paragraph summary instead of a three-page essay saves you money — and often improves quality, because the model has to be more precise.
+
+## Where Money Leaks
+
+Here are the classic budget killers in AI products:
+
+### 1. Bloated System Prompts
+
+That 2,000-token system prompt? It's resent with **every single call**. If 500 of those tokens are fluff — redundant examples, verbose guardrails, or copy-pasted legalese — you're paying to send fluff a million times.
+
+**Fix**: Ruthlessly edit the system prompt. Every token you cut saves money at scale.
+
+### 2. Over-Retrieval in RAG
+
+Retrieving 20 document chunks when 3 would answer the question wastes context and money. Each chunk is billed every call.
+
+**Fix**: Tune your retrieval to fetch fewer, better chunks. Quality over quantity.
+
+### 3. Long Chat Histories
+
+Chatbots resend the **entire conversation history** every turn. A 10-turn conversation with 500 tokens per turn = 5,000 tokens of history in the 11th call. Every new message re-bills everything before it.
+
+**Fix**: Summarize old messages, or trim history to the last N turns. Some providers offer **prompt caching** to reuse repeated context at lower cost (module 13 will cover this).
+
+### 4. Unconstrained Output Length
+
+If you ask the model for "a detailed explanation" without setting a length limit, it might give you 2,000 tokens when 300 would do. Output costs more, so this hurts.
+
+**Fix**: Ask for concise answers. Set `max_tokens` to a reasonable cap. "Answer in one paragraph" is cheaper than "explain thoroughly."
+
+<Callout kind="tip">
+The discipline that saves money also improves quality. A tight, well-trimmed prompt forces the model to focus. Bloat wastes tokens and dilutes attention — the same problem you'll see in module 10's attention budget lesson.
+</Callout>
+
+## Cost Intuition = Context Intuition
+
+Here's a pattern you'll see again and again: **the same habits that make prompts cheaper also make them better.**
+
+- A lean system prompt is clearer and more focused.
+- Retrieving the right 3 chunks beats 20 mediocre ones.
+- Asking for a concise answer gets you a tighter, more useful response.
+
+Learning to control cost is learning to respect the model's context budget. Both are scarce resources. Waste neither.
+
+## What You've Learned
+
+Tokens are billed per million: input and output separately, output costing 3–5x more because generation is sequential. A call that looks cheap (1–2 cents) becomes expensive at scale (tens of thousands per month). Money leaks from bloated system prompts, over-retrieval, unbounded chat history, and unconstrained output. The fix for all of them: **trim the fat, respect the context.** The same discipline saves money and improves quality.
+
+You've now seen how AI products are built: APIs with system prompts, tool use and the agent loop, RAG for your docs, fine-tuning as a last resort, and tokens as the unit of cost. You understand the wrapper around the model. Next module, you'll learn what makes prompts *work* — and why they fail.
+
+<Exercise id="quiz-cost" />

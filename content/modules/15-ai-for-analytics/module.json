@@ -1,0 +1,28 @@
+{
+  "id": "15-ai-for-analytics",
+  "title": "AI for Digital Analytics Engineers",
+  "track": "fundamentals",
+  "description": "Learn how to use AI to write tag manager code, debug tracking implementations, query analytics data with SQL, create measurement plans, and automate data quality checks. Practical workflows for Google Tag Manager, GA4 BigQuery, and tag auditing.",
+  "lessons": [
+    {
+      "id": "01-tag-manager-code",
+      "title": "Tag Manager Code with AI"
+    },
+    {
+      "id": "02-debugging-tracking",
+      "title": "Debugging Tracking Issues"
+    },
+    {
+      "id": "03-sql-for-analytics",
+      "title": "SQL for Analytics"
+    },
+    {
+      "id": "04-measurement-plans",
+      "title": "Measurement Plans & Documentation"
+    },
+    {
+      "id": "05-data-quality",
+      "title": "Data Quality & Tag Audits"
+    }
+  ]
+}

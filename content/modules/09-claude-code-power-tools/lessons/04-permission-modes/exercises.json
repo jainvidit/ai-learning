@@ -1,0 +1,62 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-permissions",
+    "title": "Quiz: Permission Modes",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-scoped-bash",
+        "kind": "single",
+        "prompt": "With --allowedTools \"Read,Edit,Bash(node *)\", which command can Claude run in the shell?",
+        "options": [
+          { "id": "a", "text": "npm install lodash" },
+          { "id": "b", "text": "node test.js" },
+          { "id": "c", "text": "rm -rf build" },
+          { "id": "d", "text": "git commit -m 'done'" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Bash(node *) scopes shell access to commands starting with 'node'. npm, rm, and git don't match the prefix and are denied. Scoped Bash rules are the heart of least-privilege agent setups."
+      },
+      {
+        "id": "q2-dontask",
+        "kind": "single",
+        "prompt": "In --permission-mode dontAsk, what happens when Claude tries a tool that is NOT in the allowed list?",
+        "options": [
+          { "id": "a", "text": "The user gets a permission prompt" },
+          { "id": "b", "text": "The call is denied automatically and Claude must adapt or explain it can't proceed" },
+          { "id": "c", "text": "The call runs anyway with a warning" },
+          { "id": "d", "text": "The session crashes" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "dontAsk means no human in the loop: allowed tools run, everything else is silently refused. Perfect for headless automation — like this app, where there's no way to click approve mid-stream."
+      },
+      {
+        "id": "q3-least-priv",
+        "kind": "single",
+        "prompt": "You want Claude to review code and report issues WITHOUT changing anything. Best --allowedTools?",
+        "options": [
+          { "id": "a", "text": "Read,Glob,Grep" },
+          { "id": "b", "text": "Read,Edit,Write,Bash" },
+          { "id": "c", "text": "Bash" },
+          { "id": "d", "text": "Edit only" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "A review needs to find and read files — nothing more. Granting Edit or unscoped Bash to a read-only job violates least privilege for zero benefit."
+      },
+      {
+        "id": "q4-modes",
+        "kind": "multi",
+        "prompt": "Match the mode to a sensible use. Which pairings are right? (select all that apply)",
+        "options": [
+          { "id": "a", "text": "Default prompting — exploring an unfamiliar repo where you want to see each action" },
+          { "id": "b", "text": "acceptEdits — a refactor session where you trust file edits but want to approve commands" },
+          { "id": "c", "text": "dontAsk with a tight allowlist — unattended automation like CI or this app's sandbox" },
+          { "id": "d", "text": "dontAsk with all tools allowed — running an unknown repo's setup script overnight" }
+        ],
+        "correctOptionIds": ["a", "b", "c"],
+        "explanation": "Looser modes demand tighter allowlists and safer environments. dontAsk + everything-allowed + unknown code + nobody watching (d) stacks every risk at once."
+      }
+    ]
+  }
+]

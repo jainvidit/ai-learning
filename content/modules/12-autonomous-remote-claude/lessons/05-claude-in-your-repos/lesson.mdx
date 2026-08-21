@@ -1,0 +1,55 @@
+---
+id: 05-claude-in-your-repos
+title: "Claude in Your Repos & the Ecosystem"
+minutes: 12
+objectives:
+  - Describe @claude GitHub mentions, Actions integration, and automatic PR review
+  - Recognize headless claude -p as the universal automation building block
+  - Place third-party frameworks like OpenClaw in the ecosystem
+---
+
+## Claude where the work already lives
+
+Instead of bringing the repo to Claude, install Claude in the repo. With the GitHub integration, typing `@claude fix the flaky date test` in an issue or PR comment kicks off a Claude session inside GitHub Actions: it clones, works on a branch, and pushes commits or opens a PR — reviewable like any teammate's work.
+
+This is Claude embedded in your workflow, not bolted on to the side.
+
+## Automatic PR review
+
+The same integration can review every PR unprompted: reading the diff, flagging bugs, suggesting simplifications. Position it honestly: a tireless first-pass reviewer that raises the floor; humans still own the merge button.
+
+Module 11's lesson applies here too: parallelism multiplies review load, never deletes it. The @claude reviewer is one more set of eyes, not a replacement for yours.
+
+## The building block under everything: `claude -p`
+
+Every integration in this module is, at bottom, module 09's headless mode wearing a costume: a prompt in, tools within permissions, output back. Actions runs it in CI; schedulers run it on timers.
+
+<Callout kind="info">
+**Meta-reveal:** THIS APP's terminal is exactly that — every exercise you've run was `claude -p` in a sandbox. You've been using the automation building block all along.
+</Callout>
+
+One primitive, many costumes. The fact that the building block is a CLI — a program you can invoke from anywhere, with scoped permissions and captured output — is what makes all these integrations possible.
+
+## The third-party ecosystem
+
+Because the building block is a CLI, anyone can build on it. Open-source frameworks wrap Claude (and other models) into standing agents.
+
+Example: **OpenClaw** — a multi-channel agent gateway that connects a persistent agent to chat channels (WhatsApp, Telegram, and the like) and gives it a persona through files like SOUL.md, IDENTITY.md, and HEARTBEAT.md (its counterpart to CLAUDE.md-style memory: who the agent is, how it behaves, what it does on a schedule).
+
+**State plainly:** OpenClaw is a third-party project, NOT an Anthropic product — evaluate its security and trust model yourself before handing it credentials.
+
+The ecosystem is open: the CLI is public, the patterns are portable. Build what you need.
+
+## Closing the module
+
+The autonomy ladder you've climbed:
+
+1. Turn-by-turn (modules 5-9)
+2. Goal-driven (lesson 1)
+3. Scheduled (lesson 2)
+4. Cloud and remote (lessons 2-4)
+5. Embedded in repos and channels (lesson 5)
+
+Every rung is the same agent loop from module 05, with more trust and less babysitting. Module 14's capstone hands you the keys.
+
+<Exercise id="quiz-ecosystem" />

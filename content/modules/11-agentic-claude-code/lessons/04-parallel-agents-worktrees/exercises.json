@@ -1,0 +1,62 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-worktrees",
+    "title": "Quiz: Parallel Agents & Worktrees",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-collision",
+        "kind": "single",
+        "prompt": "Why can't two agents safely work on different features in the SAME checkout at the same time?",
+        "options": [
+          { "id": "a", "text": "Git forbids two processes in one directory" },
+          { "id": "b", "text": "They share the same working files — edits collide, and one agent's half-done changes contaminate the other's builds and tests" },
+          { "id": "c", "text": "Two agents would double the API cost" },
+          { "id": "d", "text": "They can — files are locked automatically" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "A working directory is shared mutable state. Agent A's in-progress edits sit in Agent B's view of the world; tests, builds, and edits interleave chaotically."
+      },
+      {
+        "id": "q2-worktree",
+        "kind": "single",
+        "prompt": "What does `git worktree add` give you?",
+        "options": [
+          { "id": "a", "text": "A full second copy of the repository history on another disk" },
+          { "id": "b", "text": "An additional working directory with its own checked-out branch, backed by the same repository" },
+          { "id": "c", "text": "A read-only snapshot for backups" },
+          { "id": "d", "text": "A new remote on GitHub" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Worktrees are extra checkouts of one repo: each has its own files and branch, sharing the underlying history. One agent per worktree = filesystem isolation without cloning."
+      },
+      {
+        "id": "q3-split",
+        "kind": "single",
+        "prompt": "You're fanning three agents out over a codebase. Which task split is best?",
+        "options": [
+          { "id": "a", "text": "All three refactor the same core module from different angles" },
+          { "id": "b", "text": "Independent chunks: one takes the API layer, one the UI components, one the test suite — minimal shared files" },
+          { "id": "c", "text": "Each rewrites the whole app; keep the best" },
+          { "id": "d", "text": "One works while two watch for mistakes" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Parallel speedup depends on independence. Overlapping edits (a) reconverge as merge conflicts; triplicating everything (c) triples cost for one output."
+      },
+      {
+        "id": "q4-human",
+        "kind": "multi",
+        "prompt": "What remains YOUR job when running parallel agents? (select all that apply)",
+        "options": [
+          { "id": "a", "text": "Designing the split so tasks don't overlap" },
+          { "id": "b", "text": "Reviewing each branch before merging" },
+          { "id": "c", "text": "Resolving conflicts when isolation wasn't perfect" },
+          { "id": "d", "text": "Nothing — parallel agents manage and merge themselves" }
+        ],
+        "correctOptionIds": ["a", "b", "c"],
+        "explanation": "Parallelism multiplies output and review load together. Task design, review, and merging are the human bottleneck — and the quality gate."
+      }
+    ]
+  }
+]

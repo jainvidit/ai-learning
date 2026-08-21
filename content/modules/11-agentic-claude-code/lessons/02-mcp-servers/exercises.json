@@ -1,0 +1,62 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-mcp",
+    "title": "Quiz: MCP Servers",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-what",
+        "kind": "single",
+        "prompt": "What is an MCP server?",
+        "options": [
+          { "id": "a", "text": "A cloud machine that hosts the Claude model" },
+          { "id": "b", "text": "A program that exposes tools and resources through a standard protocol, so AI clients like Claude Code can use them" },
+          { "id": "c", "text": "A faster alternative to the Bash tool" },
+          { "id": "d", "text": "A database Anthropic maintains of approved prompts" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "MCP (Model Context Protocol) is the USB of AI integrations: build a server once — say for Postgres or a browser — and any MCP client can plug into it."
+      },
+      {
+        "id": "q2-why-protocol",
+        "kind": "single",
+        "prompt": "What problem does a STANDARD protocol solve here?",
+        "options": [
+          { "id": "a", "text": "It makes models generate text faster" },
+          { "id": "b", "text": "Without it, every AI app would need a custom integration for every external tool — MCP means one server works with every client" },
+          { "id": "c", "text": "It encrypts all model traffic" },
+          { "id": "d", "text": "It removes the need for permissions" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "N apps x M tools becomes N + M: tool builders write one MCP server; app builders write one MCP client. Same reason USB beat proprietary connectors."
+      },
+      {
+        "id": "q3-appears-as",
+        "kind": "single",
+        "prompt": "After you add a Postgres MCP server to Claude Code, how does Claude use it?",
+        "options": [
+          { "id": "a", "text": "The server's tools (e.g., a query tool) join Claude's toolkit and are called through the same agent loop and permission system as built-in tools" },
+          { "id": "b", "text": "Claude gains raw shell access to the database machine" },
+          { "id": "c", "text": "The entire database is loaded into the context window" },
+          { "id": "d", "text": "Claude emails queries to the server's maintainer" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "MCP tools are just more tools: the model requests a call, the server executes, results come back into context — with permissions applying exactly as they do to Bash or Edit."
+      },
+      {
+        "id": "q4-risks",
+        "kind": "multi",
+        "prompt": "Which are sensible cautions with MCP servers? (select all that apply)",
+        "options": [
+          { "id": "a", "text": "Only install servers from sources you trust — they run real code with real access" },
+          { "id": "b", "text": "Give servers the least credentials that work, e.g., a read-only database user" },
+          { "id": "c", "text": "Connect every server you can find, to maximize capability" },
+          { "id": "d", "text": "Remember that data returned by tools (web pages, tickets) can contain injected instructions" }
+        ],
+        "correctOptionIds": ["a", "b", "d"],
+        "explanation": "MCP extends both capability and attack surface. Least privilege, trusted sources, and injection awareness apply. And every connected server's tool definitions spend context — connect what you need (c is the anti-pattern)."
+      }
+    ]
+  }
+]

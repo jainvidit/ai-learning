@@ -6,6 +6,9 @@ import {
   isLessonComplete,
   isLessonUnlocked,
   moduleCompletionPercent,
+  isModuleUnlocked,
+  isModuleComplete,
+  loadCurriculum,
 } from "@/lib/content";
 import { loadProgress } from "@/lib/progress";
 import { getActiveProfile } from "@/lib/profiles";
@@ -38,8 +41,72 @@ export default async function ModulePage({
     );
   }
 
-  const meta = loadModuleMeta(moduleId);
   const progress = loadProgress(profile.id);
+  const unlocked = isModuleUnlocked(progress, moduleId);
+
+  // Check if module is locked by prerequisites
+  if (!unlocked) {
+    const curriculum = loadCurriculum();
+    const prerequisites = entry.requires.map(reqId => {
+      const reqModule = curriculum.modules.find(m => m.id === reqId);
+      const reqComplete = isModuleComplete(progress, reqId);
+      return {
+        id: reqId,
+        title: reqModule?.title || reqId,
+        complete: reqComplete,
+      };
+    });
+
+    return (
+      <div className="mx-auto max-w-3xl">
+        <h1 className="text-3xl font-bold">{entry.title}</h1>
+        <p className="mt-2 text-zinc-500">{entry.summary}</p>
+
+        <Card className="mt-8 border-amber-200 bg-amber-50 dark:border-amber-900 dark:bg-amber-950">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">🔒</span>
+            <div className="flex-1">
+              <div className="font-semibold text-amber-900 dark:text-amber-100">
+                Module Locked
+              </div>
+              <div className="mt-2 text-sm text-amber-800 dark:text-amber-200">
+                Complete these modules first to unlock this content:
+              </div>
+              <ul className="mt-3 space-y-2">
+                {prerequisites.map((prereq) => (
+                  <li key={prereq.id} className="flex items-center gap-2 text-sm">
+                    {prereq.complete ? (
+                      <span className="text-green-600 dark:text-green-400">✓</span>
+                    ) : (
+                      <span className="text-amber-600 dark:text-amber-400">○</span>
+                    )}
+                    <Link
+                      href={`/learn/${prereq.id}`}
+                      className="hover:underline"
+                    >
+                      {prereq.title}
+                    </Link>
+                    {prereq.complete && (
+                      <span className="text-xs text-green-600 dark:text-green-400">
+                        (Complete)
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </Card>
+
+        <div className="mt-6 text-sm text-zinc-500">
+          <strong>Tip:</strong> This learning path is flexible! You don't need to complete
+          all modules in numerical order—just the specific prerequisites listed above.
+        </div>
+      </div>
+    );
+  }
+
+  const meta = loadModuleMeta(moduleId);
   const percent = moduleCompletionPercent(progress, moduleId);
 
   return (

@@ -1,0 +1,89 @@
+---
+id: 03-headless-mode
+title: "Headless Mode: How This App Works"
+minutes: 12
+objectives:
+  - Know that claude -p runs one non-interactive turn-set
+  - Understand what stream-json output format provides
+  - Trace this app's terminal pipeline end to end
+  - See headless mode as a building block for products, not just scripts
+---
+
+## The Reveal
+
+Every terminal exercise you've done in this course — every prompt you've typed, every tool call you've watched, every bug you've fixed — was not a simulated terminal. It was not a simplified teaching environment.
+
+**The app spawns the real Claude Code binary, headlessly.** This lesson opens the hood on the exact machinery that has been running your sessions and grading your work.
+
+## `claude -p`: The Headless Building Block
+
+In interactive mode, you type `claude` and get a conversational REPL: you chat with Claude, it uses tools, you see the results, you respond.
+
+**`claude -p`** is print mode (also called headless mode): you pass a prompt on standard input, Claude runs its agent loop without an interactive UI, prints the output, and exits. One turn-set, no conversation.
+
+Add `--output-format stream-json` and instead of prose you get **newline-delimited JSON events** — a stream of structured data as the session runs:
+
+- `text_delta` events: chunks of Claude's response text.
+- `tool_use` events: when Claude calls a tool (Read, Edit, Bash), with arguments.
+- A final `result` event: session id, total cost in USD, number of turns.
+
+Add `--verbose --include-partial-messages` and you get even more granular events, perfect for debugging or rich UIs.
+
+This structured output turns Claude Code into a composable building block. Scripts, CI pipelines, and applications (including this one) can drive the agent programmatically.
+
+## This App's Pipeline, Step by Step
+
+When you type a prompt in a terminal exercise and press Run, here's exactly what happens on the server:
+
+1. **Sandbox seeding.** The server copies your exercise's sandbox template from `sandbox/templates/<name>` into `sandbox/live/<your-profile>/<lesson>`. Fresh files for a clean start (or it reuses the directory if you haven't pressed Reset).
+
+2. **Spawn.** The server spawns a real `claude` process with these flags:
+   ```
+   claude -p \
+     --allowedTools <exercise's tool list> \
+     --permission-mode dontAsk \
+     --max-turns <exercise's limit> \
+     --output-format stream-json \
+     --verbose \
+     --include-partial-messages
+   ```
+   The sandbox directory is the working directory. Your prompt is passed on stdin.
+
+3. **Stream parsing.** Every line Claude Code emits is newline-delimited JSON. The server parses each event:
+   - `text_delta` events become streaming text in your browser.
+   - `tool_use` events become those tool-name badges you've seen (Read, Edit, Bash).
+   - The final `result` event carries the session id (saved for `--resume` next time) and the cost.
+
+4. **Resume or reset.** The next time you send a prompt in that lesson, the server passes `--resume <session-id>` so Claude picks up where it left off, full context intact. When you press **Reset**, the session id is discarded and the sandbox is re-seeded: genuinely fresh.
+
+Every piece of this is real. The tool calls, the context limits, the permission system, the cost — identical to running `claude` yourself.
+
+## Why This Matters Beyond This App
+
+Headless mode turns Claude Code into a composable unit: a function you can call from CI, a service you can wrap in an API, a step in a larger workflow.
+
+**If a lesson platform can embed a coding agent, so can your scripts.**
+
+You could run Claude Code headlessly to:
+- Auto-fix lint errors in CI.
+- Generate a changelog from commits.
+- Migrate a config file format when your schema changes.
+- Answer questions about a codebase in a Slack bot.
+
+Each of those starts with `claude -p --output-format stream-json` and builds from there. Module 12 explores the broader Claude Code ecosystem — agents that orchestrate other agents, MCP servers that extend tool access, and integrations that compose the CLI into something bigger.
+
+## Session Resume: Context Across Calls
+
+The `result` event includes a `session_id`. Pass `--resume <id>` on your next headless call and Claude continues with full memory of prior turns.
+
+That's how this app's terminal "remembers" your earlier messages. And that's why pressing **Reset** (new sandbox + dropped session id) gives you a truly clean slate: fresh files and zero context.
+
+Hold this thought for module 10, which tackles context rot and when to clear it deliberately.
+
+<Exercise id="quiz-headless" />
+
+## Watch the Machinery
+
+In the next exercise, you'll observe the event stream firsthand: give Claude a multi-step task and watch the tool badges appear as the JSON events are parsed. Then test session resume by asking a follow-up question that depends on prior context.
+
+<Exercise id="term-headless-observe" />

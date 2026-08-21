@@ -1,0 +1,49 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-remote-tiers",
+    "title": "Quiz: Remote Claude",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-web-clone",
+        "kind": "single",
+        "prompt": "You start a task in Claude Code on the web. What code does it work on?",
+        "options": [
+          { "id": "a", "text": "Your laptop's working tree, streamed to the cloud" },
+          { "id": "b", "text": "A fresh clone of your connected repo in Anthropic's cloud — your uncommitted local changes are not there" },
+          { "id": "c", "text": "A cached copy from your last local session" },
+          { "id": "d", "text": "It can't touch code; the web tier is chat only" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The web tier runs on cloud infrastructure against a fresh clone. That's what makes machine-off work possible — and why uncommitted local changes are invisible to it; results come back as branches or PRs."
+      },
+      {
+        "id": "q2-remote-control",
+        "kind": "single",
+        "prompt": "What does /remote-control do?",
+        "options": [
+          { "id": "a", "text": "Moves your session to Anthropic's cloud" },
+          { "id": "b", "text": "Lets Claude control your mouse and keyboard" },
+          { "id": "c", "text": "Generates a QR pairing code so a browser or phone can attach to your RUNNING LOCAL session — same working tree, steered from another device" },
+          { "id": "d", "text": "Creates a read-only share link of the transcript" }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Remote Control relocates your hands, not the session: the work still happens on your machine against your files. Cloud execution (a) is the separate web tier."
+      },
+      {
+        "id": "q3-resume",
+        "kind": "single",
+        "prompt": "What does --resume carry forward when you pick a session back up?",
+        "options": [
+          { "id": "a", "text": "Only the last message" },
+          { "id": "b", "text": "The session's accumulated context — conversation, decisions, progress — so you continue where it left off instead of starting cold" },
+          { "id": "c", "text": "Your shell environment variables" },
+          { "id": "d", "text": "Nothing; it just reopens an empty window with the same title" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The session is the durable artifact; surfaces (CLI, web, phone) are windows onto it. Resuming restores its context — which is also why module 10's hygiene matters: you resume the rot along with the progress."
+      }
+    ]
+  }
+]

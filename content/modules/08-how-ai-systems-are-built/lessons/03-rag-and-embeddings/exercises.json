@@ -1,0 +1,62 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-rag",
+    "title": "Quiz: RAG & Embeddings",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-why-rag",
+        "kind": "single",
+        "prompt": "Why do products use RAG instead of pasting all company documents into every prompt?",
+        "options": [
+          { "id": "a", "text": "Documents would fill (or overflow) the context window and cost far more per call — retrieval sends only the relevant passages" },
+          { "id": "b", "text": "Models refuse to read more than one document" },
+          { "id": "c", "text": "It's illegal to send documents to an API" },
+          { "id": "d", "text": "RAG retrains the model on the documents each night" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Context is a scarce, priced resource. Like a library index, RAG fetches only the few passages that matter and puts just those in the prompt. It never retrains the model — that would be fine-tuning, next lesson."
+      },
+      {
+        "id": "q2-embedding",
+        "kind": "single",
+        "prompt": "What is an embedding?",
+        "options": [
+          { "id": "a", "text": "A compressed zip file of a document" },
+          { "id": "b", "text": "A list of numbers representing a text's meaning, so similar meanings end up numerically close together" },
+          { "id": "c", "text": "A keyword list extracted from a document" },
+          { "id": "d", "text": "A smaller copy of the language model" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Embeddings are coordinates for meaning. 'Reset my password' and 'password recovery steps' share almost no words but land near each other — which is why embedding search beats keyword search for questions."
+      },
+      {
+        "id": "q3-pipeline",
+        "kind": "single",
+        "prompt": "At question time, what does a RAG system do FIRST with the user's question?",
+        "options": [
+          { "id": "a", "text": "Sends it straight to the LLM for an answer" },
+          { "id": "b", "text": "Embeds the question and searches the index for the nearest document chunks" },
+          { "id": "c", "text": "Asks the user to pick which document to search" },
+          { "id": "d", "text": "Fine-tunes the model on the question" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Question → embedding → nearest-neighbor search → paste the retrieved chunks plus the question into the prompt → model answers grounded in those chunks."
+      },
+      {
+        "id": "q4-failures",
+        "kind": "multi",
+        "prompt": "Which are real ways a RAG system can still give a wrong answer? (select all that apply)",
+        "options": [
+          { "id": "a", "text": "The retriever fetched the wrong passages, so the model never saw the answer" },
+          { "id": "b", "text": "The index is stale — the documents changed after they were embedded" },
+          { "id": "c", "text": "Retrieval returned junk and the model guessed from its training instead" },
+          { "id": "d", "text": "RAG systems cannot give wrong answers" }
+        ],
+        "correctOptionIds": ["a", "b", "c"],
+        "explanation": "RAG grounds answers but every stage can fail: bad retrieval, stale index, or the model improvising when the retrieved text doesn't contain the answer. Trust but verify — especially citations."
+      }
+    ]
+  }
+]

@@ -1,0 +1,51 @@
+---
+id: 01-context-windows
+title: "The Context Window: An Attention Budget"
+minutes: 12
+objectives:
+  - Describe the context window as the model's finite working space
+  - Use the attention-budget analogy to predict failure modes in long conversations
+  - Explain why "in the middle of a huge pile" is a bad place for important details
+---
+
+Have you ever had a long conversation with an AI assistant and noticed it "forgot" something you said earlier? It didn't forget the way people do — something more mechanical happened.
+
+## The Context Window
+
+Everything the model can see at once — your messages, its replies, any documents you paste in — is called the **context window**. All of that text is counted in tokens (remember those from Module 01?).
+
+The context window is a window, not a memory. What scrolls out of view is simply gone. The model doesn't have a long-term memory bank where old messages get filed away. When a conversation grows past the window's limit, the oldest material is dropped or squeezed. The model isn't lying when it acts like you never said something — from its perspective, you didn't.
+
+## An Attention Budget
+
+Here's the core analogy, and it matters: the context window is an **attention budget**.
+
+Every token you put in front of the model spends a little of a finite budget of attention. A short, relevant conversation spends that budget on what matters. A bloated one dilutes attention across thousands of tokens of noise.
+
+Think of it like this: would you rather give someone one important instruction in a quiet room, or whisper it in the middle of reading them an entire phone book out loud?
+
+### What Happens When You Overflow
+
+When the conversation exceeds the window's capacity, the oldest material is dropped. The model genuinely can't see it anymore. Instructions you gave at the very start? Gone. Key facts you mentioned hours ago? Outside the window.
+
+### What Happens Even Inside the Window
+
+Here's the subtler point: even when everything *fits* inside the window, more text means thinner attention per token. Burying a key instruction in the middle of a 20-page paste makes it genuinely easier to miss — not because the model is lazy, but because its attention is spread thin across a massive pile of text.
+
+<Callout kind="tip">
+Practical habits for respecting the attention budget:
+
+- Put key instructions at the start or end of your message, not buried in the middle.
+- Trim irrelevant material before pasting. If only three paragraphs of a document matter, paste only those three.
+- Start fresh conversations for fresh topics. Dragging yesterday's unrelated discussion into today's work burns budget for no reason.
+</Callout>
+
+<Exercise id="quiz-context-window" />
+
+Now let's feel the difference between a buried ask and a well-positioned one.
+
+<Exercise id="pg-attention-budget" />
+
+## Looking Ahead
+
+The attention budget will come back in a big way when you learn **context engineering** later in this curriculum. For now, just plant the flag: the context window is finite, attention is spread across it, and what you put where matters.

@@ -1,0 +1,21 @@
+[
+  {
+    "type": "challenge",
+    "id": "challenge-hook",
+    "title": "Challenge: Enforce the Tests with a Hook",
+    "instructions": "Direct Claude Code to create .claude/settings.json with a hooks configuration that runs node tests/journal.test.js automatically (a post-edit or stop-style event — the exact event name matters less than the shape: an event mapped to that command). Requirements: the file must be valid JSON, must have a hooks key, and hooks must contain at least one configured entry whose command runs the test suite. Have Claude read the file back after writing to confirm it parses. Click Verify when it's in place.",
+    "sandboxTemplate": "m14-capstone",
+    "allowedTools": "Read,Glob,Grep,Write,Edit,Bash(node *)",
+    "maxTurns": 10,
+    "verifierId": "m14-hook",
+    "criteria": [
+      ".claude/settings.json exists and parses as JSON",
+      "It contains a hooks key with at least one configured hook entry"
+    ],
+    "hints": [
+      "Give Claude the goal, not the syntax: 'add a hook to .claude/settings.json that runs node tests/journal.test.js after edits' — it knows the current schema.",
+      "If Verify says invalid JSON, have Claude run node -e \"JSON.parse(require('fs').readFileSync('.claude/settings.json','utf8'))\" to find the parse error.",
+      "Minimal passing shape: a top-level \"hooks\" object with one event key whose value configures the command \"node tests/journal.test.js\"."
+    ]
+  }
+]

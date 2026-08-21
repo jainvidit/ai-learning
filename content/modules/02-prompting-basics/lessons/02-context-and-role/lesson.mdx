@@ -1,0 +1,60 @@
+---
+id: 02-context-and-role
+title: "Give Context and a Role"
+minutes: 13
+objectives:
+  - Explain why the model can't read your mind about background facts
+  - Write a prompt that supplies relevant context
+  - Assign the model a useful role or persona
+---
+
+Picture this: you walk up to a brilliant stranger and ask, "Should I take the job?"
+
+They stare at you. They know a lot about the world, but NOTHING about you. What's the job? What do you do now? What matters to you? Without that context, the question is impossible to answer.
+
+The model is that brilliant stranger on every single message.
+
+## Context: the background the answer depends on
+
+Context means the facts that shape what a good answer looks like. The model has no memory of you, no access to your life, and no way to guess what you haven't said. If the answer depends on your situation, you have to spell it out.
+
+Here's the difference context makes:
+
+**Without context:** "Is this email too harsh?"
+
+**With context:** "I'm writing to a coworker who missed a deadline for the second time; we're peers and generally friendly. Is this email too harsh? [email]"
+
+The second version gives the model what it needs: the relationship, the history, the tone you're aiming for. Now it can give you useful feedback instead of guessing.
+
+## What context to include
+
+Ask yourself: what does a good answer depend on?
+
+- Your situation (job, location, constraints)
+- What you've already tried
+- Who's involved and how you know them
+- What a good outcome looks like
+
+What to skip: irrelevant life story. The model reads everything you send — don't bury the actual question in backstory that doesn't matter.
+
+## Roles: a shortcut to a bundle of context
+
+Saying "You are an experienced pediatric nurse" shifts the kind of text the model is likely to produce. It borrows the vocabulary, priorities, and tone of that role from the patterns it learned during training.
+
+Roles aren't magic — they're a fast way to load context. Instead of listing out "use medical terms, prioritize safety, assume parents are anxious," you can say "you're a pediatric nurse" and get all of that in one move.
+
+<Callout kind="warning">
+A role never makes the model actually qualified. "You are a doctor" doesn't create medical judgment — it creates medical-sounding text. Remember from module 01: the model can hallucinate. For high-stakes topics, a confident expert voice is not the same as real expertise.
+</Callout>
+
+<Exercise id="quiz-context-role" />
+
+## Your turn
+
+Now practice giving the model both context and a role. The scenario is a common one: you want advice on a workplace conversation. Your job is to brief the model like you'd brief a real advisor — give it the background it needs and tell it what perspective to answer from.
+
+<Exercise id="pg-context-role" />
+
+## What's next
+
+You now know how to say WHAT you want (specificity) and give the model the world it lives in (context and role). Next: how to control what the answer looks like.

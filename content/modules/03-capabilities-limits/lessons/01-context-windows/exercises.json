@@ -1,0 +1,62 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-context-window",
+    "title": "Check: context windows",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "What is the context window?",
+        "options": [
+          { "id": "a", "text": "The model's permanent memory of every conversation it has ever had" },
+          { "id": "b", "text": "The finite amount of text — measured in tokens — the model can see at once" },
+          { "id": "c", "text": "The time limit for the model to answer" },
+          { "id": "d", "text": "A privacy screen that hides your data from the model" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The context window is the model's entire working view: your messages, its replies, and pasted documents, all in tokens. It's not permanent memory (a) — anything outside the window doesn't exist to the model — and it has nothing to do with time (c) or privacy (d)."
+      },
+      {
+        "id": "q2",
+        "kind": "single",
+        "prompt": "Your conversation has grown very long and the model no longer remembers an instruction from the start. What most likely happened?",
+        "options": [
+          { "id": "a", "text": "The model got bored and stopped paying attention" },
+          { "id": "b", "text": "The early messages scrolled out of the context window, or attention over the huge context got too thin" },
+          { "id": "c", "text": "The model deleted the instruction because it disagreed with it" },
+          { "id": "d", "text": "A software bug — this should never happen" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Two mechanical causes: overflow (old text dropped from the window) or dilution (the instruction is still there but buried in so much text that attention over it is thin). No boredom, no rebellion — it's an attention budget being overspent."
+      },
+      {
+        "id": "q3",
+        "kind": "multi",
+        "prompt": "Which habits make good use of the attention budget? Select all that apply.",
+        "options": [
+          { "id": "a", "text": "Trim a pasted document down to the relevant sections before sending it" },
+          { "id": "b", "text": "Put your key instruction at the start or end, not buried in the middle" },
+          { "id": "c", "text": "Paste in everything you have, just in case any of it helps" },
+          { "id": "d", "text": "Start a fresh conversation when switching to an unrelated topic" }
+        ],
+        "correctOptionIds": ["a", "b", "d"],
+        "explanation": "Trimming, positioning key asks at the edges, and fresh starts all concentrate attention on what matters. \"Paste everything just in case\" (c) is the classic budget-waster: every irrelevant token dilutes attention over the tokens you actually care about."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-attention-budget",
+    "title": "Don't bury the ask",
+    "instructions": "You have three paragraphs of meeting notes (invent them — a team meeting about planning a charity bake sale works fine) and ONE thing you need: the model must extract every date and deadline mentioned. Write a prompt that respects the attention budget: (1) state the extraction task clearly BEFORE the pasted notes, (2) include your invented notes (at least three short paragraphs, with 2–3 dates hidden inside), (3) after the notes, repeat the ask in one line, and (4) specify the output format (e.g. a bulleted list of 'date — what it's for').",
+    "rubric": [
+      { "id": "task-first", "description": "The prompt states the extraction task before the pasted material.", "weight": 30 },
+      { "id": "material", "description": "The prompt includes multi-paragraph notes with several dates embedded in them.", "weight": 20 },
+      { "id": "restate", "description": "The prompt restates the ask after the pasted material.", "weight": 25 },
+      { "id": "format", "description": "The prompt specifies an output format for the extracted dates.", "weight": 25 }
+    ],
+    "passingScore": 70
+  }
+]

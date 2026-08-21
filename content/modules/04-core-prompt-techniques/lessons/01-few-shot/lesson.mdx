@@ -1,0 +1,92 @@
+---
+id: 01-few-shot
+title: "Teach by Example: Few-Shot Prompting"
+minutes: 13
+objectives:
+  - Explain why examples often beat descriptions
+  - Write a few-shot prompt with 2–3 consistent examples
+  - Avoid the classic few-shot mistakes (inconsistent examples, examples that leak wrong patterns)
+---
+
+Back in Module 02, you learned to SHOW the format with one example instead of describing it. Let's turn that up: what if the examples ARE the instructions?
+
+Here's a prompt with zero explanation that just works:
+
+```
+Input: "The wifi keeps dropping every 5 minutes."
+Output: FRUSTRATED — wifi drops constantly
+
+Input: "Your app is amazing! Solved my problem in seconds."
+Output: DELIGHTED — app solved problem fast
+
+Input: "The new update is okay but the old design was better."
+```
+
+The model sees the pattern — two input→output pairs showing a specific style — and continues it for the third input. No description needed.
+
+## Few-shot prompting: let examples teach
+
+This technique has a name: **few-shot prompting**. The "shots" are examples. Zero-shot means you just ask the question with no examples. Few-shot means you show 2–5 worked examples first, then present the real input.
+
+Why does this work so well? Remember from Module 01: the model is a pattern continuer. It predicts the most likely next words based on what came before. When you give it two or three examples in an identical format, you create an irresistible pattern — continuing that exact structure is the obvious next move.
+
+## What examples teach better than words
+
+Certain things are nearly impossible to describe but obvious in an example:
+
+- **Tone**: "punchy but kind" is vague until you see two examples demonstrating it
+- **Judgment calls**: what counts as "important" in a summary becomes clear when you show what you kept and cut
+- **Edge cases**: one example of how to handle a weird input teaches the pattern for all weird inputs
+
+Examples show the model exactly what success looks like, in a format it can copy token by token.
+
+## Rules for good shots
+
+Not all examples are created equal. Follow these rules:
+
+1. **Consistent format across all examples**: If example 1 says "Mood: HAPPY" and example 2 says "The user is happy!", you've blurred the pattern instead of reinforcing it.
+
+2. **Cover variety**: Don't make every example nearly identical. If you're categorizing reviews, include a happy one, an angry one, and a mixed one — not three variations of "good service."
+
+3. **The model copies EVERYTHING**: If one example has a typo, sloppy spacing, or the wrong habit, expect that flaw to appear in the output. Examples are blueprints — make them perfect.
+
+<Callout kind="tip">
+Two or three well-chosen examples usually beat ten mediocre ones. Remember that examples spend tokens too — each one counts against your attention budget. Quality over quantity.
+</Callout>
+
+## Worked example: customer feedback labels
+
+Imagine you're turning raw customer feedback into one-line mood labels for a dashboard. You want each label to show the emotional tone plus a five-word summary.
+
+Here's a few-shot prompt that teaches this format through examples:
+
+```
+Turn each piece of customer feedback into a one-line label.
+
+Feedback: "I called support three times and nobody helped. This is ridiculous."
+Label: ANGRY — called support three times, no help
+
+Feedback: "The product works exactly as advertised. Very satisfied."
+Label: SATISFIED — product works as advertised
+
+Feedback: "Shipping was fast but the box arrived dented on one corner."
+Label: MIXED — fast shipping, dented box
+
+Feedback: "I've been using this for six months and I'm honestly amazed at how well it holds up. Best purchase I made this year."
+Label:
+```
+
+Notice:
+- The format (MOOD — summary) is identical in every example
+- Examples cover different emotional tones (angry, satisfied, mixed)
+- The final input ends without a label — the model's job is to complete the pattern
+
+The model will continue with something like: `DELIGHTED — six months use, holds up amazingly`
+
+That's few-shot prompting in action.
+
+<Exercise id="quiz-few-shot" />
+
+Now it's your turn to build one.
+
+<Exercise id="pg-few-shot" />

@@ -1,0 +1,21 @@
+[
+  {
+    "type": "challenge",
+    "id": "ch-fix-greet",
+    "title": "Fix the failing greeting",
+    "instructions": "This project has a bug. greet.js is supposed to greet someone by name — 'Hello, Ada!' — but something's wrong, and test.js currently prints FAIL. Direct Claude to find and fix the bug so the test passes.\n\nSuggested flow: (1) ask Claude to run the test and explain the failure, (2) ask it to fix the bug in greet.js, (3) ask it to run the test again and show you PASS. Then hit Verify.",
+    "sandboxTemplate": "m05-fix-bug",
+    "allowedTools": "Read,Edit,Bash(node *)",
+    "maxTurns": 12,
+    "verifierId": "m05-fix-greet",
+    "criteria": [
+      "greet.js exists",
+      "node test.js prints PASS"
+    ],
+    "hints": [
+      "Start by asking Claude to run test.js and explain, in plain language, what the test expected versus what it got.",
+      "The bug is in how greet.js puts the greeting sentence together — ask Claude to compare greet.js's output with what test.js expects, word by word.",
+      "Tell Claude directly: 'test.js expects greet(\"Ada\") to return exactly Hello, Ada! — fix greet.js so it does, then run the test to confirm.'"
+    ]
+  }
+]

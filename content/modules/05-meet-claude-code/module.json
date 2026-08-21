@@ -1,0 +1,13 @@
+{
+  "id": "05-meet-claude-code",
+  "title": "Meet Claude Code",
+  "track": "claude-code",
+  "description": "Meet the AI that doesn't just talk — it acts. You'll learn how Claude Code reads files, edits them, and runs commands in a loop; drive your first real session in a safe sandbox; make your first AI-assisted edit; understand the permission model that keeps you in charge; and finish by fixing your first real bug.",
+  "lessons": [
+    { "id": "01-what-is-claude-code", "title": "An AI That Acts: the Agent Loop" },
+    { "id": "02-first-session", "title": "Your First Session" },
+    { "id": "03-first-edit", "title": "Your First Edit" },
+    { "id": "04-permissions", "title": "Who's in Charge: Permissions" },
+    { "id": "05-fix-the-bug", "title": "Challenge: Fix the Bug" }
+  ]
+}

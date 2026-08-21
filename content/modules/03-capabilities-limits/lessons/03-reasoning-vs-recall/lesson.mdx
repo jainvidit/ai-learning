@@ -1,0 +1,66 @@
+---
+id: 03-reasoning-vs-recall
+title: "Reasoning vs Recall"
+minutes: 12
+objectives:
+  - Distinguish recall tasks from reasoning tasks
+  - Predict which failure mode each produces
+  - Know that asking for step-by-step work improves reasoning tasks
+---
+
+Here's a puzzle: the model can write you a beautiful sonnet about the French Revolution in seconds, yet sometimes fumbles "how many days between March 3 and April 11?"
+
+Why is the "easy" thing hard?
+
+## Recall: When Prediction IS the Answer
+
+Some questions are answered by **recall**. The answer — or something extremely close to it — appeared in the model's training text thousands of times. Prediction alone nails it.
+
+- "What's the capital of France?" — Paris shows up in countless training examples.
+- "Explain photosynthesis." — Textbooks and articles have written that explanation a million ways.
+- "What does 'ubiquitous' mean?" — Every dictionary definition is basically the same.
+
+For recall tasks, the model is rock solid. The answer is baked into the training data.
+
+## Reasoning: When the Answer Must Be Constructed
+
+Other questions require **reasoning**. The answer has to be built, step by step. Nothing in training contains *your specific answer* — the model must derive it while predicting, and each step is a chance to slip.
+
+- Multi-step arithmetic: "If I buy 17 items at $3.47 each and apply a 12% discount, what's the total?"
+- Logic puzzles: "If Alice is taller than Bob, and Bob is taller than Carol, who's shortest?"
+- Counting: "How many times does the letter 'e' appear in this paragraph?"
+
+## The Musician Analogy
+
+Recall is like a musician playing a song they've heard a thousand times. They know it cold.
+
+Reasoning is like sight-reading a brand-new score. It's *possible*, but errors creep in, especially at speed.
+
+## Different Failures
+
+The failure signatures differ:
+
+- **Recall failures** look like hallucination: a wrong fact, stated smoothly and confidently. ("The capital of Australia is Sydney." It's Canberra.)
+- **Reasoning failures** look like a wrong total, a miscount, a step that contradicts an earlier one.
+
+## The Lever: Step-by-Step
+
+Here's the key: asking the model to "show its work step by step" improves reasoning tasks.
+
+Writing out intermediate steps gives each step context to build on. It's the difference between trying to hold an entire calculation in your head versus writing it down one line at a time.
+
+(We'll turn this into a full technique in Module 04. For now, just plant the idea.)
+
+<Callout kind="info">
+Newer models blur this line — many now do internal step-by-step thinking on their own, behind the scenes. But the recall/reasoning distinction still tells you where to be skeptical and what kind of prompt to write.
+</Callout>
+
+<Exercise id="quiz-reason-recall" />
+
+Now let's watch step-by-step help a reasoning task.
+
+<Exercise id="pg-steps" />
+
+## The Takeaway
+
+Recall is the model's superpower. Reasoning is possible but shakier. Know which kind of task you're asking for, and adjust your expectations — and your prompts — accordingly.

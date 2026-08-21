@@ -1,4 +1,10 @@
 import { fileExists, runNode } from "./common";
+import { m05Verifiers } from "./m05-meet-claude-code";
+import { m07Verifiers } from "./m07-claude-code-workflows";
+import { m10Verifiers } from "./m10-progressive-disclosure";
+import { m12Verifiers } from "./m12-autonomous-remote-claude";
+import { m14Verifiers } from "./m14-capstone";
+import { m15Verifiers } from "./m15-ai-for-analytics";
 
 /**
  * VERIFIER REGISTRY.
@@ -21,6 +27,12 @@ export interface VerifyResult {
 export type Verifier = (sandboxDir: string) => Promise<VerifyResult>;
 
 export const verifiers: Record<string, Verifier> = {
+  ...m05Verifiers,
+  ...m07Verifiers,
+  ...m10Verifiers,
+  ...m12Verifiers,
+  ...m14Verifiers,
+  ...m15Verifiers,
   /**
    * Reference verifier: the learner must fix greet.js so the sandbox's
    * test.js exits 0 and prints PASS.

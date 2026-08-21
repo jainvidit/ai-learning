@@ -1,0 +1,34 @@
+[
+  {
+    "type": "terminal",
+    "id": "term-goal-session",
+    "title": "Terminal: Drive a Session Like /goal",
+    "instructions": "This sandbox has calc.js (a tiny calculator, two functions are buggy) and test.js (prints PASS/FAIL per case). Instead of babysitting turn by turn, give ONE goal-style instruction with all four parts: end state, check, constraints, turn bound. For example: 'Keep going until node test.js prints all PASS and exits 0. Run the tests after every change to verify. Only edit calc.js — never touch test.js. If you can't get there in 12 turns, stop and report what's blocking you.' Then watch: Claude should run tests, diagnose, fix, and re-run without you steering. If it stops early with tests still failing, that's your condition being too loose — tighten it and try again.",
+    "sandboxTemplate": "m12-goal-lab",
+    "allowedTools": "Read,Glob,Grep,Edit,Bash(node *)",
+    "maxTurns": 15,
+    "suggestedPrompts": [
+      "Keep going until node test.js prints all PASS and exits 0. Run the tests after every change to verify. Only edit calc.js — never touch test.js. If you can't get there in 12 turns, stop and report what's blocking you.",
+      "Run node test.js and show me exactly which cases still fail."
+    ]
+  },
+  {
+    "type": "challenge",
+    "id": "challenge-goal-tests",
+    "title": "Challenge: All Green, Judged",
+    "instructions": "Now the deterministic judge. Get calc.js to the point where node test.js exits 0 and prints no FAIL lines — using goal-style phrasing (one instruction with end state, check, constraints, turn bound), not turn-by-turn micromanagement. If you already fixed everything in the previous exercise, run the tests once to confirm and click Verify; otherwise drive the fix now. Rule of the lab: test.js is the spec — fix calc.js to match it, never the reverse.",
+    "sandboxTemplate": "m12-goal-lab",
+    "allowedTools": "Read,Glob,Grep,Edit,Bash(node *)",
+    "maxTurns": 15,
+    "verifierId": "m12-goal-tests-pass",
+    "criteria": [
+      "node test.js exits with code 0",
+      "Test output contains no FAIL lines"
+    ],
+    "hints": [
+      "Start by having Claude run node test.js — the FAIL lines name the broken functions.",
+      "Two functions are wrong: one subtracts in the wrong order, one uses the wrong operator entirely.",
+      "Give the full goal-style instruction from the lesson verbatim — it contains everything Claude needs to finish without you."
+    ]
+  }
+]

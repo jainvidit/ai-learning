@@ -1,0 +1,75 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-compaction",
+    "title": "Quiz: Compaction & Memory",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-why",
+        "kind": "single",
+        "prompt": "Why do long agent sessions eventually need compaction or a restart?",
+        "options": [
+          { "id": "a", "text": "The subscription runs out of messages" },
+          { "id": "b", "text": "The context window fills with history — and even before it's full, accumulated clutter degrades attention (context rot)" },
+          { "id": "c", "text": "Models get tired and need rest" },
+          { "id": "d", "text": "Files get locked after too many edits" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Two forces: the hard limit of the window and the soft rot of cluttered context. Compaction (summarize and continue) or a deliberate fresh start addresses both."
+      },
+      {
+        "id": "q2-pattern",
+        "kind": "single",
+        "prompt": "What is the summarize-then-restart pattern?",
+        "options": [
+          { "id": "a", "text": "Ask the current session for a handoff summary of decisions, progress, and next steps; start a fresh session; paste the summary as its first input" },
+          { "id": "b", "text": "Restart your computer between tasks" },
+          { "id": "c", "text": "Let auto-compaction decide what to keep, always" },
+          { "id": "d", "text": "Copy the entire transcript into the new session" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "You curate what survives instead of letting automatic summarization guess. Pasting the ENTIRE transcript (d) would just reimport the rot."
+      },
+      {
+        "id": "q3-graduate",
+        "kind": "single",
+        "prompt": "Mid-session, you and Claude settle a convention: 'all dates are stored as UTC ISO strings.' Where should that decision END UP?",
+        "options": [
+          { "id": "a", "text": "Nowhere — Claude will remember it in future sessions" },
+          { "id": "b", "text": "In a project file (CLAUDE.md if brief, or a docs file it points to) — session memory dies with the session" },
+          { "id": "c", "text": "In your own head only" },
+          { "id": "d", "text": "Repeated at the start of every future prompt, forever" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Sessions are volatile. Durable decisions graduate to files — the lean-CLAUDE.md-plus-docs structure from the previous lesson is exactly where they belong."
+      },
+      {
+        "id": "q4-tradeoff",
+        "kind": "multi",
+        "prompt": "Which are true about compaction? (select all that apply)",
+        "options": [
+          { "id": "a", "text": "It is lossy — detail is discarded to reclaim budget" },
+          { "id": "b", "text": "A deliberate handoff summary usually preserves what matters better than waiting passively for auto-compaction" },
+          { "id": "c", "text": "Compaction restores the model's access to every earlier detail" },
+          { "id": "d", "text": "In this app's terminal, Reset plus a pasted handoff note implements the same pattern" }
+        ],
+        "correctOptionIds": ["a", "b", "d"],
+        "explanation": "Compaction trades detail for headroom. Curating the summary yourself keeps the right details; nothing brings back what the summary dropped (c is false)."
+      }
+    ]
+  },
+  {
+    "type": "terminal",
+    "id": "term-handoff",
+    "title": "Terminal: The Handoff Note",
+    "instructions": "Practice summarize-then-restart. (1) Give the session some working state: 'Read colors.js. We're planning to add a darkMode palette with inverted lightness, and we decided secondary should become #7c3aed. Don't edit yet.' (2) Ask for a handoff: 'Write me a short handoff note for a fresh session: what this project is, what we decided, and what the next step is.' (3) Copy that note, press Reset, and paste the note as your first prompt, adding: 'Based on this handoff, what should we do first?' Notice the fresh session is fully oriented — without dragging along any conversational clutter.",
+    "sandboxTemplate": "m10-context-rot",
+    "allowedTools": "Read,Glob,Grep",
+    "maxTurns": 6,
+    "suggestedPrompts": [
+      "Read colors.js. We're planning to add a darkMode palette with inverted lightness, and we decided secondary should become #7c3aed. Don't edit yet.",
+      "Write me a short handoff note for a fresh session: what this project is, what we decided, and what the next step is."
+    ]
+  }
+]

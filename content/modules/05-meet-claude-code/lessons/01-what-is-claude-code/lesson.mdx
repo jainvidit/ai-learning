@@ -1,0 +1,71 @@
+---
+id: 01-what-is-claude-code
+title: "An AI That Acts: the Agent Loop"
+minutes: 12
+objectives:
+  - Contrast a chat assistant (talks) with an agent (acts)
+  - Describe the agent loop in plain language
+  - "Name the three core actions: read, edit, run"
+---
+
+## From talking to acting
+
+Everything you've learned so far — prompting well, understanding context, knowing the limits — has been about talking WITH an AI. You ask a question, Claude answers. You request a draft, Claude writes it. But you do all the typing, copying, pasting, and filing.
+
+Claude Code is different. It's the same kind of intelligence, but given hands. It works inside a real folder on a real computer: reading files, editing them, and running commands. You still guide the work, but now the AI carries it out.
+
+## A helpful analogy
+
+Think of a chat assistant like a brilliant consultant on a phone call — great advice, but YOU have to walk to the filing cabinet, find the document, read it aloud, make the changes they suggest, and type everything up. Claude Code is that same consultant sitting at the keyboard WITH you while you direct.
+
+You set the goal. Claude reads the files it needs to understand, makes the changes, runs the commands, and reports back. All in plain English.
+
+## The terminal: your window into the agent
+
+In a moment you'll see a **terminal** — a text window where you talk to a computer by typing. If you've never used one, that's okay. In this app the terminal is embedded right into the lesson page — nothing to install, nothing to break.
+
+Every exercise in this module runs in a disposable **sandbox** — a copy of a tiny project made fresh just for you. Break anything, mess up anything, and we hand you a fresh copy with one click. The goal isn't to know what every file does; it's to make Claude figure it out FOR you.
+
+<Callout kind="tip">
+The terminal is just a conversation window. You type what you want done, Claude does it, you see the result. Think of it as chat, but the AI can actually do the tasks, not just suggest them.
+</Callout>
+
+## The agent loop
+
+Here's what happens when you give Claude Code a goal:
+
+1. **You give a goal** — in plain English. All your prompting skills from modules 02 and 04 apply: be specific, give context, state what done looks like.
+
+2. **Claude gathers context** — it looks around. Reads files, lists what's in the folder, searches for specific lines. You'll see messages like "Reading recipes.js…" flash by as it works.
+
+3. **Claude acts** — it does something: edits a file to fix a bug, runs a command to test the change, or writes a new file.
+
+4. **Claude observes the result** — it SEES what actually happened. Did the command succeed or fail? What did the test print? What's in the file now?
+
+5. **Repeat until done** — or until Claude needs your input. The loop keeps going: gather, act, observe, adjust.
+
+That observe step is the magic. Unlike chat — where the model just writes what SHOULD work and hopes — an agent sees the ACTUAL outcome and corrects course. Ran a test and it failed? Claude reads the error, figures out why, and tries again. This is how agents beat the limits you learned about in module 03: they check their work against reality.
+
+<Callout kind="info">
+"Agent" just means an AI that takes actions in a loop toward a goal. You'll hear this word constantly from now on.
+</Callout>
+
+## The three core actions
+
+As Claude works, you'll see it announce which **tools** it's using. The three you'll see most often:
+
+- **Read** — opens a file and looks at its contents
+- **Edit** — makes a change to a file (you'll see exactly what changed)
+- **Bash** — runs a command in the terminal (Bash is just the name of the terminal's language on many computers)
+
+You don't need to memorize these. Just know that when Claude says "using Read on app.js," it's looking at app.js to understand it before acting.
+
+## Check your understanding
+
+You've met the big idea: an AI that acts instead of just talks, and a loop that lets it observe and correct. Let's cement it.
+
+<Exercise id="quiz-agent-loop" />
+
+## Next up
+
+Enough theory. In the next lesson, you drive your first real session — a tiny project you've never seen, and Claude will explore it for you.

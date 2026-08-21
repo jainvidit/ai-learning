@@ -1,0 +1,49 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-agent-loop",
+    "title": "Check: the agent loop",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "What's the key difference between Claude Code and a chat assistant?",
+        "options": [
+          { "id": "a", "text": "Claude Code uses a smarter model" },
+          { "id": "b", "text": "Claude Code can act — read files, edit them, and run commands — not just produce text for you to act on" },
+          { "id": "c", "text": "Claude Code can't hold a conversation" },
+          { "id": "d", "text": "Chat assistants can't write code" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Same kind of model underneath — the difference is hands. Chat gives you advice to carry out yourself; Claude Code carries it out in a real folder while you direct. It converses fine (c), and chat assistants write code too — they just can't run or save it (d)."
+      },
+      {
+        "id": "q2",
+        "kind": "single",
+        "prompt": "Put the agent loop in order: which step comes right after Claude takes an action (like running a command)?",
+        "options": [
+          { "id": "a", "text": "It observes the result of that action and uses it to decide what to do next" },
+          { "id": "b", "text": "It immediately declares the task done" },
+          { "id": "c", "text": "It forgets the action and starts over" },
+          { "id": "d", "text": "It waits for you to describe what happened" }
+        ],
+        "correctOptionIds": ["a"],
+        "explanation": "Observe is the step that makes it an agent: the actual output of the command flows back into the loop, so mistakes get caught and corrected. It doesn't declare victory blind (b) or need you to relay results (d) — seeing outcomes for itself is the whole point."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "Why do your prompting skills from earlier modules still matter with Claude Code?",
+        "options": [
+          { "id": "a", "text": "They don't — agents ignore how you phrase things" },
+          { "id": "b", "text": "The goal you give in plain English is still a prompt: specific goals with clear context and constraints steer the whole loop" },
+          { "id": "c", "text": "Prompts only matter for the first message" },
+          { "id": "d", "text": "Claude Code requires prompts written in code" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Everything you learned — be specific, give context, state the format of 'done' — now steers an agent instead of a single reply, which makes it MORE valuable, not less. Vague goal, wandering agent. And no, you direct it in ordinary English, not code (d)."
+      }
+    ]
+  }
+]

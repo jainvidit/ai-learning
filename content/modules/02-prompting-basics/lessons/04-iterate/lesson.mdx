@@ -1,0 +1,84 @@
+---
+id: 04-iterate
+title: "Iterate: The First Answer Is a Draft"
+minutes: 13
+objectives:
+  - Treat the first response as a draft, not a verdict
+  - Give targeted feedback that names what to keep and what to change
+  - Know when to refine in-place vs start a fresh prompt
+---
+
+Here's the reframe that separates beginners from pros:
+
+**The first answer is a draft, not a verdict.**
+
+Professionals don't write perfect prompts on the first try. They iterate fast. Getting a so-so first answer isn't failure — it's the normal first step.
+
+Think of it like a haircut. You don't walk out at the first snip. You say "shorter on the sides," they adjust, you look again. Same thing here.
+
+## Bad iteration: hoping for better luck
+
+This doesn't work:
+
+**You:** "Write a summary of this article."  
+**Model:** [generic paragraph]  
+**You:** "No, that's wrong, try again."  
+**Model:** [different generic paragraph]
+
+What happened? You gave the model no new information, so it just re-rolled the dice. Remember from module 01: the model has randomness built in, so reruns vary. But they don't vary *intelligently* unless you steer.
+
+"Try again" tells the model nothing. You get a different flavor of the same miss.
+
+## Good iteration: targeted feedback
+
+Here's what works:
+
+Name what to **KEEP**, what to **CHANGE**, and (ideally) **WHY**.
+
+**You:** "Write a summary of this article."  
+**Model:** [generic paragraph]  
+**You:** "Keep the friendly tone. The second paragraph is too apologetic — make it more confident, and cut the last line entirely."  
+**Model:** [better version]
+
+Now the model knows what you liked and what to fix. It's working with you, not guessing.
+
+## The conversation is your context
+
+Everything you've said so far stays in front of the model. That means your follow-up can be short — it builds on what's already there.
+
+You don't need to repeat the whole request. "Make the middle section shorter" is a complete instruction when the model already knows what the middle section is.
+
+The whole conversation is the model's working memory for this task.
+
+## When to start over instead
+
+If you've corrected the model three or four times and it keeps drifting back to the same mistakes, the conversation is full of wrong turns. Those wrong turns keep steering the predictions.
+
+Best move: **start fresh.** Write a new prompt that includes everything you learned to specify.
+
+<Callout kind="tip">
+Your failed conversation is research. It taught you exactly what to spell out up front next time. That's not wasted effort — that's the fastest way to learn what good prompts for YOUR task look like.
+</Callout>
+
+A clean slate with an upgraded prompt usually beats a fifth correction.
+
+<Exercise id="quiz-iterate" />
+
+## Your turn
+
+Practice giving targeted feedback. You'll see a bad first draft and your job is to steer it to something better — not by saying "try again," but by naming exactly what to keep and what to fix.
+
+<Exercise id="pg-iterate" />
+
+## You've got the four habits
+
+Here's what you now know how to do:
+
+1. **Be specific** — state the task, audience, and constraints
+2. **Give context and a role** — supply the background facts and perspective the answer needs
+3. **Show the format** — control length, structure, and style
+4. **Iterate** — treat the first answer as a draft and give targeted feedback
+
+These four habits will take you a long way. As you keep practicing, they'll become automatic — you'll write better first prompts and steer faster when you need to.
+
+In a future module, you'll learn the pro techniques that build on these foundations. For now, you've got everything you need to have much better AI conversations.

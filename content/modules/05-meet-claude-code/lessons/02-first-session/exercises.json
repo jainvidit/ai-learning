@@ -1,0 +1,16 @@
+[
+  {
+    "type": "terminal",
+    "id": "tx-first-session",
+    "title": "Explore a stranger's project",
+    "instructions": "The sandbox contains a tiny recipe-pricing project you've never seen. Use Claude to explore it — complete all three tasks by asking in plain English:\n\n1. Ask what files are in this project and what each one is for.\n2. Ask which recipe in the project costs the most to make, and how the cost is worked out.\n3. Ask what the TODO note in the project says and what it would involve.\n\nYou never need to open a file yourself — make Claude do the reading. If an answer seems vague, push back: 'check the file again and show me the exact line.'",
+    "sandboxTemplate": "m05-explore",
+    "allowedTools": "Read,Glob,Grep",
+    "maxTurns": 10,
+    "suggestedPrompts": [
+      "What files are in this project, and what does each one do?",
+      "Which recipe costs the most to make? Walk me through how the cost is calculated.",
+      "What does the TODO note say, and what would doing it involve?"
+    ]
+  }
+]

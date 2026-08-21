@@ -1,0 +1,64 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-specificity",
+    "title": "Check: why specificity works",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "Why does a vague prompt like \"write about dogs\" tend to produce a generic answer?",
+        "options": [
+          { "id": "a", "text": "The AI is being lazy and saving effort for harder questions" },
+          { "id": "b", "text": "Many different continuations are equally likely, so the model lands on the statistical average" },
+          { "id": "c", "text": "The AI doesn't know much about dogs" },
+          { "id": "d", "text": "Short prompts are processed with less computing power" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The model predicts likely next words. With a vague prompt, thousands of continuations are plausible, so you get the most average one. It isn't lazy (a) and prompt length doesn't change how much compute it gets (d) — the problem is that YOU haven't narrowed down what 'good' looks like."
+      },
+      {
+        "id": "q2",
+        "kind": "multi",
+        "prompt": "Which of these are missing from the prompt \"Summarize this article\"? Select all that apply.",
+        "options": [
+          { "id": "a", "text": "How long the summary should be" },
+          { "id": "b", "text": "Who the summary is for" },
+          { "id": "c", "text": "The article itself (or a clear pointer to it)" },
+          { "id": "d", "text": "A polite greeting" },
+          { "id": "e", "text": "What to emphasize or leave out" }
+        ],
+        "correctOptionIds": ["a", "b", "c", "e"],
+        "explanation": "Length, audience, the actual article, and emphasis are all real gaps — the model would have to guess each one. Politeness (d) is fine to include but doesn't change what the model produces; it's the one option that isn't a missing specification."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "Which rewrite of \"help me with my email\" is most specific?",
+        "options": [
+          { "id": "a", "text": "Please please help me with my email, it's really important" },
+          { "id": "b", "text": "Help me write an email quickly" },
+          { "id": "c", "text": "Rewrite this email to my landlord to sound firm but polite, under 150 words: [email text]" },
+          { "id": "d", "text": "You are an email expert. Help me with my email." }
+        ],
+        "correctOptionIds": ["c"],
+        "explanation": "Option c states the task (rewrite), audience (landlord), tone (firm but polite), a length limit, and includes the material. Urgency (a) and speed (b) add no specification, and a role alone (d) doesn't fix a vague task — roles help, but only on top of a clear request."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-sharpen-prompt",
+    "title": "Sharpen a vague prompt",
+    "instructions": "The starter prompt below is too vague: \"give me a workout plan\". Rewrite it into a specific prompt. Your prompt must (1) describe the person the plan is for (fitness level, and available time or equipment), (2) state a concrete goal, (3) set constraints on the plan itself (how many days per week, session length, or format), and (4) say anything to avoid or include (e.g. no gym, bad knees, must include stretching). Then run it and see how much better the answer gets.",
+    "starterPrompt": "give me a workout plan",
+    "rubric": [
+      { "id": "person", "description": "The prompt describes who the plan is for: a fitness level plus available time and/or equipment.", "weight": 30 },
+      { "id": "goal", "description": "The prompt states a concrete goal (e.g. run a 5k, build strength, lose weight, feel less stiff).", "weight": 25 },
+      { "id": "constraints", "description": "The prompt constrains the plan: days per week, session length, and/or output format.", "weight": 30 },
+      { "id": "include-avoid", "description": "The prompt names at least one thing to include or avoid (injury, equipment limit, exercise preference).", "weight": 15 }
+    ],
+    "passingScore": 70
+  }
+]

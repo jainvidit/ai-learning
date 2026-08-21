@@ -1,0 +1,31 @@
+---
+id: 05-goal-finale
+title: "Stage 5: The Goal-Driven Finale"
+minutes: 16
+objectives:
+  - Land a feature via one goal-style instruction (end state, check, constraints, bounds)
+  - Extend a test suite correctly (add cases, never weaken them)
+  - Keep CLAUDE.md lean and accurate through change
+---
+
+## The finale's shape
+
+One feature — `delete(id)` removes an entry — landed the module-12 way: a single goal-style instruction, then Claude iterates to done. You write four parts: end state (delete implemented and covered by at least one new test), check (`node tests/journal.test.js` exits 0, all PASS), constraints (existing test cases stay untouched — ADD cases, never modify or remove them; delete must actually remove, list/search must reflect it), bound (stop and report after ~12 turns).
+
+## Extending a spec honestly
+
+For the first time you'll touch the test file — to ADD. A new case like "delete removes the entry; list no longer contains it" extends the spec; editing existing cases would weaken it. Module 13's eval instinct: suites grow, they don't get sanded down.
+
+## The hygiene grade
+
+After delete lands, CLAUDE.md gets re-judged: still lean, still ACCURATE? If it claimed "functions: add, list, search" it now lies; if it stayed at the right altitude ("a CLI journal library; tests are the spec") it survived change untouched — THE mark of a well-chosen abstraction level (module 10). Update it if needed; keep it small.
+
+## Graduation
+
+Count what this build used: CLAUDE.md (07), test-driven agent work (05/12), a skill (09), a hook (09), goal phrasing (12), spec discipline (13), context hygiene (10). Nothing in this module was new — that was the point.
+
+<Callout kind="info">
+From here, the only difference between this sandbox and your real machine is that your real machine matters. Go build.
+</Callout>
+
+<Exercise id="challenge-final" />

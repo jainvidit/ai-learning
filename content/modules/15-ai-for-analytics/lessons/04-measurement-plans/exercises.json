@@ -1,0 +1,37 @@
+[
+  {
+    "type": "playground",
+    "id": "pg-measurement-plan",
+    "title": "Create an E-commerce Checkout Measurement Plan",
+    "instructions": "Your product team is launching a new checkout flow and needs tracking for the shipping method selection step.\n\n**Business requirements (from the PM):**\n\"We need to understand which shipping options customers choose, how it correlates with cart value, and whether express shipping users are more likely to complete the purchase. Track when they select a shipping method during checkout.\"\n\n**Technical context:**\n- Event should fire when user selects a shipping option (Standard, Express, Next Day)\n- Page: /checkout/shipping\n- Available shipping methods: standard_shipping (5-7 days, $5.99), express_shipping (2-3 days, $12.99), next_day (1 day, $24.99)\n- You need: shipping method selected, shipping cost, and cart total at that point\n- This will be implemented in Google Tag Manager\n\n**Your task:** Write a prompt for AI that will generate a complete measurement plan document for this checkout shipping selection event.\n\nYour prompt should result in a measurement plan that includes:\n1. A clear event name (following e-commerce naming conventions)\n2. All required parameters: shipping method, shipping cost, cart value\n3. Example values for each parameter that match the real options\n4. Implementation notes about when/where the event fires\n5. Acceptance criteria for QA testing",
+    "systemPrompt": "You are a digital analytics engineer creating tracking specifications. Output should be a structured measurement plan document that engineers can implement from. Be specific about parameter names, data types, and example values.",
+    "rubric": [
+      {
+        "id": "event-params",
+        "description": "Requests all three required parameters (shipping method, shipping cost, cart value) with clear naming and data types specified",
+        "weight": 25
+      },
+      {
+        "id": "example-values",
+        "description": "Asks for specific example values that match the three shipping options (standard/express/next_day or similar) and realistic numbers",
+        "weight": 25
+      },
+      {
+        "id": "implementation",
+        "description": "Specifies when the event should fire (shipping method selection) and any implementation details like page location or trigger conditions",
+        "weight": 20
+      },
+      {
+        "id": "acceptance",
+        "description": "Requests acceptance criteria or testing steps that QA can use to verify the implementation works correctly",
+        "weight": 15
+      },
+      {
+        "id": "format",
+        "description": "Asks for structured output (sections for event name, trigger, parameters, notes, etc.) rather than just a list, making it usable as documentation",
+        "weight": 15
+      }
+    ],
+    "passingScore": 70
+  }
+]

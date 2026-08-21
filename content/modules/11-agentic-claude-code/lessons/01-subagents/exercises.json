@@ -1,0 +1,75 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-subagents",
+    "title": "Quiz: Subagents",
+    "passingScore": 75,
+    "questions": [
+      {
+        "id": "q1-what",
+        "kind": "single",
+        "prompt": "In Claude Code, what IS a subagent?",
+        "options": [
+          { "id": "a", "text": "A second human reviewer" },
+          { "id": "b", "text": "A fresh Claude session spawned via the Agent/Task tool, with its own empty context, that runs a brief and returns only its final message" },
+          { "id": "c", "text": "A cached copy of earlier answers" },
+          { "id": "d", "text": "A smaller model that only reads files" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Delegation is a tool call like any other: the main agent writes a brief, a separate session executes it in isolation, and only the conclusion crosses back into the main context."
+      },
+      {
+        "id": "q2-brief",
+        "kind": "single",
+        "prompt": "Which delegation brief is best for finding where a repo handles authentication?",
+        "options": [
+          { "id": "a", "text": "'Look around the repo and tell me everything interesting.'" },
+          { "id": "b", "text": "'Find where user authentication is implemented. Search src/ (skip tests). Return the key file paths and a one-paragraph summary of the flow — do not paste whole files.'" },
+          { "id": "c", "text": "'Paste the contents of every file mentioning auth.'" },
+          { "id": "d", "text": "'Fix the authentication bug.' (with no other context)" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "A good brief has a precise question, a scope, and a return contract that forbids dumps. Option c imports the pollution you delegated to avoid; a and d are unscoped."
+      },
+      {
+        "id": "q3-blank-slate",
+        "kind": "single",
+        "prompt": "You've been discussing a bug for ten minutes, then delegate: 'use a subagent to find the function we talked about.' Why will this likely fail?",
+        "options": [
+          { "id": "a", "text": "Subagents can't search for functions" },
+          { "id": "b", "text": "The subagent starts with an empty context — it never saw your conversation, so 'the function we talked about' means nothing to it" },
+          { "id": "c", "text": "Subagents only run at night" },
+          { "id": "d", "text": "It will succeed; subagents share the main context" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "Isolation cuts both ways: no pollution in, no shared memory either. Every fact the subagent needs must be written into the brief itself."
+      },
+      {
+        "id": "q4-when",
+        "kind": "multi",
+        "prompt": "Which tasks are worth delegating to a subagent? (select all that apply)",
+        "options": [
+          { "id": "a", "text": "Sweep all of src/ to map how errors are logged" },
+          { "id": "b", "text": "Read the 15-line config file at a known path" },
+          { "id": "c", "text": "Investigate three plausible causes of a bug in parallel, one subagent each" },
+          { "id": "d", "text": "Survey how each of a repo's five services does input validation" }
+        ],
+        "correctOptionIds": ["a", "c", "d"],
+        "explanation": "Delegate breadth (sweeps, surveys, parallel hypotheses). A single small known file (b) is cheaper to just read — delegation overhead would exceed the pollution saved."
+      }
+    ]
+  },
+  {
+    "type": "terminal",
+    "id": "term-delegate-search",
+    "title": "Terminal: Delegate a Search",
+    "instructions": "This sandbox is a mini codebase with several files. Ask Claude to use a subagent for a sweep: 'Use a subagent to find every file that defines or throws a custom error class. Have it report just the file paths and class names — no file contents.' Watch the tool badges: you should see the Agent/Task tool appear, then a pause while the subagent works, then a compact summary. Follow up with: 'How much of those files did YOU read directly?' — the honest answer is little or none. That's isolation working.",
+    "sandboxTemplate": "m11-mini-repo",
+    "allowedTools": "Read,Glob,Grep,Agent",
+    "maxTurns": 12,
+    "suggestedPrompts": [
+      "Use a subagent to find every file that defines or throws a custom error class. Have it report just the file paths and class names — no file contents.",
+      "How much of those files did YOU read directly, versus what the subagent told you?"
+    ]
+  }
+]

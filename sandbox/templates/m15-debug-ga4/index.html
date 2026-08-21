@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Wireless Headphones - TechStore</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- GA4 Tracking Script (Simulated) -->
+  <script>
+    // Product page view tracking
+    // BUG: Missing dataLayer initialization!
+    // This will cause an error: "Cannot read property 'push' of undefined"
+
+    dataLayer.push({
+      event: 'view_item',
+      ecommerce: {
+        items: [{
+          item_id: 'WH-9876',
+          item_name: 'Premium Wireless Headphones',
+          price: 199.99,
+          brand: 'TechAudio',
+          category: 'Electronics/Audio'
+        }]
+      }
+    });
+
+    console.log('Product view tracking initialized');
+  </script>
+</head>
+<body>
+  <header>
+    <h1>TechStore</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/products">Products</a>
+      <a href="/cart">Cart</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="product">
+      <img src="headphones.jpg" alt="Premium Wireless Headphones" class="product-image">
+
+      <div class="product-details">
+        <h2>Premium Wireless Headphones</h2>
+        <p class="price">$199.99</p>
+        <p class="sku">SKU: WH-9876</p>
+
+        <p class="description">
+          Experience studio-quality sound with active noise cancellation,
+          30-hour battery life, and premium comfort. Perfect for music lovers
+          and professionals alike.
+        </p>
+
+        <ul class="features">
+          <li>Active Noise Cancellation (ANC)</li>
+          <li>30-hour battery life</li>
+          <li>Bluetooth 5.2 connectivity</li>
+          <li>Foldable design with carrying case</li>
+          <li>Multi-device pairing</li>
+        </ul>
+
+        <button class="add-to-cart" data-product-id="WH-9876">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 TechStore. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Add to cart button handler (not part of the bug, but shows intended functionality)
+    document.querySelector('.add-to-cart').addEventListener('click', function() {
+      console.log('Add to cart clicked for:', this.getAttribute('data-product-id'));
+      // In real implementation, this would fire an add_to_cart event
+    });
+  </script>
+</body>
+</html>

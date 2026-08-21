@@ -1,0 +1,64 @@
+[
+  {
+    "type": "quiz",
+    "id": "quiz-personas",
+    "title": "Check: personas in depth",
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "kind": "single",
+        "prompt": "What does a full persona add beyond 'act as a lawyer'?",
+        "options": [
+          { "id": "a", "text": "Legal authority for the answers" },
+          { "id": "b", "text": "Specific expertise, a defined audience, behavioral constraints, and boundaries — a character sheet instead of a costume" },
+          { "id": "c", "text": "Longer answers" },
+          { "id": "d", "text": "Access to legal databases" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The costume ('a lawyer') barely narrows anything; the character sheet — 'a contracts lawyer explaining to a first-time freelancer, plain language, always flags what needs a real attorney' — steers vocabulary, depth, tone, and caution all at once. It grants no authority (a) or new data sources (d): steering, not knowledge."
+      },
+      {
+        "id": "q2",
+        "kind": "multi",
+        "prompt": "Which elements belong in a well-built persona? Select all that apply.",
+        "options": [
+          { "id": "a", "text": "Specific expertise: domain, depth, and specialty" },
+          { "id": "b", "text": "A defined audience the persona is speaking to" },
+          { "id": "c", "text": "Standing behavioral constraints (tone, length, always/never rules)" },
+          { "id": "d", "text": "A claim that the persona is never wrong, to boost accuracy" },
+          { "id": "e", "text": "Boundaries: topics where the persona defers or declines" }
+        ],
+        "correctOptionIds": ["a", "b", "c", "e"],
+        "explanation": "Expertise, audience, constraints, and boundaries are the four parts of the character sheet. Declaring the persona infallible (d) changes nothing about accuracy — it can't, since personas steer style rather than add knowledge — and it actively fights the boundaries that make a persona safe to rely on."
+      },
+      {
+        "id": "q3",
+        "kind": "single",
+        "prompt": "You give the model a persona as a 'world-renowned economist'. What effect does this have on factual accuracy?",
+        "options": [
+          { "id": "a", "text": "Facts become more reliable because the persona is an expert" },
+          { "id": "b", "text": "None on the facts themselves — it steers vocabulary, framing, and confidence, and can make errors SOUND more authoritative" },
+          { "id": "c", "text": "The model gains access to economic data it didn't have" },
+          { "id": "d", "text": "It disables hallucination for economics questions" }
+        ],
+        "correctOptionIds": ["b"],
+        "explanation": "The persona changes the voice, not the knowledge — the model knows exactly what it knew before. The real danger is the opposite of (a): expert framing polishes wrong answers into confident-sounding ones, which is why boundaries and your own verification matter more as the persona gets grander."
+      }
+    ]
+  },
+  {
+    "type": "playground",
+    "id": "pg-persona",
+    "title": "Write the character sheet",
+    "instructions": "Build a full persona for an assistant that helps first-time gardeners plan a small balcony vegetable garden. Write it as standing instructions (system-prompt style — no specific question yet). Your persona must include (1) specific expertise: not just 'a gardener' but a defined depth and specialty (e.g. an urban horticulturist specializing in container vegetables in small spaces), (2) a defined audience: complete beginners with a small balcony, limited budget, and no gardening vocabulary, (3) at least two standing behavioral constraints (e.g. always suggest the cheapest option first; keep every answer under 150 words; explain any technical term in plain language), and (4) one clear boundary — something the persona should decline or redirect (e.g. pest-poison dosages or anything safety-critical gets 'check the product label or ask your local garden center'). When you run it, the model will demonstrate your persona by answering a sample beginner question under those rules.",
+    "systemPrompt": "The user is composing a PERSONA (standing instructions) for a balcony-gardening assistant, as a prompting exercise. Treat their entire message as that persona. Adopt it, then demonstrate it by answering this sample question under those rules: 'I have a tiny balcony that gets sun in the morning only. Can I grow tomatoes? What do I need to buy?' If their persona is missing rules, follow only what it actually says.",
+    "rubric": [
+      { "id": "expertise", "description": "The persona defines specific expertise: domain, depth, and a specialty (more than a bare job title).", "weight": 25 },
+      { "id": "audience", "description": "The persona defines the audience it is speaking to (beginners, small balcony, limited budget).", "weight": 25 },
+      { "id": "constraints", "description": "The persona sets at least two standing behavioral constraints.", "weight": 30 },
+      { "id": "boundary", "description": "The persona includes at least one boundary where it defers or declines.", "weight": 20 }
+    ],
+    "passingScore": 70
+  }
+]

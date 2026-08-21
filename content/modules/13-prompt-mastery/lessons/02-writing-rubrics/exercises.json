@@ -1,0 +1,39 @@
+[
+  {
+    "type": "playground",
+    "id": "pg-write-rubric",
+    "title": "Playground: Write the Rubric, Get Rubric-Graded",
+    "instructions": "Scenario: your team's automated judge must grade COLD-OUTREACH EMAILS written by an AI assistant. A good email: is under 120 words, mentions the recipient's company by name, makes exactly one specific ask (e.g., a 15-minute call), and contains no invented facts about the recipient. Your submission is A RUBRIC for that judge, not an email. Write 3 to 5 criteria; for each give (a) a short id or name, (b) a one-sentence description a judge could verify from the email text alone, and (c) a numeric weight — with all weights summing to exactly 100. Also state a passing score. Format it as a simple list or table. You will be graded by a meta-rubric: criteria must be independently checkable, concrete (no 'good'/'clear'/'appropriate'), one requirement per criterion, and the weights must actually sum to 100.",
+    "starterPrompt": "",
+    "systemPrompt": "The user's message is a RUBRIC they have authored for grading cold-outreach emails. Restate their rubric as a clean table, then briefly note how you as a judge would apply each criterion to a sample email. Do not rewrite or improve their rubric; reflect exactly what they wrote.",
+    "maxTokens": 1024,
+    "rubric": [
+      {
+        "id": "checkable",
+        "description": "Each criterion in the submitted rubric is independently checkable from an email's text alone — a judge could answer yes/no per criterion without guessing about outcomes or reader feelings",
+        "weight": 30
+      },
+      {
+        "id": "concrete",
+        "description": "Criteria are concrete and observable (word counts, named elements, presence/absence of facts), avoiding vague quality words like 'good', 'clear', 'engaging', or 'appropriate'",
+        "weight": 25
+      },
+      {
+        "id": "single-requirement",
+        "description": "Each criterion tests exactly one requirement — no compound criteria joining multiple checks with 'and'",
+        "weight": 15
+      },
+      {
+        "id": "weights-sum",
+        "description": "The rubric assigns a numeric weight to every criterion and the weights sum to exactly 100",
+        "weight": 20
+      },
+      {
+        "id": "coverage",
+        "description": "The rubric covers the scenario's stated requirements (length limit, company mention, single specific ask, no invented facts) rather than inventing unrelated criteria",
+        "weight": 10
+      }
+    ],
+    "passingScore": 70
+  }
+]

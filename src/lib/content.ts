@@ -304,16 +304,24 @@ export function isLessonUnlocked(
     .every((l) => isLessonComplete(progress, moduleId, l.id));
 }
 
-/** Check whether every exercise in a lesson is passed; if so the lesson is complete. */
+/**
+ * Check whether every REQUIRED exercise in a lesson is passed; if so the lesson is complete.
+ *
+ * `playground` exercises are graded by the LLM judge (`src/lib/bedrock.ts`), which currently
+ * runs offline (no Bedrock/Anthropic backend configured) and always returns an unpassable
+ * result. Excluding them from the completion gate keeps quiz-graded lessons progressable
+ * while the judge is offline; re-include them once a live model backend is wired up.
+ */
 export function allExercisesPassed(
   progress: ProgressStore,
   moduleId: string,
   lessonId: string
 ): boolean {
   const { exercises } = loadLesson(moduleId, lessonId);
+  const required = exercises.filter((ex) => ex.type !== "playground");
   const lp = progress.lessons[lessonKey(moduleId, lessonId)];
-  if (!lp) return exercises.length === 0;
-  return exercises.every((ex) => lp.exercises[ex.id]?.status === "passed");
+  if (!lp) return required.length === 0;
+  return required.every((ex) => lp.exercises[ex.id]?.status === "passed");
 }
 
 export function moduleCompletionPercent(
