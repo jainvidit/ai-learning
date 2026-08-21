@@ -84,3 +84,6 @@ coverage/
 # .program/audits/hook-denials.jsonl, which IS committed. Session-local and
 # meaningless in another checkout.
 /.program/audits/.heartbeat-state/
+
+.vercel
+.env*
