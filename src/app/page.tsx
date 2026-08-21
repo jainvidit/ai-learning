@@ -11,7 +11,7 @@ export default async function Dashboard() {
 
   if (!profile) redirect("/profiles");
 
-  const progress = loadProgress(profile.id);
+  const progress = await loadProgress(profile.id);
 
   // Calculate completed and unlocked modules
   const completedModules = new Set<string>();

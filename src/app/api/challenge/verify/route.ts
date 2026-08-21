@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 
     if (result === null) {
       const notStarted = "Sandbox not started — run the terminal first";
-      const progress = loadProgress(profile.id);
+      const progress = await loadProgress(profile.id);
       const ep =
         progress.lessons[lessonKey(moduleId, lessonId)]?.exercises[exerciseId];
       const attempts = ep?.attempts ?? 0;

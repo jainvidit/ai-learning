@@ -7,7 +7,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  deleteProfile(id);
+  await deleteProfile(id);
   const store = await cookies();
   if (store.get(PROFILE_COOKIE)?.value === id) {
     store.delete(PROFILE_COOKIE);

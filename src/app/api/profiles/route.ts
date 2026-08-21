@@ -5,23 +5,25 @@ import { loadProgress } from "@/lib/progress";
 import { loadCurriculum, moduleCompletionPercent } from "@/lib/content";
 
 export async function GET() {
-  const registry = loadRegistry();
+  const registry = await loadRegistry();
   const builtModules = loadCurriculum().modules.filter(
     (m) => m.status === "built"
   );
-  const profiles = registry.profiles.map((profile) => {
-    const progress = loadProgress(profile.id);
-    const completion =
-      builtModules.length === 0
-        ? 0
-        : Math.round(
-            builtModules.reduce(
-              (sum, m) => sum + moduleCompletionPercent(progress, m.id),
-              0
-            ) / builtModules.length
-          );
-    return { ...profile, completion };
-  });
+  const profiles = await Promise.all(
+    registry.profiles.map(async (profile) => {
+      const progress = await loadProgress(profile.id);
+      const completion =
+        builtModules.length === 0
+          ? 0
+          : Math.round(
+              builtModules.reduce(
+                (sum, m) => sum + moduleCompletionPercent(progress, m.id),
+                0
+              ) / builtModules.length
+            );
+      return { ...profile, completion };
+    })
+  );
   const store = await cookies();
   const cookieId = store.get(PROFILE_COOKIE)?.value;
   const activeId =
@@ -45,7 +47,7 @@ export async function POST(request: Request) {
   if (!name) {
     return NextResponse.json({ error: "name-required" }, { status: 400 });
   }
-  const profile = createProfile(name);
+  const profile = await createProfile(name);
   const store = await cookies();
   store.set(PROFILE_COOKIE, profile.id, {
     path: "/",

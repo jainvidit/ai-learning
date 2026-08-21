@@ -6,9 +6,10 @@ import type { LessonProgress } from "@/lib/schema";
 export async function GET() {
   try {
     const profile = await requireActiveProfile();
+    const progress = await loadProgress(profile.id);
     return NextResponse.json({
       profile,
-      progress: loadProgress(profile.id),
+      progress,
     });
   } catch (err) {
     if (err instanceof NoProfileError) {

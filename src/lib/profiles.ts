@@ -1,11 +1,8 @@
-import fs from "node:fs";
-import path from "node:path";
 import crypto from "node:crypto";
 import { cookies } from "next/headers";
+import { kv } from "@vercel/kv";
 import type { Profile, ProfileRegistry } from "./schema";
 
-const DATA_DIR = path.join(process.cwd(), "data");
-const REGISTRY_PATH = path.join(DATA_DIR, "profiles.json");
 export const PROFILE_COOKIE = "profileId";
 
 const AVATAR_COLORS = [
@@ -17,24 +14,28 @@ const AVATAR_COLORS = [
   "#06b6d4",
 ];
 
-function atomicWrite(filePath: string, data: string) {
-  fs.mkdirSync(path.dirname(filePath), { recursive: true });
-  const tmp = `${filePath}.tmp`;
-  fs.writeFileSync(tmp, data);
-  fs.renameSync(tmp, filePath);
+const PROFILES_KEY = "profiles:registry";
+
+export async function loadRegistry(): Promise<ProfileRegistry> {
+  try {
+    const data = await kv.get(PROFILES_KEY);
+    if (!data) return { profiles: [] };
+    return data as ProfileRegistry;
+  } catch {
+    return { profiles: [] };
+  }
 }
 
-export function loadRegistry(): ProfileRegistry {
-  if (!fs.existsSync(REGISTRY_PATH)) return { profiles: [] };
-  return JSON.parse(fs.readFileSync(REGISTRY_PATH, "utf-8"));
+async function saveRegistry(registry: ProfileRegistry) {
+  try {
+    await kv.set(PROFILES_KEY, registry);
+  } catch (err) {
+    console.error("Failed to save profiles:", err);
+  }
 }
 
-function saveRegistry(registry: ProfileRegistry) {
-  atomicWrite(REGISTRY_PATH, JSON.stringify(registry, null, 2));
-}
-
-export function createProfile(name: string): Profile {
-  const registry = loadRegistry();
+export async function createProfile(name: string): Promise<Profile> {
+  const registry = await loadRegistry();
   const profile: Profile = {
     id: crypto.randomUUID().slice(0, 8),
     name: name.trim().slice(0, 40),
@@ -44,33 +45,30 @@ export function createProfile(name: string): Profile {
     lastActiveAt: new Date().toISOString(),
   };
   registry.profiles.push(profile);
-  saveRegistry(registry);
+  await saveRegistry(registry);
   return profile;
 }
 
-export function getProfile(id: string): Profile | undefined {
-  return loadRegistry().profiles.find((p) => p.id === id);
+export async function getProfile(id: string): Promise<Profile | undefined> {
+  const registry = await loadRegistry();
+  return registry.profiles.find((p) => p.id === id);
 }
 
-export function touchProfile(id: string) {
-  const registry = loadRegistry();
+export async function touchProfile(id: string) {
+  const registry = await loadRegistry();
   const p = registry.profiles.find((p) => p.id === id);
   if (p) {
     p.lastActiveAt = new Date().toISOString();
-    saveRegistry(registry);
+    await saveRegistry(registry);
   }
 }
 
-export function deleteProfile(id: string) {
-  const registry = loadRegistry();
+export async function deleteProfile(id: string) {
+  const registry = await loadRegistry();
   registry.profiles = registry.profiles.filter((p) => p.id !== id);
-  saveRegistry(registry);
-  // remove progress + sandboxes for this profile
-  fs.rmSync(path.join(DATA_DIR, "progress", `${id}.json`), { force: true });
-  fs.rmSync(path.join(process.cwd(), "sandbox", "live", id), {
-    recursive: true,
-    force: true,
-  });
+  await saveRegistry(registry);
+  // also remove progress data for this profile
+  await kv.del(`progress:${id}`);
 }
 
 /** Resolve the active profile from the request cookie. Returns undefined if none/invalid. */

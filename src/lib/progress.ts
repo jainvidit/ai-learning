@@ -1,5 +1,4 @@
-import fs from "node:fs";
-import path from "node:path";
+import { kv } from "@vercel/kv";
 import {
   ProgressStore,
   emptyProgress,
@@ -7,27 +6,29 @@ import {
 } from "./schema";
 import { lessonKey, allExercisesPassed } from "./content";
 
-const PROGRESS_DIR = path.join(process.cwd(), "data", "progress");
-
-// Single Next server, so an in-process mutex-by-serialization is sufficient.
+// Global write lock for serializing progress updates
 let writeLock: Promise<void> = Promise.resolve();
 
-function progressPath(profileId: string) {
-  return path.join(PROGRESS_DIR, `${profileId}.json`);
+function progressKey(profileId: string): string {
+  return `progress:${profileId}`;
 }
 
-export function loadProgress(profileId: string): ProgressStore {
-  const p = progressPath(profileId);
-  if (!fs.existsSync(p)) return emptyProgress();
-  return JSON.parse(fs.readFileSync(p, "utf-8"));
+export async function loadProgress(profileId: string): Promise<ProgressStore> {
+  try {
+    const data = await kv.get(progressKey(profileId));
+    if (!data) return emptyProgress();
+    return data as ProgressStore;
+  } catch {
+    return emptyProgress();
+  }
 }
 
-function atomicSave(profileId: string, store: ProgressStore) {
-  fs.mkdirSync(PROGRESS_DIR, { recursive: true });
-  const p = progressPath(profileId);
-  const tmp = `${p}.tmp`;
-  fs.writeFileSync(tmp, JSON.stringify(store, null, 2));
-  fs.renameSync(tmp, p);
+async function save(profileId: string, store: ProgressStore) {
+  try {
+    await kv.set(progressKey(profileId), store);
+  } catch (err) {
+    console.error(`Failed to save progress for profile ${profileId}:`, err);
+  }
 }
 
 /** Serialized read-modify-write. All progress mutations MUST go through this. */
@@ -35,10 +36,10 @@ export async function updateProgress(
   profileId: string,
   mutate: (store: ProgressStore) => void
 ): Promise<ProgressStore> {
-  const result = writeLock.then(() => {
-    const store = loadProgress(profileId);
+  const result = writeLock.then(async () => {
+    const store = await loadProgress(profileId);
     mutate(store);
-    atomicSave(profileId, store);
+    await save(profileId, store);
     return store;
   });
   writeLock = result.then(

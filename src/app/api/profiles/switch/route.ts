@@ -13,11 +13,11 @@ export async function POST(request: Request) {
     typeof (body as { id?: unknown })?.id === "string"
       ? (body as { id: string }).id
       : "";
-  const profile = id ? getProfile(id) : undefined;
+  const profile = id ? await getProfile(id) : undefined;
   if (!profile) {
     return NextResponse.json({ error: "profile-not-found" }, { status: 404 });
   }
-  touchProfile(profile.id);
+  await touchProfile(profile.id);
   const store = await cookies();
   store.set(PROFILE_COOKIE, profile.id, {
     path: "/",
