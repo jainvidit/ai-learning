@@ -33,7 +33,7 @@ export function getProfileStorage(): IProfileStorage {
       const { MongoDBProfileStorage } = require("./mongodb-storage");
       mongoProfileStorage = new MongoDBProfileStorage();
     }
-    return mongoProfileStorage;
+    return mongoProfileStorage!;
   }
 
   if (mode === "api") {
@@ -45,7 +45,7 @@ export function getProfileStorage(): IProfileStorage {
     const { BrowserProfileStorage } = require("./browser-storage");
     browserProfileStorage = new BrowserProfileStorage();
   }
-  return browserProfileStorage;
+  return browserProfileStorage!;
 }
 
 export function getProgressStorage(): IProgressStorage {
@@ -56,7 +56,7 @@ export function getProgressStorage(): IProgressStorage {
       const { MongoDBProgressStorage } = require("./mongodb-storage");
       mongoProgressStorage = new MongoDBProgressStorage();
     }
-    return mongoProgressStorage;
+    return mongoProgressStorage!;
   }
 
   if (mode === "api") {
@@ -68,7 +68,7 @@ export function getProgressStorage(): IProgressStorage {
     const { BrowserProgressStorage } = require("./browser-storage");
     browserProgressStorage = new BrowserProgressStorage();
   }
-  return browserProgressStorage;
+  return browserProgressStorage!;
 }
 
 export type { IProfileStorage, IProgressStorage } from "./interfaces";

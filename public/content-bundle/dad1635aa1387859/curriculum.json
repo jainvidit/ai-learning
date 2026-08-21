@@ -1,0 +1,313 @@
+{
+  "edges": [
+    {
+      "from": "01-how-llms-work",
+      "to": "02-prompting-basics"
+    },
+    {
+      "from": "01-how-llms-work",
+      "to": "03-capabilities-limits"
+    },
+    {
+      "from": "01-how-llms-work",
+      "to": "15-ai-for-analytics"
+    },
+    {
+      "from": "02-prompting-basics",
+      "to": "04-core-prompt-techniques"
+    },
+    {
+      "from": "02-prompting-basics",
+      "to": "05-meet-claude-code"
+    },
+    {
+      "from": "02-prompting-basics",
+      "to": "15-ai-for-analytics"
+    },
+    {
+      "from": "03-capabilities-limits",
+      "to": "05-meet-claude-code"
+    },
+    {
+      "from": "04-core-prompt-techniques",
+      "to": "06-advanced-prompting"
+    },
+    {
+      "from": "04-core-prompt-techniques",
+      "to": "08-how-ai-systems-are-built"
+    },
+    {
+      "from": "05-meet-claude-code",
+      "to": "07-claude-code-workflows"
+    },
+    {
+      "from": "06-advanced-prompting",
+      "to": "10-context-engineering"
+    },
+    {
+      "from": "07-claude-code-workflows",
+      "to": "09-claude-code-power-tools"
+    },
+    {
+      "from": "08-how-ai-systems-are-built",
+      "to": "10-context-engineering"
+    },
+    {
+      "from": "09-claude-code-power-tools",
+      "to": "11-agentic-claude-code"
+    },
+    {
+      "from": "10-context-engineering",
+      "to": "11-agentic-claude-code"
+    },
+    {
+      "from": "10-context-engineering",
+      "to": "13-prompt-mastery"
+    },
+    {
+      "from": "11-agentic-claude-code",
+      "to": "12-autonomous-remote-claude"
+    },
+    {
+      "from": "12-autonomous-remote-claude",
+      "to": "14-capstone"
+    },
+    {
+      "from": "13-prompt-mastery",
+      "to": "14-capstone"
+    }
+  ],
+  "layout": {
+    "bandByTrack": {
+      "claude-code": {
+        "start": 2,
+        "width": 1
+      },
+      "fundamentals": {
+        "start": 0,
+        "width": 1
+      },
+      "prompting": {
+        "start": 1,
+        "width": 1
+      }
+    },
+    "columns": 8,
+    "lanes": 3
+  },
+  "nodes": [
+    {
+      "id": "01-how-llms-work",
+      "layout": {
+        "col": 0,
+        "lane": 0
+      },
+      "requires": [],
+      "status": "built",
+      "summary": "What a language model really is: next-word prediction, tokens, training, hallucination, and randomness — no code required.",
+      "title": "How LLMs Actually Work",
+      "track": "fundamentals"
+    },
+    {
+      "id": "02-prompting-basics",
+      "layout": {
+        "col": 1,
+        "lane": 1
+      },
+      "requires": [
+        "01-how-llms-work"
+      ],
+      "status": "built",
+      "summary": "Be specific, give context and a role, show the format you want, and iterate.",
+      "title": "Talking to AI: Prompting Basics",
+      "track": "prompting"
+    },
+    {
+      "id": "03-capabilities-limits",
+      "layout": {
+        "col": 1,
+        "lane": 0
+      },
+      "requires": [
+        "01-how-llms-work"
+      ],
+      "status": "built",
+      "summary": "Context windows, knowledge cutoffs, reasoning vs recall, and why confidence is not correctness.",
+      "title": "What LLMs Can & Can't Do",
+      "track": "fundamentals"
+    },
+    {
+      "id": "04-core-prompt-techniques",
+      "layout": {
+        "col": 2,
+        "lane": 1
+      },
+      "requires": [
+        "02-prompting-basics"
+      ],
+      "status": "built",
+      "summary": "Few-shot examples, XML tags, step-by-step thinking, constraining output, system vs user prompts.",
+      "title": "Core Prompt Engineering",
+      "track": "prompting"
+    },
+    {
+      "id": "05-meet-claude-code",
+      "layout": {
+        "col": 2,
+        "lane": 2
+      },
+      "requires": [
+        "02-prompting-basics",
+        "03-capabilities-limits"
+      ],
+      "status": "built",
+      "summary": "The agent loop, your first real terminal session, your first edit, and the permission model.",
+      "title": "Meet Claude Code",
+      "track": "claude-code"
+    },
+    {
+      "id": "06-advanced-prompting",
+      "layout": {
+        "col": 3,
+        "lane": 1
+      },
+      "requires": [
+        "04-core-prompt-techniques"
+      ],
+      "status": "built",
+      "summary": "Extended thinking, prompt chaining, personas, and evaluating outputs with rubrics.",
+      "title": "Advanced Prompting",
+      "track": "prompting"
+    },
+    {
+      "id": "07-claude-code-workflows",
+      "layout": {
+        "col": 3,
+        "lane": 2
+      },
+      "requires": [
+        "05-meet-claude-code"
+      ],
+      "status": "built",
+      "summary": "CLAUDE.md project memory, permissions and settings, slash commands, resuming sessions, phrasing tasks well.",
+      "title": "Everyday Claude Code",
+      "track": "claude-code"
+    },
+    {
+      "id": "08-how-ai-systems-are-built",
+      "layout": {
+        "col": 3,
+        "lane": 0
+      },
+      "requires": [
+        "04-core-prompt-techniques"
+      ],
+      "status": "built",
+      "summary": "APIs and system prompts (including a peek at this app's own code), tool use, RAG intuition, and what tokens cost.",
+      "title": "How AI Products Are Built",
+      "track": "fundamentals"
+    },
+    {
+      "id": "09-claude-code-power-tools",
+      "layout": {
+        "col": 4,
+        "lane": 2
+      },
+      "requires": [
+        "07-claude-code-workflows"
+      ],
+      "status": "built",
+      "summary": "Skills, hooks, headless mode, and permission modes — the features this very app is built on.",
+      "title": "Claude Code Power Tools",
+      "track": "claude-code"
+    },
+    {
+      "id": "10-context-engineering",
+      "layout": {
+        "col": 4,
+        "lane": 1
+      },
+      "requires": [
+        "06-advanced-prompting",
+        "08-how-ai-systems-are-built"
+      ],
+      "status": "built",
+      "summary": "The attention budget, context rot, progressive disclosure, compaction and memory, and context isolation with subagents.",
+      "title": "Context Engineering: the Expert Discipline",
+      "track": "prompting"
+    },
+    {
+      "id": "11-agentic-claude-code",
+      "layout": {
+        "col": 5,
+        "lane": 2
+      },
+      "requires": [
+        "09-claude-code-power-tools",
+        "10-context-engineering"
+      ],
+      "status": "built",
+      "summary": "Subagents, MCP servers, plan mode, and parallel agents — context isolation put to work.",
+      "title": "Agentic Claude Code",
+      "track": "claude-code"
+    },
+    {
+      "id": "12-autonomous-remote-claude",
+      "layout": {
+        "col": 6,
+        "lane": 2
+      },
+      "requires": [
+        "11-agentic-claude-code"
+      ],
+      "status": "built",
+      "summary": "/goal, /loop, scheduled tasks, ultracode dynamic workflows, remote control, Claude on the web, and the agent ecosystem.",
+      "title": "Autonomous & Remote Claude",
+      "track": "claude-code"
+    },
+    {
+      "id": "13-prompt-mastery",
+      "layout": {
+        "col": 5,
+        "lane": 1
+      },
+      "requires": [
+        "10-context-engineering"
+      ],
+      "status": "built",
+      "summary": "Production prompt design, writing rubrics, prompt injection awareness, systematic evals, and cost-aware prompting.",
+      "title": "Prompt Engineering Mastery",
+      "track": "prompting"
+    },
+    {
+      "id": "14-capstone",
+      "layout": {
+        "col": 7,
+        "lane": 2
+      },
+      "requires": [
+        "12-autonomous-remote-claude",
+        "13-prompt-mastery"
+      ],
+      "status": "built",
+      "summary": "A multi-stage project using CLAUDE.md, a skill, a hook, a subagent, and a /goal-driven finale — graded on context hygiene.",
+      "title": "Capstone: Build with Everything",
+      "track": "claude-code"
+    },
+    {
+      "id": "15-ai-for-analytics",
+      "layout": {
+        "col": 2,
+        "lane": 0
+      },
+      "requires": [
+        "01-how-llms-work",
+        "02-prompting-basics"
+      ],
+      "status": "built",
+      "summary": "Use AI to write tag manager code, debug tracking implementations, query analytics data with SQL, create measurement plans, and automate data quality checks. Practical workflows for GTM, GA4 BigQuery, and tag auditing.",
+      "title": "AI for Digital Analytics Engineers",
+      "track": "fundamentals"
+    }
+  ]
+}

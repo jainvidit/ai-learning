@@ -34,16 +34,18 @@ async function getDatabase(): Promise<Db> {
 }
 
 export class MongoDBProfileStorage implements IProfileStorage {
-  private async getProfiles(): Promise<Collection> {
+  private async getProfiles(): Promise<Collection<Profile>> {
     const database = await getDatabase();
-    return database.collection("profiles");
+    return database.collection<Profile>("profiles");
   }
 
   async loadRegistry(): Promise<ProfileRegistry> {
     try {
       const collection = await this.getProfiles();
       const profiles = await collection.find({}).toArray();
-      return { profiles: profiles as Profile[] };
+      return {
+        profiles: profiles.map(({ _id, ...profile }) => profile),
+      };
     } catch (err) {
       console.error("Failed to load profiles from MongoDB:", err);
       return { profiles: [] };
@@ -63,14 +65,16 @@ export class MongoDBProfileStorage implements IProfileStorage {
       lastActiveAt: new Date().toISOString(),
     };
 
-    await collection.insertOne(profile as any);
+    await collection.insertOne(profile);
     return profile;
   }
 
   async getProfile(id: string): Promise<Profile | undefined> {
     const collection = await this.getProfiles();
-    const profile = await collection.findOne({ id });
-    return profile as Profile | null;
+    const profile = await collection.findOne({ id } as Partial<Profile>);
+    if (!profile) return undefined;
+    const { _id, ...rest } = profile;
+    return rest;
   }
 
   async touchProfile(id: string): Promise<void> {
@@ -92,21 +96,23 @@ export class MongoDBProfileStorage implements IProfileStorage {
   }
 }
 
+type ProgressDoc = ProgressStore & { profileId: string };
+
 export class MongoDBProgressStorage implements IProgressStorage {
   private writeLock: Promise<void> = Promise.resolve();
 
-  private async getProgressCollection(): Promise<Collection> {
+  private async getProgressCollection(): Promise<Collection<ProgressDoc>> {
     const database = await getDatabase();
-    return database.collection("progress");
+    return database.collection<ProgressDoc>("progress");
   }
 
   async loadProgress(profileId: string): Promise<ProgressStore> {
     try {
       const collection = await this.getProgressCollection();
-      const doc = await collection.findOne({ profileId });
+      const doc = await collection.findOne({ profileId } as Partial<ProgressDoc>);
       if (!doc) return emptyProgress();
 
-      const { profileId: _, ...progressData } = doc;
+      const { _id, profileId: _pid, ...progressData } = doc;
       return progressData as ProgressStore;
     } catch (err) {
       console.error(
@@ -121,8 +127,8 @@ export class MongoDBProgressStorage implements IProgressStorage {
     try {
       const collection = await this.getProgressCollection();
       await collection.updateOne(
-        { profileId },
-        { $set: store },
+        { profileId } as Partial<ProgressDoc>,
+        { $set: { ...store, profileId } },
         { upsert: true }
       );
     } catch (err) {

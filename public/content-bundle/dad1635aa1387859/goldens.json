@@ -1,0 +1,6 @@
+{
+  "count": 0,
+  "families": [],
+  "goldensFormat": 1,
+  "note": "Empty-but-structured: no calibration goldens exist in the authored corpus yet (REQ-JP-05 has not shipped). Recorded as a deviation on ROOT.1.1.4. Adding families here is additive and changes no other section."
+}

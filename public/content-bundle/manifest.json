@@ -1,5 +1,5 @@
 {
-  "latest": "c9dee85cf1724978",
+  "latest": "dad1635aa1387859",
   "manifestFormat": 1,
   "versions": [
     {
@@ -9,6 +9,10 @@
     {
       "path": "/content-bundle/c9dee85cf1724978",
       "version": "c9dee85cf1724978"
+    },
+    {
+      "path": "/content-bundle/dad1635aa1387859",
+      "version": "dad1635aa1387859"
     },
     {
       "path": "/content-bundle/eb647973722173b3",
