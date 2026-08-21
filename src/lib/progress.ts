@@ -1,34 +1,14 @@
-import { kv } from "@vercel/kv";
+import { getProgressStorage } from "@/lib/storage";
 import {
   ProgressStore,
-  emptyProgress,
   ExerciseProgress,
 } from "./schema";
 import { lessonKey, allExercisesPassed } from "./content";
 
-// Global write lock for serializing progress updates
-let writeLock: Promise<void> = Promise.resolve();
-
-function progressKey(profileId: string): string {
-  return `progress:${profileId}`;
-}
+const storage = getProgressStorage();
 
 export async function loadProgress(profileId: string): Promise<ProgressStore> {
-  try {
-    const data = await kv.get(progressKey(profileId));
-    if (!data) return emptyProgress();
-    return data as ProgressStore;
-  } catch {
-    return emptyProgress();
-  }
-}
-
-async function save(profileId: string, store: ProgressStore) {
-  try {
-    await kv.set(progressKey(profileId), store);
-  } catch (err) {
-    console.error(`Failed to save progress for profile ${profileId}:`, err);
-  }
+  return storage.loadProgress(profileId);
 }
 
 /** Serialized read-modify-write. All progress mutations MUST go through this. */
@@ -36,17 +16,7 @@ export async function updateProgress(
   profileId: string,
   mutate: (store: ProgressStore) => void
 ): Promise<ProgressStore> {
-  const result = writeLock.then(async () => {
-    const store = await loadProgress(profileId);
-    mutate(store);
-    await save(profileId, store);
-    return store;
-  });
-  writeLock = result.then(
-    () => undefined,
-    () => undefined
-  );
-  return result;
+  return storage.updateProgress(profileId, mutate);
 }
 
 /**
